@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<!--
+<h5>出典 :</h5>
+<a href="https://www.atmarkitcojpaitarticles190318news031.html">【WSL入門】第1回 / 10標準Linux環境WSLを始めよう</a><br>
+<a href="https://qiita.com/48saaan/items/47f8d9cd3321c3bcfce6">Proxy環境下で「apt update」ができないときのメモ</a><br>
+<a href="https://www.yokowebnet20180504ubuntu-18_04-gcc-makme-install/">【Ubuntu 1804 LTS Server】gcc, make などの開発ツールをインストールして使う</a><br>
+-->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+<!-- 書き直し！！
+
+
+WSL(TIPS/ Subsystem for Linux)を用いることで、TIPS/マシン上にUbuntuなどのLinux環境を構築することができる。<br>
+WSLは、TIPS/ PC上でLinuxの実行ファイルをネイティヴ実行させるための機構である。<br>
+仮想マシンを用いたマルチブート環境よりも少ないリソースで動作でき、また、ファイルシステムを共用できるメリットがある。<br>
+Windows10 (以降)で使用可能。<br>
+
+<h2>手順</h2>
+
+<h3>WSLの有効化</h3>
+<ol>
+<li>「コントロール パネル」&gt;「プログラムと機能」を開き、「TIPS/の機能の有効化または無効化」をクリック。<br>
+<img src="_Img/WSL_Ubuntu_Setup/01.png" alt="画像"> </li>
+
+<li>「TIPS/ Subsystem for Linux」にチェックを入れ「OK」をクリック。<br>
+<img src="_Img/WSL_Ubuntu_Setup/02.png" alt="画像"> </li>
+
+<li>再起動を求められるので、コンピュータを再起動する。</li>
+</ol>
+
+<h3>Ubuntuのセットアップ</h3>
+<ol>
+<li>「Microsoft Store」を開き、「Ubuntu」で検索する。<br>
+<img src="_Img/WSL_Ubuntu_Setup/03.png" alt="画像"> </li>
+
+<li>検索結果から「Ubuntu 1804 LTS」を選択し、「入手」をクリック。ダウンロードが開始される。<br>
+<img src="_Img/WSL_Ubuntu_Setup/04.png" alt="画像"><br>
+<img src="_Img/WSL_Ubuntu_Setup/05.png" alt="画像"> </li>
+
+<li>スタート画面からUbuntuを起動する。インストール処理完了後、ユーザ名とパスワードを設定する。<br>
+<img src="_Img/WSL_Ubuntu_Setup/06.png" alt="画像"> </li>
+
+<li>ルートパスワードを設定する。
+<p class="code">
+$ sudo passwd root
+</p>
+を入力し、任意のパスワードを入力する。<br>
+<img src="_Img/WSL_Ubuntu_Setup/07.png" alt="画像"> </li>
+
+<li>プロキシの設定を行う。
+<ol>
+<li>環境変数を設定する。以下の各文を入力する。
+<p class="code">
+$ export https_proxyhttp:<cmt>//199.192.50.205:80"</cmt>
+$ export http_proxyhttp:<cmt>//199.192.50.205:80"</cmt>
+$ export ftp_proxyhttp:<cmt>//199.192.50.205:80"</cmt>
+</p>
+</li>
+
+<li>プロキシ設定を有効化する。<br>
+etcaptaptconf をエディタで開き、以下の3文を記述する。<br>
+(nanoエディタの起動は  <b>sudo nano (ファイル名)</b> ⇒ sudo nano etcaptaptconf 、編集後は <b>Ctrl + S</b> で保存、 <b>Ctrl + X</b> でエディタ終了)
+<p class="code">
+Acquire::https::Proxy http:<cmt>//199.192.50.205:80";</cmt>
+Acquire::http::Proxy http:<cmt>//199.192.50.205:80";</cmt>
+Acquire::ftp::Proxy http:<cmt>//199.192.50.205:80";</cmt>
+</p>
+</li>
+</ol>
+</li>
+
+<li>DNSの設定を行う。 <b>/etcsystemdresolvedconf</b> をエディタで編集する。<br>
+<img src="_Img/WSL_Ubuntu_Setup/08.png" alt="画像"> </li>
+
+<li>リポジトリを国内サーバに変更する。
+<p class="code">
+$ sudo sed -i -e 's%http:<cmt>//.*.ubuntu.com%http://ftpjaistacjppubLinux%' etcaptsourceslist</cmt>
+</p>
+</li>
+
+<li>ディストリビューションを更新する。
+<p class="code">
+$ sudo apt-get update
+</p>
+</li>
+
+<li>(ホームディレクトリを任意の場所に変更したい場合のみ)<br>
+etc.passwd をエディタで編集し、Ubuntuを再起動する。<br>
+<ul>
+<li>変更前(デフォルト)<br>
+<img src="_Img/WSL_Ubuntu_Setup/10.png" alt="画像">
+</li>
+
+<li>変更後<br>
+<img src="_Img/WSL_Ubuntu_Setup/11.png" alt="画像">
+</li>
+</ul>
+
+</li>
+
+</ol>
+-->
+
+</body>
+</html>
+

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<!--
+<a href="https://postdccsolid-principles-every-developer-should-know/">開発者が知っておくべきSOLIDの原則 | POSTD</a><br>
+-->
+<a href="https://qiita.com/kahirokunn/items/84b70631507928786bbb">SOLID原則まとめ - Qiita</a><br>
+<a href="https://qiita.com/yui_mop/items/93fef037a787318e7067">SOLID原則について簡単に書く - Qiita</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/ソフトウェア開発一般/%E6%A7%8B%E9%80%A0%E5%8C%96%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0.html">構造化プログラミング</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++]%E7%B6%99%E6%89%BF%20(Inheritance).html">[C++]継承 (Inheritance)</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++]%E4%BB%AE%E6%83%B3%E9%96%A2%E6%95%B0%20(Virtual%20Function).html">[C++]仮想関数 (Virtual Function)</a><br>
+<a href="TIPS/ソフトウェア開発一般/%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E9%96%8B%E7%99%BA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E3%82%A2%E3%83%B3%E3%83%81%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3.html">ソフトウェア開発におけるアンチパターン</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>SOLIDの原則とは</h2>
+Robert.C.Martinによって提唱された、オブジェクト指向プログラミングにおけるガイドライン。<br>
+開発者にとって読みやすく、メンテナンスが容易なプログラムを作成するための指針である。<br>
+
+<h3>S : SRP - 単一責務の原則</h3>
+ <b>クラス(またはモジュール、ソフトウェアコンポーネント)が担う責務(機能)は一つにする</b> という原則。<br>
+クラスが複数の責務を担っている場合、一つの責務に対する変更が、他の責務に影響してしまう可能性がある。<br>
+このため、クラスが複数の責務を担っている場合は、 <b>責務ごとにクラスを分割し、一段階抽象的な一つの責務を担うクラスがこれらを所有する</b> 。<br>
+⇒ 責務の階層化<br>
+<a href="TIPS/ソフトウェア開発一般/%E6%A7%8B%E9%80%A0%E5%8C%96%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0.html">モジュール強度を「機能的強度」とする設計を意味する。</a><br>
+
+<h3>O : OCP - 解放閉鎖の原則</h3>
+ <b>ソフトウェアのエンティティ(クラス・モジュール・関数)は拡張に対して開き、修正に対して閉じていなければならない</b> という原則。<br>
+<p class="code">
+<cmt>// 「動物」クラス</cmt>
+<kwd>class</kwd> Animal
+{
+<kwd>public</kwd>:
+    Animal(<kwd>string</kwd> name) : m_Name(name) {}
+    <cmt>// 鳴く</cmt>
+    <kwd>void</kwd> Sound();
+<kwd>private</kwd>:
+    <kwd>string</kwd> m_Name;
+}
+
+<cmt>// 鳴く</cmt>
+<kwd>void</kwd> Animal::Sound()
+{
+    <kwd>switch</kwd> (m_Name)
+    {
+    <kwd>case</kwd> <ltr>"dog"</ltr>:    <cmt>//&lt; 犬</cmt>
+        cout &lt;&lt; <ltr>"わんわん"</ltr>;
+        <kwd>break</kwd>;
+    <kwd>case</kwd> <ltr>"cat"</ltr>:    <cmt>//&lt; 猫</cmt>
+        cout &lt;&lt; <ltr>"みゃー"</ltr>;
+        <kwd>break</kwd>;
+    <kwd>default</kwd>:
+        <kwd>break</kwd>;
+    }
+}
+</p>
+上記のコードはOCPに従っていない例である。<br>
+新しい「動物」を追加(拡張)するごとに、Animal クラス(の Sound() 関数)を修正しなければならず、(関連が無いはずの)既存のコードへの影響が避けられない。<br>
+case 節を列挙することにより関数、クラスが肥大化し、整備性が低下することとなる。<br>
+これをOCPに従うよう書き直すと以下のようになる。<br>
+<p class="code">
+<cmt>// 「動物」クラス</cmt>
+<kwd>class</kwd> Animal
+{
+<kwd>public</kwd>:
+    <cmt>// 鳴く(純粋仮想関数)</cmt>
+    <kwd>virtual</kwd> <kwd>void</kwd> Sound() = <ltr>0</ltr>;
+}
+
+<cmt>// 「犬」クラス</cmt>
+<kwd>class</kwd> Dog : <kwd>public</kwd> Animal
+{
+<kwd>public</kwd>:
+    <cmt>// 鳴く(オーバーライド)</cmt>
+    <kwd>void</kwd> Sound() { cout &lt;&lt; <ltr>"わんわん"</ltr>; }
+}
+
+<cmt>// 「猫」クラス</cmt>
+<kwd>class</kwd> Cat : <kwd>public</kwd> Animal
+{
+<kwd>public</kwd>:
+    <cmt>// 鳴く(オーバーライド)</cmt>
+    <kwd>void</kwd> Sound() { cout &lt;&lt; <ltr>"にゃー"</ltr>; }
+}
+
+<cmt>// 「蛇」クラス</cmt>
+<kwd>class</kwd> Snake : <kwd>public</kwd> Animal
+{
+<kwd>public</kwd>:
+    <cmt>// 鳴く(オーバーライド)</cmt>
+    <kwd>void</kwd> Sound() { cout &lt;&lt; <ltr>"シャー"</ltr>; }
+}
+</p>
+ここでは新しい動物(蛇)を追加する場合でも Animal クラスを変更する必要は無く、影響範囲は新たに定義する Snake クラスで閉じられる。<br>
+即ち Animal クラスは「拡張」に対して開き、「変更」に対して閉じている。<br>
+OCPが守られることで、既存の構成要素が他の構成要素の変更から全く影響を受けなくなる。<br>
+
+<h3>L : LSP - リスコフの置換原則</h3>
+ <b>サブクラスは、そのスーパークラスで代用可能でなければならない</b> という原則。 <b>その逆も同様である</b> 。<br>
+<p class="code">
+<kwd>int</kwd> hogehoge(Sample ob)
+</p>
+Sample 型の引数を取る hogehoge() 関数において、Sample 型から派生したクラスのインスタンスを引数として渡しても、その文自体はエラーとはならない。<br>
+むしろ、サブクラスのインスタンスを渡したとしても正常に動作することを期待することが多い。<br>
+しかし、この hogehoge() が Sample 型のみに依存しており、サブクラスのインスタンスを渡した場合に不正な動作となるのであれば、有効な引数とそうでない引数に留意する必要が生じる。<br>
+<h3>I : ISP - インタフェース分離の原則</h3>
+ <b>自分たちが使用しないインタフェースに依存することを強いられるべきではない</b> という原則。<br>
+下記のコードはISPに従っていない例である。<br>
+<p class="code">
+<cmt>// クラス「図形」</cmt>
+<kwd>class</kwd> Shape
+{
+<kwd>public</kwd>:
+    <kwd>virtual</kwd> <kwd>void</kwd> drawCircle() = <ltr>0</ltr>;     <cmt>//&lt; 円を描画</cmt>
+    <kwd>virtual</kwd> <kwd>void</kwd> drawSquare() = <ltr>0</ltr>;     <cmt>//&lt; 正方形を描画</cmt>
+    <kwd>virtual</kwd> <kwd>void</kwd> drawRectangle() = <ltr>0</ltr>;  <cmt>//&lt; 矩形を描画</cmt>
+}
+
+<cmt>// クラス「円」</cmt>
+<kwd>class</kwd> Circle : <kwd>public</kwd> Shape
+{
+<kwd>public</kwd>:
+    <kwd>void</kwd> drawCircle();                 <cmt>//&lt; 円を描画</cmt>
+    <kwd>void</kwd> drawSquare();                 <cmt>//&lt; 正方形を描画</cmt>
+    <kwd>void</kwd> drawRectangle();              <cmt>//&lt; 矩形を描画</cmt>
+}
+
+<cmt>// クラス「正方形」</cmt>
+<kwd>class</kwd> Squqre : <kwd>public</kwd> Shape
+{
+<kwd>public</kwd>:
+    <kwd>void</kwd> drawCircle();                 <cmt>//&lt; 円を描画</cmt>
+    <kwd>void</kwd> drawSquare();                 <cmt>//&lt; 正方形を描画</cmt>
+    <kwd>void</kwd> drawRectangle();              <cmt>//&lt; 矩形を描画</cmt>
+}
+
+<cmt>// クラス「矩形」</cmt>
+<kwd>class</kwd> Rectangle : <kwd>public</kwd> Shape
+{
+<kwd>public</kwd>:
+    <kwd>void</kwd> drawCircle();                 <cmt>//&lt; 円を描画</cmt>
+    <kwd>void</kwd> drawSquare();                 <cmt>//&lt; 正方形を描画</cmt>
+    <kwd>void</kwd> drawRectangle();              <cmt>//&lt; 矩形を描画</cmt>
+}
+</p>
+Circle クラスは「円」を司っているため、drawSquare() および drawRectangle() は本来必要が無い。<br>
+(これらの関数に動作を規定することは不可能、または無意味である。一般的には単にエラー処理を行うのみとなる。)<br>
+しかし、Shape クラスが抽象クラスであることから、必要の無いこれらを実装する必要が生じる。<br>
+これをISPに従うよう書き直すと以下のようになる。<br>
+<p class="code">
+<cmt>// 「円を描画」インタフェースクラス</cmt>
+<kwd>class</kwd> DrawCircleIf
+{
+<kwd>public</kwd>:
+    <kwd>virtual</kwd> <kwd>void</kwd> drawCircle() = <ltr>0</ltr>;     <cmt>//&lt; 円を描画</cmt>
+}
+
+<cmt>// 「正方形を描画」インタフェースクラス</cmt>
+<kwd>class</kwd> DrawSquareIf
+{
+<kwd>public</kwd>:
+    <kwd>virtual</kwd> <kwd>void</kwd> drawSquare() = <ltr>0</ltr>;     <cmt>//&lt; 正方形を描画</cmt>
+}
+
+<cmt>// 「矩形を描画」インタフェースクラス</cmt>
+<kwd>class</kwd> DrawRectangleIf
+{
+<kwd>public</kwd>:
+    <kwd>virtual</kwd> <kwd>void</kwd> drawRectangle() = <ltr>0</ltr>;  <cmt>//&lt; 矩形を描画</cmt>
+}
+
+<cmt>// クラス「円」</cmt>
+<kwd>class</kwd> Circle : <kwd>public</kwd> DrawCircleIf
+{
+<kwd>public</kwd>:
+    <kwd>void</kwd> drawCircle();                 <cmt>//&lt; 円を描画</cmt>
+}
+
+<cmt>// クラス「正方形」</cmt>
+<kwd>class</kwd> Squqre : <kwd>public</kwd> DrawSquareIf
+{
+<kwd>public</kwd>:
+    <kwd>void</kwd> drawSquare();                 <cmt>//&lt; 正方形を描画</cmt>
+}
+
+<cmt>// クラス「矩形」</cmt>
+<kwd>class</kwd> Rectangle : <kwd>public</kwd> DrawRectangleIf
+{
+<kwd>public</kwd>:
+    <kwd>void</kwd> drawRectangle();              <cmt>//&lt; 矩形を描画</cmt>
+}
+</p>
+または<br>
+<p class="code">
+<cmt>// クラス「図形」</cmt>
+<kwd>class</kwd> Shape
+{
+<kwd>public</kwd>:
+    <kwd>virtual</kwd> <kwd>void</kwd> draw() = <ltr>0</ltr>;     <cmt>//&lt; 描画</cmt>
+}
+
+<cmt>// クラス「円」</cmt>
+<kwd>class</kwd> Circle : <kwd>public</kwd> Shape
+{
+<kwd>public</kwd>:
+    <kwd>void</kwd> draw();                 <cmt>//&lt; 描画</cmt>
+}
+
+<cmt>// クラス「正方形」</cmt>
+<kwd>class</kwd> Squqre : <kwd>public</kwd> Shape
+{
+<kwd>public</kwd>:
+    <kwd>void</kwd> draw();                 <cmt>//&lt; 描画</cmt>
+}
+
+<cmt>// クラス「矩形」</cmt>
+<kwd>class</kwd> Rectangle : <kwd>public</kwd> Shape
+{
+<kwd>public</kwd>:
+    <kwd>void</kwd> draw();                 <cmt>//&lt; 描画</cmt>
+}
+</p>
+上記のコードではいずれも、必要の無いインタフェースは実装していない。<br>
+<h3>D : DIP - 依存性逆転の原則</h3>
+ <b>高水準モジュールは低水準モジュールに依存してはならない</b> という原則。<br>
+原文は、<br>
+依存性は、具体化でなく抽象化でなければならない。<br>
+<ul>
+<li>高水準モジュールは低水準モジュールに依存してはならない。両者は抽象化に依存するべきである。</li>
+<li>抽象化は、詳細に依存してはならない。詳細は、抽象化に依存するべきである。</li>
+</ul>
+
+<p class="code">
+<kwd>class</kwd> Hoge
+{
+<kwd>public</kwd>:
+    <kwd>void</kwd> fuga()
+    {
+        Obj ob;
+        obmogo();
+    }
+}
+</p>
+上記のコードはDIPに従っていない。<br>
+Hoge クラスは Obj クラス(低水準モジュール・詳細・具体化)に依存しており、Obj クラスの情報が無いと処理を記述することができない。<br>
+また、Obj クラスに変更があった場合、Hoge にも変更が及ぶ。(これはOCPにも違反している。)<br>
+これを書き直すと以下のようになる。<br>
+<p class="code">
+<cmt>// インタフェースのみを定義した抽象クラス</cmt>
+<kwd>class</kwd> AbstractIf
+{
+<kwd>public</kwd>:
+    <kwd>virtual</kwd> <kwd>void</kwd> mogo() = <ltr>0</ltr>;
+}
+
+<kwd>class</kwd> Hoge
+{
+<kwd>public</kwd>:
+    <kwd>void</kwd> fuga(AbstractIf* ob)
+    {
+        ob-&gt;mogo();
+    }
+}
+</p>
+Hoge は具体的な特定のクラスではなく、抽象化に依存している。このため、実際に渡されるオブジェクトの型によらず、柔軟な対応が可能となる。<br>
+</body>
+</html>
+

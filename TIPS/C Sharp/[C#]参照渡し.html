@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://atmarkit.itmedia.co.jp/ait/articles/1804/25/news021.html">in／out／refパラメーター修飾子の違いとは？［C#］：NET / - ＠IT</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C%20Sharp/[C%23]オブジェクトのコピーに関する留意事項.html">[C#]オブジェクトのコピーに関する留意事項</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>参照渡しとは</h2>
+変数の「値」ではなく、「参照」を渡すこと。<br>
+ある変数(の値)をメソッド(関数)内で更新したい場合、その変数への「参照」をメソッドに渡すことで、<br>
+メソッド内では参照先( = 渡された変数の内容)を書き換えることができる。<br>
+対して、参照渡しを行わない場合、変数の値のみを渡すことになり(値渡し)、<b>メソッド引数は渡された変数のコピーとなる</b>。<br>
+このため、メソッド内で引数(の値)を更新しても、呼び出し元の(渡された)変数には一切影響しない。<br>
+値渡しは渡された変数の厳密なコピーを生成するため、変数のサイズが大きくなる(構造体など)と、関数呼び出しにかかるオーバーヘッドが大きくなる。<br>
+この場合も参照渡しを用いることで、オーバーヘッドを小さくすることができる。<br>
+逆に言えば、参照渡しの引数を更新すると、呼び出し元に影響が及ぶことに注意。<br>
+
+<h2>C#における参照渡し</h2>
+C#において変数の参照をメソッドに渡す場合は、bin  ref  out </b>キーワードを付与する。<br>
+これはC/C++におけるポインタ・参照引数に相当。<br>
+ちなみに、<b>オブジェクト型引数はデフォルトで参照渡しとなる</b>ため、キーワードは必須ではないが、<br>
+付与することで引数のメソッド内での取扱いをプログラマが判別しやすくなる。<br>
+(なお、「オブジェクト型」はクラスにのみ該当し、構造体は含まれない点に注意。)<br>
+<a href="TIPS/C%20Sharp/[C%23]オブジェクトのコピーに関する留意事項.html">ここ</a> も併せて参照。
+
+<h2>in  ref  out の使い分け</h2>
+それぞれ、参照として受け取った引数(の参照先)を、メソッド内でどのように処理するかで異なる。<br>
+<ul>
+<li>in : 受け取った引数をメソッド内で変更しない場合</li>
+<li>ref : 受け取った引数をメソッド内で変更する(可能性がある)場合</li>
+<li>out : 引数に値を割り当てることが確実で、呼び出し時の格納値を考慮しない場合</li>
+</ul>
+<table class="center">
+<tr class="row1"><td class="col1">修飾子 : 用途</td><td>呼び出し前の<br>変数初期化</td><td>呼び出し時の<br>修飾子付与</td><td>メソッド内での<br>参照先割り当て／変更</td><td>オプション引数</td></tr>
+<tr><td class="col1">in : 入力</td><td class="bg_lr">必須</td><td class="bg_ly">任意</td><td class="bg_lh">不可</td><td class="bg_lg">可</td></tr>
+<tr><td class="col1">ref : 変更</td><td class="bg_lr">必須</td><td class="bg_lr">必須</td><td class="bg_lg">可能</td><td class="bg_lh">不可</td></tr>
+<tr><td class="col1">out : 出力</td><td class="bg_lg">不要</td><td class="bg_lr">必須</td><td class="bg_lr">必須</td><td class="bg_lh">不可</td></tr>
+</table>
+ref 修飾は最も汎用的で、C/C++のポインタ・参照と同様の感覚で用いることができる。<br>
+(「オプション引数」は、引数を指定しない場合にデフォルト値が充てられる引数のこと。C++の「デフォルト引数」に相当。)<br>
+
+<h3>in のサンプル</h3>
+<h4>一般形</h4>
+<p class="code">
+<cmt>// 参照渡しメソッドの定義</cmt>
+<kwd>public void</kwd> InTest(<kwd>in int</kwd> arg1)
+{
+    <kwd>int</kwd> localVal = arg1;
+}
+
+<kwd>public void</kwd> DoSomething()
+{
+    <kwd>int</kwd> val = 3;
+    
+    <cmt>// InTest() の呼び出し</cmt>
+    <cmt>// (この場合、<kwd>in</kwd> キーワードは省略できる)</cmt>
+    InTest(<kwd>in</kwd> val);
+}
+</p>
+
+<h4>オプション引数を指定した場合</h4>
+<p class="code">
+<cmt>// 参照渡しメソッドの定義</cmt>
+<kwd>public void</kwd> InTest(<kwd>in int</kwd> arg1 = 0)
+{
+    <kwd>int</kwd> localVal = arg1;
+}
+
+<kwd>public void</kwd> DoSomething()
+{
+    <cmt>// InTest() の呼び出し</cmt>
+    <cmt>// (引数なしのため、arg1 = 0 となる)</cmt>
+    InTest();
+}
+</p>
+
+<h4>エラーとなる場合</h4>
+<p class="code">
+<cmt>// 参照渡しメソッドの定義</cmt>
+<kwd>public void</kwd> InTest(<kwd>in int</kwd> arg1)
+{
+    <cmt>// メソッド内で <kwd>in</kwd> 修飾された引数を更新 ⇒ コンパイルエラー</cmt>
+    arg1 = 4;
+}
+
+<kwd>public void</kwd> DoSomething()
+{
+    <cmt>// InTest() の呼び出し</cmt>
+    <cmt>// 引数 val が初期化されていない ⇒ コンパイルエラー</cmt>
+    InTest(<kwd>int</kwd> val);
+}
+</p>
+
+<h3>ref のサンプル</h3>
+<h4>一般形</h4>
+<p class="code">
+<cmt>// 参照渡しメソッドの定義</cmt>
+<kwd>public void</kwd> RefTest(<kwd>ref int</kwd> arg1)
+{
+    <kwd>int</kwd> localVal = arg1;
+    
+    <cmt>// メソッド内で引数(の参照先)を更新可能</cmt>
+    arg1 = 4;
+}
+
+<kwd>public void</kwd> DoSomething()
+{
+    <kwd>int</kwd> val = 3;
+    
+    <cmt>// RefTest() の呼び出し</cmt>
+    <cmt>// (<kwd>ref</kwd> キーワードは省略できない)</cmt>
+    RefTest(<kwd>ref</kwd> val);
+}
+</p>
+
+<h4>エラーとなる場合</h4>
+<p class="code">
+<cmt>// 参照渡しメソッドの定義</cmt>
+<kwd>public void</kwd> RefTest(<kwd>ref int</kwd> arg1)
+{
+    <kwd>int</kwd> localVal = arg1;
+    
+    arg1 = 4;
+}
+
+<kwd>public void</kwd> DoSomething1()
+{
+    <cmt>// RefTest() の呼び出し</cmt>
+    <cmt>// 引数 val が初期化されていない ⇒ コンパイルエラー</cmt>
+    RefTest(<kwd>ref int</kwd> val);
+}
+
+<kwd>public void</kwd> DoSomething2()
+{
+    <kwd>int</kwd> val = 3;
+
+    <cmt>// RefTest() の呼び出し</cmt>
+    <cmt>// <kwd>ref</kwd> キーワードが無い ⇒ コンパイルエラー</cmt>
+    RefTest(val);
+}
+</p>
+
+<h3>out のサンプル</h3>
+<h4>一般形</h4>
+<p class="code">
+<cmt>// 参照渡しメソッドの定義</cmt>
+<kwd>public void</kwd> OutTest(<kwd>out int</kwd> arg1)
+{
+    <cmt>// メソッド内で引数(の参照先)に値を割り当てる(必須)</cmt>
+    arg1 = 4;
+}
+
+<kwd>public void</kwd> DoSomething()
+{
+    <kwd>int</kwd> val = 3;
+    
+    <cmt>// OutTest() の呼び出し</cmt>
+    <cmt>// (<kwd>out</kwd> キーワードは省略できない)</cmt>
+    OutTest(<kwd>out</kwd> val);
+}
+</p>
+
+<h4>引数を初期化しない場合</h4>
+<p class="code">
+<cmt>// 参照渡しメソッドの定義</cmt>
+<kwd>public void</kwd> OutTest(<kwd>out</kwd> cMyClass arg1)
+{
+    <cmt>// メソッド内で引数(の参照先)に値を割り当てる(必須)</cmt>
+    arg1 = <kwd>new</kwd> cMyClass();
+}
+
+<kwd>public void</kwd> DoSomething1()
+{
+    <cmt>// OutTest() に渡す変数</cmt>
+    <cmt>// (宣言のみで初期化は不要)</cmt>
+    cMyClass val;
+    
+    <cmt>// OutTest() の呼び出し</cmt>
+    OutTest(<kwd>out</kwd> val);
+}
+
+<kwd>public void</kwd> DoSomething2()
+{
+    <cmt>// val の宣言と同時に OutTest() の呼び出し</cmt>
+    OutTest(<kwd>out</kwd> cMyClass val);
+}
+</p>
+
+<h4>エラーとなる場合</h4>
+<p class="code">
+<cmt>// 参照渡しメソッドの定義</cmt>
+<kwd>public void</kwd> OutTest(<kwd>out int</kwd> arg1)
+{
+    <cmt>// 引数を参照している ⇒ コンパイルエラー</cmt>
+    <kwd>int</kwd> localVal = arg1;
+    
+    arg1 = 4;
+}
+</p>
+
+<h3>注意が必要な点</h3>
+in  ref  out の各キーワードは、バイナリ上での差異は存在しない。<br>
+即ち、参照渡し引数の取り扱いに関するヒューマンエラー(コーディングの誤り)をコンパイラが検知してエラーを発するのみである。<br>
+このため、メソッドのオーバーロードに関して以下のような制約が発生する。<br>
+<p class="code">
+<cmt>// 参照渡しメソッド(<kwd>in</kwd>)の定義</cmt>
+<kwd>public void</kwd> Func(<kwd>in int</kwd> arg1)
+{
+    :
+}
+
+<cmt>// Func() のオーバーロード ⇒ エラー</cmt>
+<cmt>// (シグネチャが競合)</cmt>
+<kwd>public void</kwd> Func(<kwd>ref int</kwd> arg1)
+{
+    :
+}
+
+<cmt>// Func() のオーバーロード ⇒ エラー</cmt>
+<cmt>// (シグネチャが競合)</cmt>
+<kwd>public void</kwd> Func(<kwd>out int</kwd> arg1)
+{
+    :
+}
+
+<cmt>// Func() のオーバーロード ⇒ 正常</cmt>
+<cmt>// (値渡しのためシグネチャが異なる)</cmt>
+<cmt>// (ただし、in キーワードを付与しない場合は呼び出す関数が曖昧となる)</cmt>
+<kwd>public void</kwd> Func(<kwd>int</kwd> arg1)
+{
+    :
+}
+</p>
+
+</body>
+</html>

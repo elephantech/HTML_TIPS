@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://qiita.com/takutoy/items/cb1e94c36296108e5fd7">C#(.NET)コレクションの使い分けヒント - Qiita</a><br>
+<a href="https://qiita.com/takutoy/items/37e81b916271bf43b527">C#(.NET)コレクションの使い方と計算量 - Qiita</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C%20Sharp/[C%23%20.Net]Dictionary(連想配列).html">[C# Net]Dictionary(連想配列)</a><br>
+<a href="TIPS/ソフトウェア開発一般/キュー(Queue)とスタック(Stack).html">キュー(Queue)とスタック(Stack)</a><br>
+<a href="TIPS/C・C++/[C++／STL／コンテナ]コンテナ.html">[C++／STL／コンテナ]コンテナ</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>コレクションとは</h2>
+「指定した型のデータを複数個格納するデータ構造」のこと。C++(STL)におけるコンテナと同様の概念。<br>
+要素数を動的に変更できる、要素同士を関連付けられるなど、複数のデータを体系的に管理できる機能が備わっている。<br>
+<h2>コレクションの種類</h2>
+以下、&lt;&gt; 内の各要素(T, TKey, TValue)はコレクションに格納するデータの型を示す。<br>
+
+<h3>List : データの並び順が重要なコレクション</h3>
+<b>System.Collections.Generic</b>  に含まれる。<br>
+LinkedList を除き連結リストではない点に注意。<br>
+
+<table>
+	<tr class="row1">
+		<td class="col1">名称</td>
+		<td>概要</td>
+		<td>実装方式</td>
+		<td>相当する<br>C++(STL)の<br>コンテナ</td>
+		<td>備考</td>
+	</tr>
+	<tr>
+		<td class="col1">List&lt;T&gt;</td>
+		<td>最も汎用的なコレクションクラス。<br>インデクスによる要素の取得、変更(ランダムアクセス)が多い場合に適する。</td>
+		<td>配列</td>
+		<td>vector</td>
+		<td>継承されることが想定されていない</td>
+	</tr>
+	<tr>
+		<td class="col1">LinkedList&lt;T&gt;</td>
+		<td>要素の追加・削除が多い場合に適する。<br>挿入、削除(ノード指定)が非常に高速。<br>インデクスによる検索(ランダムアクセス)は不可。</td>
+		<td>連結リスト</td>
+		<td>list</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td class="col1">Queue&lt;T&gt;</td>
+		<td>キュー(FIFO)。エンキュー、デキューが非常に高速。</td>
+		<td>循環配列</td>
+		<td>queue</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td class="col1">Stack&lt;T&gt;</td>
+		<td>スタック(LIfO)。プッシュ、ポップが非常に高速。</td>
+		<td>配列</td>
+		<td>stack</td>
+		<td></td>
+	</tr>
+</table>
+
+<h3>Dictionary : キーに対応した値を高速に索引できるコレクション(連想配列)</h3>
+<b>System.Collections.Generic</b>  に含まれる。<br>
+詳細は<a href="TIPS/C%20Sharp/[C%23%20.Net]Dictionary(連想配列).html">[C# Net]Dictionary(連想配列)</a>を参照。<br>
+
+<table>
+	<tr class="row1"><td class="col1">名称</td>
+		<td>概要</td>
+		<td>実装方式</td>
+		<td>相当する<br>C++(STL)の<br>コンテナ</td>
+		<td>備考</td>
+	</tr>
+	<tr>
+		<td class="col1">Dictionary&lt;TKey, TValue&gt;</td>
+		<td>キーの検索が非常に高速。<br>格納順が保証されない。<br>(挿入順に格納されるとは限らない。)</td>
+		<td>ハッシュテーブル</td>
+		<td>unordered_map</td>
+		<td>メモリ消費が比較的大きい。</td>
+	</tr>
+	<tr>
+		<td class="col1">SortedDictionary&lt;TKey, TValue&gt;</td>
+		<td>格納順が保証される。<br>要素の追加・削除が多い場合に適する。</td>
+		<td>二分探索木</td>
+		<td></td>
+		<td>Dictionaryに比べ、<br>メモリ消費が小さい。</td>
+	</tr>
+	<tr>
+		<td class="col1">SortedList&lt;TKey, TValue&gt;</td>
+		<td>格納順(ソート後)が保証される。<br>インデクスでもアクセス可能。</td>
+		<td>ソートされた配列</td>
+		<td>map</td>
+		<td>SortedDictionaryに比べ、<br>メモリ消費が小さい。</td>
+	</tr>
+</table>
+
+<h3>Set : 重複を排除できるコレクション</h3>
+<b>System.Collections.Generic</b>  に含まれる。<br>
+Set同士の集合演算(OR、ANDなど)が可能。<br>
+
+<table>
+	<tr class="row1"><td class="col1">名称</td>
+		<td>概要</td>
+		<td>実装方式</td>
+		<td>相当する<br>C++(STL)の<br>コンテナ</td>
+		<td>備考</td>
+	</tr>
+	<tr>
+		<td class="col1">HashSet&lt;T&gt;</td>
+		<td>値の検索が非常に高速。<br>格納順が保証されない。<br>(挿入順に格納されるとは限らない。)</td>
+		<td>ハッシュテーブル</td>
+		<td>unordered_set</td>
+		<td>メモリ消費が比較的大きい。</td>
+	</tr>
+	<tr>
+		<td class="col1">SortedSet&lt;T&gt;</td>
+		<td>格納順が保証される。<br>インデクスでもアクセス可能。</td>
+		<td>二分探索木</td>
+		<td>set</td>
+		<td></td>
+	</tr>
+</table>
+
+<h3>Concurrent : スレッドセーフなコレクション</h3>
+<b>System.Collections.Concurrent</b>  に含まれる。<br>
+複数のスレッドからアクセスを受けても破綻しない。<br>
+
+<table>
+	<tr class="row1"><td class="col1">名称</td>
+		<td>概要</td>
+	</tr>
+	<tr>
+		<td class="col1">BlockingCollection&lt;T&gt;</td>
+		<td>ConcurrentBag, ConcurrentQueue, ConcurrentStack をラップできる。<br>通常はFIFOとして動作。</td>
+	</tr>
+	<tr>
+		<td class="col1">ConcurrentBag&lt;T&gt;</td>
+		<td>データバッグ(取り出し順序不定)。</td>
+	</tr>
+	<tr>
+		<td class="col1">ConcurrentQueue&lt;T&gt;</td>
+		<td>スレッドセーフなQueue。</td>
+	</tr>
+	<tr>
+		<td class="col1">ConcurrentStack&lt;T&gt;</td>
+		<td>スレッドセーフなStack。</td>
+	</tr>
+	<tr>
+		<td class="col1">ConcurrentDictionary&lt;TKey, TValue&gt;</td>
+		<td>スレッドセーフなDictionary。</td>
+	</tr>
+</table>
+<h3>その他</h3>
+<table>
+	<tr class="row1"><td class="col1">名称</td>
+		<td>概要</td>
+	</tr>
+	<tr>
+		<td class="col1">Collection&lt;T&gt;</td>
+		<td>上記の各コレクションの基底クラス。すべてのコレクションをラップできる。</td>
+	</tr>
+</body>
+</html>

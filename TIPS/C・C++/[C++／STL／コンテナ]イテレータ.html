@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://theolizer.com/cpp-school1/cpp-school1-31/">実践C++入門講座 第31回目 イテレータの仕組みと範囲ベースforの仕組み | Theolizer Technology</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A.html">[C++／STL／コンテナ]コンテナ</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++]%E5%9E%8B%E6%8E%A8%E8%AB%96.html">[C++]型推論</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>イテレータ(反復子)とは</h2>
+コンテナ(配列を含む)の各要素に対する繰り返し処理を抽象化したもの。<br>
+コンテナの各要素への参照(「参照型」とは異なる)を表し、加算すれば次の要素、減算すれば前の要素を指す。<br>
+配列(の要素)を指すポインタもイテレータである。<br>
+(実際、C++においては、イテレータはポインタと互換性を有するよう設計されている)<br>
+独自(ユーザ定義)のクラスに関しても、イテレータを作成することができる。詳細は割愛。<br>
+<h2>基本型</h2>
+コンテナの走査は以下のように書ける。ここで、end() イテレータが末尾要素 <b>の次</b> を指すことに注意。<br>
+<img src="_Img/CPP//iterator/iterator_01.png" alt="画像"><br>
+<br>
+for() 文はC++11以降であれば、
+<a href="TIPS/C%E3%83%BBC++/[C++]%E5%9E%8B%E6%8E%A8%E8%AB%96.html">auto(型推論)</a>
+を用いて以下のように書ける。<br>
+<p class="code">
+<kwd>for</kwd>( <kwd>auto</kwd> it = aVectorbegin(); it != aVectorend(); ++it )
+</p>
+また、end() が周回ごとに呼ばれるのを避ける( end() に重い処理を含む場合など)には、以下のようにする。<br>
+<p class="code">
+<kwd>auto</kwd> end = aVectorend();
+<kwd>for</kwd>( <kwd>auto</kwd> it = aVectorbegin(); it != end ; ++it )
+</p>
+<h2>イテレータとポインタの違い</h2>
+vector 、array 、およびC互換の配列は各要素が添字順にメモリに格納されるため、先頭要素へのポインタを加算することで要素を順に走査できる。<br>
+しかしそれ以外のコンテナでは、メモリへの格納順がコンテナにおける序列と必ずしも一致せず、ポインタを使用して順に走査することはできない。<br>
+イテレータを使用すれば、確実に序列通りに走査できる。<br>
+<h2>基本的なイテレータ</h2>
+逆イテレータを使用すれば逆順に走査できる。また要素を参照するのみで更新しないのであれば、読み取り専用イテレータを使用すれば安全。<br>
+<table>
+<tr class="row1"><td>名前 </td><td>説明 </td><td>備考</td></tr>
+<tr><td>begin()</td><td>先頭の要素を指すイテレータを取得する </td><td></td></tr>
+<tr><td>end()</td><td>末尾の次を指すイテレータを取得する </td><td></td></tr>
+<tr><td>cbegin()</td><td>先頭の要素を指す読み取り専用イテレータを取得する </td><td>C++11以降</td></tr>
+<tr><td>cend()</td><td>末尾の次を指す読み取り専用イテレータを取得する </td><td>C++11以降</td></tr>
+<tr><td>rbegin()</td><td>末尾を指す逆イテレータを取得する </td><td></td></tr>
+<tr><td>rend()</td><td>先頭の前を指す逆イテレータを取得する </td><td></td></tr>
+<tr><td>crbegin()</td><td>末尾を指す読み取り専用逆イテレータを取得する </td><td>C++11以降</td></tr>
+<tr><td>crend()</td><td>先頭の前を指す読み取り専用逆イテレータを取得する </td><td>C++11以降</td></tr>
+</table>
+<h2>付記</h2>
+イテレータのインクリメント・デクリメントの際、前置表記( ++it , --it )と後置表記( it++ , it-- )では結果は当然等しいが、<br>
+多くの場合(極わずかではあるが) <b>前置表記のほうが計算負荷が低い</b> 。<br>
+これは後置表記が、一度コピーを生成した後、コピーを変更して返す(≒リード・モディファイ・ライト)実装となっているため。<br>
+値型、ポインタ型においては前置表記も後置表記も差は無いため、 <b>前置表記を標準で用いるほうが良い</b> 。<br>
+</body>
+</html>
+

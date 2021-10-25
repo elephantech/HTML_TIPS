@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>関連 :</h5>
+<a href="TIPS/C%20Sharp/[C%23%20.Net]コレクション.html">[C# Net]コレクション</a><br>
+<a href="TIPS/C・C++/[C++／STL／コンテナ]マップ(連想配列).html">[C++／STL／コンテナ]マップ(連想配列)</a><br>
+<a href="TIPS/ソフトウェア開発一般/無名関数とラムダ式.html">無名関数とラムダ式</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>Dictionary とは</h2>
+Netにおける連想配列クラス。キーと値を関連付けて、キーから値を検索できる。<br>
+C++(STL)における std::map と共通の概念。<br>
+
+<h2>依存する名前空間</h2>
+System.Collections.Generic<br>
+
+<h2>通常の配列との比較</h2>
+いずれもC#における例。<br>
+<img src="_Img/MSVS_DotNet_CSharp/DotNet_Dictionary/dictionary_01.png" alt="画像"><br>
+Dictionary は要素を自由に追加( Add() )、削除( Remove() )できる。<br>
+
+<h2>基本形(宣言・初期化・参照)</h2>
+Dictionary&lt;TKey, TValue&gt;<br>
+TKey 、TValue ともに <b>任意の型を指定できる</b>(「文字列をキーに数値を検索」など)。<br>
+いずれもC#における例。<br>
+<img src="_Img/MSVS_DotNet_CSharp/DotNet_Dictionary/dictionary_02.png" alt="画像"><br>
+
+<h2>Dictionaryの逆引き (値からキーを得る)</h2>
+<b>System.Linq</b> に依存。First() 関数とラムダ式を用いて以下のように書ける。<br>
+(ラムダ式については<a href="TIPS/ソフトウェア開発一般/無名関数とラムダ式.html">無名関数とラムダ式</a>を参照)<br>
+注) 値が重複している場合は、最初に見つかった要素のキーが返る。<br>
+<p class="code">
+<cmt>// Dictionary を初期化</cmt>
+Dictionary &lt;<kwd>int</kwd>, <kwd>string</kwd>&gt; dic = <kwd>new</kwd> Dictionary &lt;<kwd>int</kwd>, <kwd>string</kwd>&gt;
+{
+    { <ltr>0</ltr>, <ltr>"りんご"</ltr> },
+    { <ltr>1</ltr>, <ltr>"みかん"</ltr> },
+    { <ltr>2</ltr>, <ltr>"いちご"</ltr> },
+};
+
+<cmt>// 値 (Value) がみかんの要素のキー (Key) を取得 (== 1)</cmt>
+<kwd>int</kwd> key = dicFirst(x =&gt; xValue == <ltr>"みかん"</ltr>).Key;
+</p>
+First() 関数の代わりに All() 関数を用いると、該当する要素すべて(集合)が返る。<br>
+
+<h2>余談</h2>
+Dictionary はC#固有ではなく Net Framework の機能であるため、Visual Basic でも使用可能。<br>
+
+</body>
+</html>
+

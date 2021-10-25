@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://qiita.com/TackKaiware/items/27ebcf10bb2624db197a">C#からC/C++の関数をコールする方法　まとめ① - Qiita</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C%20Sharp/[C%23%20.Net]マーシャリング.html">[C# Net]マーシャリング</a><br>
+<a href="TIPS/Microsoft%20Visual%20Studio・.Net/[Visual%20C++]基本的なDLLの作成手順.html">[Visual C++]基本的なDLLの作成手順</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+</table>
+
+C/C++で作成したDLLをC#でインポートし、関数をコールするための手順(ここではVisual Studio 2013を用いる)を記す。<br>
+<h2>1 ライブラリ(C++)側の操作</h2>
+ライブラリを作成する。<br>
+<a href="TIPS/Microsoft%20Visual%20Studio・.Net/[Visual%20C++]基本的なDLLの作成手順.html">[Visual C++]基本的なDLLの作成手順</a>を参照。<br>
+<h2>2 アプリケーション(C#)側の操作</h2>
+ライブラリ関数を呼び出す処理を実装し、ビルドを行う。<br>
+Program.cs<br>
+<p class="code">
+<kwd>using</kwd> SystemRuntimeInteropServices;
+
+<kwd>namespace</kwd> Application
+{
+    <kwd>internal</kwd> <kwd>class</kwd> Program
+    {
+        <cmt>// インポート</cmt>
+        <cmt>// Librarydll の Test() 関数を _Test() 関数に紐づける</cmt>
+        [DllImport( <ltr>"Librarydll"</ltr>, EntryPoint = <ltr>"Test"</ltr>)]
+        <kwd>static</kwd> <kwd>extern</kwd> <kwd>void</kwd> _Test();
+
+        <kwd>static</kwd> <kwd>void</kwd> Main()
+        {
+            _Test();
+        }
+    }
+}
+</p>
+<h2>注意が必要な点</h2>
+<h3>データ型の差異を吸収(マーシャリング)</h3>
+C++とC#では型に互換性が無く、データをそのままの形式で渡すことができない場合が存在する。<br>
+(例 : C++の string とC#の string は互換性が無い)<br>
+このため、データの授受に当たっては、互換性のある形式に変換する必要がある。<br>
+詳細は<a href="TIPS/C%20Sharp/[C%23%20.Net]マーシャリング.html">[C# Net]マーシャリング</a>を参照。<br>
+<h3>ビルド環境の考慮</h3>
+64bitでビルドしたアプリケーションは、64bitのDLLしかインポートできず、プロジェクトの設定を揃える必要がある。(32bitも同様？)<br>
+</body>
+</html>
+

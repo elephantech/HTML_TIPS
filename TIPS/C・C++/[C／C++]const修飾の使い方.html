@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<h5>関連 :</h5>
+<a href="TIPS/C・C++/[C／C++]static修飾の使い方.html">[C／C++]static修飾の使い方</a><br>
+<a href="TIPS/C・C++/[C++]コンストラクタ初期化子(初期化リスト).html">[C++]コンストラクタ初期化子(初期化リスト)</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>const修飾とは</h2>
+修飾する対象が <b>不変</b> であることを示すこと。<br>
+「変更できない( = 変更されてはならない)」ことを明示することで、データの予期しない変更を防ぐことができるとともに、<br>
+対象が入力値としてのみ用いられることが判別しやすくなり、コードの安全性・可読性が高まる。<br>
+static修飾との混同に注意。<br>
+
+<h2>const修飾の類型</h2>
+
+<h3>ポインタを修飾する</h3>
+ <b>アスタリスクより左に</b> constキーワードを置くと、 <b>当該ポインタが「指し示す先が」読み取り専用となる</b> 。<br>
+<p class="code">
+<kwd>const</kwd> <kwd>char</kwd>* p;  <cmt>/* const修飾されたポインタ変数 */</cmt>
+
+<cmt>/* 以下の処理は許容されない(コンパイルが通らない) */</cmt>
+*p = <ltr>'\<ltr>0</ltr>'</ltr>;
+p[<ltr>15</ltr>] = <ltr>0</ltr>;
+</p>
+
+<h3>参照を修飾する</h3>
+ポインタ修飾と同様、 <b>参照変数の「指し示す先が」読み取り専用となる</b> 。<br>
+<p class="code">
+<cmt>// lhs , rhs の値が関数内で書き換えられないことが保証される</cmt>
+TimeSpan subtract(<kwd>const</kwd> DateTime &amp;lhs, <kwd><kwd>const</kwd></kwd> DateTime &amp;rhs);
+</p>
+
+<h3>永続的な変数を修飾する</h3>
+グローバル変数、およびstatic修飾されたローカル変数をconst修飾すると、単に代入ができないだけでなく、 <b>当該変数がROMに配置されるようになる</b> 。<br>
+⇒  bRAM(スタック)の使用量を削減することができる</b> 。<br>
+<p class="code">
+<cmt>/* const修飾されているため、ROMに配置される */</cmt>
+<kwd>const</kwd> <kwd>short</kwd> tbl_1[<ltr>8</ltr>] = {  <ltr>1</ltr>, <ltr>2</ltr>, <ltr>3</ltr>, <ltr>4</ltr>, <ltr>5</ltr>, <ltr>6</ltr>, <ltr>7</ltr>, <ltr><ltr>8</ltr></ltr> };
+
+<cmt>/* const修飾が無いため、RAMを使用する */</cmt>
+<kwd>short</kwd> tbl_2[<ltr>8</ltr>] = {  <ltr>1</ltr>, <ltr>2</ltr>, <ltr>3</ltr>, <ltr>4</ltr>, <ltr>5</ltr>, <ltr>6</ltr>, <ltr>7</ltr>, <ltr><ltr>8</ltr></ltr> };
+</p>
+定数配列(テーブル)はconst修飾しなければ、RAMを大量に消費することになる。<br>
+<b>特に組み込み用途においてはRAMに余裕が無いことが多いため、「テーブルはconst修飾」は鉄則として理解されたい。</b> <br>
+
+<h4>永続的変数がポインタの場合</h4>
+constキーワードを <b>「アスタリスクの右」に置かないとROM配置の指示とはならない</b> 。<br>
+<p class="code">
+IPortOutput* <kwd>const</kwd> g_nanaseg1[<ltr>8</ltr>] = {
+  &amp;g_port20, &amp;g_port21, &amp;g_port40, &amp;g_port41,
+  &amp;g_port76, &amp;g_port77, &amp;g_port34, &amp;g_port35,
+};
+</p>
+
+<h3>メンバ変数を修飾する</h3>
+<p class="code">
+<kwd>class</kwd> Real
+{
+  <kwd>private</kwd>:
+    <kwd>const</kwd> <kwd>double</kwd> m_val;  <cmt>//&lt; const修飾されたメンバ変数</cmt>
+  <kwd>public</kwd>:
+    Real(<kwd>double</kwd> val) : m_val(val) { }  <cmt>//&lt; m_val は初期化子リストにて初期化されなければならない</cmt>
+};
+</p>
+クラスのメンバ変数をconst修飾した場合、 <b>当該変数はコンストラクタ初期化子を用いて「必ず」初期化されなければならなくなる</b> 。<br>
+⇒  <b>生成時点で値が定められ(「不定」が認められず)、かつ生涯不変の「性質」を設定する際に有効。</b> <br>
+<br>
+const修飾を用いずに記述した場合は以下のようになる。<br>
+<p class="code">
+<kwd>class</kwd> Real
+{
+  <kwd>private</kwd>:
+    <kwd>double</kwd> m_val;
+  <kwd>public</kwd>:
+    Real(<kwd>double</kwd> val) { m_val = val; }  <cmt>//&lt; m_val をコンストラクタ中で初期化(厳密には代入)することは必須ではない</cmt>
+};
+</p>
+この場合、 m_val がインスタンス生成時に初期化されるかどうかはコンストラクタの実装(≒良心)に依存し、<br>
+またインスタンスの生存期間中に値が更新されてもエラーとはならない。<br>
+即ち、「生成時に値が定まっていること」、および「生涯不変であること」が保証されない。<br>
+⇒  bconst修飾を用いることで、生涯不変の「性質」と、変化し得る「状態」を区分できる。</b> <br>
+<br>
+コンストラクタ初期化子については<a href="TIPS/C・C++/[C++]コンストラクタ初期化子(初期化リスト).html">[C++]コンストラクタ初期化子(初期化リスト)</a>を参照のこと。<br>
+
+<h3>メンバ関数を修飾する</h3>
+<p class="code">
+<kwd>class</kwd> / {
+<kwd>public</kwd>:
+  <kwd>bool</kwd> isEnd() <kwd>const</kwd>;
+  <kwd>char</kwd> get() <kwd>const</kwd>;
+};
+</p>
+<b>引数リスト(括弧)の右にconstを置く</b>。<br>
+const修飾されたメンバ関数は、メンバ変数を更新することができなくなる。<br>
+⇒  <b>インスタンスの「状態」が(暗黙的に)変更されることが無いことが保証される。</b> <br>
+ここで、 bconst修飾されたメンバ関数からは、同様にconst修飾されたメンバ関数しかコールすることができない</b> 点に留意されたい。<br>
+
+<h3>一時的な変数を修飾する</h3>
+関数の引数、およびstatic修飾の無いローカル変数(自動変数)に対するconst修飾は、単に「代入を許容しない」という意味となる。<br>
+<p class="code">
+<cmt>// 引数および自動変数をconst修飾</cmt>
+<kwd>bool</kwd> isClockwise(<kwd>const</kwd> <kwd>uint32_t</kwd> a, <kwd>const</kwd> <kwd>uint32_t</kwd> b)
+{
+  <kwd>const</kwd> <kwd>uint32_t</kwd> diff = b - a;    <cmt>//< 初期化(代入ではない)は可</cmt>
+  <kwd>return</kwd> (diff &amp; <ltr>0x80000000U</ltr>) != <ltr>0</ltr>;
+}
+</p>
+</body>
+</html>
+

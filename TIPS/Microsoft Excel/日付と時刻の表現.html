@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>Excelにおける日付と時刻の表現</h2>
+Excelでは、日付と時刻を<b>「シリアル値」</b>で表現する。<br>
+このシリアル値は<b>「『1900年1月0日 0時0分0秒』から『何日経過したか』」</b>を意味する。<br>
+
+<h2>入力と表示</h2>
+例えばセル中に2021212と入力した場合、Excelは入力された内容を「日付」と判断し、自動的にセルの表示形式を日付の表示に適したものに設定する。<br>
+このため、一見「日付(2021年2月12日)のみ」を保持しているように見えるが、実際には「2021年2月12日 0時0分0秒を表すシリアル値」を保持している。<br>
+時刻(のみ)を入力した場合も同様である。<br>
+<img src="_Img/MS Excel/Date_and_Time/01.png"><br>
+
+<h2>シリアル値に対する演算</h2>
+<ul>
+	<li>
+	前述のとおりシリアル値の単位は「日」であるため、シリアル値に 1 を加算すると「1日後」を表す値となる。<br>
+	<img src="_Img/MS Excel/Date_and_Time/02.png"><br>
+	</li>
+
+	<li>
+	シリアル値に 24 を乗ずると「時間単位」、1440 を乗ずると「分単位」に換算できる。<br>
+	(必要に応じて表示形式を変更)<br>
+	<img src="_Img/MS Excel/Date_and_Time/03.png"><br>
+	</li>
+
+	<li>
+	シリアル値同士で減算を行うことで、両者の差異(何日経過したか)を得ることができる。<br>
+	</li>
+</ul>
+
+<h2>VBAで日時シリアル値を得るには</h2>
+<h3>主な手段</h3>
+<ul>
+	<li>
+	DateSerial()関数 : 指定した日付に相当するシリアル値を取得(引数はいずれも省略不可)<br>
+	ワークシート関数の DATE() に相当
+	<table>
+		<tr class="row1">		<td>引数</td>		<td>内容</td>		</tr>
+		<tr>		<td>Year</td>		<td>年を表す 100～9999 の範囲内の整数</td>		</tr>
+		<tr>		<td>Month</td>		<td>月を表す整数<br>		1 ～ 12 の範囲を外れた場合は超過分が加算される</td>		</tr>
+		<tr>		<td>Day</td>		<td>日を表す整数<br>		1 ～ 31 の範囲を外れた場合は超過分が加算される</td>		</tr>
+	</table>
+	</li>
+
+	<li>
+	TimeSerial()関数 : 指定した時刻に相当するシリアル値を取得(引数はいずれも省略不可)<br>
+	ワークシート関数の TIME() に相当
+	<table>
+		<tr class="row1">		<td>引数</td>		<td>内容</td>		</tr>
+		<tr>		<td>Hour</td>		<td>時を表す 0～23 の範囲内の整数</td>		</tr>
+		<tr>		<td>Minute</td>		<td>分を表す整数<br>		0 ～ 59 の範囲を外れた場合は超過分が加算される</td>	</tr>
+		<tr>		<td>Second</td>		<td>秒を表す整数<br>		0 ～ 59 の範囲を外れた場合は超過分が加算される</td>		</tr>
+	</table>
+	</li>
+
+	<li>
+	文字列形式で指定<br>
+	存在しない日時を指定するとエラーとなる
+	</li>
+</ul>
+
+<h3>コード例</h3>
+<p class="code">
+<cmt>' 「2021年2月12日」を表すシリアル値を取得</cmt>
+<kwd>Dim</kwd> dt1 <kwd>as Date</kwd>
+dt1 = DateSerial(<ltr>2021</ltr>, <ltr>2</ltr>, <ltr>12</ltr>)
+
+<cmt>' 「2021年2月30日」⇒「2021年3月2日」</cmt>
+<kwd>Dim</kwd> dt2 <kwd>as Date</kwd>
+dt2 = DateSerial(<ltr>2021</ltr>, <ltr>2</ltr>, <ltr>30</ltr>)
+
+<cmt>' 「12時29分45秒」を表すシリアル値を取得</cmt>
+<kwd>Dim</kwd> dt3 <kwd>as Date</kwd>
+dt3 = TimeSerial(<ltr>12</ltr>, <ltr>29</ltr>, <ltr>45</ltr>)
+
+<cmt>' 「12時64分45秒」⇒「13時04分45秒」</cmt>
+<kwd>Dim</kwd> dt4 <kwd>as Date</kwd>
+dt4 = TimeSerial(<ltr>12</ltr>, <ltr>64</ltr>, <ltr>45</ltr>)
+
+<cmt>' 日付シリアルと時刻シリアルを加算 ⇒ 「2021年2月12日 12時29分45秒」</cmt>
+<kwd>Dim</kwd> dt5 <kwd>as Date</kwd>
+dt5 = DateSerial(<ltr>2021</ltr>, <ltr>2</ltr>, <ltr>12</ltr>) + TimeSerial(<ltr>12</ltr>, <ltr>29</ltr>, <ltr>45</ltr>)
+
+<cmt>' 文字列形式での「2021年2月12日 12時29分45秒」</cmt>
+<kwd>Dim</kwd> dt6 <kwd>as Date</kwd>
+dt6 = <ltr>"2021212 12:29:45"</ltr>
+
+<cmt>' 文字列形式での「2021年2月29日 12時29分45秒」 ⇒ 存在しない日時のためエラー</cmt>
+<kwd>Dim</kwd> dt7 <kwd>as Date</kwd>
+dt7 = <ltr>"2021229 12:29:45"</ltr>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://qiita.com/kouyan/items/7b8b456b626447a1e24e">
+初心者向け。覚えておきたい 「ガード節」という書き方。 - Qiita</a><br>
+
+<a href="https://sandragonhatenablogcomentry20190331215851">
+if-then-elseを使うかガード節を使うかの判断基準 - MogLog</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/ソフトウェア開発一般/%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E9%96%8B%E7%99%BA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E3%82%A2%E3%83%B3%E3%83%81%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3.html">
+ソフトウェア開発におけるアンチパターン</a><br>
+
+<a href="TIPS/C%E3%83%BBC++/[C++]%E5%9C%B0%E8%94%B5%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9.html">
+[C++]地蔵インスタンス</a><br>
+
+<a href="TIPS/C%E3%83%BBC++/[C++]%E4%BE%8B%E5%A4%96%E5%87%A6%E7%90%86.html">
+[C++]例外処理</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>ガード節とは</h2>
+関数(サブルーチン)において、処理を継続することが不可能(または無意味)となった場合に、関数の途中で脱出する記法。<br>
+プログラムの可読性が向上する。
+
+<h2>ガード節の例</h2>
+<h3>ガード節を使用しない場合</h3>
+<p class="code">
+<kwd>bool</kwd> Func()
+{
+    <kwd>bool</kwd> ret = <kwd>true</kwd>;    <cmt>//&lt; 戻り値</cmt>
+
+    <kwd>if</kwd> ( DoSomething01() )
+    {
+        <kwd>if</kwd> ( DoSomething02() )
+        {
+            <kwd>if</kwd> ( DoSomething03() )
+            {
+                <cmt>// すべて成功</cmt>
+                ret = <kwd>true</kwd>;
+            }
+            <kwd>else</kwd>
+            {
+                <cmt>// DoSomething03() 失敗</cmt>
+                ret = <kwd>false</kwd>;
+            }
+        }
+        <kwd>else</kwd>
+        {
+            <cmt>// DoSomething02() 失敗</cmt>
+            ret = <kwd>false</kwd>;
+        }
+    }
+    <kwd>else</kwd>
+    {
+        <cmt>// DoSomething01() 失敗</cmt>
+        ret = <kwd>false</kwd>;
+    }
+
+    <kwd>return</kwd> ret;
+}
+</p>
+
+この例では、正常系の処理が進むにつれて if 節は長く、ネストは深くなるため、正常系の処理が追跡しづらい。<br>
+また、異常系の処理は if 節の後に記述されることから、if 文による条件判定と異常系の処理との間に行数が空き、同じくフローが煩雑となる。<br>
+(関数全体を眺めないとフローが把握できない。)
+
+<h3>ガード節を使用した場合</h3>
+<p class="code">
+<kwd>bool</kwd> Func()
+{
+    <cmt>// DoSomething01() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething01() )
+    {
+        <kwd>return</kwd> <kwd>false</kwd>;
+    }
+
+    <cmt>// DoSomething02() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething02() )
+    {
+        <kwd>return</kwd> <kwd>false</kwd>;
+    }
+
+    <cmt>// DoSomething03() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething03() )
+    {
+        <kwd>return</kwd> <kwd>false</kwd>;
+    }
+
+    <cmt>// すべて正常</cmt>
+    <kwd>return</kwd> <kwd>true</kwd>;
+}
+</p>
+
+この例では、<b>異常があった場合には関数を抜けるようになっており、コードが簡潔で意図が伝わりやすい。</b>また、戻り値を格納する一時変数も不要である。<br>
+ガード節を用いる上での原則は、<b>「異常があった場合に途中で脱出すること」</b>。<br>
+
+<h2>ガード節を用いる上での注意</h2>
+<p class="code">
+<kwd>bool</kwd> Func()
+{
+    <cmt>// セマフォ獲得</cmt>
+    _wait_sem();
+
+    <cmt>// DoSomething01() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething01() )
+    {
+        <cmt>// ここで抜けるとセマフォを握ったままとなる</cmt>
+        <kwd>return</kwd> <kwd>false</kwd>;
+    }
+
+    <cmt>// DoSomething02() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething02() )
+    {
+        <cmt>// ここで抜けるとセマフォを握ったままとなる</cmt>
+        <kwd>return</kwd> <kwd>false</kwd>;
+    }
+
+    <cmt>// セマフォ解放</cmt>
+    _release_sem();
+
+    <cmt>// すべて正常</cmt>
+    <kwd>return</kwd> <kwd>true</kwd>;
+}
+</p>
+
+上記のように関数内でセマフォやミューテックス、ヒープを使用している場合、単純にガード節を用いるのみでは資源の解放漏れが発生し得る。<br>
+このため、以下のような手段で解決を図る必要がある。<br>
+
+<h3>本体をサブルーチン化</h3>
+
+<p class="code">
+<cmt>// Func_Core()のシンタクスシュガー</cmt>
+<kwd>bool</kwd> Func()
+{
+    <kwd>bool</kwd> ret;
+
+    <cmt>// セマフォ獲得</cmt>
+    _wait_sem();
+
+    <cmt>// (セマフォの中で行う)本体の処理</cmt>
+    ret = Func_Core();
+
+    <cmt>// セマフォ解放</cmt>
+    _release_sem();
+
+    <kwd>return</kwd> ret;
+}
+
+<cmt>// 本体の処理 (Func()のサブルーチン)</cmt>
+<kwd>bool</kwd> Func_Core()
+{
+    <cmt>// DoSomething01() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething01() )
+    {
+        <kwd>return</kwd> <kwd>false</kwd>;
+    }
+
+    <cmt>// DoSomething02() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething02() )
+    {
+        <kwd>return</kwd> <kwd>false</kwd>;
+    }
+
+    <cmt>// すべて正常</cmt>
+    <kwd>return</kwd> <kwd>true</kwd>;
+}
+</p>
+
+Func() で行いたい処理をサブルーチンである Func_Core() に移し、Func() を Func_Core() の糖衣とする手法。<br>
+セマフォの獲得・解放はサブルーチン外で行っているため、Func_Core() がどのタイミングで終了してもセマフォの解放漏れは発生しない。<br>
+<br>
+しかし、上記のコードでは<b>例外が発生した場合にセマフォの解放漏れが発生し得る</b>。例外に対応するためには以下のように記述する。<br>
+(ただし後述のRAIIを用いる方が記述は簡潔で、かつ確実である。)<br>
+
+<p class="code">
+<cmt>// Func_Core()のシンタクスシュガー</cmt>
+<kwd>bool</kwd> Func()
+{
+    <kwd>bool</kwd> ret = false;
+
+    <cmt>// セマフォ獲得</cmt>
+    _wait_sem();
+
+    <cmt>// Func_Core() で発生した例外を捕捉</cmt>
+    <kwd>try</kwd>
+    {
+        ret = Func_Core();
+    }
+    <kwd>catch</kwd>(...)
+    {
+        <cmt>// セマフォ解放</cmt>
+        _release_sem();
+
+        <cmt>// (Func() 外で例外を捕捉している場合)例外を投げなおす</cmt>
+        <kwd>throw</kwd> <ltr>"Func_Core() で例外発生"</ltr>;
+    }
+
+    <cmt>// セマフォ解放</cmt>
+    _release_sem();
+
+    <kwd>return</kwd> ret;
+}
+
+<cmt>// 本体の処理 (Func()のサブルーチン)</cmt>
+<kwd>bool</kwd> Func_Core()
+{
+    <cmt>// DoSomething01() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething01() )
+    {
+        <kwd>return</kwd> <kwd>false</kwd>;
+    }
+
+    <cmt>// DoSomething02() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething02() )
+    {
+        <kwd>return</kwd> <kwd>false</kwd>;
+    }
+
+    <cmt>// すべて正常</cmt>
+    <kwd>return</kwd> <kwd>true</kwd>;
+}
+</p>
+
+
+<h3>(C++)RAIIを用いる</h3>
+
+<p class="code">
+<cmt>// セマフォの獲得・解放専用クラス</cmt>
+Class C_SemaphoreManager
+{
+<kwd>public</kwd>:
+    <cmt>// コンストラクタ : セマフォ獲得</cmt>
+    C_SemaphoreManager() { _wait_sem(); }
+
+<kwd>private</kwd>:
+    <cmt>// デストラクタ : セマフォ解放</cmt>
+    ~C_SemaphoreManager() { _release_sem(); }
+};
+
+<cmt>// Func()</cmt>
+<kwd>bool</kwd> Func()
+{
+    <cmt>// セマフォ管理用インスタンス(地蔵)生成(セマフォ獲得)</cmt>
+    C_SemaphoreManager semStature;
+
+    <cmt>// DoSomething01() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething01() )
+    {
+        <cmt>// ここで抜けてもデストラクタが走る</cmt>
+        <kwd>return</kwd> <kwd>false</kwd>;
+    }
+
+    <cmt>// DoSomething02() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething02() )
+    {
+        <cmt>// ここで抜けてもデストラクタが走る</cmt>
+        <kwd>return</kwd> <kwd>false</kwd>;
+    }
+
+    <cmt>// すべて正常</cmt>
+    <cmt>// ここで抜けてもデストラクタが走る</cmt>
+    <kwd>return</kwd> <kwd>true</kwd>;
+}
+</p>
+
+C_SemaphoreManager はコンストラクタでセマフォを獲得、デストラクタで解放を行うクラスである。<br>
+semStature の生成時にセマフォを獲得。Func() をどの時点で抜けたとしてもスコープを抜けた際にデストラクタが走るため、確実にセマフォを解放できる。<br>
+(<b>例外が発生した場合でも同様にデストラクタが走るため確実性が高い。</b>)<br>
+コードが簡潔に記述できる点も特徴である。
+詳細は
+<a href="TIPS/C%E3%83%BBC++/[C++]%E5%9C%B0%E8%94%B5%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9.html">
+[C++]地蔵インスタンス</a>
+を参照。
+
+</body>
+</html>

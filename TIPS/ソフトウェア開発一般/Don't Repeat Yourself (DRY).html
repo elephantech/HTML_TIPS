@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://ja.wikipedia.org/wikiDon%27t_repeat_yourself">Don't repeat yourself - Wikipedia</a><br>
+<a href="https://twopagileesmcojpdo-not-repeat-youserlf-principle-d2ca604fbcdc">重複を発見し１つのコードに洗練させよう Don’t Repeat Yourself - 時を超えたプログラミングの道</a><br>
+<a href="https://プログラマが知るべき97のことcom/%E3%82%A8%E3%83%83%E3%82%BB%E3%82%A4DRY%E5%8E%9F%E5%89%87/">DRY原則 | プログラマが知るべき97のこと</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/ソフトウェア開発一般/%E6%A7%8B%E9%80%A0%E5%8C%96%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0.html">構造化プログラミング</a><br>
+<a href="TIPS/ソフトウェア開発一般/%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E9%96%8B%E7%99%BA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E3%82%A2%E3%83%B3%E3%83%81%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3.html">ソフトウェア開発におけるアンチパターン</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>Don't Repeat Yourself とは</h2>
+「自分自身(同じこと)を繰り返さない」の意で、特にソフトウェア設計・開発の分野において、<b>重複を防ぐ哲学</b>である。<br>
+情報の重複はシステムの変更の困難さを増大し、透明性を減少させ、不一致を生じさせるものであるとしている。<br>
+この原則が効果的に適用された場合、システムに対するいかなる要素の変更も、論理的に関連の無い他の要素の変更につながらず、論理的に関連した要素は予測できる形で統一的に変更され、それらの変更は同期が取れたものとなる。<br>
+即ち、一つの主題を扱う記述はシステム中で唯一に統一(一元化)され、変更箇所を局所化できるため、変更に伴うヒューマンエラーを低減できる。<br>
+対象はソースコードに限らず、ドキュメンテーションも含まれる。<br>
+<br>
+<b class="red x125">プログラミングにおいて守られるべき原則の中でも特に重要。</b><br>
+<h2>DRYが守られていない例</h2>
+<img src="_Img/Software Development/Dont_Repeat_Yourself/development-dry_01.png" alt="画像"><br>
+<br>
+複数回出現する共通の論理を、サブルーチン化することなくコピー&amp;ペーストで実装している。<br>
+この「共通の論理」に修正が必要となった場合、システム全体を走査しなければならず、またすべての箇所が漏れなく修正されたことを検証する必要があり、どちらの過程でもミスが発生し得る。<br>
+⇒  bDRY化されていれば、修正箇所は一つで済む</b> 。<br>
+<br>
+<b class="red x125">複数回(2回以上)登場する論理はサブルーチン化するのが鉄則。<br>
+コピー&amp;ペーストは即、DRYに反する「問題のあるコードを拡散する行為」である。</b><br>
+
+<h2>DRYとWET</h2>
+DRY(乾燥)になぞらえ、対となるWET(Write Every Time : 毎回同じことを書く)という表現もある。<br>
+自然界ではウェットな部分から腐敗するが、プログラムも同様にWETなコードほど問題を内包しやすい。<br>
+</body>
+</html>

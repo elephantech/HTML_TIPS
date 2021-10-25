@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="
+http://officetanaka.net/excel/vba/speed/s9.htm
+">
+Office TANAKA - VBA高速化テクニック[関数も使え！]
+</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>VBAからワークシート関数を呼び出す</h2>
+VBAからは、ほぼすべてのワークシート関数を呼び出すことができる。<br>
+ワークシート関数を用いる利点としては、VBAのみで処理を行う場合と比較して、
+<ul>
+<li>記述が簡潔となる</li>
+<li>処理が(多くの場合非常に)高速となる</li>
+</ul>
+が挙げられる。<br>
+
+<h2>基本の書式</h2>
+<b class="red">WorksheetFunction</b> オブジェクトを用いる。
+<p class="code">
+<b class="red">WorksheetFunction</b>.関数名(引数)
+</p>
+
+<h2>ワークシート関数を用いる場合と用いない場合の処理時間の比較</h2>
+セル範囲 A1 : A100000 に入力された数値の総和を求める場合の例<br>
+<h4>VBAに直接記述 ⇒ 0.395秒</h4>
+<p class="code">
+<kwd>Sub</kwd> Test1()
+    <kwd>Dim</kwd> i <kwd>As Long</kwd>, A <kwd>As Long</kwd>
+
+    <cmt>' A に A1 : A100000 の総和を格納</cmt>
+    <kwd>For</kwd> i = 1 <kwd>To</kwd> 100000
+        A = A + Cells(i, 1)
+    <kwd>Next</kwd> i
+<kwd>End Sub</kwd>
+</p>
+
+<h4>ワークシート関数( Sum() )を使用 ⇒ 0.002 秒</h4>
+<p class="code">
+<kwd>Sub</kwd> Test2()
+    <cmt>' ループ制御変数 i は不要</cmt>
+    <kwd>Dim</kwd> A <kwd>As Long</kwd>
+
+    <cmt>' A に A1 : A100000 の総和を格納</cmt>
+    A = <b class="red">WorksheetFunction</b>.Sum(Range("A1:A100000"))
+<kwd>End Sub</kwd>
+</p>
+
+</body>
+</html>

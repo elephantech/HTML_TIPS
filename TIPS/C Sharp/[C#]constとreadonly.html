@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://qiita.com/4_mio_11/items/203c88eb5299e4a45f31">constとreadonlyとstatic readonly、それぞれの特徴と使い分け方 - Qiita</a><hr
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>C#におけるconstとreadonly</h2>
+いずれも修飾された変数を読み取り専用(書き換え不可)とする効果を持つが、その振舞は厳密には異なる。
+
+<h3>const</h3>
+値が<b>コンパイル時に確定する</b>定数(<b>コンパイル時定数</b>)を宣言する際に用いる。<br>
+即ち、コンパイル時に値が確定するプリミティブ型、または文字列型のみをconst修飾できる。
+<ul>
+	<li>必ず固定値が埋め込まれるため、クラスメンバに指定した場合でもインスタンスに依存せず、(すべてのインスタンスで)常に同じ値になる。<br>
+	    よって<b>暗黙的にstatic</b>となり、<b>インスタンス名ではなくクラス名から参照する</b>。</li>
+	<li>ローカル変数にも適用できる。</li>
+	<li>値がコードに埋め込まれるため、コンパイル後のファイルサイズは大きくなるが、実行速度は速い。</li>
+	<li><b>宣言時にのみ初期化ができる</b>(宣言時の初期化が必須)。</li>
+	<li>switch - caseやデフォルト引数の値として使用できる。<br>
+	    (デフォルト引数は、その引数に値が指定されなかった場合<b>デフォルト値を定数(const)として埋め込む</b>)
+<p class="code">
+<kwd>void</kwd> Fuga(<kwd>int</kwd> arg = 100)
+{
+    :
+}
+
+Fuga();           <cmt>//< 引数なしの Fuga() はコンパイル時に Fuga(100) に置換される</cmt>
+</p>
+	</li>
+	<li>値がコンパイル時に確定する都合上、アセンブリ内のconst値を変更しても、当該アセンブリを参照するアセンブリをリビルドしないと、<br>
+	    当該(被参照)アセンブリの変更が反映されない(<b>バージョニング問題</b>)。</li>
+	<li>コンパイル時定数は、コンパイルの際にコードが定数に置き換わる。即ち、リテラルを直接記述した場合と同等となる。<br>
+	    このため、初期値には定数式以外をとることができない。<br>
+<p class="code">
+<kwd>class</kwd> Hoge
+{
+    <kwd>public const</kwd> double PI   = 3.14;            <cmt>//< 定数式なのでOK</cmt>
+    <kwd>public const</kwd> double piyo = PI * PI;         <cmt>//< 定数式(定数同士の演算)なのでOK</cmt>
+    <kwd>public const</kwd> double payo = Math.Sqrt(10);   <cmt>//< 定数式でない(メソッドの呼び出し)のでNG ⇒ コンパイルエラー</cmt>
+
+    <kwd>void</kwd> Piyo()
+    {
+        <cmt>// コンパイル時に、シンボル PI は定数 3.14 に置換される</cmt>
+        if (Moge == PI)
+        {
+            :
+        }
+    }
+}
+</p>
+    </li>
+</ul>
+
+<h3>readonly</h3>
+値を<b>実行時に取得する</b>読み取り専用変数(<b>実行時定数</b>扱い)を宣言する際に用いる。<br>
+即ち実行時まで値が確定しないが、初期化後は不変となる。s
+<ul>
+	<li>クラスメンバに指定した場合、実行時に値が決定するため、常に同じ値になるとは限らない。<br>
+	    このためstaticとはならない(クラスメンバではなくインスタンスメンバ)。</li>
+	<li>ローカル変数には適用できず、クラスのメンバ変数としてのみ使用できる。<br>
+	    宣言時、もしくはコンストラクタでのみ初期化が可能。<br>
+	    (宣言時の初期値をコンストラクタで上書きすることも可能)</li>
+	<li>コンパイル時には値は確定しないため、値がコードに埋め込まれることはない(通常の変数と同様)。</li>
+	<li>switch - caseやデフォルト引数の値としては使用できない。</li>
+	<li>アセンブリ内のreadonly値を変更しても、当該アセンブリを差し替えれば値は更新される(リビルド不要)。</li>
+	<li>実行時定数はリテラルには置換されず、初期値にnewの結果や、メソッドの実行結果を使用できる。</li>
+</ul>
+<p class="code">
+<kwd>class</kwd> Hoge
+{
+    <cmt>// readonly 変数を宣言</cmt>
+    <kwd>public readonly int</kwd> Piyo;
+    <kwd>public readonly</kwd> Dog taro;
+
+    Hoge (<kwd>int</kwd> huga)
+    {
+        <cmt>// コンストラクタ内で書き換え可能</cmt>
+        <kwd>this</kwd>.Piyo = huga;
+        <kwd>this</kwd>.taro = <kwd>new</kwd> Dog();
+    }
+
+    <kwd>void</kwd> Func(<kwd>int</kwd> mohu)
+    {
+        <kwd>int</kwd> muga = <kwd>this</kwd>.Piyo;
+        <cmt>// readonly 変数を上書きすることはできない ⇒ コンパイルエラー</cmt>
+        <kwd>this</kwd>.Piyo = mohu;
+    }
+}
+</p>
+
+<h3>static readonly</h3>
+定数値が必要であるが、その値の型がconst宣言で使用できない(プリミティブ型でも文字列型でもない)場合、またはその値をコンパイル時に計算できない場合に<br>
+(constの代替として)static readonly修飾を用いることで、定数値をstatic化できる。<br>
+constには上述のバージョニング問題があることから、static readonlyの使用が推奨されている。
+
+<h3>使い分けるポイント</h3>
+<ul>
+    <li>const : 将来にわたって値が変更されることが無く、かつ対象がprivate、または処理速度の低下が許容されない場合</li>
+    <li>static readonly : 将来にわたって値が変更される可能性がある場合</li>
+    <li>readonly : (インスタンスを跨いで)定数である必要が無い場合</li>
+</ul>
+
+</body>
+</html>

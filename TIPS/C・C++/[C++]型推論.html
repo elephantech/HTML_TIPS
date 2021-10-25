@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+  charsetutf-8 
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+
+<h5>出典 :</h5>
+<a href="https://ja.wikipedia.org/wiki/%E5%9E%8B%E6%8E%A8%E8%AB%96">型推論 - Wikipedia</a><br>
+<a href="https://cpprefjp.github.io/lang/cpp14/return_type_deduction_for_normal_functions.html">通常関数の戻り値型推論 - cpprefjp C++日本語リファレンス</a><br>
+<a href="https://cpprefjp.github.io/lang/cpp11/auto.html">auto - cpprefjp C++日本語リファレンス</a><br>
+<a href="http://yohshiy.blog.fc2.com/blog-entry-334.html">C++11 型推論(auto, decltype)の徹底活用 | プログラマーズ雑記帳</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C%E3%83%BBC++/[C++]C++11.html">[C++]C++11</a><br>
+<a href="TIPS/ソフトウェア開発一般/[%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E6%8C%87%E5%90%91]%E3%82%B8%E3%82%A7%E3%83%8D%E3%83%AA%E3%83%83%E3%82%AF%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%20(Generic%20Programming).html">[オブジェクト指向]ジェネリックプログラミング (Generic Programming)</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A.html">[C++／STL／コンテナ]コンテナ</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%A4%E3%83%86%E3%83%AC%E3%83%BC%E3%82%BF.html">[C++／STL／コンテナ]イテレータ</a><br>
+
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>型推論とは</h2>
+静的な型付けを持つ言語において、変数や関数シグネチャの型を明示的に宣言しなくても、周辺情報および文脈などから自動的(暗黙的)に各々の型を決定する機構のこと。<br>
+初期化のための代入式の右辺値や、関数呼び出し時の実引数などから、変数や関数の戻り値の型を帰納的に決定することができる。<br>
+特にテンプレートやメタプログラミングでは、オブジェクトの型を実装時に特定することが困難(または不可能)であるため、型推論によって最適な型を割り当てることで省力化やヒューマンエラー低減が期待できる。<br>
+Java、C#、Swiftなどモダン言語が型推論をサポートしており、C++には<a href="TIPS/C%E3%83%BBC++/[C++]C++11.html">C++11</a>から導入された。<br>
+
+<h2>C++における型推論</h2>
+<h3>auto キーワードによる型推論</h3>
+<p class="code">
+<kwd>auto</kwd> someStrangeCallableType = boost::bind(&amp;SomeFunction, _2, _1, someObject);
+<kwd>auto</kwd> otherVariable = <ltr>5</ltr>;
+</p>
+
+明示的に初期化される変数の宣言に bauto</b> キーワードを用いると、初期化子によって変数の型が特定される。<br>
+上記の例において、変数 someStrangeCallableType の型は<br>
+関数テンプレート boost::bind() がその引数に応じて返す戻り値の型であり、<br>
+これはコンパイラは容易に判断できても、プログラマが調べるのは困難または不可能である。<br>
+このように型の特定が難しい場合でも bauto を用いることで、自動的に変数や戻り値の型を決定できる</b>。<br>
+また、同様に <b>auto</b> を用いた変数 otherVariable の型はリテラル(5)によって int となる。<br>
+<br>
+auto はコードの簡略化(冗長性の排除)にも有効である。<br>
+<p class="code">
+<cmt>// std::vector&lt;int&gt; myvec (ベクトル)を走査する場合</cmt>
+
+<cmt>// auto を使用しない for ループ</cmt>
+<kwd>for</kwd> (std::vector&lt;<kwd>int</kwd>&gt;::const_iterator itr = myvecbegin(); itr != myvecend(); ++itr)
+{
+    :
+}
+
+<cmt>// auto を使用した for ループ</cmt>
+<cmt>// myvecbegin() がイテレータを返すことから、itr がイテレータであることは明白</cmt>
+<kwd>for</kwd> (<kwd>auto</kwd> itr = myvecbegin(); itr != myvecend(); ++itr)
+{
+    :
+}
+</p>
+
+myvecbegin() の戻り値の型からイテレータ itr の型を推論することができる。<br>
+コンテナがネストするような場合は特に効果が大きい。コンテナおよびイテレータについては、<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A.html">[C++／STL／コンテナ]コンテナ</a>および
+<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%A4%E3%83%86%E3%83%AC%E3%83%BC%E3%82%BF.html">[C++／STL／コンテナ]イテレータ</a>
+を参照のこと。<br>
+
+<h3>decltype キーワードによる型の取得</h3>
+<b>decltype</b> キーワードを用いると、オペランドで指定した式の型をコンパイル時に取得することができる。<br>
+<p class="code">
+<kwd>int</kwd> someInt;
+<kwd>decltype</kwd>(someInt) otherIntegerVariable = <ltr>5</ltr>;    <cmt>//&lt; decltype() のオペランド (someInt) により int 型と確定</cmt>
+</p>
+auto で宣言した変数の(実際の)型はコンパイラにしかわからないので<b> decltype と組み合わせることは有用である</b>。<br>
+(この例では、変数 someInt が int 型であるため、変数 otherIntegerVariable は decltype(someInt) の評価結果から int 型となる。)<br>
+<br>
+
+</body>
+</html>
+
+

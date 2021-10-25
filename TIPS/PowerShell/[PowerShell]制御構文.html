@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>PowerShellにおける比較演算子</h2>
+<table>
+<tr><th class="col1" rowspan="2">演算子</th><th colspan="2" rowspan="2">概要</th><th class="border_b_normal" colspan="2">他言語の<br>相当する演算子</th> <th rowspan="2">例（条件式の部分のみ）</th> </tr>       
+<tr class="row1">    <td class="border_t_normal">C系</td> <td class="border_t_normal">VB</td>  </tr>       
+<tr> <td class="col1 red">-eq</td> <td class="border_r_dotted">等しい (＝)</td> <td class="border_l_dotted"><b class="red">eq</b>ual to</td> <td class="center">==</td> <td class="center">=</td> <td>$_Name <b class="red">-eq</b> wgalog"</td> </tr>       
+<tr> <td class="col1 red">-ne</td> <td class="border_r_dotted">等しくない (≠)</td> <td class="border_l_dotted"><b class="red">n</b>ot <b class="red">e</b>qual to</td> <td class="center">!=</td> <td class="center"><></td> <td>$_Name <b class="red">-ne</b> wgalog"</td> </tr>       
+<tr> <td class="col1 red">-gt</td> <td class="border_r_dotted">より大きい (＞)</td> <td class="border_l_dotted"><b class="red">g</b>reater <b class="red">t</b>han</td> <td class="center" colspan="2">></td>  <td>$_Length <b class="red">-gt</b> 1MB</td> </tr>       
+<tr> <td class="col1 red">-ge</td> <td class="border_r_dotted">以上 (≧)</td> <td class="border_l_dotted"><b class="red">g</b>reater than or <b class="red">e</b>qual to</td> <td class="center" colspan="2">>=</td>  <td>$_Length <b class="red">-ge</b> 1MB</td> </tr>       
+<tr> <td class="col1 red">-lt</td> <td class="border_r_dotted">未満 (＜)</td> <td class="border_l_dotted"><b class="red">l</b>ess <b class="red">t</b>han</td> <td class="center" colspan="2"></td>  <td>$_Length <b class="red">-lt</b> 1MB</td> </tr>       
+<tr> <td class="col1 red">-le</td> <td class="border_r_dotted">以下 (≦)</td> <td class="border_l_dotted"><b class="red">l</b>ess than or <b class="red">e</b>qual to</td> <td class="center" colspan="2"><=</td>  <td>$_Length <b class="red">-le</b> 1MB</td> </tr>       
+<tr> <td class="col1 red">-like</td> <td colspan="2">あいまい検索 (ワイルドカード)</td>  <td class="center" colspan="2"></td>  <td>$_Name <b class="red">-like</b> "*.log"</td> </tr>       
+<tr> <td class="col1 red">-match</td> <td colspan="2">正規表現検索</td>  <td class="center" colspan="2"></td>  <td>$_Name <b class="red">-match</b> "[a-z]{1,}\.log"</td> </tr>       
+</table>
+
+<h2>単純分岐(if - elseif - else 節)</h2>
+<p class="code">
+$x = <ltr>100</ltr>
+
+<cmt># $x >= 80 の場合 : if 節</cmt>
+<kwd>if</kwd> ($x -ge 80)
+{
+  <kwd>Write-Output</kwd> <ltr>'変数 $x は80以上です。'</ltr>
+}
+<cmt># 上記以外で、$x >= 40 の場合 : elseif 節</cmt>
+<kwd>elseif</kwd> ($x -ge 40)
+{
+  <kwd>Write-Output</kwd> <ltr>'変数 $x は40以上80未満です。'</ltr>
+}
+<cmt># 上記以外の場合 : else 節</cmt>
+<kwd>else</kwd>
+{
+  <kwd>Write-Output</kwd> <ltr>'変数 $x は40未満です。'</ltr>
+}
+</p>
+
+<h2>多岐分岐(switch 節)</h2>
+C系言語の switch - case 、VBの select - case 節に相当。<br>
+<p class="code">
+$x = <ltr>1</ltr>
+
+<cmt># 変数 $x の値によって分岐</cmt>
+switch($x)
+{
+  <cmt># $x -eq 1 の場合</cmt>
+  1 {
+      <kwd>Write-Output</kwd> <ltr>'変数 $x は1です。'</ltr>
+      <kwd>break</kwd>
+    }
+  <cmt># $x -eq 2 の場合</cmt>
+  2 {
+      <kwd>Write-Output</kwd> <ltr>'変数 $x は2です。'</ltr>
+      <kwd>break</kwd>
+    }
+  <cmt># $x -eq 3 の場合</cmt>
+  3 {
+      <kwd>Write-Output</kwd> <ltr>'変数 $x は3です。'</ltr>
+      <kwd>break</kwd>
+    }
+  <cmt># それ以外</cmt>
+  default {
+      <kwd>Write-Output</kwd> <ltr>'変数 $x は1、2、3ではありません。'</ltr>
+    }
+}
+</p>
+break を記述することで、個別のブロック(case 節に相当)を実行後 switch 節を抜けるようになる。<br>
+break を省略すると switch 節を継続するため、条件に適合するブロックが他にも存在する場合そちらも実行される。<br>
+<p class="code">
+$x = <ltr>1</ltr>
+
+<cmt># 変数 $x の値によって分岐</cmt>
+switch($x)
+{
+  <cmt># $x -eq 1 の場合 (break 無し)</cmt>
+  1 {
+      <kwd>Write-Output</kwd> <ltr>'変数 $x は1です。'</ltr>
+    }
+  <cmt># $x -eq 1 の場合 (ひとつ上のブロックに break が無いため、このブロックも実行される)</cmt>
+  1 {
+      <kwd>Write-Output</kwd> <ltr>'変数 $x は1です。(わかってます)'</ltr>
+    }
+  <cmt># $x -eq 3 の場合</cmt>
+  3 {
+      <kwd>Write-Output</kwd> <ltr>'変数 $x は3です。'</ltr>
+    }
+  <cmt># それ以外</cmt>
+  default {
+      <kwd>Write-Output</kwd> <ltr>'変数 $x は1、2、3ではありません。'</ltr>
+    }
+}
+</p>
+実行結果
+<p class="code">
+変数 $x は1です。
+変数 $x は1です。(わかってます)
+</p>
+
+<h2>ループ構文</h2>
+<h3>for 節</h3>
+C系言語の for 節と同様。初期条件・継続条件・増分式を for 文に記述する。
+<p class="code">
+<cmt># 配列 $ary を初期化</cmt>
+$ary = <ltr>@(100, 120, 300)</ltr>
+
+<cmt># for 節</cmt>
+<cmt># ループ制御変数として $i を使用、$i  3 の間ブロックの実行を繰り返す</cmt>
+<kwd>for</kwd>($i = 0; $i -lt 3; $i++)
+{
+  <cmt># 変数 $sum に $ary[$i] の値を加算</cmt>
+  $sum += $ary[$i];
+}
+
+<cmt># 変数 $sum の値を出力</cmt>
+<kwd>Write-Output</kwd> $sum
+</p>
+実行結果
+<p class="code">
+520
+</p>
+
+<h3>foreach 節(範囲ベース for)</h3>
+C#などの foreach 節と同様。コレクション(集合)の要素を一つずつ処理できる。
+<p class="code">
+<cmt># 配列 $ary を初期化</cmt>
+$ary = <ltr>@(100, 120, 300)</ltr>
+
+<cmt># foreach 節</cmt>
+<cmt># $ary[] の値を順に $dat (一時変数)に格納</cmt>
+<kwd>foreach</kwd>($dat in $ary)
+{
+  <cmt># 変数 $sum に $dat の値を加算</cmt>
+  $sum += $dat;
+}
+
+<cmt># 変数 $sum の値を出力</cmt>
+<kwd>Write-Output</kwd> $sum
+</p>
+実行結果
+<p class="code">
+520
+</p>
+
+よりリソース消費が少ない ForEach-Object コマンドレットも存在する。<br>
+詳細は割愛。
+
+<h3>while  do ～ while 節</h3>
+C系言語の while  do ～ while 節と同様。継続条件を満たしている間、ループを繰り返す。<br>
+do ～ wihle 節は、継続条件を満たしているかに関わらず、必ず一回はループの処理を行う。<br>
+
+<h4>while 節</h4>
+<p class="code">
+$i   = <ltr>0</ltr>;
+$sum = <ltr>0</ltr>;
+$ary = <ltr>@(100, 120, 300)</ltr>
+
+<cmt># 変数 $i  3 の間、ループを継続</cmt>
+<kwd>while</kwd>($i -lt 3)
+{
+  $sum += $ary[$i];
+  $i++;
+}
+
+<kwd>Write-Output</kwd> $sum
+</p>
+
+<h4>do ～ while 節</h4>
+<p class="code">
+$i   = <ltr>0</ltr>;
+$sum = <ltr>0</ltr>;
+$ary = <ltr>@(100, 120, 300)</ltr>
+
+<kwd>do</kwd>
+{
+  $sum += $ary[$i];
+  $i++;
+} <kwd>while</kwd>($i -lt 3) <cmt>#< 変数 $i  3 の間、ループを継続</cmt>
+
+<kwd>Write-Output</kwd> $sum
+</p>
+
+</body>
+</html>

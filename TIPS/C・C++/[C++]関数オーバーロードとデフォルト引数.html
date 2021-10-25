@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>関連 :</h5>
+<a href="TIPS/ソフトウェア開発一般/[%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E6%8C%87%E5%90%91]%E3%82%B8%E3%82%A7%E3%83%8D%E3%83%AA%E3%83%83%E3%82%AF%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%20(Generic%20Programming).html">[オブジェクト指向]ジェネリックプログラミング (Generic Programming)</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++]%E4%BB%AE%E6%83%B3%E9%96%A2%E6%95%B0%20(Virtual%20Function).html">[C++]仮想関数 (Virtual Function)</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>オーバーロード(Overload)とは</h2>
+引数の型や数が異なる同名の関数を定義すること。同様の機能に対して異なるインタフェースを提供することができる。<br>
+<a href="TIPS/C%E3%83%BBC++/[C++]%E4%BB%AE%E6%83%B3%E9%96%A2%E6%95%B0%20(Virtual%20Function).html">「オーバーライド」</a>
+との混同に注意。<br>
+
+<p class="code">
+<cmt>// (C++) myabs() 関数を二通りにオーバーロード</cmt>
+<kwd>int</kwd>   myabs(<kwd>int</kwd>   a) { <kwd>return</kwd> a&lt;<ltr>0</ltr> ? -a : a; }
+<kwd>float</kwd> myabs(<kwd>float</kwd> a) { <kwd>return</kwd> a&lt;<ltr>0</ltr> ? -a : a; }
+
+<kwd>void</kwd> main()
+{
+    <cmt>// どちらの myabs() を呼ぶかは、コンパイラが引数の型から自動判別してくれる</cmt>
+    cout &lt;&lt; <ltr>"-10の絶対値"</ltr> &lt;&lt; myabs(-<ltr>10</ltr>) &lt;&lt; <ltr>"\n"</ltr>;      <cmt>//&lt; int   引数の myabs()</cmt>
+    cout &lt;&lt; <ltr>"93の絶対値" </ltr> &lt;&lt; myabs(<ltr>93</ltr>)  &lt;&lt; <ltr>"\n"</ltr>;      <cmt>//&lt; float 引数の myabs()</cmt>
+}
+</p>
+Cではオーバーロードがサポートされていないため、同様の機能を持つ関数を定義する場合に別名を割り当てる必要があった。<br>
+C++(やその他のモダン言語)ではオーバーロードにより同名の関数を定義することができるため、関数管理の煩雑さが軽減できる。<br>
+ <b>同名で定義された関数のいずれを呼ぶかは、引数の型・数からコンパイラが自動判別する</b> ため、一種のポリモーフィズムを実現できる。<br>
+<p class="code">
+<cmt>// (C) 別名で定義 ⇒ 引数によって使い分けなければならず、覚えるべき関数が増える</cmt>
+<kwd>int</kwd> myabs_int(<kwd>int</kwd> a)       { <kwd>return</kwd> a&lt;<ltr>0</ltr> ? -a : a; }
+<kwd>float</kwd> myabs_float(<kwd>float</kwd> a) { <kwd>return</kwd> a&lt;<ltr>0</ltr> ? -a : a; }
+</p>
+(上記の例では引数の型によらずロジックは共通であるため、オーバーロードよりも<a href="TIPS/ソフトウェア開発一般/[%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E6%8C%87%E5%90%91]%E3%82%B8%E3%82%A7%E3%83%8D%E3%83%AA%E3%83%83%E3%82%AF%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%20(Generic%20Programming).html">テンプレート</a>が適している。)<br>
+
+<h3>オーバーロードにおける制約</h3>
+関数をオーバーロードする際には、 <b>引数の型・数のいずれか(もしくは両方)が異なっている必要がある</b> 。<br>
+また、関数内で(同名の)オーバーロード関数を呼び出すことに制約は無い。<br>
+<p class="code">
+<kwd>struct</kwd> St_Date
+{
+    <kwd>int</kwd> year;
+    <kwd>int</kwd> month;
+    <kwd>int</kwd> day;
+}
+
+<kwd>void</kwd> putDate(<kwd>int</kwd> year, <kwd>int</kwd> month, <kwd>int</kwd> day);  <cmt>//&lt; 前方宣言</cmt>
+
+<cmt>// 構造体引数を取る putDate()</cmt>
+<kwd>void</kwd> putDate(St_Date date)
+{
+    <cmt>// 関数内でオーバーロード関数をコール</cmt>
+    putDate(dateyear, datemonth, dateday);
+}
+
+<cmt>// 年、月、日を個別に指定する putDate()</cmt>
+<kwd>void</kwd> putDate(<kwd>int</kwd> year, <kwd>int</kwd> month, <kwd>int</kwd> day)
+{
+    cout &lt;&lt; year &lt;&lt; <ltr>"/"</ltr> &lt;&lt; month &lt;&lt; <ltr>"/"</ltr> &lt;&lt; day &lt;&lt; <ltr>"\n"</ltr>
+}
+</p>
+
+<h2>デフォルト引数</h2>
+呼び出し時に指定されていない引数があるときに、仮引数にデフォルト値を充てることができる。<br>
+これは <b>デフォルト引数</b> と呼ばれ、関数オーバーロードに関連する機能である。<br>
+<p class="code">
+<cmt>// 第2引数 (b) にデフォルト値を適用</cmt>
+<kwd>int</kwd> f(<kwd>int</kwd> a, <kwd>int</kwd> b = <ltr>0</ltr>)
+{
+    :
+}
+
+:
+
+f(<ltr>3</ltr>, <ltr>7</ltr>);       <cmt>//&lt; a = 3, b = 7 (b に値を指定)</cmt>
+f(<ltr>4</ltr>);          <cmt>//&lt; a = 4, b = 0 (b は指定されていないため、デフォルト値が充てられる)</cmt>
+</p>
+別関数を定義することなく引数の数を疑似的に変更できるため、オーバーロードを用いるよりも簡便であることが多い。<br>
+但し引数の型が異なる場合など、オーバーロードを使うべき局面も多いため、使い分けが必要である。<br>
+<h3>デフォルト引数の制約</h3>
+<p class="code">
+<kwd>int</kwd> f1(<kwd>int</kwd> a    , <kwd>int</kwd> b = <ltr>0</ltr>, <kwd>int</kwd> c = <ltr>0</ltr>);    <cmt>//&lt; 第2引数以降にデフォルト値を適用</cmt>
+<kwd>int</kwd> f2(<kwd>int</kwd> a = <ltr>0</ltr>, <kwd>int</kwd> b    , <kwd>int</kwd> c = <ltr>0</ltr>);    <cmt>//&lt; この関数はエラーとなる</cmt>
+
+:
+
+f1(<ltr>3</ltr>, <ltr>1</ltr>);    <cmt>//&lt; 第1、第2引数を指定(第3引数を省略)</cmt>
+f1(<ltr>4</ltr>);       <cmt>//&lt; 第1引数を指定(第2引数以降を省略)</cmt>
+</p>
+<b>デフォルト引数はすべて、デフォルト値を持たない仮引数より右に設定しなければならない</b> 。上記の f1() では 第2引数 (b) にデフォルト値を設定しているため、第3引数(以降)もデフォルト値を設定する必要がある。<br>
+即ち、 <b>第1引数をデフォルト化した場合、すべての引数をデフォルト化する必要がある</b> 。<br>
+f2() は第1引数 (a) にデフォルト値が設定されているが、第2引数はデフォルト値が設定されていないためコンパイルが通らない。<br>
+呼び出し時も同様に、ある引数を省略した場合、以降のすべての引数を省略することとなる。<br>
+(上記の f1() において、b を省略して c を指定する、ということはできない。C#などでは引数のラベルを指定できるため、この制約は無い。)<br>
+
+<h2>オーバーロードの曖昧さ</h2>
+いずれのオーバーロード関数をコールすべきかをコンパイラが判断できない(曖昧な)状況が発生することがある。<br>
+
+<h3>自動型変換による曖昧さ</h3>
+<p class="code">
+<cmt>// f() 関数のオーバーロード</cmt>
+<kwd>float</kwd> f(<kwd>float</kwd> a);
+<kwd>double</kwd> f(<kwd>double</kwd> a);
+:
+<kwd>float</kwd> fVal = <ltr>3</ltr>.<ltr>14</ltr>;
+<kwd>double</kwd> dVal = <ltr>3</ltr>.<ltr>14</ltr>;
+
+f(fVal);    <cmt>//&lt; 引数の型が float と判明しているため曖昧ではない</cmt>
+f(dVal);    <cmt>//&lt; 引数の型が double と判明しているため曖昧ではない</cmt>
+f(<ltr>10</ltr>);      <cmt>//&lt; 引数を float 、double のどちらにも変換できる ⇒ 曖昧</cmt>
+</p>
+この例では、f() の実装自体は曖昧ではない。<br>
+引数の型が明確となっていれば特に問題は生じないが、10 という数値(整数)は float にも double にも変換できるため、どちらのオーバーロード関数を呼ぶべきかをコンパイラが判断できない。<br>
+⇒ 引数をキャストするなどして解決を図る。<br>
+<h3>本質的な曖昧さ</h3>
+<h4>参照仮引数を用いる場合</h4>
+<p class="code">
+<cmt>// f() 関数のオーバーロード</cmt>
+<kwd>void</kwd> f(<kwd>int</kwd> a);     <cmt>//&lt; 値仮引数</cmt>
+<kwd>void</kwd> f(<kwd>int</kwd>&amp; a);    <cmt>//&lt; 参照仮引数</cmt>
+:
+<kwd>int</kwd> i = <ltr>10</ltr>;
+f(i);      <cmt>//&lt; 曖昧</cmt>
+</p>
+この例はオーバーロード関数の実装自体が曖昧である。値仮引数を受け取る関数と、参照仮引数を受け取る関数では、呼び出しに構文上の違いが無いためである。<br>
+<h4>デフォルト引数との併用</h4>
+<p class="code">
+<cmt>// f() 関数のオーバーロード</cmt>
+<kwd>void</kwd> f(<kwd>int</kwd> a);
+<kwd>void</kwd> f(<kwd>int</kwd> a, <kwd>int</kwd> b = <ltr>0</ltr>);
+:
+<kwd>int</kwd> i = <ltr>10</ltr>;
+f(i);      <cmt>//&lt; 曖昧</cmt>
+</p>
+この場合も関数の実装自体が曖昧であり、回避手段は存在しない。<br>
+<h2>オーバーロード関数のアドレス</h2>
+<p class="code">
+<cmt>// f() 関数のオーバーロード</cmt>
+<kwd>void</kwd> f(<kwd>int</kwd> a);           <cmt>//&lt; *1</cmt>
+<kwd>void</kwd> f(<kwd>int</kwd> a, <kwd>int</kwd> b);    <cmt>//&lt; *2</cmt>
+:
+<cmt>// 関数ポインタの宣言</cmt>
+<kwd>void</kwd> (*fp1)(<kwd>int</kwd> a);           <cmt>//&lt; *1 に適合</cmt>
+<kwd>void</kwd> (*fp2)(<kwd>int</kwd> a, <kwd>int</kwd> b);    <cmt>//&lt; *2 に適合</cmt>
+
+<cmt>// 関数ポインタへの代入</cmt>
+fp1 = f;    <cmt>//&lt; *1 が代入される</cmt>
+fp2 = f;    <cmt>//&lt; *2 が代入される</cmt>
+</p>
+オーバーロード関数のアドレスを関数ポインタに代入する際は、 <b>引数の型、および数がポインタの宣言に合致した関数が選択される</b> 。<br>
+逆にポインタの宣言がいずれの関数宣言にも合致しない場合はコンパイルエラーとなる。<br>
+<h2>余談</h2>
+C++の旧い仕様においては、オーバーロード関数を定義する際は overload キーワードを付与する必要があった。<br>
+現在ではキーワードの付与は任意であるが、オーバーロード関数であることを明示するために付与する意義はある。<br>
+</body>
+</html>
+

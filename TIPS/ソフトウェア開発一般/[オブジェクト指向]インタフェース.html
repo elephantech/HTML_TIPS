@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+
+<a href="https://ja.wikipedia.org/wiki/%E3%82%A4%E3%83%B3%E3%82%BF%E3%83%95%E3%82%A7%E3%83%BC%E3%82%B9_(%E6%8A%BD%E8%B1%A1%E5%9E%8B)">
+インタフェース (抽象型) - Wikipedia</a><br>
+
+<a href="https://qiita.com/yoshinori_hisakawa/items/cc094bef1caa011cb739">
+【詳解】抽象クラスとインタフェースを使いこなそう！！ - Qiita</a><br>
+
+<a href="https://www.internetacademyjpitprogrammingjavadifference-between-interface-and-abstract.html">
+【Java入門】インターフェースとは？抽象クラス（abstract）との違い</a><br>
+
+<h5>関連 :</h5>
+
+<a href="TIPS/C%E3%83%BBC++/[C++]%E7%B6%99%E6%89%BF%20(Inheritance).html">
+[C++]継承 (Inheritance)</a><br>
+
+<a href="TIPS/C%E3%83%BBC++/[C++]%E4%BB%AE%E6%83%B3%E9%96%A2%E6%95%B0%20(Virtual%20Function).html">
+[C++]仮想関数 (Virtual Function)</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>(オブジェクト指向言語における)インタフェースとは</h2>
+オブジェクト指向言語においてサポートされる、実装を持たない抽象型のこと。即ち、引数と戻り値のみを定めた<b>純粋仮想関数のみを有する</b>クラスを指す。<br>
+複数のクラスが任意のインタフェースを実装(implement)することができ、共通のインタフェースを実装した複数のクラスを多態性(ポリモーフィズム)によって統一的に扱うことができるようになる。<br>
+見方を変えると、インタフェースはそれを実装する具象クラスに対して、自身が宣言する純粋仮想関数をオーバライドすることを強制するため、<br>
+各具象クラスの在り方を規定するものであると言える。<br><br>
+広義の「インタフェース」(入出力)や、APIを意味する「インタフェース」との混同に注意。<br>
+(いずれもソフトウェア開発では一般的に用いられる。)<br>
+
+<h2>抽象クラスとの違い</h2>
+インタフェースは純粋仮想関数を含んでいるため、(広義の)抽象クラスである。<br>
+但し(インタフェースではない狭義の)抽象クラスとは用いられ方に差がある。<br>
+<ul>
+<li>(狭義の)抽象クラス : 具象クラスとの関係は <b class="red">is-a</b><br>「具象クラス(リンゴ)は抽象クラス(果物)である」</li>
+<li>インタフェース : 実装クラスとの関係は <b class="dgreen">part-of</b><br>「インタフェース(車輪)は実装クラス(クルマ、バイク)の一部(部品)である」</li>
+</ul>
+多重継承が認められているC++では、インタフェースと(狭義の)抽象クラスとの間に明確な区分は無い。<br>
+(そもそもインタフェースの概念自体が存在しない。)<br>
+JavaやC#ではクラスの多重継承が認められていないが、インタフェースの多重実装は認められており、<br>
+「クラスの定義・継承」と「インタフェースの定義・実装」は明確に区別される。<br>
+
+<h2>インタフェースの例</h2>
+<h3>Java</h3>
+<h4>インタフェースの定義</h4>
+(Cashierjava)
+<p class="code">
+<cmt>// 「レジ」インタフェース</cmt>
+<kwd>public</kwd> <kwd>interface</kwd> Cashier
+{
+    <cmt>// 「会計」メソッド</cmt>
+    <kwd>public</kwd> <kwd>void</kwd> bill();
+}
+</p>
+class ではなく <b>interface</b> キーワードを用いる点に注意。
+
+<h4>インタフェースの実装</h4>
+(CreditCard.java)
+<p class="code">
+<cmt>// 「クレジットカード」</cmt>
+<cmt>// インタフェース Cashier を実装</cmt>
+<kwd>public</kwd> <kwd>class</kwd> CreditCard <kwd>implements</kwd> Cashier
+{
+    <cmt>// 「会計」メソッドのオーバーライド</cmt>
+    @Override
+    <kwd>public</kwd> <kwd>void</kwd> bill()
+    {
+        System.out.println(<ltr>"クレジットカードでお会計をいたします。"</ltr>);
+    }
+}
+</p>
+
+(Cash.java)
+<p class="code">
+<cmt>// 「現金」</cmt>
+<cmt>// インタフェース Cashier を実装</cmt>
+<kwd>public</kwd> <kwd>class</kwd> Cash <kwd>implements</kwd> Cashier
+{
+    <cmt>// 「会計」メソッドのオーバーライド</cmt>
+    @Override
+    <kwd>public</kwd> <kwd>void</kwd> bill()
+    {
+        System.out.println(<ltr>"現金でお会計をいたします。"</ltr>);
+    }
+}
+</p>
+<b>implements</b> キーワードにより、インタフェースを実装することを宣言。bill() をオーバーライド( <b>@Override</b> )する。<br>
+
+<h4>実装されたインタフェースの呼び出し</h4>
+(Staff.java)
+<p class="code">
+<cmt>// 「スタッフ」</cmt>
+<kwd>public</kwd> <kwd>class</kwd> Staff
+{
+    <kwd>public</kwd> <kwd>static</kwd> <kwd>void</kwd> main(<kwd>string</kwd>[] arg)
+    {
+        Cashier cashier[] = <kwd>new</kwd> cashier[<ltr>2</ltr>];
+        cashier[<ltr>0</ltr>] = <kwd>new</kwd> CreditCard();
+        cashier[<ltr>1</ltr>] = <kwd>new</kwd> Cash();
+        
+        <kwd>int</kwd> i = GetPaymentMethod();
+        
+        cashier[i].bill();
+    }
+}
+</p>
+
+CreditCard 、Cash ともに Cashier を実装しているため、Staff では CreditCard 、Cash のいずれであるかを意識することなく、共通の手法で呼び出すことができる。
+
+
+</body>
+</html>
+
+
+

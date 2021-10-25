@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="
+https://excelworkinfoexceldatabaseoracleodbc
+">
+データベース（Oracle）に接続する（ODBCを使用） | ExcelWorkinfo
+</a><br>
+
+<h5>関連 :</h5>
+<a href="
+TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS//%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9ODBC%E3%81%AB%E3%82%88%E3%82%8BOracle%20DB%E6%8E%A5%E7%B6%9Ahtml
+">
+ODBCによるOracle DB接続
+</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
+
+<h2>VBAからのOracle DB接続(ODBC使用)</h2>
+Oracle製ODBCドライバ(ここでは Instant Client 198)を使用してOracle DBに接続するためのサンプルコードを以下に記す。<br>
+ODBCの設定に関しては、<a href="
+TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS//%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9ODBC%E3%81%AB%E3%82%88%E3%82%8BOracle%20DB%E6%8E%A5%E7%B6%9Ahtml
+">
+ODBCによるOracle DB接続
+</a> を参照のこと。
+
+<p class="code">
+<kwd>Sub</kwd> Sample_ODBC_oracle()
+
+    <kwd>Const</kwd> DRIVER = <ltr>"{Oracle in instantclient_19_8}"</ltr> <cmt>' ドライバ名</cmt>
+    <kwd>Const</kwd> IP = <ltr>"100.50.53.129"</ltr>                      <cmt>' 接続先のIPアドレス</cmt>
+    <kwd>Const</kwd> PORT = <ltr>"1521"</ltr>                             <cmt>' ポート番号</cmt>
+    <kwd>Const</kwd> NETSERVICENAME = <ltr>"p2db"</ltr>                   <cmt>' ネットサービス名</cmt>
+
+    <kwd>Const</kwd> DSN = <ltr>"PRIME2"</ltr>                            <cmt>' データソース名 (tnsnamesora で設定)</cmt>
+
+    <kwd>Const</kwd> USERNAME = <ltr>"p2dbown"</ltr>                      <cmt>' ユーザー名</cmt>
+    <kwd>Const</kwd> PASSWORD = <ltr>"p2dbown"</ltr>                      <cmt>' パスワード</cmt>
+    
+<cmt>    ' ---------------------------------------</cmt>
+<cmt>    ' 接続文字列の構成</cmt>
+<cmt>    ' (接続方法は以下のいずれかを選択する)</cmt>
+    <kwd>Dim</kwd> strCon <kwd>As String</kwd>
+
+<kwd>#If</kwd> 1 <kwd>Then</kwd>
+<cmt>    ' ドライバと接続先を直接指定する場合</cmt>
+    strCon = <ltr>"DRIVER="</ltr> / DRIVER
+    strCon = strCon / <ltr>";DBQ="</ltr> / <ltr>"(DESCRIPTION = "</ltr> / _
+                                    <ltr>"(ADDRESS = (PROTOCOL = TCP)"</ltr> / _
+                                               <ltr>"(HOST = "</ltr> / IP / <ltr>")"</ltr> / _
+                                               <ltr>"(PORT = "</ltr> / PORT / <ltr>"))"</ltr> / _
+                                    <ltr>"(CONNECT_DATA = (SERVICE_NAME = "</ltr> / NETSERVICENAME / <ltr>")))"</ltr>
+<kwd>#Else</kwd>
+<cmt>    ' データソース名を指定する場合</cmt>
+<cmt>    ' (事前に tnsnamesora でのデータソース定義が必要)</cmt>
+    strCon = <ltr>"DSN="</ltr> / DSN
+<kwd>#End If</kwd>
+
+    strCon = strCon / <ltr>";UID="</ltr> / USERNAME
+    strCon = strCon / <ltr>";PWD="</ltr> / PASSWORD
+    
+<cmt>    ' ---------------------------------------</cmt>
+<cmt>    ' 接続確立</cmt>
+    <kwd>Dim</kwd> cn <kwd>As</kwd> ADODBConnection
+    <kwd>Set</kwd> cn = <kwd>New</kwd> ADODBConnection
+    cnConnectionString = strCon
+    cnOpen
+
+<cmt>    ' ---------------------------------------</cmt>
+<cmt>    ' SQL文構成</cmt>
+    <kwd>Dim</kwd> strSQL <kwd>As String</kwd>
+    strSQL = <ltr>"select * from table01 order by id desc"</ltr>
+    
+<cmt>    ' ---------------------------------------</cmt>
+<cmt>    ' SQL文実行(データ取得)</cmt>
+    <kwd>Dim</kwd> rs <kwd>As</kwd> ADODBRecordset
+    <kwd>Set</kwd> rs = <kwd>New</kwd> ADODBRecordset
+    rsOpen strSQL, cn
+
+<cmt>    ' ---------------------------------------</cmt>
+<cmt>    ' 取得したデータをワークシートに転記</cmt>
+    <kwd>Dim</kwd> col <kwd>As Long</kwd>
+    <kwd>Dim</kwd> row <kwd>As Long</kwd>
+
+    <kwd>With</kwd> Worksheets(<ltr>"oracle_odbc"</ltr>)
+
+        CellsClear
+    
+<cmt>        ' フィールド名</cmt>
+        <kwd>For</kwd> col = <ltr>0</ltr> To rsFieldsCount - <ltr>1</ltr>
+            Cells(<ltr>1</ltr>, col + <ltr>1</ltr>) = rs(col).Name
+        <kwd>Next</kwd> col
+    
+<cmt>        ' レコード</cmt>
+        <kwd>Do Until</kwd> rsEOF
+            <kwd>For</kwd> col = <ltr>0</ltr> To rsFieldsCount - <ltr>1</ltr>
+                Cells(row + <ltr>2</ltr>, col + <ltr>1</ltr>) = rs(col).Value
+            <kwd>Next</kwd> col
+            row = row + <ltr>1</ltr>
+            rsMoveNext
+        <kwd>Loop</kwd>
+    
+    <kwd>End With</kwd>
+    
+    rsClose
+    cnClose
+    <kwd>Set</kwd> cn = <kwd>Nothing</kwd>
+    
+<kwd>End Sub</kwd>
+</p>
+
+<h3>Recordset に読み込んだデータへのアクセス</h3>
+Recordset (オブジェクト名を rs とする)のデータは、上記のようにフィールドのインデクス(0 起算)を指定するか、<br>
+またはフィールド名を直接指定することで取得できる。<br>
+データを読み込んだ直後は先頭のレコードを指しており、rsMoveNext で次のレコードを指すようになる。<br>
+(繰り返すことで rsEOF に到達するまで読み進めることができる)<br>
+rsMoveFirst で先頭のレコードまで巻き戻すことも可能。<br>
+ここで、読み込んだデータが Null の場合、そのままユーザ定義型()などに格納しようとするとエラーとなるため、<br>
+必要に応じて IsNull() プロシージャで Null かどうかを確認して対処する。
+<p class="code">
+<cmt>    ' インデクス(col)でフィールドを指定</cmt>
+<cmt>    ' col : 0 ～ rsFieldsCount - 1</cmt>
+    tempVal = rs(col).Value
+
+<cmt>    ' フィールド名("Hoge")でフィールドを指定</cmt>
+    tempVal = rsFields("Hoge").Value
+
+<cmt>    ' 取得した値が Null であれば 0 に置換する</cmt>
+    <kwd>If</kwd> IsNull(tempVal) <kwd>Then</kwd>
+        Cells(1, 1).Value = 0
+    <kwd>Else</kwd>
+        Cells(1, 1).Value = tempVal
+    <kwd>End If</kwd>
+</p>
+</body>
+</html>

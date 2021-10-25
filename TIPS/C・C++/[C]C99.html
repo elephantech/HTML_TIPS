@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://ja.wikipedia.org/wikiC99">C99 - Wikipedia</a><br>
+<a href="https://qiita.com/yumetodo/items/e49a673afd9a3ecb81a8">C99からC++14を駆け抜けるC++講座 - Qiita</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FC99]%E3%82%A4%E3%83%B3%E3%83%A9%E3%82%A4%E3%83%B3%E9%96%A2%E6%95%B0%20(Inline%20Function).html">[C++／C99]インライン関数 (Inline Function)</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>C99 (ISO/IEC 9899:1999) とは</h2>
+ISOで定められたC言語の規格。名称は1999年に発行されたことに由来している。<br>
+ANSIによる標準化(C89)以後、言語仕様の進化が遅れていたCに対して、C++の機能やコンパイラの独自機能を取り入れる大規模な改訂が行われた。<br>
+後継規格としてC11 (ISO/IEC 9899:2011) が存在する。<br>
+
+<h2>C99の新機能</h2>
+ここに挙げるもの以外は出典元を参照。<br>
+
+<h3>インライン関数</h3>
+関数の処理内容を呼び出し箇所に展開することで、通常の関数よりはるかに高速に実行することができる。<br>
+<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FC99]%E3%82%A4%E3%83%B3%E3%83%A9%E3%82%A4%E3%83%B3%E9%96%A2%E6%95%B0%20(Inline%20Function).html">[C++／C99]インライン関数 (Inline Function)</a>を参照。<br>
+
+<h3>明示的なブーリアン型 (bool)</h3>
+C++同様、ブーリアン値を格納するための bbool</b> 型および、真・偽を表す btrue 、false</b> を使用可能。<br>
+使用するためには bstdboolh</b> のインクルードが必要。<br>
+<p class="code">
+<kwd>#include</kwd> &lt;stdboolh&gt;
+<kwd>bool</kwd> b = <kwd>false</kwd>;
+...
+b = <kwd>true</kwd>;
+</p>
+
+<h3>倍精度長整数型のサポート (long long)</h3>
+64ビットの幅を持つ <b>(signed) long long (int) 、unsigned long long (int)</b> を使用可能。<br>
+リテラルの接尾辞はそれぞれ LL 、ULL。<br>
+<p class="code">
+<kwd>#define</kwd> S8_MAX (  <kwd>signed long long</kwd>)<ltr>0x7FFFFFFFFFFFFFFFLL</ltr>     <cmt>//&lt;   signed long long int 最大値 (接尾辞LL)</cmt>
+<kwd>#define</kwd> S8_MIN (  <kwd>signed long long</kwd>)<ltr>0x8000000000000000LL</ltr>     <cmt>//&lt;   signed long long int 最小値 (接尾辞LL)</cmt>
+<kwd>#define</kwd> U8_MAX (<kwd>unsigned long long</kwd>)<ltr>0xFFFFFFFFFFFFFFFFULL</ltr>    <cmt>//&lt; unsigned long long int 最大値 (接尾辞ULL)</cmt>
+</p>
+
+<h3>ローカル変数の宣言位置制約の撤廃</h3>
+C89では、ローカル変数はコードブロック(関数など、{} (ブレース)で囲まれた区間)の先頭で宣言する必要があったが、bC++同様、コードブロックの途中でも変数を宣言できる</b> 。<br>
+<br>
+
+C89:<br>
+<p class="code">
+<kwd>int</kwd> func(<kwd>void</kwd>)
+{
+    <cmt>/* 関数内で用いるローカル変数は</cmt>
+<cmt>       関数の先頭でまとめて宣言     */</cmt>
+    <kwd>int</kwd> n;
+    <kwd>int</kwd> x;
+
+    DoSomething();
+
+    <kwd>for</kwd> (n=<ltr>0</ltr>; n&lt;<ltr>3</ltr>; n++)
+    {
+        :
+    }
+}
+</p>
+<br>
+
+C99:<br>
+<p class="code">
+<kwd>int</kwd> func(<kwd>void</kwd>)
+{
+    <kwd>int</kwd> x;
+
+    DoSomething();
+
+    <cmt>// ループ制御変数を、使用する直前に宣言</cmt>
+    <kwd>int</kwd> n;
+    <kwd>for</kwd> (n=<ltr>0</ltr>; n&lt;<ltr>3</ltr>; n++)
+    {
+        :
+    }
+
+    <cmt>// ループ制御変数を for 節でのみ用いるのであれば、さらに短縮できる( for 文中で宣言・初期化)</cmt>
+    <kwd>for</kwd> (<kwd>int</kwd> m=<ltr>0</ltr>; m&lt;<ltr>3</ltr>; m++)
+    {
+        :
+    }
+    <cmt>// for 節を抜けた時点で、m の寿命は終わっている</cmt>
+}
+</p>
+
+<h3>//から始まる一行コメント</h3>
+BCPLやC++と同じスタイルでコメントを記述できる。従来の/* ～ */スタイルも使用可能。<br>
+
+<h3>__func__ マクロ</h3>
+現在実行中の関数名を取得できる。<br>
+
+<p class="code">
+<kwd>void</kwd> DoSomething()
+{
+    <cmt>// DoSomethihg が出力される</cmt>
+    printf(<ltr>"%s"</ltr>, __func__);
+}
+</p>
+
+<h3>指示初期化子</h3>
+配列・構造体の特定の要素を指定して初期化できる。<br>
+
+<h4>配列</h4>
+<p class="code">
+<cmt>// a[7] のみを初期化</cmt>
+<kwd>int</kwd> a[<ltr>9</ltr>] = {
+    [<ltr>7</ltr>] = <ltr>0</ltr>
+};
+
+<cmt>// 複数の要素を初期化(カンマで区切る)</cmt>
+<kwd>int</kwd> b[<ltr>8</ltr>] = {
+    [<ltr>1</ltr>] = <ltr>0</ltr>,    <cmt>//&lt; b[1]</cmt>
+    <ltr>1</ltr>,          <cmt>//&lt; 添字指定なし ⇒ ひとつ前の要素の次 ⇒ b[2]</cmt>
+    [<ltr>4</ltr>] = <ltr>0</ltr>,    <cmt>//&lt; b[4]</cmt>
+    <ltr>2</ltr>,          <cmt>//&lt; b[5]</cmt>
+    <ltr>3</ltr>,          <cmt>//&lt; b[6]</cmt>
+};
+
+<cmt>// 不完全形(サイズ未知) ⇒ 指定された最大の添字からサイズが決定される ⇒ サイズ 6</cmt>
+<kwd>int</kwd> c[] = {
+    [<ltr>4</ltr>] = <ltr>0</ltr>,    <cmt>//&lt; c[4]</cmt>
+    <ltr>4</ltr>,          <cmt>//&lt; c[5] ⇒ 末尾</cmt>
+};
+</p>
+
+<h4>構造体</h4>
+<p class="code">
+<kwd>typedef</kwd> <kwd>struct</kwd> tagSt_Rectangle
+{
+    <kwd>int</kwd> x;
+    <kwd>int</kwd> y;
+    <kwd>int</kwd> width;
+    <kwd>int</kwd> height;
+} St_Rectangle;
+
+<kwd>int</kwd> main ()
+{
+    St_Rectangle st_r =
+    {
+        y = <ltr>0</ltr>,  <cmt>//&lt; 要素 y</cmt>
+        <ltr>100</ltr>      <cmt>//&lt; 要素 y の次 ⇒ 要素 width</cmt>
+    };
+}
+</p>
+
+<h3>複合リテラル</h3><br>
+構造体・配列(固定長のみ)をリテラルとして生成できる。<br>
+
+<p class="code">
+<kwd>typedef</kwd> <kwd>struct</kwd> tagSt_Point
+{
+    <kwd>int</kwd> x;
+    <kwd>int</kwd> y;
+} St_Point;
+ 
+St_Point center(<kwd>const</kwd> St_Point*p1, <kwd><kwd>const</kwd></kwd> St_Point*p2)
+{
+    <cmt>// 戻り値を複合リテラルと指示初期化子を用いて生成</cmt>
+    <kwd>return</kwd> (St_Point)
+    {
+          x = (p1-&gt;x + p2-&gt;x)  <ltr>2</ltr>,
+          y = (p1-&gt;y + p2-&gt;y)  <ltr>2</ltr>
+    };
+}
+ 
+<kwd>int</kwd> main(<kwd><kwd>int</kwd></kwd> argc, <kwd>char</kwd> **argv)
+{
+    <cmt>// center() の引数を複合リテラルを用いて生成</cmt>
+    St_Point p = center(&amp;(St_Point){<ltr>1</ltr>, <ltr><ltr>2</ltr></ltr>}, &amp;(St_Point){<ltr><ltr>2</ltr></ltr>, <ltr>3</ltr>});
+    printf(<ltr>"(%d, %d)¥n"</ltr>, px, py);
+}
+</p>
+<br>
+
+上記の center() 関数は以下と等価である。<br>
+<p class="code">
+St_Point center(<kwd>const</kwd> St_Point*p1, <kwd><kwd>const</kwd></kwd> St_Point*p2)
+{
+    <cmt>// 戻り値を構成するための一時変数</cmt>
+    St_Point ret =
+    {
+          (p1-&gt;x + p2-&gt;x)  <ltr>2</ltr>,
+          (p1-&gt;y + p2-&gt;y)  <ltr>2</ltr>
+    };
+
+    <kwd>return</kwd> ret;
+}
+</p>
+<br>
+
+即ち、暗黙の自動変数を生成している。(関数)スコープを抜けた時点でこの変数の寿命は終わってしまうため、以下のような記述は正常に動作しない。<br>
+<p class="code">
+St_Point* center(<kwd>const</kwd> St_Point*p1, <kwd><kwd>const</kwd></kwd> St_Point*p2)
+{
+    <cmt>// 暗黙の自動変数のアドレスを返す ⇒ 自動変数は関数を抜けると消滅するため参照できない</cmt>
+    <kwd>return</kwd> &amp;(St_Point)
+    {
+          x = (p1-&gt;x + p2-&gt;x)  <ltr>2</ltr>,
+          y = (p1-&gt;y + p2-&gt;y)  <ltr>2</ltr>
+    };
+}
+</p>
+
+<h2>注意すべき点( C89との相違 )</h2>
+宣言時に型を省略した場合、C89では暗黙的に int と見なしていたが、C99ではコンパイルエラーとなる。<br>
+同様に、プロトタイプの無い関数はC89では戻り値の型は int 、引数の数、型は任意と解釈されるが、C99では文法違反となる。<br>
+即ち、 <b>プロトタイプ宣言(前方宣言)、または前方定義が必須</b> で、これらはいずれもC++と同様である。<br>
+
+<h2>コンパイラのバージョン判別</h2>
+コンパイラがサポートしているCのバージョンは、標準マクロとして定義される b__STDC_VERSION__</b> (標準Cバージョン)の値から判別できる。<br>
+ <b>__STDC_VERSION__ &gt;= 199901L : C99(以降)</b> <br>
+ <b>__STDC_VERSION__ &gt;= 201112L : C11(以降)</b> <br>
+尚、コンパイラがC++をサポートしているかはマクロ  <b>__cplusplus</b>  が定義されているかで確認できる。<br>
+GCCはC99の大半の機能をサポートするが、一部未実装のものもあり、完全準拠は果たしていない。<br>
+Microsoft Visual C++ は2013からC99の大半に適合する。<br>
+
+</body>
+</html>
+

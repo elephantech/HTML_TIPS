@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>設定の作成(Visual Studio使用)</h2>
+<ol>
+<li><b>Properties</b> を選択。<br>
+(または、プロジェクトのプロパティを表示し、「設定」タブを選択)<br>
+<img src="_Img/MSVS_DotNet_CSharp/AppSettingCS_AppSetting_01.png">
+</li>
+<li>各項目を設定する。<br>
+アプリケーション内で値を更新する場合はスコープを「ユーザ」、読み込むだけであれば「アプリケーション」に設定する。<br>
+(型が string の場合でも、二重引用符は不要。テキストボックスに abcd と入力すると、値 abcd が設定される)<br>
+<img src="_Img/MSVS_DotNet_CSharp/AppSettingCS_AppSetting_02.png">
+</li>
+</ol>
+
+<h2>設定の読み込み・保存</h2>
+設定の取得・更新はプロパティ <b class="red">Properties.Settings.Default</b> を用いる。<br>
+更新後の値は <b class="red">Properties.Settings.DefaultSave()</b> をコールするまで保存されない。<br>
+
+<p class="code">
+<cmt>// 設定の読み込み</cmt>
+var val01 = <b class="red">Properties.Settings.Default["PortNum_01"]</b>.ToString();    <cmt>//< 項目 PortNum_01 の取得 ┐ どちらでも</cmt>
+var val02 = <b class="red">Properties.Settings.Default.PortNum_01</b>.ToString();       <cmt>//< 項目 PortNum_01 の取得 ┘ 同じ</cmt>
+
+<cmt>// 設定の更新</cmt>
+<b class="red">Properties.Settings.Default["PortNum_01"]</b> = 0000";                  <cmt>//< 項目 PortNum_01 の更新 ┐ どちらでも</cmt>
+<b class="red">Properties.Settings.Default.PortNum_01</b> = 1111";                     <cmt>//< 項目 PortNum_01 の更新 ┘ 同じ</cmt>
+
+<cmt>// 設定の保存</cmt>
+<b class="red">Properties.Settings.Default.Save()</b>;
+</p>
+
+<h3>設定の読み込み元・保存先ファイル</h3>
+アプリケーションが保存したユーザコンフィグが存在する場合は、そちらを優先して読み込む。
+<ul>
+<li>(初回)読み込み元 : 設定を使用するアプリケーション(####.exe)に対応する config ファイル(####.exe.config)<br>
+<img src="_Img/MSVS_DotNet_CSharp/AppSetting/CS_AppSetting_03.png"> </li>
+<li>保存先・保存後の読み込み元 : ユーザコンフィグ<br>
+<img src="_Img/MSVS_DotNet_CSharp/AppSetting/CS_AppSetting_04.png"> </li>
+</ul>
+
+</body>
+</html>

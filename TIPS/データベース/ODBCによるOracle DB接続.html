@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="
+https://notekiriukuncomentry20151124-oracle-instant-client-odbc
+">
+TIPS/でOracleDBにOracle Instant ClientでODBC接続する - キリウ君が読まないノート
+</a><br>
+
+<a href="
+https://ja.wikipedia.org/wikiOpen_Database_Connectivity
+">
+Open Database Connectivity - Wikipedia
+</a><br>
+
+<a href="
+https://www.oraclecomtechnetworkjpcontent0127-1330-db-middleware-297515-japdf
+">
+Oracle DB接続ミドルウェアを理解する[PDF]
+</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>ODBCとは</h2>
+ODBC(Open Database Connectivity)は、関係データベース管理システム(RDBMS)にアクセスするための共通インタフェース(API)である。<br>
+アプリケーション(主に)からデータベースに接続する際に用いられる。
+
+<h3>OracleとODBC</h3>
+Oracleからは、データベース接続用のミドルウェアがアプリケーションプラットフォーム(言語)に合わせて複数リリースされており、ODBCミドルウェアもその一つである。<br>
+以前はMicrosoftからもOracleに接続できるODBCドライバがリリースされていたが、現在はサポートされていない。<br>
+
+<h2>導入手順(20213時点)</h2>
+<h3>Oracle Instant Clientのインストール</h3>
+<h4>注意が必要な点</h4>
+ODBCミドルウェアを呼び出すアプリケーションと、ミドルウェアのアーキテクチャ(32-bit  64-bit)を合わせる必要がある。<br>
+(OSのアーキテクチャとは必ずしも一致しない点に注意)<br>
+例えば、Excel(32-bit)から64-bitのミドルウェアは呼び出せない。
+
+<h4>ダウンロード</h4>
+「Basicパッケージ」と「ODBCパッケージ」の両方をダウンロードする。<br>
+また、実行にはVisual Studio 2017再頒布可能パッケージが必要となるため、併せてダウンロードする。<br>
+
+<table>
+	<tr class="row1 border_b_dotted">
+		<td class="col1" rowspan="3"></td>
+		<td colspan="4">Olacle Instant Client</td>
+		<td rowspan="3">Visual Studio<br>再頒布可能パッケージ</td>
+	</tr>
+	<tr class="row1 border_t_dotted border_b_dotted">
+		<td colspan="2">バージョン19.8.0.0.0</td>
+		<td colspan="2">バージョン21.3.0.0.0</td>
+	</tr>
+	<tr class="row1 border_t_dotted">
+		<td>Basicパッケージ</td>
+		<td>ODBCパッケージ</td>
+		<td>Basicパッケージ</td>
+		<td>ODBCパッケージ</td>
+	</tr>
+	<tr>
+		<td width="16%" class="col1">x86 (32ビット)</td>
+		<td width="16%" class="center"><a href="https://download.oracle.com/otn_software/nt/instantclient/198000/instantclient-basic-nt-19.8.0.0.0.zip">ダウンロード</a></td>
+		<td width="16%" class="center"><a href="https://download.oracle.com/otn_software/nt/instantclient/198000/instantclient-odbc-nt-19.8.0.0.0.zip">ダウンロード</a></td>
+		<td width="16%" class="center"><a href="https://download.oracle.com/otn_software/nt/instantclient/213000/instantclient-basic-nt-21.3.0.0.0.zip">ダウンロード</a></td>
+		<td width="16%" class="center"><a href="https://download.oracle.com/otn_software/nt/instantclient/213000/instantclient-odbc-nt-21.3.0.0.0.zip">ダウンロード</a></td>
+		<td width="16%" class="center"><a href="https://aka.ms/vs/16/release/vc_redist.x86.exe">ダウンロード</a></td>
+	</tr>
+	<tr>
+		<td class="col1">x64 (64ビット)</td>
+		<td width="16%" class="center"><a href="https://download.oracle.com/otn_software/nt/instantclient/198000/instantclient-basic-windows.x64-19.8.0.0.0.zip">ダウンロード</a></td>
+		<td width="16%" class="center"><a href="https://download.oracle.com/otn_software/nt/instantclient/198000/instantclient-odbc-windows.x64-19.8.0.0.0.zip">ダウンロード</a></td>
+		<td width="16%" class="center"><a href="https://download.oracle.com/otn_software/nt/instantclient/213000/instantclient-basic-windows.x64-21.3.0.0.0.zip">ダウンロード</a></td>
+		<td width="16%" class="center"><a href="https://download.oracle.com/otn_software/nt/instantclient/213000/instantclient-odbc-windows.x64-21.3.0.0.0.zip">ダウンロード</a></td>
+		<td width="16%" class="center"><a href="https://aka.ms/vs/16/release/vc_redist.x64.exe">ダウンロード</a></td>
+	</tr>
+</table>
+
+<h4>Visual Studio 再頒布可能パッケージのインストール</h4>
+ダウンロードしたVC_redist.***.exe を実行する。
+
+<h4>Oracle Instant Clientの展開</h4>
+ダウンロードしたZIPファイルを解凍し、内容物を一つのフォルダ(任意)に格納する。<br>
+ここでは、<b>C:\oracle\instantclient_19_8</b> に格納するものとする。
+
+<h4>ODBCドライバのインストール</h4>
+コマンドプロンプトを<b>管理者権限で開き</b>、
+<p class="code">
+cd C:\oracle\instantclient_19_8
+odbc_install.exe JA
+</p>
+を実行する。
+
+<h4>tnsnames.ora の作成</h4>
+tnsnames.ora はOracle DBへの接続情報を保持するテキストファイルである。<br>
+ここでは、<b>C:\oracle\instantclient_19_8\network\admin\</b> 下に以下の内容で作成するものとする。
+<p class="code">
+<cmt># データソース名 : PRIME2
+# IP             : 10141461
+# ポート番号     : 1521
+# サービス名     : p2db</cmt>
+
+PRIME2=
+(DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 10141461)(PORT = 1521))
+    (CONNECT_DATA =
+        (SERVICE_NAME = p2db)
+    )
+)
+</p>
+<br>
+この時点での C:\oracle\instantclient_19_8 の構成<br>
+<img src="_Img/DataBase/Oracle_with_ODBC/01.png"><br>
+
+<h4>環境変数の設定</h4>
+環境変数を以下のとおりに設定する。<br>
+<table>
+<tr>
+<td>PATH</td>
+<td>C:\oracle\instantclient_19_8</td>
+</tr>
+<tr>
+<td>NLS_LANG</td>
+<td>JAPANESE_JAPAN.JA16EUC</td>
+</tr>
+<tr>
+<td>TNS_ADMIN</td>
+<td>C:\oracle\instantclient_19_8\network\admin</td>
+</tr>
+</table>
+
+<h3>ODBCデータソースの設定</h3>
+<ol>
+<li>
+「コントロール パネル」「すべてのコントロール パネル項目」「管理ツール」を開き、<br>
+インストールしたInstant Clientが32-bitの場合は<b>「ODBC Data Sources (32-bit)」</b>、<br>
+64-bitの場合は<b>「ODBC データ ソース (64 ビット)」</b>を開く。<br>
+以下、操作は共通。<br>
+<img src="_Img/DataBase/Oracle_with_ODBC/07.png"><br>
+</li>
+
+<li>
+「ユーザー DSN」タブにて「追加」を押す。<br>
+<img src="_Img/DataBase/Oracle_with_ODBC/02.png"><br>
+</li>
+
+<li>
+前手順でインストールした「Oracle in instantclient_19_8」を選択し、「完了」を押す。<br>
+<img src="_Img/DataBase/Oracle_with_ODBC/03.png"><br>
+</li>
+
+<li>
+「データソース名」に任意の名称を、「TNSサービス名」に tnsnames.ora で指定したデータソース名を入力し、「接続テスト」を押す。<br>
+<img src="_Img/DataBase/Oracle_with_ODBC/04.png"><br>
+</li>
+
+<li>
+「ユーザー名」と「パスワード」を入力し、「OK」を押す。接続に成功すると、その旨が表示される。<br>
+<img src="_Img/DataBase/Oracle_with_ODBC/05.png"><br>
+</li>
+
+<li>
+「Oracle ODBCドライバ構成」画面に戻るので、「OK」を押す。<br>
+</li>
+
+<li>
+データソースが追加される。<br>
+<img src="_Img/DataBase/Oracle_with_ODBC/06.png"><br>
+</li>
+</ol>
+
+</body>
+</html>

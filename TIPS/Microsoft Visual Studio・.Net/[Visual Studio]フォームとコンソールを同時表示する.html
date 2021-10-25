@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>フォームとコンソールを同時に表示する手順</h2>
+デバッグ用途などでフォームに加えてコンソールを表示する際の手順を以下に記す。
+
+<ol>
+<li>
+Visual Studioから新しいプロジェクトを作成する。その際、テンプレートには「フォーム アプリケーション」を指定する。<br>
+(図はC# Netの例)<br>
+<img src="_Img/MSVS_DotNet_CSharp/VS_Form_And_Console/01.png"><br>
+</li>
+
+<li>
+作成したソリューションを開き、ソリューション エクスプローラー上でプロジェクトを右クリック、「プロパティ」を選択する。<br>
+<img src="_Img/MSVS_DotNet_CSharp/VS_Form_And_Console/02.png"><br>
+</li>
+
+<li>
+「アプリケーション」「出力の種類」を「TIPS/ アプリケーション」から「コンソール アプリケーション」に切り替える。<br>
+<img src="_Img/MSVS_DotNet_CSharp/VS_Form_And_Console/03.png"><br>
+</li>
+
+<li>
+ビルドを実行し、アプリケーションを起動すると、フォームとともにコンソールが表示される。<br>
+</li>
+</ol>
+
+<h2>注意が必要な点</h2>
+コンソールを×ボタンで閉じた場合も、フォームを閉じた場合と同様にアプリケーションが終了してしまう。<br>
+このため、コンソールの×ボタンを無効化しておくとよい。<br>
+(以下はC#におけるコード例)<br>
+<p class="code">
+<cmt>// ［閉じる］ボタンを無効化するための値</cmt>
+<kwd>const uint</kwd> SC_CLOSE = 0x0000F060;
+<kwd>const uint</kwd> MF_BYCOMMAND = 0x00000000;
+
+<kwd>IntPtr hWnd</kwd> = Process.GetCurrentProcess().MainWindowHandle;
+
+<kwd>if</kwd> (hWnd != IntPtrZero)
+{
+    <cmt>// ［閉じる］ボタンの無効化</cmt>
+    <kwd>IntPtr</kwd> hMenu = GetSystemMenu(hWnd, 0);
+    RemoveMenu(hMenu, SC_CLOSE, MF_BYCOMMAND);
+}
+</p>
+
+</body>
+</html>
+

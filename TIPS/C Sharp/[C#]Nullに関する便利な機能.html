@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://www.wareko.jp/blog/nullable-type-null-condition-operator-null-coalescing-operator-three-nulls-brothers">
+【ワレコC#】int?はNull許容型･ナンチャラ?.はNull条件演算子･??はNull合体演算子【ヌル三兄弟】</a><br>
+<a href="https://www.ipentec.com/document/csharp-null-conditional-operators">
+変数名の後ろに"?" がある - Null条件演算子の利用 - iPentec</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>Null許容型</h2>
+型名を <b class="blue">?</b> で修飾することで、 <b class="blue">Null許容型</b>となる。 <br>
+無修飾(本来)の値の型に加え、nullを格納できるようになる。<br><br>
+<b>通常の型(int)</b>
+<p class="code">
+<kwd>int</kwd> value;
+
+<cmt>// value は int 型であるため、null を格納できない ⇒ コンパイルエラー</cmt>
+value = <kwd>null</kwd>;
+</p>
+
+bNull許容型(intblue>?</blue>)</b>
+<p class="code">
+<cmt>// int を <b class="blue">?</b> で修飾 ⇒ Null許容型</cmt>
+<kwd>int?</kwd> value;
+
+<cmt>// value は int 型の値に加え、null を格納できる ⇒ 正常</cmt>
+value = <kwd>null</kwd>;
+</p>
+
+<h2>Null条件演算子</h2>
+オブジェクト(クラスまたは構造体)がnullポインタでない場合にのみ、メンバにアクセスするようにできる。<br>
+(nullの場合には何もしない。)<br>
+即ち、nullチェックを簡略化することができる。<br>
+<br>
+<b>従来のnullチェック</b>
+<p class="code">
+<kwd>string</kwd> value;
+
+:
+
+<cmt>// value が null でない場合のみ、value.Length にアクセスする</cmt>
+<kwd>if</kwd> ( value != <kwd>null</kwd> )
+{
+    textBox1 = ConvertToString(value.Length);
+}
+</p>
+bNull条件演算子(<b class="blue">?.</b>)を用いたnullチェック(上記のコードと等価)</b>
+<p class="code">
+<kwd>string</kwd> value;
+
+:
+
+<cmt>// value が null でない場合のみ、value.Length にアクセスする</cmt>
+textBox1 = ConvertToString(value<kwd>?.</kwd>Length);
+</p>
+Null条件演算子の左辺オブジェクトがnullの場合、<b>式全体の評価値がnullとなる</b>。即ち、<br>
+<table>
+    <tr class="row1">
+        <td class="col1"></td><td>value != null</td><td>value == null</td>
+    </tr>
+    <tr>
+        <td class="col1">式 value.Length の評価値</td><td>value.Length の値</td><td><b>評価不能(ヌルポインタ例外)</b></td>
+    </tr>
+    <tr>
+        <td class="col1">式 value<b class="blue">?.</b>Length の評価値</td><td>value.Length の値</td><td><b>null</b><br>( value?.Length == null )</td>
+    </tr>
+</table>
+<h2>Null合体演算子</h2>
+<b class="blue">?? (Null合体演算子)</b> の左辺がnullでなければ左辺値をそのまま、nullの場合は右辺値を返すようにできる。 <br>
+<br>
+<p class="code">
+<kwd>List&lt;string&gt;</kwd> arr = <kwd>null</kwd>;
+
+<cmt>// arrCount (<b class="blue">??</b> の左辺) が null でなければ len = arrCount</cmt>
+<cmt>// null ならば len = 0 (<b class="blue">??</b> の右辺)となる</cmt>
+<kwd>int</kwd> len = arr?.Count <kwd>??</kwd> 0;
+
+<cmt>// 以下のコードと等価</cmt>
+<kwd>int</kwd> len = (arr?.Count != null) ? arrCount : 0;
+</p>
+
+</body>
+</html>

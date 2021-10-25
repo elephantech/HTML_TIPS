@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<!--
+<h5>出典 :</h5>
+<a href="https://devclassmethodjpetcmake_windows_symbolic_link/">TIPS/でシンボリックリンクを作る - DevelopersIO</a><br>
+<a href="https://www.atmarkitcojpaitarticles130607news111.html">TIPS/のシンボリックリンクとジャンクションとハードリンクの違い - @IT</a><br>
+-->
+
+<h5>関連 :</h5>
+<a href="TIPS/Windows/ネットワークドライブ.html">ネットワークドライブ</a>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>シンボリックリンクの作成</h2>
+<h3>手順 (コマンドプロンプト)</h3>
+コマンドプロンプトを <b>管理者権限で</b> 開き、mklink コマンドを入力する。<br>
+
+<p class="code">
+<cmt>rem C/hereSLink が //Somewherelocation を指すようにする</cmt>
+
+><b class="red">mklink</b> <b class="dyellow">/D</b> <b class="dmagenta">"C/hereSLink"</b> <b class="dcyan">"//Somewherelocation"</b>
+</p>
+
+<table>
+<tr class="red">
+<td>コマンド</td>
+<td class="b">mklink</td>
+</tr>
+
+<tr class="dyellow">
+<td>オプションbr>(作成するリンクの種類)</td>
+<td class="b">/Dbr>(ディレクトリのシンボリックリンク)</td>
+</tr>
+
+<tr class="dmagenta">
+<td>参照元</td>
+<td class="b">"C/hereSLink"</td>
+</tr>
+
+<tr class="dcyan">
+<td>参照先</td>
+<td class="b">"//Somewherelocation"</td>
+</tr>
+
+</table>
+
+<h4>オプション</h4>
+<table>
+    <tr>
+        <td>(なし)</td><td><b>ファイルの</b>シンボリックリンクを作成</td>
+    </tr>
+    <tr>
+        <td>/D</td><td><b>ディレクトリの</b>シンボリックリンクを作成</td>
+    </tr>
+    <tr>
+        <td>/H</td><td>ハードリンクを作成</td>
+    </tr>
+    <tr>
+        <td>/J</td><td>ディレクトリジャンクションを作成</td>
+    </tr>
+</table>
+シンボリックリンク、ハードリンク、ジャンクションの差異は出典元を参照。
+
+<h3>手順 (PowerShell)</h3>
+PowerShellを <b>管理者権限で</b> 開き、New-Item コマンドを入力する。<br>
+
+<p class="code">
+<cmt># C/hereSLink が //Somewherelocation を指すようにする</cmt>
+
+><b class="red">New-Item</b> <b class="blue">-Path 'C/here'</b> <b class="dmagenta">-Name SLink</b> <b class="dcyan">-Value '//Somewherelocation'</b> <b class="dyellow">-ItemType SymbolicLink</b>
+</p>
+
+<table>
+<tr class="red">
+<td>コマンド</td>
+<td class="b">New-Item</td>
+</tr>
+
+<tr class="blue">
+<td>-Pathbr>(作成する先(ディレクトリ))</td>
+<td class="b">'C/here'</td>
+</tr>
+
+<tr class="dmagenta">
+<td>-Namebr>(作成するアイテム名 ⇒ 参照元)</td>
+<td class="b">SLink</td>
+</tr>
+
+<tr class="dcyan">
+<td>-Valuebr>(設定する値 ⇒ 参照先)</td>
+<td class="b">'//Somewherelocation'</td>
+</tr>
+
+<tr class="dyellow">
+<td>-ItemTypebr>(作成するアイテムの種類)</td>
+<td class="b">SymbolicLinkbr>(シンボリックリンク)</td>
+</tr>
+</table>
+
+<h2>シンボリックリンクを実パスに変換</h2>
+一部のアプリケーション(Subversionなど)では、処理対象(引数)にシンボリックリンクを指定した場合にエラーとなることがある。<br>
+その場合、シンボリックリンクが指し示す先(ターゲット)を取得し、ターゲットを処理対象とする。<br>
+
+<h3>手順 (PowerShell)</h3>
+
+<p class="code">
+<cmt># C/hereSLink (シンボリックリンク)が //Somewherelocation (実パス)を指す場合</cmt>
+
+<cmt># C/hereSLink をアイテムとして取得</cmt>
+$sLink = Get-Item -Path 'C/hereSLink'
+
+<cmt># C/hereSLink のリンク種別を取得</cmt>
+$sLinkLinkType
+<cmt># SymbolicLink が返る(シンボリックリンク)</cmt>
+
+<cmt># C/hereSLink のターゲットを取得</cmt>
+$sLinkTarget
+<cmt># UNC\Somewhere\location が返る(UNCパス)</cmt>
+</p>
+
+</body>
+</html>

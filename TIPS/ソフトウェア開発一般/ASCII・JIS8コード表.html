@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>ASCIIコード表</h2>
+<red>赤字</red>は制御コード(表示されない)<br>
+<table>
+<tr class="row1"><td class="col1" width="10%">上位Nibble<br>＼<br>下位Nibble</td><td width="10%">0</td><td width="10%">1</td><td width="10%">2</td><td width="10%">3</td><td width="10%">4</td><td width="10%">5</td><td width="10%">6</td><td width="10%">7</td></tr>
+<tr><td class="col1">0</td><td class="red">NULL<br>(null文字)</td><td class="red">DLE<br>(データリンクエスケープ)</td><td>SP<br>(スペース)</td><td>0</td><td>@</td><td>P</td><td>`</td><td>p</td></tr>
+<tr><td class="col1">1</td><td class="red">SOH<br>(ヘッダ開始)</td><td class="red">DC1<br>(装置制御1)</td><td>!</td><td>1</td><td>A</td><td>Q</td><td>a</td><td>q</td></tr>
+<tr><td class="col1">2</td><td class="red">STX<br>(テキスト開始)</td><td class="red">DC2<br>(装置制御2)</td><td>"</td><td>2</td><td>B</td><td>R</td><td>b</td><td>r</td></tr>
+<tr><td class="col1">3</td><td class="red">ETX<br>(テキスト終了)</td><td class="red">DC3<br>(装置制御3)</td><td>#</td><td>3</td><td>C</td><td>S</td><td>c</td><td>s</td></tr>
+<tr><td class="col1">4</td><td class="red">EOT<br>(転送終了)</td><td class="red">DC4<br>(装置制御4)</td><td>$</td><td>4</td><td>D</td><td>T</td><td>d</td><td>t</td></tr>
+<tr><td class="col1">5</td><td class="red">ENQ<br>(照会)</td><td class="red">NAK<br>(受信失敗)</td><td>%</td><td>5</td><td>E</td><td>U</td><td>e</td><td>u</td></tr>
+<tr><td class="col1">6</td><td class="red">ACK<br>(受信成功)</td><td class="red">SYN<br>(同期)</td><td>&amp;</td><td>6</td><td>F</td><td>V</td><td>f</td><td>v</td></tr>
+<tr><td class="col1">7</td><td class="red">BEL<br>(警告)</td><td class="red">ETB<br>(転送ブロック終了)</td><td>'</td><td>7</td><td>G</td><td>W</td><td>g</td><td>w</td></tr>
+<tr><td class="col1">8</td><td class="red">BS<br>(後退)</td><td class="red">CAN<br>(取消)</td><td>(</td><td>8</td><td>H</td><td>X</td><td>h</td><td>x</td></tr>
+<tr><td class="col1">9</td><td class="red">HT<br>(水平タブ)</td><td class="red">EM<br>(メディア終了)</td><td>)</td><td>9</td><td>I</td><td>Y</td><td>i</td><td>y</td></tr>
+<tr><td class="col1">A</td><td class="red">LF<br>(改行)</td><td class="red">SUB<br>(置換)</td><td>*</td><td>:</td><td>J</td><td>Z</td><td>j</td><td>z</td></tr>
+<tr><td class="col1">B</td><td class="red">VT<br>(垂直タブ)</td><td class="red">ESC<br>(エスケープ)</td><td>+</td><td>;</td><td>K</td><td>[</td><td>k</td><td>{</td></tr>
+<tr><td class="col1">C</td><td class="red">FF<br>(改頁)</td><td class="red">FS<br>(フォーム区切り)</td><td>,</td><td>&lt;</td><td>L</td><td>\</td><td>l</td><td>|</td></tr>
+<tr><td class="col1">D</td><td class="red">CR<br>(復帰)</td><td class="red">GS<br>(グループ区切り)</td><td>-</td><td>=</td><td>M</td><td>]</td><td>m</td><td>}</td></tr>
+<tr><td class="col1">E</td><td class="red">SO<br>(シフトアウト)</td><td class="red">RS<br>(レコード区切り)</td><td>.</td><td>&gt;</td><td>N</td><td>^</td><td>n</td><td>～</td></tr>
+<tr><td class="col1">F</td><td class="red">SI<br>(シフトイン)</td><td class="red">US<br>(ユニット区切り)</td><td>/</td><td>?</td><td>O</td><td>_</td><td>o</td><td class="red">DEL<br>(削除)</td></tr>
+</table>
+
+<h2>JIS8 (JIS X0201) コード表</h2>
+0x00 ～ 0x7F はASCIIと共通<br>
+<table>
+<tr class="row1"><td class="col1" width="11.12%">上位Nibble<br>＼<br>下位Nibble</td><td width="5.55%">0</td><td width="5.55%">1</td><td width="5.55%">2</td><td width="5.55%">3</td><td width="5.55%">4</td><td width="5.55%">5</td><td width="5.55%">6</td><td width="5.55%">7</td><td width="5.55%">8</td><td width="5.55%">9</td><td width="5.55%">A</td><td width="5.55%">B</td><td width="5.55%">C</td><td width="5.55%">D</td><td width="5.55%">E</td><td width="5.55%">F</td></tr>
+<tr><td class="col1">0</td><td class="red">NULL</td><td class="red">DLE</td><td>SP</td><td>0</td><td>@</td><td>P</td><td>`</td><td>p</td><td class="bg_h"></td><td class="bg_h"></td><td class="bg_h"></td><td>ｰ</td><td>ﾀ</td><td>ﾐ</td><td class="bg_h"></td><td class="bg_h"></td></tr>
+<tr><td class="col1">1</td><td class="red">SOH</td><td class="red">DC1</td><td>!</td><td>1</td><td>A</td><td>Q</td><td>a</td><td>q</td><td class="bg_h"></td><td class="bg_h"></td><td>｡</td><td>ｱ</td><td>ﾁ</td><td>ﾑ</td><td class="bg_h"></td><td class="bg_h"></td></tr>
+<tr><td class="col1">2</td><td class="red">STX</td><td class="red">DC2</td><td>"</td><td>2</td><td>B</td><td>R</td><td>b</td><td>r</td><td class="bg_h"></td><td class="bg_h"></td><td>｢</td><td>ｲ</td><td>ﾂ</td><td>ﾒ</td><td class="bg_h"></td><td class="bg_h"></td></tr>
+<tr><td class="col1">3</td><td class="red">ETX</td><td class="red">DC3</td><td>#</td><td>3</td><td>C</td><td>S</td><td>c</td><td>s</td><td class="bg_h"></td><td class="bg_h"></td><td>｣</td><td>ｳ</td><td>ﾃ</td><td>ﾓ</td><td class="bg_h"></td><td class="bg_h"></td></tr>
+<tr><td class="col1">4</td><td class="red">EOT</td><td class="red">DC4</td><td>$</td><td>4</td><td>D</td><td>T</td><td>d</td><td>t</td><td class="bg_h"></td><td class="bg_h"></td><td>､</td><td>ｴ</td><td>ﾄ</td><td>ﾔ</td><td class="bg_h"></td><td class="bg_h"></td></tr>
+<tr><td class="col1">5</td><td class="red">ENQ</td><td class="red">NAK</td><td>%</td><td>5</td><td>E</td><td>U</td><td>e</td><td>u</td><td class="bg_h"></td><td class="bg_h"></td><td>･</td><td>ｵ</td><td>ﾅ</td><td>ﾕ</td><td class="bg_h"></td><td class="bg_h"></td></tr>
+<tr><td class="col1">6</td><td class="red">ACK</td><td class="red">SYN</td><td>&amp;</td><td>6</td><td>F</td><td>V</td><td>f</td><td>v</td><td class="bg_h"></td><td class="bg_h"></td><td>ｦ</td><td>ｶ</td><td>ﾆ</td><td>ﾖ</td><td class="bg_h"></td><td class="bg_h"></td></tr>
+<tr><td class="col1">7</td><td class="red">BEL</td><td class="red">ETB</td><td>'</td><td>7</td><td>G</td><td>W</td><td>g</td><td>w</td><td class="bg_h"></td><td class="bg_h"></td><td>ｧ</td><td>ｷ</td><td>ﾇ</td><td>ﾗ</td><td class="bg_h"></td><td class="bg_h"></td></tr>
+<tr><td class="col1">8</td><td class="red">BS</td><td class="red">CAN</td><td>(</td><td>8</td><td>H</td><td>X</td><td>h</td><td>x</td><td class="bg_h"></td><td class="bg_h"></td><td>ｨ</td><td>ｸ</td><td>ﾈ</td><td>ﾘ</td><td class="bg_h"></td><td class="bg_h"></td></tr>
+<tr><td class="col1">9</td><td class="red">HT</td><td class="red">EM</td><td>)</td><td>9</td><td>I</td><td>Y</td><td>i</td><td>y</td><td class="bg_h"></td><td class="bg_h"></td><td>ｩ</td><td>ｹ</td><td>ﾉ</td><td>ﾙ</td><td class="bg_h"></td><td class="bg_h"></td></tr>
+<tr><td class="col1">A</td><td class="red">LF</td><td class="red">SUM</td><td>*</td><td>:</td><td>J</td><td>Z</td><td>j</td><td>z</td><td class="bg_h"></td><td class="bg_h"></td><td>ｪ</td><td>ｺ</td><td>ﾊ</td><td>ﾚ</td><td class="bg_h"></td><td class="bg_h"></td></tr>
+<tr><td class="col1">B</td><td class="red">VT</td><td class="red">ESC</td><td>+</td><td>;</td><td>K</td><td>[</td><td>k</td><td>{</td><td class="bg_h"></td><td class="bg_h"></td><td>ｫ</td><td>ｻ</td><td>ﾋ</td><td>ﾛ</td><td class="bg_h"></td><td class="bg_h"></td></tr>
+<tr><td class="col1">C</td><td class="red">FF</td><td class="red">FS</td><td>,</td><td>&lt;</td><td>L</td><td>\</td><td>l</td><td>|</td><td class="bg_h"></td><td class="bg_h"></td><td>ｬ</td><td>ｼ</td><td>ﾌ</td><td>ﾜ</td><td class="bg_h"></td><td class="bg_h"></td></tr>
+<tr><td class="col1">D</td><td class="red">CR</td><td class="red">GS</td><td>-</td><td>=</td><td>M</td><td>]</td><td>m</td><td>}</td><td class="bg_h"></td><td class="bg_h"></td><td>ｭ</td><td>ｽ</td><td>ﾍ</td><td>ﾝ</td><td class="bg_h"></td><td class="bg_h"></td></tr>
+<tr><td class="col1">E</td><td class="red">SO</td><td class="red">RS</td><td>.</td><td>&gt;</td><td>N</td><td>^</td><td>n</td><td>～</td><td class="bg_h"></td><td class="bg_h"></td><td>ｮ</td><td>ｾ</td><td>ﾎ</td><td>ﾞ</td><td class="bg_h"></td><td class="bg_h"></td></tr>
+<tr><td class="col1">F</td><td class="red">SI</td><td class="red">US</td><td>/</td><td>?</td><td>O</td><td>_</td><td>o</td><td class="red">DEL</td><td class="bg_h"></td><td class="bg_h"></td><td>ｯ</td><td>ｿ</td><td>ﾏ</td><td>ﾟ</td><td class="bg_h"></td><td class="bg_h"></td></tr>
+</table>
+<br>
+<br>
+</body>
+</html>

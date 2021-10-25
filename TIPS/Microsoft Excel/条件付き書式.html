@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>関連 :</h5>
+<a href="TIPS/Microsoft%20Excel/%E7%9B%B8%E5%AF%BE%E5%8F%82%E7%85%A7%E3%81%A8%E7%B5%B6%E5%AF%BE%E5%8F%82%E7%85%A7.html">相対参照と絶対参照</a><br>
+<a href="TIPS/Microsoft%20Excel/%E5%90%8D%E5%89%8D%E4%BB%98%E3%81%8D%E6%95%B0%E5%BC%8F.html">名前付き数式</a><br>
+<a href="TIPS/Microsoft%20Excel/%E3%83%A6%E3%83%BC%E3%82%B6%E5%AE%9A%E7%BE%A9%E9%96%A2%E6%95%B0.html">ユーザ定義関数</a><br>
+<a href="TIPS/Microsoft%20Excel/%E8%B2%BC%E3%82%8A%E4%BB%98%E3%81%91%E3%81%AE%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3.html">貼り付けのオプション</a><br>
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>概要</h2>
+<img src="_Img/MS Excel/format_by_condition/excel-format-by-condition_01.png" alt="画像"><br>
+書式を設定したセル自身の値(数式の場合は演算結果)、または条件となる数式に応じてセルの書式を変更することができる。<br>
+設定できる項目は以下のとおり。<br>
+<ul>
+	<li>フォント</li>
+	<ul class="lveven">
+		<li>文字種</li>
+		<li>文字装飾</li>
+		<ul class="lvodd">
+			<li>太字</li>
+			<li>斜体</li>
+			<li>下線</li>
+			<li>取り消し線</li>
+		</ul>
+		<li>サイズ</li>
+		<li>色</li>
+	</ul>
+	<li>罫線</li>
+	<li>セルの塗りつぶし</li>
+</ul>
+等
+
+<h2>条件付き書式の設定</h2>
+新規に設定する場合だけでなく、書式を追加する際も同様の操作で行える。
+
+<h3>セルの値に基づく場合</h3>
+<ol>
+<li>
+書式を設定したいセルを選択する。<br>
+<img src="_Img/MS Excel/format_by_condition/excel-format-by-condition_02.png" alt="画像">
+</li>
+<li>
+「ホーム」「条件付き書式」「新しいルール」を選択する。<br>
+<img src="_Img/MS Excel/format_by_condition/excel-format-by-condition_03.png" alt="画像">
+</li>
+<li>
+「指定の値を含むセルだけを書式設定」を選択、条件を設定し、「書式」をクリックする。<br>
+<img src="_Img/MS Excel/format_by_condition/excel-format-by-condition_04.png" alt="画像">
+</li>
+<li>
+適用する書式を設定し、「OK」をクリックする。<br>
+<img src="_Img/MS Excel/format_by_condition/excel-format-by-condition_05.png" alt="画像">
+</li>
+<li>
+「OK」をクリックすると、設定した書式が反映される。<br>
+<img src="_Img/MS Excel/format_by_condition/excel-format-by-condition_06.png" alt="画像">
+</li>
+</ol>
+
+<h3>数式(他のセルの値など)に基づく場合</h3>
+<img src="_Img/MS Excel/format_by_condition/excel-format-by-condition_07.png" alt="画像">
+<ol>
+<li>
+書式を設定したいセルを選択する。<br>
+<img src="_Img/MS Excel/format_by_condition/excel-format-by-condition_08.png" alt="画像">
+</li>
+<li>
+「ホーム」「条件付き書式」「新しいルール」を選択する。
+</li>
+<li>
+「数式を使用して、書式設定するセルを決定」を選択、条件となる数式を入力し、「書式」をクリックする。<br>
+<img src="_Img/MS Excel/format_by_condition/excel-format-by-condition_09.png" alt="画像">
+</li>
+<li>
+適用する書式を設定し、「OK」をクリックする。
+</li>
+<li>
+「OK」をクリックすると、設定した書式が反映される。<br>
+<img src="_Img/MS Excel/format_by_condition/excel-format-by-condition_10.png" alt="画像">
+</li>
+</ol>
+
+<h4>注意が必要な点</h4>
+数式中のセル参照を相対参照とした場合、<b>適用対象範囲として設定した左上隅セルの位置が基準</b>となる。<br>
+相対参照については<a href="TIPS/Microsoft%20Excel/%E7%9B%B8%E5%AF%BE%E5%8F%82%E7%85%A7%E3%81%A8%E7%B5%B6%E5%AF%BE%E5%8F%82%E7%85%A7.html">相対参照と絶対参照</a>を参照。
+
+<h2>その他の操作</h2>
+条件付き書式の削除、修正、適用順序変更、適用対象セル範囲変更は<br>
+「ホーム」「条件付き書式」「ルールの管理」、「ルールのクリア」から実行できる。<br>
+
+<h2>はしがき</h2>
+<ul>
+<li>条件付き書式が設定されているセル範囲内に行・または列を挿入した場合、新たに挿入された行・列にも書式が適用される。<br>
+範囲内の行・列を削除した場合、適用範囲指定が崩れる場合があるため、適宜調整を行う。<br>
+これは条件付き書式だけではなく通常の書式や、入力規則も同様である。
+</li>
+<li>セルをコピーし、書式の貼り付けを実行した場合は、条件付き書式も反映される。<br>
+<a href="TIPS/Microsoft%20Excel/%E8%B2%BC%E3%82%8A%E4%BB%98%E3%81%91%E3%81%AE%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3.html">貼り付けのオプション</a>も併せて参照。
+</li>
+<li>数式には
+<a href="TIPS/Microsoft%20Excel/%E5%90%8D%E5%89%8D%E4%BB%98%E3%81%8D%E6%95%B0%E5%BC%8F.html">名前付き数式</a>
+や
+<a href="TIPS/Microsoft%20Excel/%E3%83%A6%E3%83%BC%E3%82%B6%E5%AE%9A%E7%BE%A9%E9%96%A2%E6%95%B0.html">ユーザ定義関数</a>
+も使用可能。</li>
+<li>適用範囲を指定する際に、「左上⇒右下」以外の順序で行うと、適用範囲や条件数式が異なるセルを指すことがある。<br>
+その際は「ルールの管理」から確認、修正を行う。</li>
+</ul>
+
+</body>
+</html>

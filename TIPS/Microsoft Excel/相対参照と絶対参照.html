@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>関連 :</h5>
+<a href="TIPS/Microsoft%20Excel/%E5%90%8D%E5%89%8D%E4%BB%98%E3%81%8D%E6%95%B0%E5%BC%8F.html">名前付き数式</a>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>相対参照と絶対参照の違い</h2>
+<img src="_Img/MS Excel/relativeref_absoluteref/relative-absolute_01.png" alt="画像"><br>
+セル F10 からセル B10 を参照する場合。<b class="<red>">絶対参照 ("=$B$10") </b>では参照先の絶対位置を保持する。<br>
+一方、<b class="<dgreen>">相対参照 ("=B10") </b>では、現在の(数式が入力された)セル (F10) からの相対位置を保持する。<br>
+このため、その数式をそこ (F10) でしか用いないのであれば両者に差異は無いが、<b>数式をコピー/ペーストした際に、「コピー先のセルが参照するセル」が変化する。</b><br>
+(コピー元セルとコピー先セルの位置関係に応じ、参照するセルが移動する。)
+
+<h2>相対参照と絶対参照の切り替え</h2>
+<img src="_Img/MS Excel/relativeref_absoluteref/relative-absolute_02.png" alt="画像"><br>
+参照先のセルを入力(セル内または数式バーにキャレットがある状態)する際にbF4キー</b>を押すと、<br>
+<b>
+ <br>
+ 「<dgreen>行・列とも相対参照</dgreen> ("<dgreen>B4</dgreen>")」<br>
+  ↓<br>
+ 「<red>行・列とも絶対参照</red> ("<red>$B$4</red>")」<br>
+ ↓<br>
+ 「<red>行：絶対参照</red>・<dgreen>列：相対参照</dgreen> ("<dgreen>B</dgreen><red>$4</red>")」<br>
+ ↓<br>
+ 「<dgreen>行：相対参照</dgreen>・<red>列：絶対参照</red> ("<red>$B</red><dgreen>4</dgreen>")」<br>
+ ↓<br>
+...</b><br>
+ <br>
+の順に切り替わる。<br>
+(行または列の前に<b class="<red>">"$"</b>がついていれば<b class="<red>">絶対参照</b>、そうでなければ<b class="<dgreen>">相対参照</b>。)
+
+<h2>どのように使い分けるか</h2>
+<img src="_Img/MS Excel/relativeref_absoluteref/relative-absolute_03.png" alt="画像"><br>
+図では、「単価」と「数量」から「小計」を算出し、「小計」に「税率」分を加えて「税込価格」を算出しようとしている。<br>
+行 32 (H32、I32)に基となる数式を記述しておき、他の行にコピーする場合、「小計」は参照する「単価」、「数量」が<b class="<dgreen>">行に応じて変わる必要がある</b>。<br>
+このため、「<b class="<dgreen>">行のみ相対参照</b>」とする。<br>
+「税込価格」も同様に参照する「小計」は行ごとに異なるが、どの行であっても参照する「税率」は<b class="<red>">変わらない</b>。<br>
+このため、参照する「小計」は「<b class="<dgreen>">行のみ相対参照</b>」、「税率」は<b class="<red>">「絶対参照」</b>とする。<br>
+
+<h2>留意事項</h2>
+相対参照・絶対参照の設定は、「条件付き書式」や「名前付き数式」においても同様に機能する。
+
+</body>
+</html>

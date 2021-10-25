@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<h5>関連 :</h5>
+<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A.html">[C++／STL／コンテナ]コンテナ</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%A4%E3%83%86%E3%83%AC%E3%83%BC%E3%82%BF.html">[C++／STL／コンテナ]イテレータ</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>ベクトル(動的配列・可変長配列)とは</h2>
+必要に応じてサイズを増やすことができる配列のこと。STLに定義されるコンテナクラスの一つ。<br>
+他のコンテナと比較して構造が単純であり、高速でメモリ効率が良い。<br>
+
+<h2>必要なヘッダ</h2>
+#include &lt;vector&gt;<br>
+
+<h2>宣言・初期化</h2>
+<p class="code">
+std::vector&lt;<kwd>int</kwd>&gt; v1;                                <cmt>//&lt; 空のベクトルを宣言</cmt>
+std::vector&lt;<kwd>int</kwd>&gt; v2(<ltr>123</ltr>);                           <cmt>//&lt; 要素数 123 のベクトルを宣言</cmt>
+
+std::vector&lt;<kwd>int</kwd>&gt; v3(<ltr>10</ltr>, <ltr>5</ltr>);                         <cmt>//&lt; 要素数 10 の全要素を 5 で初期化</cmt>
+
+std::vector&lt;<kwd>int</kwd>&gt; v4 = {<ltr>6</ltr>, <ltr>8</ltr>, <ltr>5</ltr>};                    <cmt>//&lt; データ列を指定して初期化</cmt>
+std::vector&lt;<kwd>int</kwd>&gt; v4{<ltr>6</ltr>, <ltr>8</ltr>, <ltr>5</ltr>};                       <cmt>//&lt; 上記の = は省略できる</cmt>
+
+<kwd>int</kwd> org_data[] = {<ltr>7</ltr>, <ltr>4</ltr>, <ltr>3</ltr>, <ltr>1</ltr>};
+std::vector&lt;<kwd>int</kwd>&gt; v5(org_data, std::end(org_data));  <cmt>//&lt; 既存の配列を基に初期化</cmt>
+
+std::vector&lt;<kwd>int</kwd>&gt; v6 = {<ltr>2</ltr>, <ltr>9</ltr>, <ltr>6</ltr>, <ltr>4</ltr>};
+std::vector&lt;<kwd>int</kwd>&gt; v7(v6);                            <cmt>//&lt; 既存のベクトルを用いて初期化(コピー)</cmt>
+</p>
+
+<h2>多次元配列(入れ子)</h2>
+ベクトルの要素をベクトルとすることで、多次元配列を構成できる。<br>
+<p class="code">
+std::vector&lt;std::vector&lt;<kwd>int</kwd>&gt;&gt; vv{{<ltr>1</ltr>, <ltr>2</ltr>, <ltr>3</ltr>}, {<ltr>4</ltr>, <ltr>5</ltr>, <ltr>6</ltr>, <ltr>7</ltr>}};
+</p>
+
+<h2>要素の参照・更新</h2>
+<ul>
+<li>at() ・添字演算子([]) : 指定した位置の要素 <b>への参照</b> を取得 (VC++では [] が使用できない？要調査)</li>
+<li>front() : 先頭要素 <b>への参照</b> を取得</li>
+<li>back() : 末尾要素 <b>への参照</b> を取得</li>
+<li>data() : 先頭要素 <b>へのポインタ</b> を取得</li>
+</ul>
+ベクトルはC互換の固定長配列と同様、データが連続したアドレスに配置される。このため data() に対するポインタ演算によって全要素を走査できる。<br>
+
+<p class="code">
+std::vector&lt;<kwd>int</kwd>&gt; sampleVec{<ltr>3</ltr>, <ltr><ltr>1</ltr></ltr>, <ltr>4</ltr>, <ltr>1</ltr>, <ltr>5</ltr>, <ltr>9</ltr>, <ltr>2</ltr>, <ltr>6</ltr>, <ltr>5</ltr>, <ltr>3</ltr>};
+<kwd>for</kwd> (<kwd>int</kwd> i = <ltr>0</ltr>; i &lt; <ltr>10</ltr>; ++i)
+{
+    std::cout &lt;&lt; sampleVecat(i);      <cmt>//&lt; sampleVec の i 番目の要素を表示</cmt>
+    sampleVecat(i) = i;               <cmt>//&lt; at() は要素への参照を返すため、代入も可能</cmt>
+}
+</p>
+
+<h2>イテレータ</h2>
+<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%A4%E3%83%86%E3%83%AC%E3%83%BC%E3%82%BF.html">[C++／STL／コンテナ]イテレータ</a>
+を参照。<br>
+<h2>代入</h2>
+同じ型のベクトル同士であれば、<b>=</b> 演算子による代入が可能。<br>
+<p class="code">
+vector&lt;<kwd>int</kwd>&gt; a{<ltr>1</ltr>, <ltr>2</ltr>, <ltr>3</ltr>, <ltr>4</ltr>};
+vector&lt;<kwd>int</kwd>&gt; b{<ltr>9</ltr>, <ltr>8</ltr>};
+b = a;    <cmt>//&lt; a の内容を b に代入(以前のbの内容は破棄される)</cmt>
+
+vector&lt;<kwd>int</kwd>&gt; c, d;
+d = c = b;    <cmt>//&lt; 連続代入も可能</cmt>
+</p>
+
+<h2>要素の追加</h2>
+<ul>
+<li>push_back() : データを末尾に追加 (テンポラリコピーを生成)</li>
+<li>emplace_back() : データを末尾に追加 (テンポラリコピーを生成しない)</li>
+<li>insert() : 指定した位置にデータを挿入 ( <b>引数は添字ではなくイテレータである点に注意</b> )</li>
+</ul>
+ベクトルで保持するオブジェクトがクラスの場合、push_back() コール時にオブジェクト(テンポラリコピー)が生成され、さらに push_back() 内でコピーコンストラクタに渡されて生成されたオブジェクトがベクトルに追加され、テンポラリコピーが破棄される。<br>
+テンポラリコピーは本来不要であり、コピーコンストラクタおよびデストラクタの処理が重いクラスの場合は、無駄にパフォーマンスを低下させる恐れがある。<br>
+C++11 で追加された emplace_back() は、テンポラリコピーを生成しないため、コピーコンストラクタ、デストラクタが呼ばれることは無い。<br>
+insert() は<b>第1引数にイテレータを取る</b>。 bbegin() + 添字</b> で添字位置要素へのイテレータを取得できる。<br>
+<p class="code">
+std::vector&lt;<kwd>int</kwd>&gt; v;		<cmt>//&lt; 空の動的配列を生成</cmt>
+vpush_back(<ltr>123</ltr>);		<cmt>//&lt; 末尾に 123 を追加</cmt>
+</p>
+<p class="code">
+<kwd>class</kwd> Hoge {
+<kwd>public</kwd>:
+    Hoge(std::<kwd>string</kwd>&amp;, <kwd>int</kwd>);       <cmt>//&lt; コンストラクタ</cmt>
+    .....
+};
+    .....
+    std::vector&lt;Hoge&gt; v;
+    vemplace_back(<ltr>"abc"</ltr>, <ltr>123</ltr>);   <cmt>//&lt; emplace_back(Hoge("abc", 123)) と同意</cmt>
+</p>
+<p class="code">
+std::vector&lt;<kwd>int</kwd>&gt; v(<ltr>10</ltr>, <ltr>3</ltr>);        <cmt>//&lt; 要素数 10 、値はすべて 3</cmt>
+vinsert(vbegin() + <ltr>4</ltr>, <ltr>7</ltr>);       <cmt>//&lt;  [4] の位置( begin() + 4 )に 7 を挿入</cmt>
+<cmt>// 結果は {3, 3, 3, 3, 7, 3, 3, 3, 3, 3, 3} となる</cmt>
+</p>
+
+<h2>要素の削除</h2>
+<ul>
+<li>pop_back() : 末尾の要素を削除</li>
+<li>elase() : 指定した要素を削除 ( <b>引数は添字ではなくイテレータである点に注意</b> )</li>
+</ul>
+elase() は insert() 同様、第1引数にイテレータを取る。<br>
+<p class="code">
+std::vector&lt;<kwd>int</kwd>&gt; v{<ltr>3</ltr>, <ltr><ltr>1</ltr></ltr>, <ltr>4</ltr>, <ltr><ltr>1</ltr></ltr>, <ltr>5</ltr>};
+vpop_back();            <cmt>//&lt; 末尾データ（この場合は 5）を削除</cmt>
+</p>
+<p class="code">
+std::vector&lt;<kwd>int</kwd>&gt; v{<ltr>3</ltr>, <ltr>1</ltr>, <ltr>9</ltr>, <ltr>4</ltr>};
+verase(vbegin() + <ltr>2</ltr>);       <cmt>//&lt; [2]の位置（9）を削除</cmt>
+</p>
+<h2>ベクトルの状態を取得</h2>
+<ul>
+<li>empty() : ベクトルが空なら true 、そうでなければ false を返す</li>
+<li>size() : 要素数を返す</li>
+</ul>
+
+</body>
+</html>
+

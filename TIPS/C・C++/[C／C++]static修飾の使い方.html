@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>関連 :</h5>
+<a href="TIPS/C・C++/[C／C++]const修飾の使い方.html">[C／C++]const修飾の使い方</a><br>
+<a href="TIPS/ソフトウェア開発一般/[オブジェクト指向]シングルトン.html">[オブジェクト指向]シングルトン</a><br>
+<a href="TIPS/C・C++/[C++]メンバ関数ポインタ.html">[C++]メンバ関数ポインタ</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>static修飾とは</h2>
+修飾する対象が <b>静的・永続的</b> であることを示すこと。<br>
+プログラムの開始から終了までメモリ(RAM)を占有し続けるとともに、グローバルスコープの関数・変数に適用した場合は、宣言されたファイルの外からのアクセスを制限する効果を持つ。<br>
+稀に「<a href="TIPS/C・C++/[C／C++]const修飾の使い方.html">不変(const)</a>」との混同がみられるが、まったく異なる概念である。<br>
+<h2>static修飾の類型</h2>
+<h3>グローバル関数を修飾する</h3>
+グローバルスコープの関数を修飾すると、 <b>その関数が宣言されたファイル以外からはアクセスできなくなる</b> 。即ち、bextern修飾とは排他である。</b><br>
+<br>
+(Hoge.c)
+<p class="code">
+<cmt>// 関数を static 修飾</cmt>
+<kwd>static</kwd> <kwd>void</kwd> HogeFunc()
+{
+    :
+}
+
+<kwd>void</kwd> DoSomething_Hoge()
+{
+    <cmt>// 同じファイルなのでアクセス可能</cmt>
+    HogeFunc();
+}
+</p>
+
+(Fuga.c)
+<p class="code">
+<kwd>void</kwd> DoSomething_Fuga()
+{
+    <cmt>// ファイルを跨ぐためアクセス不可 ⇒ コンパイルエラー</cmt>
+    HogeFunc();
+}
+</p>
+<h3>グローバル変数を修飾する</h3>
+グローバル関数と同様、 <b>その変数が宣言されたファイル以外からはアクセスできなくなる</b> 。<br>
+(大域変数を用いるとデータの一貫性を保つことが困難となるため、グローバル変数はすべてこの形で用いるべきである。)<br>
+<br>
+(Hoge.c)
+<p class="code">
+<cmt>// 変数をstatic修飾</cmt>
+<kwd>static</kwd> <kwd>int</kwd> staticVal = <ltr>3</ltr>;
+
+<kwd>void</kwd> DoSomething_Hoge()
+{
+    <cmt>// 同じファイルなのでアクセス可能</cmt>
+    Func(staticVal);
+}
+</p>
+
+(Fuga.c)
+<p class="code">
+<kwd>void</kwd> DoSomething_Fuga()
+{
+    <cmt>// ファイルを跨ぐためアクセス不可 ⇒ コンパイルエラー</cmt>
+    staticVal = <ltr>4</ltr>;
+}
+</p>
+
+<h4>const修飾との併用</h4>
+修飾された変数が不変(定数)になるとともに、 bROMに配置される</b> 。<br>
+ <b>⇒ RAM(スタック)の使用量を削減できる。</b> <br>
+<h3>ローカル変数を修飾する</h3>
+ローカル変数を修飾した場合、 <b>関数の呼び出しを跨って値を保持し続ける</b> 。<br>
+<p class="code">
+<kwd>void</kwd> Func()
+{
+    <kwd>static</kwd> <kwd>int</kwd> staticVal = <ltr>3</ltr>;    <cmt>//&lt; 変数宣言・初期化(初期化は初回しか実行されない)</cmt>
+    printf(<ltr>"staticVal = %d\n"</ltr>, staticVal);
+    ++staticVal;
+}
+
+<kwd>void</kwd> main()
+{
+    Func();    <cmt>//&lt; staticVal が 3 で初期化され、インクリメントされて 4 になる</cmt>
+    Func();    <cmt>//&lt; 呼び出しを跨いで staticVal の値を保持(関数開始時点で staticVal == 4)</cmt>
+    Func();
+}
+</p>
+実行結果<br>
+<p class="code">
+staticVal = <ltr>3</ltr>
+staticVal = <ltr>4</ltr>
+staticVal = <ltr>5</ltr>
+</p>
+<h4>const修飾との併用</h4>
+グローバル変数と同様、定数となり bROMに配置される</b> 。<br>
+
+<h3>(C++)クラスメンバを修飾する</h3>
+関数・変数が <b>特定のインスタンスに縛られない永続的、かつ唯一のものとなる</b> 。<br>
+このため、 <b>インスタンスを生成せずに参照することができる</b> 。(参照する際はスコープ解決演算子  <b>::</b>  を用いる)<br>
+<p class="code">
+ <kwd>class</kwd> CHoge
+{
+<kwd>private</kwd>:
+    <kwd>static</kwd> <kwd>int</kwd> val;
+<kwd>public</kwd>:
+    <kwd>static</kwd> <kwd>void</kwd> DoSomething1(<kwd>int</kwd> i) { val = i; }
+    <kwd>static</kwd> <kwd>void</kwd> DoSomething2(<kwd>int</kwd> i) { DoSomething1(i); }
+}
+
+<kwd>void</kwd> main()
+{
+    <cmt>// CHoge の静的メンバ関数をコール</cmt>
+    CHoge::DoSomething2(<ltr>4</ltr>);
+}
+</p>
+デザインパターンの一つである「
+<a href="TIPS/ソフトウェア開発一般/[オブジェクト指向]シングルトン.html">シングルトン</a>」は、この静的メンバを用いて実現される。
+<h4>メンバ変数の修飾</h4>
+クラスインスタンスを複数作成した場合でも非静的メンバ変数(の実体)はプログラム中で唯一であり、あるインスタンスを介して値を変更した場合、他のインスタンスからは同じ値が読み出せる。<br>
+(そもそも特定のインスタンスに束縛されるものではなく、インスタンスとは別に存在している。)
+<h4>メンバ関数の修飾</h4>
+静的メンバ関数からは<b>静的でないメンバへのアクセスは原則不可で、static修飾された関数、または変数のみ操作可能である。</b><br>
+静的メンバ関数は、<b>通常の関数ポインタに代入可能となる</b> 。<br>
+(逆に、静的でないメンバ関数は通常は代入できない。詳細は<a href="TIPS/C・C++/[C++]メンバ関数ポインタ.html">[C++]メンバ関数ポインタ</a>を参照。)<br>
+静的メンバ関数はインスタンスではなくクラスに束縛されるため、「クラスメソッド」とも呼ばれる。<br>(非静的メンバ関数はインスタンスに束縛されるため「インスタンスメソッド」と呼ばれる。)
+
+</body>
+</html>
+

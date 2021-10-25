@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>関連 :</h5>
+<a href="TIPS/C・C++/[C++]仮想関数 (Virtual Function).html">[C++]仮想関数 (Virtual Function)</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>C#における仮想関数・オーバーライド関数の定義</h2>
+C#における仮想関数、およびオーバーライド関数の定義に当たっては、キーワードの付与が必須となる。<br>
+仮想関数の概念は <a href="TIPS/C・C++/[C++]仮想関数 (Virtual Function).html">ここ</a> を参照。
+
+<h3>実装例</h3>
+<p class="code">
+<cmt>// 基底クラスの定義
+// (抽象(純粋仮想)関数を含むため abstract キーワードを付与 ⇒ 抽象クラス)</cmt>
+<kwd>public abstract class</kwd> Base
+{
+    <cmt>// 仮想関数の定義 ⇒ virtual キーワードを付与</cmt>
+    <kwd>protected virtual void</kwd> VirtualFunction01()
+    {
+        :
+    }
+
+    <cmt>// 抽象関数の定義 ⇒ abstract キーワードを付与</cmt>
+    <kwd>protected abstract void</kwd> AbstractFunction01();
+}
+
+<cmt>// 派生クラスの定義</cmt>
+<kwd>public class</kwd> Derived
+{
+    <cmt>// VirtualFunction01() のオーバーライド ⇒ override キーワードを付与</cmt>
+    <kwd>protected override void</kwd> VirtualFunction01()
+    {
+        :
+    }
+
+    <cmt>// AbstractFunction01() のオーバーライド ⇒ override キーワードを付与</cmt>
+    <kwd>protected override void</kwd> AbstractFunction01()
+    {
+        :
+    }
+}
+</p>
+
+<h3>C++との比較</h3>
+
+<table>
+<tr class="row1">
+<td class="col1"></td><td>C#</td><td>C++</td>
+</tr>
+<tr>
+<td class="col1">仮想関数</td><td colspan="2">virtual キーワード付与</td>
+</tr>
+<tr>
+<td class="col1">抽象(純粋仮想)関数</td><td>abstract キーワード付与<br>関数実体無し</td><td>virtual キーワード付与<br>関数実体無し( =0 )</td>
+</tr>
+<tr>
+<td class="col1">オーバーライド関数への<br>override キーワード付与</td><td>必須</td><td>任意</td>
+</tr>
+<tr>
+<td class="col1">抽象クラス</td><td>abstract キーワード付与</td><td>-</td>
+</tr>
+</table>
+
+</body>
+</html>
+

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+</li>
+
+<h2>コントロールの操作に関する制約</h2>
+フォームアプリケーションなどの、コントロール(GUI)を有するアプリケーションにおいて別スレッドを起動した場合、<br>
+<b>別スレッドからは直接コントロールを操作することはできない</b>。<br>
+<b>コントロールの操作はUIスレッドから行う必要がある</b>。<br>
+<img src="_Img/MSVS_DotNet_CSharp/UI_delegate/UiControl_and_Delegate_01.png" alt="画像"><br>
+<h3>UIスレッドとは</h3>
+各フォームに割り当てられたスレッドで、主にイベントハンドラが属する。<br>
+即ち、<b>コントロールの操作は原則として、当該フォームのコンストラクタとイベントハンドラ(およびそれらのサブルーチン)からに限定される</b>。<br>
+(子フォームを起動した場合も同様。子フォーム(のスレッド)からは親フォームのコントロールを操作することはできない。)<br>
+<h2>別スレッドからのコントロールの操作</h2>
+別スレッドからコントロールを操作する場合は、bUIスレッドに操作を委譲する必要がある</b>。<br>
+<img src="_Img/MSVS_DotNet_CSharp/UI_delegate/UiControl_and_Delegate_02.png" alt="画像"><br>
+<h3>InvokeRequired</h3>
+各コントロール(フォームを含む)にはbInvokeRequired</b>というプロパティが存在し、Invoke() の要否( == UIスレッド外からの操作)を判定することができる。<br>
+上記のコード例を InvokeRequired を用いて書き直すと以下のようになる。これによりUIスレッド、UIスレッド外を問わず、一つの関数を共用できる。<br>
+<img src="_Img/MSVS_DotNet_CSharp/UI_delegate/UiControl_and_Delegate_03.png" alt="画像"><br>
+UpdateLabelText() は自分自身をデリゲートとして渡している。(≒再帰呼び出し)<br>
+<br>
+<br>
+</body>
+</html>

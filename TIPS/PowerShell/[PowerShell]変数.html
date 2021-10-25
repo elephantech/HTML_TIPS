@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<!--
+<h5>出典 :</h5>
+<a href="https://www.atmarkitcojpaitarticles070830news137.html">PowerShellスクリプティングの第一歩(前編) - ＠IT</a><br>
+<a href="https://www.atmarkitcojpaitarticles070920news125.html">PowerShellスクリプティングの第一歩(後編) - ＠IT</a><br>
+<a href="https://cheshire-waracompowershellps-textbooksbasic-grammararray-biginner1/">そうだったのか！配列の超簡単入門PowerShellで配列デビュー 第1回 | 【ﾁｪｼｬわら】</a><br>
+<a href="https://cheshire-waracompowershellps-textbooksbasic-grammararray-biginner2/">【連想配列 (ハッシュ) 】って何者？使い方は？PowerShellで配列デビュー 第2回 | 【ﾁｪｼｬわら】</a><br>
+-->
+
+<h5>関連 :</h5>
+<a href="TIPS/C・C++/[C++／STL／コンテナ]コンテナ.html">[C++／STL／コンテナ]マップ(連想配列)</a><br>
+<a href="TIPS/C%20Sharp/[C%23%20.Net]Dictionary(連想配列).html">[C# Net]Dictionary(連想配列)</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>基本形</h2>
+<p class="code">
+<cmt># 変数の初期化</cmt>
+$AnyParam_1 = <ltr>123</ltr>
+$AnyParam_2 = <ltr>"abc"</ltr>
+
+<cmt># 変数の参照</cmt>
+<kwd>Write-Host</kwd> $AnyParam_1
+<kwd>Write-Host</kwd> $AnyParam_2
+</p>
+実行結果
+<p class="code">
+123
+abc
+</p>
+
+<h2>変数の命名規則</h2>
+<ul>
+<li>先頭は必ず <b>'$'</b></li>
+<li>2文字目以降は(半角)英数字とアンダースコア ('_') のみ使用可能(その他の文字・記号は使用できない)</li>
+</ul>
+
+<h2>変数の型</h2>
+PowerShellは他のスクリプト言語同様、静的な型付けを行わず、与えられた実データに応じて適切なデータ型を自動的に割り当てる。<br>
+ここで既存の変数に異なる型のデータを代入した場合、新たな値に応じてデータ型が再度割り当てられる(エラーとはならない)。<br>
+
+<p class="code">
+<cmt># $ttt に 1 (数値)を代入し、型を確認
+# ⇒ Int32 (ValueType : 値型)</cmt>
+PS  $ttt = <ltr>1</ltr>
+PS  $tttGetType()
+
+IsPublic IsSerial Name                                     BaseType                                                                                                                     
+-------- -------- ----                                     --------                                                                                                                     
+True     True     Int32                                    SystemValueType                                                                                                             
+
+<cmt># $ttt に abc (文字列)を代入し、型を確認
+# ⇒ String (Object : オブジェクト型)</cmt>
+PS  $ttt = <ltr>"abc"</ltr>
+PS  $tttGetType()
+
+IsPublic IsSerial Name                                     BaseType                                                                                                                     
+-------- -------- ----                                     --------                                                                                                                     
+True     True     String                                   SystemObject                                                                                                                
+</p>
+
+<h2>文字列変数の自動展開</h2>
+文字列を表現する際は引用符(シングルクォート ('') 、またはダブルクォート ("") )で囲む必要があるが、<br>
+文字列中に変数を含む場合、いずれを用いたかで挙動が異なる。<br>
+
+<p class="code">
+<cmt># 変数 $name に文字列を代入</cmt>
+$name = <ltr>"山田"</ltr>
+
+<cmt># ダブルクォートで囲んだ場合 : $name が展開される</cmt>
+<kwd>Write-Host</kwd> <ltr>"私は </ltr>$name<ltr> です"</ltr>
+
+<cmt># シングルクォートで囲んだ場合 : $name が展開されない</cmt>
+<kwd>Write-Host</kwd> <ltr>'私は $name です'</ltr>
+</p>
+実行結果
+<p class="code">
+私は 山田 です
+私は $name です
+</p>
+
+<h2>配列</h2>
+<h3>初期化</h3>
+配列は <b>@(要素1, 要素2,...)</b> の形式で指定する。<br>
+<p class="code">
+<cmt># 変数 $arr を配列として初期化</cmt>
+$arr = <ltr>@(1, 2, 3, 4)</ltr>
+<cmt>#       ↑ ↑ ↑ ↑</cmt>
+<cmt>#       │ │ │ $arr[3] または $arr[-1]</cmt>
+<cmt>#       │ │ $arr[2]</cmt>
+<cmt>#       │ $arr[1]</cmt>
+<cmt>#       $arr[0]</cmt>
+</p>
+
+<h3>参照</h3>
+<b>変数名[添字]</b> の形式で指定する。<br>
+添字(インデクス)は 0 起算のため、$arr の先頭要素は $arr[0] 、続く要素は $arr[1] 、 $arr[2] ...となる。<br>
+また、添字に -1 を指定することで末尾要素にアクセスできる。<br>
+添字を省略した場合、すべての要素を参照する。<br>
+<p class="code">
+PS  $arr = @(1, 2, 3, 4)
+PS  $arr[0]   <cmt>#< 先頭要素にアクセス</cmt>
+1
+PS  $arr[1]
+2
+PS  $arr[-1]  <cmt>#< 末尾要素にアクセス</cmt>
+4
+PS  $arr      <cmt>#< 全要素にアクセス</cmt>
+1
+2
+3
+4
+PS 
+</p>
+
+<h2>連想配列(ハッシュテーブル)</h2>
+連想配列とは、値と、値を連想させる「キー」の対を保持する配列のこと。<br>
+無機質な「添字」と異なり、意味のある「キー」を用いることで、値を体系立てて整理することができる。<br>
+C++、C#における同種の概念については、<br>
+<a href="TIPS/C・C++/[C++／STL／コンテナ]コンテナ.html">[C++／STL／コンテナ]マップ(連想配列)</a><br>
+<a href="TIPS/C%20Sharp/[C%23%20.Net]Dictionary(連想配列).html">[C# Net]Dictionary(連想配列)</a><br>
+を参照のこと。
+
+<h3>初期化</h3>
+連想配列は <b>@{要素1のキー=要素1の値; 要素2のキー=要素2の値;...}</b> の形式で指定する。<br>
+<p class="code">
+<cmt># 変数 $map_height を連想配列として初期化</cmt>
+<cmt># 氏名と身長を対にして保持する</cmt>
+$map_height = <ltr>@{"相原 = 168; 新井 = 170; 早矢仕 = 180}</ltr>
+</p>
+
+<h3>参照</h3>
+<b>変数名[キー]</b> または <b>変数名キー</b> の形式で指定する。<br>
+キーを省略した場合は通常の配列同様、すべての要素を参照する。<br>
+<p class="code">
+PS  $map_height = @{"相原 = 168; 新井 = 170; 早矢仕 = 180}
+
+PS  $map_height["相原"]        <cmt>#< 相原 の身長</cmt>
+168
+
+PS  $map_height."新井         <cmt>#< 新井 の身長</cmt>
+170
+
+PS  $map_height早矢仕         <cmt>#<  (ドット)を用いる場合、引用符は省略可能</cmt>
+180
+
+PS  $map_height                <cmt>#< 全要素にアクセス</cmt>
+Name                 Value
+----                 -----
+相原                 168
+新井                 170
+早矢仕               180
+
+PS  $map_heightKeys           <cmt>#< Keys プロパティでキーの一覧を取得</cmt>
+相原
+新井
+早矢仕
+
+PS  $map_heightValues         <cmt>#< Values プロパティで値の一覧を取得</cmt>
+168
+170
+180
+
+PS 
+</p>
+
+
+</body>
+</html>

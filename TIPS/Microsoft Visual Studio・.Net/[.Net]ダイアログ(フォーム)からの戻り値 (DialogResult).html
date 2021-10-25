@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+フォームを開き、結果を受け取る手順。<br>
+(MainForm から ChildForm を開き、ChildForm の結果を受け取る。)
+
+<h2>手順の概略</h2>
+<ol>
+<li>MainForm から ChildForm を開く。</li>
+<li>ChildForm で、プロパティ DialogResult ( DialogResult 型変数)を設定する。<br>
+(開いたフォームがモーダルの場合は、bDialogResultNone 以外の値が設定されるとフォームの処理を終了する。Close() をコールする必要は無い。</b>)</li>
+<li>MainForm から ChildForm のプロパティ DialogResult を確認する。</li>
+</ol>
+
+<h2>C#の例</h2>
+<h3>呼び出す側の処理(MainFormcs)</h3>
+<p class="code">
+<kwd>private</kwd> void DoSomething()
+{
+    <cmt>// ChildForm をモーダルで開く (ShowDialog())
+    // (オーナーハンドルとして this を渡す)</cmt>
+    ChildForm form = <kwd>new</kwd> ChildForm();
+    formShowDialog(<kwd>this</kwd>);
+    
+    <cmt>// DialogResult プロパティの値を取得</cmt>
+    <kwd>if</kwd> (formDialogResult == DialogResultOK)
+    {
+        ConsoleWriteLine(<ltr>"OKボタンが押されました。"</ltr>);
+    }
+}
+</p>
+
+<h3>呼び出される側の処理(ChildFormcs)</h3>
+<p class="code">
+<cmt>// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -
+// イベントハンドラ
+// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -
+
+// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -
+// button「OK」クリック時の処理
+// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
+<kwd>private void</kwd> button_Ok_Click(object sender, EventArgs e)
+{
+    <cmt>// DialogResult プロパティを設定</cmt>
+    <cmt>// (フォームは自動的に閉じる)</cmt>
+    DialogResult = DialogResultOK;
+}
+</p>
+
+<h2>DialogResult 型の取りうる値(一例)</h2>
+<table>
+<tr><td>DialogResultNone</td><td>結果が設定されていない状態(デフォルト)</td></tr>
+<tr><td>DialogResultCancel</td><td>主に「キャンセル」ボタン押下時</td></tr>
+<tr><td>DialogResultOK</td><td>主に「OK」ボタン押下時</td></tr>
+<tr><td>DialogResultYes</td><td>主に「はい」ボタン押下時</td></tr>
+<tr><td>DialogResultNo</td><td>主に「いいえ」ボタン押下時</td></tr>
+</table>
+
+</body>
+</html>

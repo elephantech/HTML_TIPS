@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://cpprefjp.github.io/">cpprefjp - C++日本語リファレンス</a><br>
+<a href="https://qiita.com/h_hiro_/items/a83a8fd2391d4a3f0e1c">[C++] STLの型の使い分け - Qiita</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%A4%E3%83%86%E3%83%AC%E3%83%BC%E3%82%BF.html">[C++／STL／コンテナ]イテレータ</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%83%93%E3%83%83%E3%83%88%E3%82%BB%E3%83%83%E3%83%88.html">[C++／STL／コンテナ]ビットセット</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB(%E5%8B%95%E7%9A%84%E9%85%8D%E5%88%97).html">[C++／STL／コンテナ]ベクトル(動的配列)</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%83%9E%E3%83%83%E3%83%97(%E9%80%A3%E6%83%B3%E9%85%8D%E5%88%97).html">[C++／STL／コンテナ]マップ(連想配列)</a><br>
+<a href="TIPS/ソフトウェア開発一般/%E3%82%AD%E3%83%A5%E3%83%BC(Queue)%E3%81%A8%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF(Stack).html">キュー(Queue)とスタック(Stack)</a><br>
+<a href="TIPS/ソフトウェア開発一般/[%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E6%8C%87%E5%90%91]%E3%82%B8%E3%82%A7%E3%83%8D%E3%83%AA%E3%83%83%E3%82%AF%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%20(Generic%20Programming).html">[オブジェクト指向]ジェネリックプログラミング (Generic Programming)</a><br>
+<a href="TIPS/C%20Sharp/[C%23%20.Net]コレクション.html">[C# Net]コレクション</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>コンテナとは</h2>
+「指定した型のデータを複数個格納するデータ構造」のこと。C言語における配列(固定長配列)もコンテナである。<br>
+C++のSTL(Standard Template Library)には、<br>
+<ul>
+<li>「要素数を変更できる」</li>
+<li>「要素同士を関連付けられる」</li>
+<li>「添字ではなくキーとなる値で検索できる」</li>
+</ul>
+といった、データを取り扱う上で有用なコンテナクラスが定義されている。<br>
+C++以外にもJava、C#、Rubyなどのモダンな言語には同様の機構が実装されている。<br>
+
+<h2>コンテナの一覧</h2>
+
+<h3>可変長・固定長配列</h3>
+メモリ領域が連続するため、ポインタで走査可能。<br>
+
+<table>
+	<tr class="row1">
+		<td class="col1">名称</td>
+		<td>概要・特長</td>
+		<td>必要なヘッダ</td>
+		<td>備考</td>
+	</tr>
+	<tr>
+		<td class="col1">vector</td>
+		<td>ベクトル(可変長配列)<br>
+			要素数を自由に変更できる<br>
+			ランダムアクセスが高速でメモリ効率が良い
+			</td>
+		<td>#include &lt;vector&gt;</td>
+		<td>詳細は<a href="TIPS/C・C++/[C++／STL／コンテナ]ベクトル(動的配列).html">[C++／STL／コンテナ]ベクトル(動的配列)</a>を参照</td>
+	</tr>
+	<tr>
+		<td class="col1">array</td>
+		<td>通常の固定長配列に各種機能(ヘルパー)を追加したもの</td>
+		<td>#include &lt;array&gt;</td>
+		<td>C++11以降</td>
+	</tr>
+</table>
+
+<h3>list : 連結リスト</h3>
+
+<table>
+	<tr class="row1">
+		<td class="col1">名称</td>
+		<td>概要・特長</td>
+		<td>必要なヘッダ</td>
+		<td>備考</td>
+	</tr>
+	<tr>
+		<td class="col1">list</td>
+		<td>双方向リスト<br>
+			前後の要素への参照(ポインタ)を保持し、順に辿ることができる<br>
+			要素の追加・削除が高速だが、ランダムアクセスは遅い</td>
+		<td>#include &lt;list&gt;</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td class="col1">forward_list</td>
+		<td>単方向リスト<br>
+			後の要素への参照(ポインタ)を保持する<br>
+			list と異なり、前へは辿れない</td>
+		<td>#include &lt;forward_list&gt;</td>
+		<td>C++11以降</td>
+	</tr>
+</table>
+
+<h3>map : ユニークなキーと、値の対を格納(連想配列)</h3>
+ユニークなキーと、値のペアを格納する。要素の参照が高速。<br>
+詳細は<a href="TIPS/C・C++/[C++／STL／コンテナ]マップ(連想配列).html">[C++／STL／コンテナ]マップ(連想配列)</a>を参照。
+
+<table>
+	<tr class="row1">
+		<td class="col1">名称</td>
+		<td>概要・特長</td>
+		<td>必要なヘッダ</td>
+		<td>備考</td>
+	</tr>
+	<tr>
+		<td class="col1">map</td>
+		<td>要素はキーの値の大小に従ってソートされる</td>
+		<td rowspan="2">#include &lt;map&gt;</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td class="col1">multimap</td>
+		<td>キーの重複が認められるmap</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td class="col1">unordered_map</td>
+		<td>要素がソートされない map<br>
+			map よりも処理が高速でメモリ効率が良い</td>
+		<td rowspan="2">#include &lt;unordered_map&gt;</td>
+		<td rowspan="2">C++11以降</td>
+	</tr>
+	<tr>
+		<td class="col1">unordered_multimap</td>
+		<td>要素がソートされない multimap<br>
+			multimap よりも処理が高速でメモリ効率が良い</td>
+	</tr>
+</table>
+
+<h3>set : ユニークな値を格納</h3>
+ユニークな要素を格納する。map とは異なり、要素自体をキーとする。<br>
+
+<table>
+	<tr class="row1">
+		<td class="col1">名称</td>
+		<td>概要・特長</td>
+		<td>必要なヘッダ</td>
+		<td>備考</td>
+	</tr>
+	<tr>
+		<td class="col1">set</td>
+		<td>要素は昇順にソートされる</td>
+		<td rowspan="2">#include &lt;set&gt;</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td class="col1">multiset</td>
+		<td>値の重複が許される set</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td class="col1">unordered_set</td>
+		<td>要素がソートされない set<br>
+			set よりも処理が高速でメモリ効率が良い</td>
+		<td rowspan="2">#include &lt;unordered_set&gt;</td>
+		<td rowspan="2">C++11以降</td>
+	</tr>
+	<tr>
+		<td class="col1">unordered_multiset</td>
+		<td>要素がソートされない multiset<br>
+			multiset よりも処理が高速でメモリ効率が良い</td>
+	</tr>
+</table>
+
+<h3>その他</h3>
+
+<table>
+	<tr class="row1">
+		<td class="col1">名称</td>
+		<td>概要・特長</td>
+		<td>必要なヘッダ</td>
+		<td>備考</td>
+	</tr>
+	<tr>
+		<td class="col1">stack</td>
+		<td>スタック(LIFO)<br>
+			追加した要素を新しい順に取り出す<br>
+			プッシュ・ポップが高速</td>
+		<td>#include &lt;stack&gt;</td>
+		<td rowspan="2">詳細は<a href="TIPS/ソフトウェア開発一般/キュー(Queue)とスタック(Stack).html">キュー(Queue)とスタック(Stack)</a>を参照</td>
+	</tr>
+	<tr>
+		<td class="col1">queue</td>
+		<td>キュー(FIFO)<br>
+			追加した要素を旧い順に取り出す<br>
+			エンキュー・デキューが高速</td>
+		<td rowspan="2">#include &lt;queue&gt;</td>
+	</tr>
+	<tr>
+		<td class="col1">priority_queue</td>
+		<td>優先度付きキュー<br>
+			要素を追加順ではなく、優先度順で管理する<br>
+			値は優先度の大きいものから取り出される(デフォルトは降順)</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td class="col1">deque</td>
+		<td>両端キュー(Double-Ended QUEue)<br>
+			先頭・末尾への要素の追加・削除を高速に行える</td>
+		<td>#include &lt;deque&gt;</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td class="col1">bitset</td>
+		<td>固定長のビット列<br>
+			フラグとして使用可</td>
+		<td>#include &lt;bitset&gt;</td>
+		<td>詳細は<a href="TIPS/C・C++/[C++／STL／コンテナ]ビットセット.html">[C++／STL／コンテナ]ビットセット</a>を参照</td>
+	</tr>
+</table>
+
+</body>
+</html>

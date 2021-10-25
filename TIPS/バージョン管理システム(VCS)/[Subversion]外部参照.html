@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+
+<a href="http://bashalogc-brainsjp110610-181304php">[Subversion] svn:externals で外部リポジトリを取り込む | バシャログ。</a><br>
+<a href="http://unageanuhatenablogcomentry201001121263307030">svn:externals - うなの日記</a>
+
+<h5>関連 :</h5>
+<a href="TIPS/バージョン管理システム(VCS)/[Subversion]外部エディタの設定.html">外部エディタの設定</a>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>Subversionにおける外部参照とは</h2>
+あるリポジトリが別のリポジトリの内容を参照すること。<br>
+あるリポジトリ(A)に別のリポジトリ(B)で管理しているファイル(またはフォルダ)を含めたい場合、<br>
+そのままコピーしてAとBで同じファイルを管理すると二重管理となり、ファイル間の同期が取れなくなる恐れがあるとともに、リポジトリを無用に圧迫してしまう。<br>
+外部参照を用いることでファイルの管理を(Bに)一元化できるため、これらの問題が解消できる。<br>
+
+<p class="code">
+<cmt>参照先のリポジトリ (ProjectFoo)</cmt>
+//Server_Foo/Somewhare/SVN_Rep/ProjectFoo
+├ Folder01
+└ Folder02
+  ├ Filemm
+  └ Filenn
+
+<cmt>参照元のリポジトリ (ProjectBar)</cmt>
+//Server_Bar/Somewhare/SVN_Rep/ProjectBar
+├ Folder0x
+└ Folder02   <cmt>⇒ ProjectFoo の Folder02 を参照したい</cmt>
+  ├ Filemm
+  └ Filenn
+</p>
+
+<h2>設定手順</h2>
+<h3>コマンドライン</h3>
+<h4>単一のシンボルを設定する場合</h4>
+コマンド <b class="red">svn propset</b> を用いる。<br>
+(外部エディタを設定している場合は、後述の svn propedit を用いる手法が簡便。)<br>
+「<b class="dcyan">"C:\(略)\ProjectBar"</b> (プロパティの設定先 : ディレクトリ) にある <b class="dgreen">"Folder02"</b> (シンボル) が
+<b class="dyellow">"//Server_Foo/Somewhare/SVN_Rep/ProjectFoo/Folder02"</b> (参照先URL) を指す」
+
+<p class="code">
+<b class="red">svn propset</b> <b class="blue">svn:externals</b> <b class="dmagenta">"<b class="dgreen">"Folder02"</b> <b class="dyellow">"//Server_Foo/Somewhare/SVN_Rep/ProjectFoo/Folder02"</b>"</b> <b class="dcyan">"C:\(略)\ProjectBar"</b>
+</p>
+
+<table>
+<tr class="red">
+    <td colspan="2">コマンド・サブコマンド</td>
+    <td class="b">svn propset</td>
+</tr>
+
+<tr class="blue">
+    <td colspan="2">対象プロパティ</td>
+    <td class="b">svn:externals</td>
+</tr>
+
+<tr class="dmagenta">
+    <td colspan="2">プロパティに設定する値<br>(二重引用符で囲む必要がある)</td>
+    <td class="b"><b class="dmagenta">"<b class="dgreen">"Folder02"</b> <b class="dyellow">"//Server_Foo/Somewhare/SVN_Rep/ProjectFoo/Folder02"</b>"</b></td>
+</tr>
+
+<tr class="dgreen">
+    <td rowspan="2"</td>
+    <td>シンボル(参照元)<br>(プロパティ設定先ディレクトリからの相対パス)</td>
+    <td class="b">"Folder02"</td>
+</tr>
+
+<tr class="dyellow">
+
+    <td>参照先<br>(リポジトリURL)</td>
+    <td class="b">"//Server_Foo/Somewhare/SVN_Rep/ProjectFoo/Folder02"</td>
+</tr>
+
+<tr class="dcyan">
+    <td colspan="2">プロパティの設定先(ディレクトリ)<br>(リポジトリURLまたは作業コピーパス)</td>
+    <td class="b">"C:\(略)\ProjectBar"</td>
+</tr>
+
+</table>
+
+<h4>複数のシンボルを設定する場合</h4>
+コマンド <b class="red">svn propedit</b> を用いるとともに、外部エディタを用いてプロパティの設定を行う。<br>
+事前に外部エディタを設定しておく必要がある。外部エディタの設定については、<a href="TIPS/バージョン管理システム(VCS)/[Subversion]外部エディタの設定.html">外部エディタの設定</a>
+を参照。
+
+<p class="code">
+<b class="red">svn propedit</b> <b class="blue">svn:externals</b> <b class="dcyan">"C:\(略)\ProjectBar"</b>
+</p>
+
+<table>
+<tr class="red">
+    <td colspan="2">コマンド・サブコマンド</td>
+    <td class="b">svn propedit</td>
+</tr>
+
+<tr class="blue">
+    <td colspan="2">対象プロパティ</td>
+    <td class="b">svn:externals</td>
+</tr>
+
+<tr class="dcyan">
+<td colspan="2">プロパティの設定先(ディレクトリ)<br>(リポジトリURLまたは作業コピーパス)</td>
+<td class="b">"C:\(略)\ProjectBar"</td>
+</tr>
+</table>
+
+コマンド入力により外部エディタが開くので、シンボルと参照先をエディタ上で入力、保存して閉じることで設定が反映される。<br>
+<img src="_Img/VCS/svn/svn_external_reference_01.png"><br>
+
+<h3>TortoiseSVN</h3>
+(書きかけ)
+
+</body>
+</html>

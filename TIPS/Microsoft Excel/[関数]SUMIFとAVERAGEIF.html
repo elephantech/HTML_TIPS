@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>SUMIF 関数と AVERAGEIF 関数</h2>
+母集団の中から、検索条件に一致した値の合計・平均を取得することができる。<br>
+(例 : 出身地が鹿児島の社員の平均年齢を算出する)<br>
+
+<h2>書式</h2>
+<b>= SUMIF ( 検索範囲 , 検索値 , [集計範囲] )<br>
+= AVERAGEIF ( 検索範囲 , 検索値 , [集計範囲] )<br><br>
+</b>「検索範囲」から「検索値」に合致するセルを抽出し、そのセルに対応する値を「集計範囲」から抽出、合計または平均をとる。<br>
+「検索範囲」と「集計範囲」の行数および列数は一致している必要がある。<br>
+なお、「集計範囲」は省略可能。その場合、「検索範囲」が「集計範囲」となる。<br>
+
+<h2>使い方の例</h2>
+以下のような表を考える。<br>
+<img src="_Img/MS Excel/sumif_averageif/01.png" alt="画像"><br>
+<ul>
+<li>「田中さんの合計点は？」</li>
+<li>「田中さんの平均点は？」</li>
+<li>「数学の平均点は？」</li>
+</ul>
+<img src="_Img/MS Excel/sumif_averageif/02.png" alt="画像"><br>
+<ul>
+<li>「田中さんの合計点は？」<br>⇒ 検索範囲を「氏名」、集計範囲を「得点」に設定する。</li>
+<li>「田中さんの平均点は？」<br>⇒ 同上。</li>
+<li>「数学の平均点は？」<br>⇒ 検索範囲を「科目」、集計範囲を「得点」に設定する。</li>
+</ul>
+
+</body>
+</html>

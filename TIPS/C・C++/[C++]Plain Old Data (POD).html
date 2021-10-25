@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://ja.wikipedia.org/wikiC%2B%2B11">C++11 - Wikipedia</a><br>
+<a href="https://cpprefjp.github.io/reference/type_traits/is_pod.html">is_pod - cpprefjp C++日本語リファレンス</a><br>
+<a href="https://qiita.com/SaitoAtsushi/items/6b8cf84bf13146ae8b33">POD 型のデフォルト初期化 - Qiita</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>Plain Old Data (POD)とは</h2>
+bC言語の構造体と互換性のある</b> オブジェクトレイアウト(型)のこと。<br>
+連続したバイトで表現されるため、C言語とのデータ共有に用いることができ、memcpy() 、memset() でコピー、初期化できる。<br>
+逆にPODでない型は、memcpy() 、memset() が使用できず、C言語とのデータ共有ができない。<br>
+<h2>PODである条件</h2>
+C++03とC++11(以降)では一部条件が異なる(C++03よりも条件が緩和されている)。<br>
+<h3>C++03</h3>
+<ul>
+<li>aggregate である</li>
+<li>ユーザ定義のコンストラクタを持たない</li>
+<li>基底クラスを持たない (派生クラスではない)</li>
+<li>static でない private  protected な データメンバ を持たない ( = 非静的メンバがいずれも public )</li>
+<li>virtual なメンバ関数(仮想関数)を持たない</li>
+<li>ユーザ定義のデストラクタを持たない</li>
+<li>ユーザ定義の operator = を持たない</li>
+<li>staticでない non-POD型の構造体・共用体(とその配列)をメンバを持たない</li>
+<li>staticでない 参照 を持たない</li>
+</ul>
+
+<h3>C++11</h3>
+<ul>
+<li>trivial である</li>
+<li>デフォルトコンストラクタを持ち、かつ、非 trivial なデフォルトコンストラクタを持たない</li>
+<li>非 trivial なコピーコンストラクタを持たない</li>
+<li>非 trivial なムーブコンストラクタを持たない</li>
+<li>非 trivial なコピー代入演算子を持たない</li>
+<li>非 trivial なムーブ代入演算子を持たない</li>
+<li>trivial なデストラクタを持つ</li>
+<li>standard-layout である</li>
+<li>全ての非静的データメンバが standard-layout 型である</li>
+<li>全ての非静的データメンバに、同じアクセス制御 (public  private  protected) がかかっている( = 混在していない)</li>
+<li>仮想関数を持たない</li>
+<li>仮想基底クラスを持たない</li>
+<li>全ての基底クラスが standard-layout 型である</li>
+<li>一つ目に定義された非静的データメンバと同じ型の基底クラスを持たない</li>
+<li>非静的データメンバを持つ基底クラスを持たない。もしくは、導出クラスが非静的データメンバを持たず、高々一つの基底クラスしか非静的データメンバを持たない。これはつまり、クラス階層において非静的データメンバを持ってよいクラスは一つだけである、ということである</li>
+</ul>
+
+ここで、コンストラクタ、デストラクタ、演算子が trivial である、とは<br>
+<ul>
+<li>ユーザ定義 (user-provided) ではない</li>
+<li>(デストラクタのみ) virtual ではない</li>
+</ul>
+を意味する。<br>
+<br>
+C++03ではすべての非静的 (non-static) メンバが public である必要があるが、C++11では public  private  protected のいずれか一つに統一されていればよい。<br>
+<h2>POD型であることのチェック (C++11以降)</h2>
+<b>std::is_pod&lt;&gt;</b> を用いることで確認できる。<br>
+<p class="code">
+<kwd>#include</kwd> &lt;type_traits&gt;
+
+<cmt>// POD型</cmt>
+<kwd>class</kwd> C_Hoge
+{
+    :
+};
+
+<cmt>// non-POD型</cmt>
+<kwd>class</kwd> C_Fuga
+{
+    <cmt>// non-trivial なデフォルトコンストラクタ</cmt>
+    C_Fuga() {}
+};
+
+<kwd>void</kwd> main()
+{
+    std::cout &lt;&lt; std::boolalpha;    <cmt>//&lt; bool を英字で出力</cmt>
+    std::cout &lt;&lt; std::is_pod&lt;C_Hoge&gt;::value &lt;&lt; <ltr>'\n'</ltr>;
+    std::cout &lt;&lt; std::is_pod&lt;C_Fuga&gt;::value &lt;&lt; <ltr>'\n'</ltr>;
+}
+</p>
+実行結果<br>
+<p class="code">
+<kwd>true</kwd>
+<kwd>false</kwd>
+</p>
+<br>
+</body>
+</html>
+

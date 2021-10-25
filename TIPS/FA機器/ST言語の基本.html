@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<b>この記事は書きかけです。</b>
+
+<h2>ST(Structured )言語とは</h2>
+コントローラ(PLC)の制御に用いるための言語。国際標準IEC 61131-3の5言語のうちの一つ。<br>
+CやBASICのような高級プログラミング言語に近い記述が可能で、演算処理を記述した際の可読性にすぐれる。<br>
+<img src="_Img/FA/structured_text_basics/01.png"><br>
+
+<h2>記法</h2>
+C/C++同様、フォーマットの自由度が高い。<br>
+<ul>
+<li>文は <b class="blue">;</b> (セミコロン)で終わる</li>
+<li>文中に空白、改行、タブを挟んでもよい</li>
+<li>識別子(変数名・関数名)は大文字と小文字を区別しない</li>
+<li>一行コメントは <b class="dgreen">//</b> で始まる</li>
+<li>複数行コメントは <b class="dgreen">(*</b> と <b class="dgreen">*)</b> で囲む</li>
+<li>文字列リテラルは <b class="blue">'</b> (単一引用符)で囲む</li>
+</ul>
+
+<h2>変数と型</h2>
+変数の型は初期値によって規定される。(初期化を伴わない変数宣言はできない？)<br>
+変数への代入は <b class="red">":="</b> 演算子を用いる。
+<p class="code">
+X1 := LREAL#150 ;              <cmt>// 変数 X1 を 型 : 倍精度実数(LREAL)、値 : 150の両方を指定して初期化</cmt>
+X2 := LREAL#20000 ;
+X3 := 1000 ;                  <cmt>// 変数 X3 を 値のみ指定して初期化(型は自動で決定される)</cmt>
+Y1 := X2X1 ;                  <cmt>// 除算結果を得る</cmt>
+</p>
+
+使用できる型名(抜粋)
+<table>
+<tr class="row1">
+<td class="col1">型</td><td>ST</td><td>相当する<br>C/C++の型</td>
+</tr>
+<tr><td class="col1">2バイト符号付き整数</td><td>INT</td><td>short int</td></tr>
+<tr><td class="col1">4バイト符号付き整数</td><td>DINT</td><td>long int</td></tr>
+<tr><td class="col1">2バイト符号無し整数</td><td>UINT</td><td>unsigned short int</td></tr>
+<tr><td class="col1">4バイト符号無し整数</td><td>UDINT</td><td>unsigned long int</td></tr>
+<tr><td class="col1">4バイト実数</td><td>REAL</td><td>float</td></tr>
+<tr><td class="col1">可変長1バイト文字列</td><td>STRING</td><td>std::string</td></tr>
+<tr><td class="col1">可変長2バイト文字列</td><td>WSTRING</td><td>std::wstring</td></tr>
+<tr><td class="col1">持続時間</td><td>TIME</td><td>std::time_t</td></tr>
+<tr><td class="col1">日付</td><td>DATE</td><td>std::time_t</td></tr>
+</table>
+
+<h2>演算子</h2>
+<table>
+<tr class="row1">
+<td class="col1" colspan="2">演算</td><td>ST</td><td>相当する<br>C/C++の演算子など</td>
+</tr>
+<tr><td class="col1" rowspan="6">数値演算</td><td class="col1">加算</td><td>+</td><td>+</td></tr>
+<tr>                                          <td class="col1">減算</td><td>-</td><td>-</td></tr>
+<tr>                                          <td class="col1">乗算</td><td>*</td><td>*</td></tr>
+<tr>                                          <td class="col1">除算</td><td>/</td><td>/</td></tr>
+<tr>                                          <td class="col1">剰余算</td><td>MOD</td><td>%</td></tr>
+<tr>                                          <td class="col1">べき乗</td><td>**</td><td>std::pow() 関数</td></tr>
+<tr><td class="col1" rowspan="6">比較演算</td><td class="col1">小なり(未満)</td><td>&lt;</td><td>&lt;</td></tr>
+<tr>                                          <td class="col1">大なり(超)</td><td>&gt;</td><td>&gt;</td></tr>
+<tr>                                          <td class="col1">以下</td><td>&lt;=</td><td>&lt;=</td></tr>
+<tr>                                          <td class="col1">以上</td><td>&gt;=</td><td>&gt;=</td></tr>
+<tr>                                          <td class="col1">等しい</td><td>=</td><td>==</td></tr>
+<tr>                                          <td class="col1">等しくない</td><td>&lt;&gt;</td><td>!=</td></tr>
+<tr><td class="col1" rowspan="4">論理演算</td><td class="col1">否定</td><td>NOT</td><td>!</td></tr>
+<tr>                                          <td class="col1">論理積</td><td>AND</td><td>&&</td></tr>
+<tr>                                          <td class="col1">論理和</td><td>OR</td><td>||</td></tr>
+<tr>                                          <td class="col1">排他的論理和</td><td>XOR</td><td></td></tr>
+<tr><td class="col1" colspan="2">代入</td><td>:=</td><td>=</td></tr>
+<tr><td class="col1" colspan="2">括弧</td><td>()</td><td>()</td></tr>
+</table>
+
+</body>
+</html>
+

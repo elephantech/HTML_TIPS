@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="
+https://toukeigaku-jouhou.info/20181129/sumproduct
+">エクセルで加重平均を計算するSUMPRODUCT 関数 | 統計学が わかった！</a><br>
+<a href="
+https://toukeigaku-jouhou.info/20150822/mean-median-geometric-mean-etc
+">平均値の種類はひとつだけじゃない。算術平均、加重平均、幾何平均、移動平均の違いと使い分け | 統計学が わかった！</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>加重平均の算出</h2>
+以下のような例を考える。<br>
+<img src="_Img/MS Excel/weighted_mean_sumproduct/01.png"><br>
+「おにぎりの平均単価(加重平均)」を求める際、売上総額を販売総数で割ることになるが、この売上総額は <b>SUMPRODUCT</b> 関数で導出できる。<br>
+( SUMPRODUCT で加重平均を直接導出できるわけではないことに注意)<br>
+<img src="_Img/MS Excel/weighted_mean_sumproduct/02.png"><br>
+
+<h2>SUMPRODUCT関数の引数</h2>
+SUMPRODUCT 関数は引数に複数の配列を指定することができる(3つ以上も可)が、対応する要素同士の積をとるため、<br>
+引数に指定された配列の要素数はすべて等しくなければならない。<br>
+(前節の例における「単価」、「販売数」の2つの配列の要素数は等しくなければならない。)
+
+</body>
+</html>

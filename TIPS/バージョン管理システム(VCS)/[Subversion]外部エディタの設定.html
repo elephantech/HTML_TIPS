@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>Subversionにおける外部エディタ</h2>
+Subversionをコマンドラインで用いる場合、CLI環境ではコミットメッセージなどで複数行の入力ができない。<br>
+外部エディタ(「メモ帳」などのテキストエディタ)を設定しておくことで、複数行のテキストを入力することができる。
+
+<h2>設定手順</h2>
+<h3>Windows : TortoiseSVNを経由する場合</h3>
+
+<ol>
+<li>
+プルダウンメニュー(右クリック)から「TortoiseSVN」「設定」を選択する。<br>
+<img src="_Img/VCS/svn/svn_external_editor_01.png"><br>
+</li>
+
+<li>
+「全般」>(Subversionの設定ファイル)「編集」を選択する。<br>
+<img src="_Img/VCS/svn/svn_external_editor_02.png"><br>
+</li>
+
+<li>
+設定ファイルが開くので、[helpers]セクション中の<b> editor-cmd </b>を編集する。<br>
+(図はサクラエディタを使用する場合の例)<br>
+<img src="_Img/VCS/svn/svn_external_editor_03.png"><br>
+</li>
+</ol
+
+</body>
+</html>

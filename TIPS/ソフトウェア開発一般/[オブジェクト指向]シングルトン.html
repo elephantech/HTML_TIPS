@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://ja.wikipedia.org/wikiSingleton_%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3">Singleton パターン - Wikipedia</a><br>
+<a href="https://qiita.com/Shuuuuuuun/items/0d6f809e8c55fe898ebd">Singletonとは何ぞや - Qiita</a><br>
+<a href="https://qiita.com/shoheiyokoyama/items/c16fd547a77773c0ccc1">デザインパターン「Singleton」- Qiita</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C%E3%83%BBC++/[C%EF%BC%8FC++]static%E4%BF%AE%E9%A3%BE%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9.html">[C／C++]static修飾の使い方</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>シングルトン(Singleton)とは</h2>
+オブジェクト指向プログラミングにおけるデザインパターンの一つで、その<b>クラスのインスタンスが一つしか生成されないことを保証する</b>仕組みのこと。<br>
+インスタンスが一つであることが必要且つ十分で、アプリケーション全体で統一しなければならない仕組みの実装に用いられる。<br>
+<h2>シングルトンの一般形</h2>
+<img src="_Img/Software Development/OOP/singleton/oop-singleton_01.png" alt="画像"><br>
+上図は一般的なシングルトンのクラス図である。特徴は以下の通り。<br>
+<ol>
+<li>インスタンスを <b>自身の中に static メンバとして保持する</b></li>
+		<li><b>コンストラクタを private 化する</b> ⇒ クラス外からのインスタンス生成を許容しない</li>
+		<li>1. のインスタンスを返す <b>getInstance() 関数を有する(public かつ static)</b></li>
+</li>
+</ol>
+これにより、シングルトンのインスタンスが唯一であることが保証され、クラス外からはインスタンスを生成することなく(そもそも生成できない)利用できる。<br>
+<h2>C++での実装例</h2>
+<h3>C++03以前</h3>
+<img src="_Img/Software Development/OOP/singleton/oop-singleton_02.png" alt="画像"><br>
+getInstance() 関数の静的ローカル変数をシングルトンインスタンスとしている。ここでコピーコンストラクタ、コピー代入演算子を private かつ定義無しとしているのは、 <b>クラスを(実質的に)コピー不可とする</b> ため。<br>
+注意が必要な点として、C++03以前の規格では静的ローカル変数の初期化はスレッドセーフ性が保証されないため、複数のスレッドから同時に初回の getInstance() が呼ばれた場合、未定義の動作となる。<br>
+また、シングルトンインスタンスを削除するタイミングを明示的に制御できない点にも注意が必要。さらに、Singleton クラスを継承した派生クラスの定義を制限することができない。<br>
+<h3>C++11以降</h3>
+<img src="_Img/Software Development/OOP/singleton/oop-singleton_03.png" alt="画像"><br>
+ bdelete 指定によりコンパイラがデフォルトの関数を生成しない(明示的に「定義無し」とする)ようにできる</b> ため、コンストラクタ・デストラクタ以外は private である必要は無い。<br>
+旧規格と異なり、静的ローカル変数の初期化は自動的にスレッドセーフとなる。また、final 指定により、派生クラスの定義を禁止することができる。<br>
+<h2>シングルトンを適用するケース</h2>
+プログラム(ソフトウェアコンポーネント)中でインスタンスが唯一であることが保証されるため、プログラム中で(値の)同期が必要となる用途に適する。具体的には<br>
+<ul>
+<li>設定ファイル(INI、XMLなど)から読み込んだ設定値を管理する</li>
+<li>DLLのラッパー</li>
+</ul>
+などが挙げられる。<br>
+<b>(これらはプログラム中で唯一であるとともに、特定のクラス・文脈に拘束されずにアクセスできることに意義がある。)</b><br>
+<br>
+シングルトンは特定のクラスや文脈に拘束されないため、一種のグローバル変数のように用いることができる。<br>
+逆に言えばグローバル変数と同様の危険性をはらんではいるが、名前空間を用いてアクセス範囲を制限することで、この危険性を低減することができる。<br>
+</body>
+</html>

@@ -1,0 +1,761 @@
+@charset "utf-8";
+
+/* ---------------------------------- */
+/* 本体                               */
+/* ---------------------------------- */
+body {
+  background:           #FFFFFF;
+  margin-left:          70px;
+  margin-right:         20px;
+}
+
+/* ---------------------------------- */
+/* 強調                               */
+/* ---------------------------------- */
+/* ボールド (<#### class="b">, <b>, <#### class="strong">, <strong>) */
+/* ボールド・イタリック (<#### class="bi">, <bi>) */
+.b, b, .strong, strong, .bi, bi {
+  font-weight:          bold;
+}
+
+/* イタリック (<#### class="i">, <i>, <#### class="em">, <em>) */
+/* ボールド・イタリック (<#### class="bi">, <bi>) */
+.i, i, .em, em, .bi, bi {
+  font-style:           italic;
+  padding-left:         -1px;
+  padding-right:        3px;
+}
+
+/* ---------------------------------- */
+/* 文字サイズ                         */
+/* ---------------------------------- */
+/* 親要素の50% (<#### class="x50">, <x50>) */
+.x50, x50 {
+  font-size:            50%;
+}
+
+/* 親要素の60% (<#### class="x60">, <x60>) */
+.x60, x60 {
+  font-size:            60%;
+}
+
+/* 親要素の70% (<#### class="x70">, <x70>) */
+.x70, x70 {
+  font-size:            70%;
+}
+
+/* 親要素の75% (<#### class="x75">, <x75>) */
+.x75, x75 {
+  font-size:            75%;
+}
+
+/* 親要素の80% (<#### class="x80">, <x80>) */
+.x80, x80 {
+  font-size:            80%;
+}
+
+/* 親要素の90% (<#### class="x90">, <x90>) */
+.x90, x90 {
+  font-size:            90%;
+}
+
+/* 親要素の95% (<#### class="x95">, <x95>) */
+.x95, x95 {
+  font-size:            95%;
+}
+
+/* 親要素の100% (<#### class="x100">, <x100>) */
+.x100, x100 {
+  font-size:            100%;
+}
+
+/* 親要素の105% (<#### class="x105">, <x105>) */
+.x105, x105 {
+  font-size:            105%;
+}
+
+/* 親要素の110% (<#### class="x110">, <x110>) */
+.x110, x110 {
+  font-size:            110%;
+}
+
+/* 親要素の120% (<#### class="x120">, <x120>) */
+.x120, x120 {
+  font-size:            120%;
+}
+
+/* 親要素の125% (<#### class="x125">, <x125>) */
+.x125, x125 {
+  font-size:            125%;
+}
+
+/* 親要素の130% (<#### class="x130">, <x130>) */
+.x130, x130 {
+  font-size:            130%;
+}
+
+/* 親要素の140% (<#### class="x140">, <x140>) */
+.x140, x140 {
+  font-size:            140%;
+}
+
+/* 親要素の150% (<#### class="x150">, <x150>) */
+.x150, x150 {
+  font-size:            150%;
+}
+
+/* ---------------------------------- */
+/* 文字色                             */
+/* ---------------------------------- */
+/* 文字色 : 赤 (<#### class="red">, (<red>) */
+.red,  red {
+  color:                #FF0000;
+}
+
+/* 文字色 : 暗赤 (<#### class="dred">, (<dred>) */
+.dred,  dred {
+  color:                #9F0000;
+}
+
+/* 文字色 : 緑 (<#### class="green">, (<green>) */
+.green, green {
+  color:                #00FF00;
+}
+
+/* 文字色 : 暗緑 (<#### class="dgreen">, (<dgreen>) */
+.dgreen,  dgreen {
+  color:                #009F00;
+}
+
+/* 文字色 : 青 (<#### class="blue">, (<blue>) */
+.blue, blue {
+  color:                #0000FF;
+}
+
+/* 文字色 : 暗青 (<#### class="dblue">, (<dblue>) */
+.dblue,  dblue {
+  color:                #00009F;
+}
+
+/* 文字色 : シアン (<#### class="cyan">, (<cyan>) */
+.cyan,  cyan {
+  color:                #00FFFF;
+}
+
+/* 文字色 : 暗シアン (<#### class="dcyan">, (<dcyan>) */
+.dcyan,  dcyan {
+  color:                #009F9F;
+}
+
+/* 文字色 : マゼンタ (<#### class="magenta">, (<magenta>) */
+.magenta, magenta {
+  color:                #FF00FF;
+}
+
+/* 文字色 : 暗マゼンタ (<#### class="dmagenta">, (<dmagenta>) */
+.dmagenta, dmagenta {
+  color:                #9F009F;
+}
+
+/* 文字色 : 黄 (<#### class="yellow">, (<yellow>) */
+.yellow, yellow {
+  color:                #FFFF00;
+}
+
+/* 文字色 : 暗黄 (<#### class="dyellow">, (<dyellow>) */
+.dyellow, dyellow {
+  color:                #9F9F00;
+}
+
+/* 文字色 : 白 (<#### class="white">, (<white>) */
+.white, white {
+  color:                #FFFFFF;
+}
+
+/* 文字色 : 黒 (<#### class="black">, (<black>) */
+.black, black {
+  color:                #000000;
+}
+
+/* ---------------------------------- */
+/* 背景色                             */
+/* ---------------------------------- */
+/* 背景色 : 赤 (<#### class="bg_r">, (<bg_r>) */
+.bg_r,  bg_r {
+  background-color:     #FF0000;
+}
+
+/* 背景色 : 薄赤 (<#### class="bg_lr">, (<bg_lr>) */
+.bg_lr,  bg_lr {
+  background-color:     #FFC0C0;
+}
+
+/* 背景色 : 緑 (<#### class="bg_g">, (<bg_g>) */
+.bg_g,  bg_g {
+  background-color:     #00FF00;
+}
+
+/* 背景色 : 薄緑 (<#### class="bg_lg">, (<bg_lg>) */
+.bg_lg,  bg_lg {
+  background-color:     #C0FFC0;
+}
+
+/* 背景色 : 青 (<#### class="bg_b">, (<bg_b>) */
+.bg_b,  bg_b {
+  background-color:     #0000FF;
+}
+
+/* 背景色 : 薄青 (<#### class="bg_lb">, (<bg_lb>) */
+.bg_lb,  bg_lb {
+  background-color:     #C0C0FF;
+}
+
+/* 背景色 : シアン (<#### class="bg_c">, (<bg_c>) */
+.bg_c,  bg_c {
+  background-color:     #00FFFF;
+}
+
+/* 背景色 : ライトシアン (<#### class="bg_lc">, (<bg_lc>) */
+.bg_lc,  bg_lc {
+  background-color:     #C0FFFF;
+}
+
+/* 背景色 : マゼンタ (<#### class="bg_m">, (<bg_m>) */
+.bg_m,  bg_m {
+  background-color:     #FF00FF;
+}
+
+/* 背景色 : ライトマゼンタ (<#### class="bg_lm">, (<bg_lm>) */
+.bg_lm,  bg_lm {
+  background-color:     #FFC0FF;
+}
+
+/* 背景色 : イエロー (<#### class="bg_y">, (<bg_y>) */
+.bg_y,  bg_y {
+  background-color:     #FFFF00;
+}
+
+/* 背景色 : ライトイエロー (<#### class="bg_ly">, (<bg_ly>) */
+.bg_ly,  bg_ly {
+  background-color:     #FFFFC0;
+}
+
+/* 背景色 : 白 (<#### class="bg_w">, (<bg_w>) */
+.bg_w,  bg_w {
+  background-color:     #FFFFFF;
+}
+
+/* 背景色 : 薄灰 (<#### class="bg_lh">, (<bg_lh>) */
+.bg_lh,  bg_lh {
+  background-color:     #C0C0C0;
+}
+
+/* 背景色 : 灰 (<#### class="bg_h">, (<bg_h>) */
+.bg_h,  bg_h {
+  background-color:     #808080;
+}
+
+/* 背景色 : 濃灰 (<#### class="bg_dh">, (<bg_dh>) */
+.bg_dh,  bg_dh {
+  background-color:     #404040;
+}
+
+/* 背景色 : 黒 (<#### class="bg_k">, (<bg_k>) */
+.bg_k,  bg_k {
+  background-color:     #000000;
+}
+
+/* ---------------------------------- */
+/* 見出し                             */
+/* ---------------------------------- */
+h1 {
+  font-size:            190%;
+  font-weight:          bold;
+  color:                #FFFFFF;
+  letter-spacing:       0.17em;
+  margin-top:           30px;
+  margin-bottom:        20px;
+  margin-left:          -50px;
+  padding:              10px 8px;
+  background-color:     #CC9999;
+}
+
+h2 {
+  font-size:            160%;
+  font-weight:          bold;
+  margin-top:           30px;
+  margin-bottom:        10px;
+  margin-left:          -50px;
+  border-bottom-style:  double;
+  border-bottom-width:  6px;
+  border-bottom-color:  #CC9999;
+}
+
+h3 {
+  font-size:            145%;
+  font-weight:          bold;
+  margin-top:           24px;
+  margin-bottom:        8px;
+  margin-left:          -35px;
+  border-bottom-style:  solid;
+  border-bottom-width:  4px;
+  border-bottom-color:  #CC9999;
+}
+
+h4 {
+  font-size:            130%;
+  font-weight:          bold;
+  margin-top:           18px;
+  margin-bottom:        6px;
+  margin-left:          -20px;
+  border-bottom-style:  solid;
+  border-bottom-width:  2px;
+  border-bottom-color:  #CC9999;
+}
+
+h5 {
+  font-size:            115%;
+  font-weight:          bold;
+  margin-top:           12px;
+  margin-bottom:        4px;
+  margin-left:          -10px;
+}
+
+/* ---------------------------------- */
+/* 横罫線                             */
+/* ---------------------------------- */
+hr {
+  margin-top:           20px;
+  margin-bottom:        20px;
+  margin-left:          -50px;
+  color:                #CC9999;
+}
+
+/* ---------------------------------- */
+/* 回り込み                            */
+/* ---------------------------------- */
+/* 左 (<#### class="f_l">) */
+.f_l {
+  float:                left;
+  margin-right:         3em;
+}
+
+/* 右 (<#### class="f_r">) */
+.f_r {
+  float:                right;
+  margin-left:          3em;
+}
+
+/* 解除 (<#### class="f_c">) */
+.f_c {
+  clear:                both;  
+}
+
+/* ---------------------------------- */
+/* 画像                               */
+/* ---------------------------------- */
+img {
+  margin:               10px;
+}
+
+/* ---------------------------------- */
+/* 表組み                             */
+/* ---------------------------------- */
+table {
+  border-style:         solid;
+  border-width:         3px;
+  border-collapse:      collapse;
+  margin:               6px 0;
+}
+
+td, th {
+  border-style:         solid;
+  border-width:         1px;
+}
+
+td {
+  padding:              4px 8px;
+}
+
+table, tr, td, th {
+  border-color:         #996666;
+}
+
+/* ヘッダ行・列 */
+th, .row1, .col1 {
+  font-weight:          bold;
+  text-align:           center;
+  background-color:     #E0CCCC;
+  padding:              6px 12px;
+}
+
+.row1 {
+  border-bottom-style:  double;
+  border-bottom-width:  4px;
+}
+
+.col1 {
+  border-right-style:   double;
+  border-right-width:   4px;
+}
+
+/* 文字配置 */
+/* 左揃え (<#### class="left">) */
+.left {
+  text-align:           left;
+}
+
+/* 左右中央揃え (<#### class="center">) */
+.center {
+  text-align:           center;
+}
+
+/* 右揃え (<#### class="right">) */
+.right {
+  text-align:           right;
+}
+
+/* 上揃え (<#### class="top">) */
+.top {
+  vertical-align:       text-top;
+}
+
+/* 上下中央揃え (<#### class="middle">) */
+.middle {
+  vertical-align:       middle;
+}
+
+/* 下揃え (<#### class="bottom">) */
+.bottom {
+  vertical-align:       text-bottom;
+}
+
+/* 両端揃え (<#### class="justify">) */
+.justify {
+  text-align-last:      justify;
+  text-justify:         inter-ideograph;  /* for MS-Edge */
+}
+
+/* 罫線 */
+/* 通常(細線) */
+/* (全周) (<#### class="border_normal">、<#### class="border_thin">) */
+.border_normal, .border_thin {
+  border-style:         solid;
+  border-width:         1px;
+}
+
+/* (上) (<#### class="border_t_normal">、<#### class="border_t_thin">) */
+.border_t_normal, .border_t_thin {
+  border-top-style:     solid;
+  border-top-width:     1px;
+}
+
+/* (下) (<#### class="border_b_normal">、<#### class="border_b_thin">) */
+.border_b_normal, .border_b_thin {
+  border-bottom-style:  solid;
+  border-bottom-width:  1px;
+}
+
+/* (左) (<#### class="border_l_normal">、<#### class="border_l_thin">) */
+.border_l_normal, .border_l_thin {
+  border-left-style:    solid;
+  border-left-width:    1px;
+}
+
+/* (右) (<#### class="border_r_normal">、<#### class="border_r_thin">) */
+.border_r_normal, .border_r_thin {
+  border-right-style:   solid;
+  border-right-width:   1px;
+}
+
+/* 太線 */
+/* (全周) (<#### class="border_thick"> */
+.border_thick {
+  border-style:         solid;
+  border-width:         3px;
+}
+
+/* (上) (<#### class="border_t_thick"> */
+.border_t_thick {
+  border-top-style:     solid;
+  border-top-width:     3px;
+}
+
+/* (下) (<#### class="border_b_thick"> */
+.border_b_thick {
+  border-bottom-style:  solid;
+  border-bottom-width:  3px;
+}
+
+/* (左) (<#### class="border_l_thick"> */
+.border_l_thick {
+  border-left-style:    solid;
+  border-left-width:    3px;
+}
+
+/* (右) (<#### class="border_r_thick"> */
+.border_r_thick {
+  border-right-style:   solid;
+  border-right-width:   3px;
+}
+
+/* 極太線 */
+/* (全周) (<#### class="border_thickest"> */
+.border_thickest {
+  border-style:         solid;
+  border-width:         5px;
+}
+
+/* (上) (<#### class="border_t_thickest"> */
+.border_t_thickest {
+  border-top-style:     solid;
+  border-top-width:     5px;
+}
+
+/* (下) (<#### class="border_b_thickest"> */
+.border_b_thickest {
+  border-bottom-style:  solid;
+  border-bottom-width:  5px;
+}
+
+/* (左) (<#### class="border_l_thickest"> */
+.border_l_thickest {
+  border-left-style:    solid;
+  border-left-width:    5px;
+}
+
+/* (右) (<#### class="border_r_thickest"> */
+.border_r_thickest {
+  border-right-style:   solid;
+  border-right-width:   5px;
+}
+
+/* 二重線 */
+/* (全周) (<#### class="border_double"> */
+.border_double {
+  border-style:         double;
+  border-width:         4px;
+}
+
+/* (上) (<#### class="border_t_double"> */
+.border_t_double {
+  border-top-style:     double;
+  border-top-width:     4px;
+}
+
+/* (下) (<#### class="border_b_double"> */
+.border_b_double {
+  border-bottom-style:  double;
+  border-bottom-width:  4px;
+}
+
+/* (左) (<#### class="border_l_double"> */
+.border_l_double {
+  border-left-style:    double;
+  border-left-width:    4px;
+}
+
+/* (右) (<#### class="border_r_double"> */
+.border_r_double {
+  border-right-style:   double;
+  border-right-width:   4px;
+}
+
+/* 破線 */
+/* (全周) (<#### class="border_dashed"> */
+.border_dashed {
+  border-style:         dashed;
+  border-width:         1px;
+}
+
+/* (上) (<#### class="border_t_dashed"> */
+.border_t_dashed {
+  border-top-style:     dashed;
+  border-top-width:     1px;
+}
+
+/* (下) (<#### class="border_b_dashed"> */
+.border_b_dashed {
+  border-bottom-style:  dashed;
+  border-bottom-width:  1px;
+}
+
+/* (左) (<#### class="border_l_dashed"> */
+.border_l_dashed {
+  border-left-style:    dashed;
+  border-left-width:    1px;
+}
+
+/* (右) (<#### class="border_r_dashed"> */
+.border_r_dashed {
+  border-right-style:   dashed;
+  border-right-width:   1px;
+}
+
+/* 点線 */
+/* (全周) (<#### class="border_dotted"> */
+.border_dotted {
+  border-style:         dotted;
+  border-width:         1px;
+}
+
+/* (上) (<#### class="border_t_dotted"> */
+.border_t_dotted {
+  border-top-style:     dotted;
+  border-top-width:     1px;
+}
+
+/* (下) (<#### class="border_b_dotted"> */
+.border_b_dotted {
+  border-bottom-style:  dotted;
+  border-bottom-width:  1px;
+}
+
+/* (左) (<#### class="border_l_dotted"> */
+.border_l_dotted {
+  border-left-style:    dotted;
+  border-left-width:    1px;
+}
+
+/* (右) (<#### class="border_r_dotted"> */
+.border_r_dotted {
+  border-right-style:   dotted;
+  border-right-width:   1px;
+}
+
+/* ---------------------------------- */
+/* リンク                             */
+/* ---------------------------------- */
+a {
+  padding:              3px;
+  font-weight:          bold;
+}
+
+a:link {
+  color:                #330099;
+}
+
+a:visited {
+  color:                #990033;
+}
+
+a:hover {
+  color:                #5577FF;
+}
+
+a:active {
+  color:                #2244CC;
+}
+
+/* ---------------------------------- */
+/* 番号付きリスト(<ol>)               */
+/* 箇条書き(<ul>)                     */
+/* ---------------------------------- */
+/* 1段目 */
+ol, ul {
+  margin-top:           10px;
+  margin-bottom:        10px;
+  list-style-type:      none;
+  padding-left:         0;
+}
+
+ol {
+  counter-reset:        cnt;
+}
+
+/* 2段目以降 */
+ol ol, ul ul, ol ul, ul ol {
+  margin-top:           0px;
+  margin-bottom:        0px;
+  padding-left:         1em;
+}
+
+/* 表中 */
+td ol, td ul {
+  margin-top:           0px;
+  margin-bottom:        0px;
+}
+
+/* 項目(<li>) */
+ol li {
+  text-indent:          -1.3em;
+  padding-left:         1.3em;
+}
+
+/* (行頭文字) */
+ol li:before {
+  counter-increment:    cnt;
+  content:              counters(cnt, ".")". ";
+  /* 以下、行頭文字の装飾 */
+  font-weight:          bold;
+  color:                #996666;
+}
+
+/* 項目(<li>) */
+ul li {
+  text-indent:          -1em;
+  padding-left:         1em;
+}
+
+/* (行頭文字) */
+ul li:before {
+  content:              '';
+  display:              inline-block;
+  height:               1em;
+  width:                1em;
+  background-size:      contain;
+}
+
+ul li:before {
+  background-image:     url(disc.png);
+}
+
+ul ul li:before {
+  background-image:     url(circle.png);
+}
+
+ul ul ul li:before {
+  background-image:     url(disc.png);
+}
+
+ul ul ul ul li:before {
+  background-image:     url(circle.png);
+}
+
+/* 目次(<div id="toc">) */
+div#toc ul
+{
+  margin-top:           0px;
+  margin-bottom:        0px;
+}
+
+/* ---------------------------------- */
+/* コード (<p class="code">)          */
+/* ---------------------------------- */
+p.code {
+  white-space:          pre;
+  font-family:          monospace;
+  line-height:          1.3;
+  border-style:         solid;
+  border-width:         1px;
+  border-color:         #996666;
+  background-color:     #E7D7D7;
+  margin-top:           6px;
+  margin-bottom:        6px;
+  padding:              0 1em 1.3em 1em;
+}
+
+/* キーワード (<#### class="keyword">、<keyword>、<kwd>) */
+p.code .keyword, p.code keyword, p.code kwd {
+  color:                #0000FF;
+}
+
+/* コメント (<#### class="comment">、<comment>、<cmt>) */
+p.code .comment, p.code comment, p.code cmt {
+  color:                #009000;
+}
+
+/* リテラル (<#### class="literal">、<literal>、<ltr>) */
+p.code .literal, p.code literal, p.code ltr {
+  color:                #990000;
+}

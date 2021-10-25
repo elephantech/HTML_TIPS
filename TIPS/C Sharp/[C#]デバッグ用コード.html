@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://dobon.net/vb/dotnet/programing/define.html">デバッグビルドでのみ特定のコードがコンパイルされるようにする - .NET Tips (VB.NET,C#...)</a>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+デバッグ(またはリリース)ビルドでのみ有効な(コンパイルされる)コードを記述する際の手順。
+
+<h2>準備</h2>
+プロジェクトのプロパティを開き、「ビルド」タブから <b>DEBUG / TRACE</b> 定数の定義の有無を切り替える。<br>
+<img src="_Img/MSVS_DotNet_CSharp/CSharp_DebugCode/CSharp_DebugCode_01.png">
+
+<h2>デバッグコードの実装</h2>
+<b>DEBUG</b> 定数が定義されている場合のみ有効なコードの記述例 :
+<p class="code">
+<kwd>#if</kwd> DEBUG
+    ConsoleWriteLine("デバッグビルド");
+<kwd>#endif</kwd>
+</p>
+
+<h2>条件付きコンパイル</h2>
+C#における <b class="blue">#if</b> はC/C++の <b class="blue">#ifdef</b> に相当。
+
+<p class="code">
+<kwd>#if</kwd> DEBUG
+    ConsoleWriteLine("DEBUGが定義されている");
+<kwd>#elif</kwd> TRACE
+    ConsoleWriteLine("TRACEが定義されている");
+<kwd>#else</kwd>
+    ConsoleWriteLine("どちらも定義されていない");
+<kwd>#endif</kwd>
+</p>
+
+条件付きコンパイルディレクティブの比較<br>
+<table>
+	<tr class="row1">
+		<td>C/C++</td>
+		<td>C#</td>
+		<td>VB</td>
+	</tr>
+	<tr class="blue">
+		<td>#ifdef<br>#if defined</td>
+		<td>#if</td>
+		<td>#If</td>
+	</tr>
+	<tr class="blue">
+		<td>#elif defined</td>
+		<td>#elif</td>
+		<td>#ElseIf</td>
+	</tr>
+	<tr class="blue">
+		<td>#else</td>
+		<td>#else</td>
+		<td>#Else</td>
+	</tr>
+	<tr class="blue">
+		<td>#endif</td>
+		<td>#endif</td>
+		<td>#End If</td>
+	</tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="
+http://officetanaka.net/excel/vba/function/DoEvents.htm
+">
+Office TANAKA - Excel VBA関数[DoEvents]
+</a><br>
+
+<a href="
+http://officetanaka.net/excel/vba/speed/s1.htm
+">
+Office TANAKA - VBA高速化テクニック[画面を止める]
+</a><br>
+
+<a href="
+http://officetanaka.net/excel/vba/tips/tips13.htm
+">
+Office TANAKA - Excel VBA TIPS/[ステータスバーを使う]
+</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>重い処理の途中でOSに処理を戻す(DoEvents)</h2>
+長時間かかる処理を行うとその間、そのままではExcelに対する操作が受け付けられなくなる。<br>
+(ボタンをクリックするなどのイベントを捕捉することができなくなる)<br>
+処理の合間に <b>DoEvents()</b> を実行することで、(一時的に)イベントを捕捉できるようになる。<br>
+
+<p class="code">
+<kwd>Dim</kwd> fStop <kwd>As Boolean</kwd>        <cmt>' 停止信号(グローバル変数)</cmt>
+
+<kwd>Sub</kwd> Sample()
+    <kwd>Dim</kwd> i <kwd>As Long</kwd>
+    fStop = <kwd>False</kwd>
+    
+    <cmt>' 時間のかかる処理 ここから</cmt>
+    <kwd>For</kwd> i = <ltr>1</ltr> <kwd>To</kwd> <ltr>500000</ltr>
+        DoEvents            <cmt>'< DoEvents でOSに処理を戻す</cmt>
+        
+        <cmt>' 停止信号がオンならば中断</cmt>
+        <kwd>If</kwd> fStop = <kwd>True Then</kwd>
+            MsgBox <ltr>"処理が中断されました"</ltr>
+            <kwd>Exit For</kwd>
+        <kwd>End If</kwd>
+    <kwd>Next</kwd> i
+    <cmt>' ここまで</cmt>
+
+<kwd>End Sub</kwd>
+
+<kwd>Private Sub</kwd> Command1_Click()
+    <cmt>' 停止信号セット</cmt>
+    fStop = <kwd>True</kwd>
+<kwd>End Sub</kwd>
+</p>
+
+上記の例では、時間のかかる処理(回数の多いForループ)を行っており、中断ボタンを押すことでその処理を中断できるようにしている。<br>
+ここでは重要な点として、Forループを回すごとに DoEvents() をコールしているが、<br>
+この DoEvents() が無ければ、そもそも中断ボタンを押すことができない。<br>
+(Excelがボタンイベントを受け取れない)<br>
+
+<h2>画面の描画を停止・再開する(Application.ScreenUpdating)</h2>
+画面が頻繁に切り替わるような処理を行う場合、そのままでは都度再描画が行われ、処理に時間がかかってしまう。<br>
+都度描画を行う必要が無いのであれば、描画を停止して、終了後にまとめて描画を行うことで処理を速くできる。<br>
+
+<p class="code">
+<cmt>' 平均 10490 秒 </cmt>
+<kwd>Sub</kwd> test1()
+    <kwd>Dim</kwd> i <kwd>As Long</kwd>
+    <kwd>For</kwd> i = <ltr>1</ltr> <kwd>To</kwd> <ltr>100</ltr>
+        Cells(i, <ltr>1</ltr>).Select
+        Selection.Copy
+        Sheets(<ltr>"Sheet2"</ltr>).Select
+        Cells(i, <ltr>1</ltr>).Select
+        ActiveSheet.Paste
+        Sheets(<ltr>"Sheet1"</ltr>).Select
+    <kwd>Next</kwd> i
+<kwd>End Sub</kwd>
+</p>
+
+<p class="code">
+<cmt>' 平均 4663 秒 </cmt>
+<kwd>Sub</kwd> test2()
+    <kwd>Dim</kwd> i <kwd>As Long</kwd>
+
+    Application.ScreenUpdating = <kwd>False</kwd>     <cmt>' 描画停止</cmt>
+
+    <kwd>For</kwd> i = <ltr>1</ltr> <kwd>To</kwd> <ltr>100</ltr>
+        Cells(i, <ltr>1</ltr>).Select
+        Selection.Copy
+        Sheets(<ltr>"Sheet2"</ltr>).Select
+        Cells(i, <ltr>1</ltr>).Select
+        ActiveSheet.Paste
+        Sheets(<ltr>"Sheet1"</ltr>).Select
+    <kwd>Next</kwd> i
+
+    Application.ScreenUpdating = <kwd>True</kwd>      <cmt>' 描画再開</cmt>
+
+<kwd>End Sub</kwd>
+</p>
+
+上記の二つのコードは本質的には全く同じ処理を行っている。<br>
+シート1のセルを選択してシート2にコピーする処理だが、test1() ではシート、セルの選択の都度描画が発生している。<br>
+対して test2() では <b>Application.ScreenUpdating</b> プロパティにより、ループを回す間描画を停止している。<br>
+これにより、全体の処理時間を半分未満にできる。<br>
+
+<h2>ステータスバーを使う(Application.StatusBar)</h2>
+処理の経過をリアルタイムに表示する場合などに、ステータスバーを使うことができる。<br>
+<img src="_Img/MS Excel/VBA_TIPS/01.png"><br>
+
+<p class="code">
+<kwd>Sub</kwd> Sample01()
+    <kwd>Dim</kwd> i <kwd>As Long</kwd>
+    <kwd>For</kwd> i = <ltr>1</ltr> <kwd>To</kwd> <ltr>100</ltr>
+        <cmt>' ステータスバーに経過を表示</cmt>
+        Application.StatusBar = i & <ltr>"回目の処理をしています..."</ltr>
+    <kwd>Next</kwd> i
+
+    <cmt>' ステータスバーをExcelに戻す</cmt>
+    Application.StatusBar = <kwd>False</kwd>
+<kwd>End Sub</kwd>
+</p>
+
+通常、ステータスバーはExcel自身が通知のために用いているが、<br>
+<b>Application.StatusBar</b> プロパティに文字列を設定することで、その文字列をステータスバーに表示できる。<br>
+そのままだと表示が残ってしまい、Excelが本来の用途でステータスバーを用いることができないので、<br>
+使用後はプロパティに False を設定してExcelが自由に使えるようにする。
+
+</body>
+</html>
+
+

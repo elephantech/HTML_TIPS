@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<table>
+<tr class="row1">
+	<td>説明</td>
+	<td>コマンド</td>
+	<td colspan="2">オプション</td>
+	<td>コマンド例</td>
+</tr>
+<tr>
+	<td>ファイルの内容の結合と表示</td>
+	<td><b class="red">cat</b> <i>filename</i></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>$ cat ~/.sshid_rsapub</td>
+</tr>
+<tr>
+	<td>カレントディレクトリの移動</td>
+	<td><b class="red">cd</b> <i>directorypath</i></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>$ cd workspace/</td>
+</tr>
+<tr>
+	<td>上のディレクトリに移動</td>
+	<td><b class="red">cd ..</b></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>$ cd ..</td>
+</tr>
+<tr>
+	<td rowspan="2">ホームディレクトリに移動</td>
+	<td><b class="red">cd ~</b></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>$ cd ~</td>
+</tr>
+<tr>
+	<td><b class="red">cd</b></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>$ cd</td>
+</tr>
+<tr>
+	<td>ファイルのコピー</td>
+	<td><b class="red">cp</b> <i>source</i> <i>destination</i></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>$ cp foo bar</td>
+</tr>
+<tr>
+	<td rowspan="2">ファイルをダウンロード</td>
+	<td rowspan="2"><b class="red">curl</b> <dgreen>OPTION</dgreen> <i>URL</i></td>
+	<td class="border_r_dotted">-0</td>
+	<td class="border_l_dotted">HTTP 10 でリクエスト</td>
+	<td rowspan="2">$ curl -0L http://www.exam.com/ttt.jpg</td>
+</tr>
+<tr>
+	<td class="border_r_dotted">-L</td>
+	<td class="border_l_dotted">リダイレクトに対応</td>
+</tr>
+<tr>
+	<td rowspan="2">(保存先を指定)</td>
+	<td><b class="red">curl -o</b> <i>filename_for_save</i> <dgreen>OPTION</dgreen> <i>source_URL</i></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>$ curl -o ./ttt.jpg -0L http://www.exam.com/ttt.jpg</td>
+</tr>
+<tr>
+	<td><b class="red">curl</b> <dgreen>OPTION</dgreen> <i>source_URL</i> &gt; <i>filename_for_save</i></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>$ curl -0L http://www.exam.com/ttt.jpg  ./ttt.jpg</td>
+</tr>
+<tr>
+	<td>ディレクトリ内容の表示</td>
+	<td><b class="red">ls</b></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>$ ls -l</td>
+</tr>
+<tr>
+	<td>ディレクトリの作成</td>
+	<td><b class="red">mkdir</b> <i>directorypath</i></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>$ mkdir workspace</td>
+</tr>
+<tr>
+	<td>ファイルの移動</td>
+	<td><b class="red">mv</b> <i>source</i> <i>destination</i></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>$ mv foo bar</td>
+</tr>
+<tr>
+	<td>ファイルのリネーム</td>
+	<td><b class="red">mv</b> <i>target</i> <i>new_name</i></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>$ mv foo bar</td>
+</tr>
+<tr>
+	<td>動作しているプロセスの確認</td>
+	<td><b class="red">ps aux</b></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td></td>
+</tr>
+<tr>
+	<td>(フィルタ指定)</td>
+	<td><b class="red">ps aux | grep</b> <i>pattern</i></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>$ ps aux | grep spring</td>
+</tr>
+<tr>
+	<td>現在のディレクトリパスを表示</td>
+	<td><b class="red">pwd</b></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td></td>
+</tr>
+<tr>
+	<td rowspan="5">ファイルの削除</td>
+	<td rowspan="5"><b class="red">rm</b> <dgreen>OPTION</dgreen> <i>filename</i></td>
+	<td class="border_r_dotted">-f</td>
+	<td class="border_l_dotted">エラーメッセージを表示しない<br>(強制的に削除)</td>
+	<td rowspan="5">$ rm -rf foo</td>
+</tr>
+<tr>
+
+
+	<td class="border_r_dotted">-i (小文字アイ)</td>
+	<td class="border_l_dotted">ファイルの削除前に確認する</td>
+
+</tr>
+<tr>
+
+
+	<td class="border_r_dotted">-I (大文字アイ)</td>
+	<td class="border_l_dotted">削除対象ファイルが4以上の場合のみ<br>削除前に確認する</td>
+
+</tr>
+<tr>
+
+
+	<td class="border_r_dotted">-r</td>
+	<td class="border_l_dotted">ディレクトリを再帰的に削除する<br>(-r を付与しなければディレクトリは削除できない)</td>
+
+</tr>
+<tr>
+
+
+	<td class="border_r_dotted">-v</td>
+	<td class="border_l_dotted">削除の詳細表示</td>
+
+</tr>
+<tr>
+	<td>空のディレクトリの削除</td>
+	<td><b class="red">rmdir</b> <i>directorypath</i></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>$ rmdir workspace/</td>
+</tr>
+<tr>
+	<td>プロセスのキル</td>
+	<td><b class="red">kill</b> <i>kill_code</i> <i>processID</i></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>$ kill -15 12241</td>
+</tr>
+<tr>
+	<td>(プロセス名を指定)</td>
+	<td><b class="red">pkill</b> <i>kill_code</i> <b class="red">-f</b> <i>processname</i></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>$ pkill -15 -f spring</td>
+</tr>
+<tr>
+	<td>ドライブの参照</td>
+	<td><b class="red">/mnt/</b><i>driveletter</i></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>C:\ ドライブを参照 ⇒<br>/mntc</td>
+</tr>
+<tr>
+	<td rowspan="2">画面に文字列を表示<br>(エコー)</td>
+	<td rowspan="2"><b class="red">echo</b> <dgreen>OPTION</dgreen> <i>string</i></td>
+	<td class="border_r_dotted">-e</td>
+	<td class="border_l_dotted">\(バックスラッシュ)による<br>エスケープを解釈する</td>
+	<td></td>
+</tr>
+<tr> 
+
+
+	<td class="border_r_dotted">-n</td>
+	<td class="border_l_dotted">行末に改行を付与しない</td>
+	<td></td>
+</tr>
+<tr>
+	<td>シンボリックリンクを作成する</td>
+	<td><b class="red">ln</b> <dgreen>-s</dgreen> <i>destination</i> <i>linkname</i></td>
+	<td class="border_r_dotted"></td>
+	<td class="border_l_dotted"></td>
+	<td>$ ln -s ../../../hoge ./fuga<br>./fuga が ../../../hoge を指すようになる。</td>
+
+</tr>
+</table>

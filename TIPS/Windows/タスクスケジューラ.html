@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>タスクスケジューラの機能</h2>
+指定した処理を、別途指定した時刻や周期で自動的に実行させることができる。<br>
+コンピュータが動作していれば、ユーザがログオフしている場合でも実行可能。
+
+<h2>使い方</h2>
+<h3>タスクスケジューラの起動</h3>
+「ここに入力して検索」に「タスク」と入力すると、「タスク スケジューラ」が表示されるため開く。<br>
+<img src="_Img/Windows/Task_Scheduler/task_scheduler_01.png"><br>
+
+<h3>準備(フォルダの作成)</h3>
+必須ではないが、フォルダを作成しておくことで分類が容易となる。<br>
+「タスク スケジューラ ライブラリ」を右クリックし、「新しいフォルダー」を選択する。<br>
+ここでは「ユーザタスク」と入力する。<br>
+<img src="_Img/Windows/Task_Scheduler/task_scheduler_02.png"><br>
+
+<h3>タスクの作成</h3>
+<ol>
+
+	<li>
+		作成したフォルダ「ユーザタスク」を右クリックし、「タスクの作成」を選択する。<br>
+		<img src="_Img/Windows/Task_Scheduler/task_scheduler_03.png"><br>
+	</li>
+
+	<li>
+		「全般」タブの情報を入力する。
+		<ol>
+			<li>
+				ログオンしている間のみ実行可能とする場合(ログオフすると実行されない)<br>
+				「ユーザがログオンしているときのみ実行する」にチェックを入れる。<br>
+				<img src="_Img/Windows/Task_Scheduler/task_scheduler_04.png"><br>
+			</li>
+
+			<li>
+				ログオフしている間も実行可能とする場合<br>
+				「ユーザがログオンしているか同課にかかわらず実行する」にチェックを入れる。<br>
+				<img src="_Img/Windows/Task_Scheduler/task_scheduler_05.png"><br>
+			</li>
+		</ol>
+	</li>
+
+	<li>
+		「トリガー」タブの情報を入力する。<br>
+		<ol>
+			<li>
+			「トリガー」タブを選択し、「新規」をクリックする。<br>
+			<img src="_Img/Windows/Task_Scheduler/task_scheduler_06.png"><br>
+			</li>
+
+			<li>
+			実行契機を入力し、「OK」をクリックする。<br>
+			ここでは、2020/06/23 16:45:47 に一度だけ実行する設定とする。<br>
+			<img src="_Img/Windows/Task_Scheduler/task_scheduler_07.png"><br>
+			</li>
+			
+			<li>
+			設定した実行契機が表示される。<br>
+			<img src="_Img/Windows/Task_Scheduler/task_scheduler_08.png"><br>
+			</li>
+		</ol>
+	</li>
+	
+	<li>
+		「操作」タブの情報を入力する。<br>
+		<ol>
+			<li>
+			「操作」タブを選択し、「新規」をクリックする。<br>
+			<img src="_Img/Windows/Task_Scheduler/task_scheduler_09.png"><br>
+			</li>
+
+			<li>
+			「プログラムスクリプト」欄に実行したいプログラム・スクリプト・バッチを入力する。<br>
+			「参照」ボタンで選択することも可能。<br>
+			<img src="_Img/Windows/Task_Scheduler/task_scheduler_10.png"><br>
+			</li>
+
+			<li>
+			設定した操作が表示される。<br>
+			<img src="_Img/Windows/Task_Scheduler/task_scheduler_11.png"><br>
+			</li>
+		</ol>
+	</li>
+	
+	<li>
+		「OK」をクリックすると、タスクが登録される。<br>
+		「トリガー」に指定した契機が到来すると、操作が実行される。<br>
+			<img src="_Img/Windows/Task_Scheduler/task_scheduler_12.png"><br>
+	</li>
+
+</ol>
+
+
+</body>
+</html>

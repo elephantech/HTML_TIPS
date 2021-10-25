@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>例外処理(exception handling)とは</h2>
+実行時エラーを管理し、処理する機構。<br>
+エラー(例外)発生時の処理を体系的に、また集約して実装することができる。<br>
+C++に限らず、オブジェクト指向言語においては一般的な概念。<br>
+尚、例外を発行することを慣例的に「例外を投げる(throw exception)」という。<br>
+
+<h2>例外処理の原則</h2>
+C++における例外処理の原則は以下の通りである。
+<ol>
+    <li>例外(エラー)の発生を監視したい処理を try 節内に記述すると、例外が発生した場合即座に try 節を抜け、直後の catch 節にジャンプする。
+        <ol>
+            <li>try 節内における、例外発生箇所より後の処理は実行されない。</li>
+            <li>catch 節は必ず try 節の直後に記述する必要がある。</li>
+        </ol>
+    </li>
+    <li value="2">catch 節では宣言した型の例外のみ捕捉可能。複数の catch 節を書き連ねることで、発生した例外の型に応じて後処理を区分できる。
+        <ol>
+            <li>即ち、実行される catch 節は常に一つだけ。</li>
+            <li>捕捉できない型の例外が発生した場合は、プログラムが不正終了する。</li>
+        </ol>
+    </li>
+    <li value="3">catch 節以降に処理が存在する場合、例外が発生しなければ try 節実行後、例外が発生すれば catch 節実行後に実行される。
+        <ol>
+            <li>即ち、記述された通りの順序で実行される。</li>
+        </ol>
+    </li>
+    <li value="4">システム内部で発生する例外以外に、throw 句を用いることで任意の例外を発生させる(投げる)ことができる。</li>
+</ol>
+
+<h2>基本的な例</h2>
+<img src="_Img/CPP/exception_handling/exception_handling_01.png" alt="画像"><br>
+
+<h2>例外の投げなおし</h2>
+try ブロックで発生した例外を処理した後、さらに外側に例外を投げることができる。<br>
+当然、try ブロックは(コールスタック全体で)ネストしている必要がある。<br>
+<img src="_Img/CPP/exception_handling/exception_handling_02.png" alt="画像"><br>
+<h2>関数が外側(呼び元)に向かって投げられる例外の制限</h2>
+関数定義(または宣言)に throw 句を用いることで、外部に投げられる例外の型を制限できる。<br>
+括弧内に列挙された型以外の例外を投げようとすると、プログラムが異常終了する。<br>
+この時、括弧内を空にすると、一切の例外を外部に投げられなくなる。<br>
+(実使用上、例外の型を限定することはあまり有用とは言えない。空括弧により例外を一切送出しない旨を明示するケースが大半。)<br>
+<br>
+<img src="_Img/CPP/exception_handling/exception_handling_03.png" alt="画像"><br>
+<br>
+この throw() (空括弧)による例外送出禁止指定は、C++11以降では非推奨となっている古い記法である。<br>
+C++11以降では、例外を送出しない(または、する可能性がある)ことを明確化するためには、以下に挙げる <b>noexcept</b> 句が推奨される。<br>
+尚、例外を送出しないことを明示することで、巻き戻すためのスタックを確保する必要がなくなるため、スタック使用量を削減することができる。<br>
+<p class="code">
+<cmt>// 例外を送出しない</cmt>
+<kwd>void</kwd> f() <kwd>noexcept</kwd>;
+<kwd>void</kwd> f() <kwd>noexcept</kwd>(<kwd>true</kwd>);
+
+<cmt>// 例外を送出する(可能性がある)</cmt>
+<kwd>void</kwd> f() <kwd>noexcept</kwd>(<kwd>false</kwd>);
+<kwd>void</kwd> f();
+</p>
+</body>
+</html>
+

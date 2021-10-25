@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://ja.wikipedia.org/wiki/%E3%82%B8%E3%82%A7%E3%83%8D%E3%83%AA%E3%83%83%E3%82%AF%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0">ジェネリックプログラミング - Wikipedia</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C%E3%83%BBC++/[C++]%E9%96%A2%E6%95%B0%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%AD%E3%83%BC%E3%83%89%E3%81%A8%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E5%BC%95%E6%95%B0.html">[C++]関数オーバーロードとデフォルト引数</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A.html">[C++／STL／コンテナ]コンテナ</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>ジェネリック(汎用)プログラミングとは</h2>
+特定のデータ型に依存しない、抽象的・汎用的な処理を実装すること。共通のロジックを複数のデータ型に適用でき、データ型に縛られない本質的な処理を実装できる。<br>
+このように定義された関数を <b>汎用関数</b> (Generic Function)と呼ぶ。C++、Java、C#(.Net)などのモダン言語で用いることができる。<br>
+<br>
+(ジェネリックプログラミングを用いない場合)<br>
+<img src="_Img/Software Development/OOP/genelic_programming/oop-genelic-programming_01.png" alt="画像"><br>
+<br>
+(ジェネリックプログラミングを用いた場合)<br>
+<img src="_Img/Software Development/OOP/genelic_programming/oop-genelic-programming_02.png" alt="画像"><br>
+
+<h2>汎用関数の定義</h2>
+<h3>C++ (テンプレート)</h3>
+<img src="_Img/Software Development/OOP/genelic_programming/oop-genelic-programming_03.png" alt="画像"><br>
+
+<h3>C#</h3>
+C#で定義した汎用関数はC++(CLI)でも用いることができる。但しC++形式の汎用関数とは互換性が無い。<br>
+<img src="_Img/Software Development/OOP/genelic_programming/oop-genelic-programming_04.png" alt="画像"><br>
+
+<h2>汎用関数のオーバーロード</h2>
+標準的な処理を汎用関数として定義しておき、特定の型に対してのみ異なる処理を行う場合は、必要に応じてオーバーロードを行うことができる。<br>
+特定の型に関してオーバーロードを行った場合、オーバーロード関数によって汎用関数が隠蔽(オーバーライド)される。<br>
+
+<h2>汎用クラス (Generic Class)</h2>
+特定の型に依存しない汎用的な論理を含んだクラスを定義することができる。これを <b>汎用クラス</b> と呼ぶ。<br>
+汎用クラスのインスタンスを生成する際に操作対象の型を指定する必要がある。汎用クラスのメンバ関数は自動的に汎用関数となる。<br>
+
+<p class="code">
+<cmt>// 汎用リスト(単方向)</cmt>
+<cmt>// 操作対象(保持する値)は data_t 型</cmt>
+<kwd>template</kwd> &lt;<kwd>class</kwd> data_t&gt; <kwd>class</kwd> list
+{
+<kwd>private</kwd>:
+    data_t data;    <cmt>//&lt; データ</cmt>
+    list* <kwd>next</kwd>;     <cmt>//&lt; 次の要素</cmt>
+<kwd>public</kwd>:
+    <cmt>// メンバ関数宣言 (この時点では template キーワードは不要)</cmt>
+    list(data_t d);                                            <cmt>//&lt; コンストラクタ</cmt>
+    <kwd>void</kwd>   add(list* node) { node-&gt;<kwd>next</kwd> = this; <kwd>next</kwd> = <ltr>0</ltr>; }    <cmt>//&lt; 自身の前に要素を挿入</cmt>
+    list*  getnext()       { <kwd>return</kwd> <kwd>next</kwd>; }                    <cmt>//&lt; 次の要素へのポインタを取得</cmt>
+    data_t getdata()       { <kwd>return</kwd> data; }                    <cmt>//&lt; 値を取得</cmt>
+}
+
+<cmt>// コンストラクタ</cmt>
+<cmt>// クラス定義の外なので、template キーワードを付与</cmt>
+<kwd>template</kwd> &lt;<kwd>class</kwd> data_t&gt;
+list&lt;data_t&gt;::list(data_t d)
+{
+    data = d;
+    <kwd>next</kwd> = <ltr>0</ltr>;
+}
+
+:
+
+<cmt>// list 型 変数 start を生成</cmt>
+<cmt>// (操作対象として char 型を指定)</cmt>
+list&lt;<kwd>char</kwd>&gt; start(<ltr>'a'</ltr>);
+</p>
+
+C++の bSTL(標準テンプレートライブラリ)</b> はその名の通り汎用クラスとして定義されており、多様な型のデータを共通の手法で管理できる。<br>
+コンテナが代表的。<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A.html">[C++／STL／コンテナ]コンテナ</a>を参照。<br>
+
+</body>
+</html>
+

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>DateTime  TimeSpan 型とは</h2>
+<b>DateTime</b> : 時刻(日付を含む)を取り扱うクラス。<br>
+<b>TimeSpan</b> : 時間(間隔)を取り扱うクラス。<br>
+両者には相関がある。
+
+<h2>使い方</h2>
+コード例はいずれもC#における実装。
+<h3>DateTime</h3>
+<p class="code">
+<cmt>// 初期化 (複数のオーバーロードあり)</cmt>
+DateTime dt1 = <kwd>new</kwd> DateTime(<ltr>2020</ltr>, <ltr> 6</ltr>, <ltr>20</ltr>, <ltr>18</ltr>, <ltr>45</ltr>,  <ltr>3</ltr>);        <cmt>//< 日時 2020年 6月20日 18時45分 3秒 を表現</cmt>
+DateTime dt2 = <kwd>new</kwd> DateTime(<ltr>2020</ltr>, <ltr> 8</ltr>, <ltr>18</ltr>, <ltr>15</ltr>, <ltr>20</ltr>, <ltr>59</ltr>);        <cmt>//< 日時 2020年 8月18日 15時20分59秒 を表現</cmt>
+DateTime dt3 = <kwd>new</kwd> DateTime();                                <cmt>//< 日時 0001年 1月 1日  0時00分00秒 を表現</cmt>
+
+<cmt>// 文字列に変換</cmt>
+Console.WriteLine(dt1.ToString());                            <cmt>//< 書式指定なし                   ⇒ 20200620 18:45:03"</cmt>
+Console.WriteLine(dt1.ToString(<ltr>"yyyyMMdd_HHmmss"</ltr>));           <cmt>//< 書式指定                       ⇒ 20200620_184503"</cmt>
+Console.WriteLine(dt1.ToString(<ltr>"yyyy/MM/dd HH:mm:ss.fff"</ltr>));   <cmt>//< 書式指定(ミリ秒まで表示)       ⇒ 2020/06/20 18:45:03.000"</cmt>
+Console.WriteLine(dt1.ToString(<ltr>"yyyy/M/d HH:mm:ss"</ltr>));         <cmt>//< 書式指定(月・日のゼロ埋め無し) ⇒ 2020/6/20 18:45:03"</cmt>
+
+<cmt>// 各要素の抽出</cmt>
+Console.WriteLine(dt1.Hour);                                  <cmt>//< 時   ⇒ 18</cmt>
+Console.WriteLine(dt1.DayOfWeek);                             <cmt>//< 曜日 ⇒ Saturday</cmt>
+</p>
+
+<h4>注意が必要な点</h4>
+<ul>
+	<li>ToString() 書式指定文字列
+		<ul>
+			<li>"MM"(またはM")(大文字)は月、"mm"(または"m")(小文字)は分を表す。</li>
+			<li>時の"HH"(または"H")(大文字)は24時間表記、"hh"(または"h")(小文字)は12時間表記となる。
+				<ul>
+					<li>dt1.ToString("HH:mm:ss") ⇒ 18:45:03"</li>
+					<li>dt1.ToString("hh:mm:ss") ⇒ 06:45:03"</li>
+				</ul>
+			</li>
+			<li>"MM"、"dd"など表示桁数を指定した場合、足りない桁は 0 で埋められる。
+				<ul>
+					<li>dt1.ToString("hh:mm:ss") ⇒ 06:45:03 (「時」を2桁表示。0 で埋められる)</li>
+					<li>dt1.ToString("h:mm:ss")  ⇒ 6:45:03 (「時」をそのまま表示。0 で埋められない)</li>
+					<li>dt1.ToString("H:mm:ss")  ⇒ 18:45:03 (「時」をそのまま表示。0 で埋められない)</li>
+				</ul>
+			</li>
+		</li>
+	</li>
+</ul>
+
+<h3>TimeSpan</h3>
+<p class="code">
+<cmt>// 初期化 (複数のオーバーロードあり)</cmt>
+TimeSpan ts1 = <kwd>new</kwd> TimeSpan(<ltr>45</ltr>, <ltr>3</ltr>, <ltr>21</ltr>, <ltr>0</ltr>);              <cmt>//< 期間 45日 3時間21分0秒 を表現</cmt>
+TimeSpan ts2 = <kwd>new</kwd> TimeSpan();                          <cmt>//< 期間 0日  0時間 0分0秒 を表現</cmt>
+
+<cmt>// 文字列に変換</cmt>
+Console.WriteLine(ts1.ToString());                      <cmt>//< 書式指定なし           ⇒ 45 03:21:00"</cmt>
+Console.WriteLine(ts1.ToString(<ltr>"ddhhmmss"</ltr>));            <cmt>//< 書式指定               ⇒ 45032100"</cmt>
+Console.WriteLine(ts1.ToString(<ltr>"fff"</ltr>));                 <cmt>//< 書式指定(ミリ秒を表示) ⇒ 000"</cmt>
+
+<cmt>// 各要素の抽出</cmt>
+Console.WriteLine(ts1.Hours);                           <cmt>//< 時間           ⇒ 3</cmt>
+Console.WriteLine(ts1.Minutes);                         <cmt>//< 分             ⇒ 21</cmt>
+Console.WriteLine(ts1.TotalMinutes);                    <cmt>//< 合計を分に換算 ⇒ 65001 (小数点以下が発生することもある)</cmt>
+</p>
+
+<h4>注意が必要な点</h4>
+<ul>
+	<li>ToString() 書式指定文字列
+		<ul>
+			<li>年や月は存在しないため、"yyyy"や"MM"は使用できない。</li>
+			<li>"."(ドット)、":"(コロン)、"_"(アンダースコア)といった記号は使用できない。</li>
+			<li>"HH"(または"H")は使用できないため、"hh"(または"h")を用いる。</li>
+		</ul>
+	</li>
+</ul>
+
+<h3>DateTime  TimeSpan に対する演算</h3>
+<p class="code">
+<cmt>// DateTime 同士の比較</cmt>
+<kwd>if</kwd> ( dt1 < dt2 )
+{
+    Console.WriteLine(<ltr>"dt1 は dt2 よりも前です"</ltr>);
+}
+<kwd>if</kwd> ( dt1 == dt2 )
+{
+    Console.WriteLine(<ltr>"dt1 と dt2 は同時刻です"</ltr>);
+}
+
+<cmt>// TimeSpan 同士の比較</cmt>
+<kwd>if</kwd> ( ts1 < ts2 )
+{
+    Console.WriteLine(<ltr>"ts1 は ts2 よりも短いです"</ltr>);
+}
+<kwd>if</kwd> ( ts1 == ts2 )
+{
+    Console.WriteLine(<ltr>"ts1 と ts2 は同値です"</ltr>);
+}
+
+<cmt>// DateTime 同士の差分は TimeSpan 型となる</cmt>
+TimeSpan ts3 = dt2 - dt1;                                          <cmt>//< 差異 : 58日 20時間 35分 56秒</cmt>
+
+<cmt>// DateTime に TimeSpan を加減算すると DateTime 型となる</cmt>
+DateTime dt4 = dt1 + ts3;                                          <cmt>//<   2020年 6月 20日 18時   45分  3秒 </cmt>
+                                                                   <cmt>//< +            58日 20時間 35分 56秒 </cmt>
+                                                                   <cmt>//< = 2020年 8月 18日 15時   20分 59秒 </cmt>
+</p>
+
+<h2>フォーム上で日時を入力する(DateTimePicker)</h2>
+DateTimePicker コントロールを使用することで、カレンダーから日時を選択、入力することができる。<br>
+Value プロパティにフォームの入力値(DateTime型)が反映される。<br>
+その際、デフォルトでは日付のみ入力可能(時刻が入力できない)となっているため、<br>
+Format プロパティを Custom 、<br>
+CustomFormat プロパティを yyyy/MM/dd HH:mm:ss に変更することで時刻が入力可能となる。<br>
+<img src="_Img/MSVS_DotNet_CSharp/DotNet_Datetime_Timespan/dotnet_datetime_and_timespan_01.png"><br>
+
+
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="
+http://officetanaka.net/excel/vba/tips/tips104.htm
+">
+Office TANAKA - Excel VBA TIPS/[エラーに負けない]
+</a><br>
+
+<a href="
+https://www.sejuku.net/blog35484
+">
+【VBA入門】エラーを処理する方法(On Error、Resume、GoTo) | 侍エンジニアブログ
+</a><br>
+
+<a href="
+https://qiita.com/ririn_yume/items/13d3b7aad7bc49411eb7
+">
+vbaのエラー処理 - Qiita
+</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C・C++/[C++]例外処理.html">
+[C++]例外処理
+</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>VBAにおけるエラー処理</h2>
+VBAではエラーへの対処を <b>On Error</b> ステートメントを用いて記述することができる。<br>
+これはオブジェクト指向言語における例外処理に類似するが、本来の例外機構と比較して機能は限定されている。<br>
+
+<h3>エラー処理の意義</h3>
+<img src="_Img/MS Excel/VBA_Error_Handling/01.png"><br>
+エラー処理を実装せずにプログラムを実行してエラーが発生した場合、<br>
+エラーはシステムによって捕捉され、上図のようなダイアログが表示されてプログラムの実行は停止される。<br>
+エラー処理を実装することで、発生したエラーをプログラムが主体的に捕捉、適切に処理したうえでプログラムの実行を継続させることができる。<br>
+
+<h2>エラー処理の類型</h2>
+<img src="_Img/MS Excel/VBA_Error_Handling/02.png"><br>
+<b>On Error</b> ステートメントをプログラム中に記述すると、<b>ステートメントの直後からプロシージャの末尾まで</b>の範囲内で発生したエラーを捕捉する。<br>
+(別の On Error ステートメントがプロシージャ中に存在しない場合)<br>
+エラーを捕捉した場合の処置は、主に以下の二つに大別される。
+
+<h3>次行から継続 : On Error Resume Next</h3>
+<p class="code">
+<kwd>Sub</kwd> Sample()
+    <cmt>' エラー監視 ここから</cmt>
+    <kwd>On Error Resume Next</kwd>
+
+    DoSomething1
+
+    DoSomething2
+
+    DoSomething3
+<kwd>End Sub</kwd>
+</p>
+
+<b>On Error Resume Next</b> を記述した場合、エラーが発生した際は<b>次の行から処理が継続される</b>。<br>
+この例では、DoSomething1 でエラーが発生した場合もプログラムは停止せず、DoSomething2 からプログラムが継続される。
+
+<h3>指定したラベルにジャンプ : On Error GoTo</h3>
+<p class="code">
+<kwd>Sub</kwd> Sample()
+    <cmt>' エラー監視 ここから</cmt>
+    <kwd>On Error GoTo myErr</kwd>
+
+    DoSomething
+
+    <cmt>' 正常終了</cmt>
+    <kwd>Exit Sub</kwd>
+
+    <cmt>' エラー発生時の処理</cmt>
+<kwd>myErr:</kwd>
+
+    MsgBox <ltr>"エラーが発生しました。"</ltr>, vbExclamation
+
+<kwd>End Sub</kwd>
+</p>
+
+<b>On Error GoTo</b> を記述した場合、エラーが発生した際は<b>指定されたラベルから処理が継続される</b>。<br>
+上の例では、エラーが発生した場合に myErr ラベルにジャンプし、そこから処理が継続(メッセージボックス表示)される。<br>
+
+<h4>注意が必要な点</h4>
+<b>On Error GoTo</b> を用いてプロシージャ末尾にエラー時の処理を記述した場合、<br>
+そのままではエラーが発生しなかった場合もプロシージャ末尾の処理を実行してしまうため、ラベルの直前でプロシージャから脱出させる必要がある。<br>
+<br>
+
+(以下、正しくない実装)<br>
+
+<p class="code">
+<kwd>Sub</kwd> Sample()
+    <cmt>' エラー監視 ここから</cmt>
+    <kwd>On Error GoTo myErr</kwd>
+
+    DoSomething
+
+    <cmt>' ここに Exit Sub が存在しないため、エラーが発生しなかった場合も
+    ' myErr 以下が実行されてしまう</cmt>
+
+    <cmt>' エラー発生時の処理</cmt>
+<kwd>myErr:</kwd>
+
+    MsgBox <ltr>"エラーが発生しました。"</ltr>, vbExclamation
+
+<kwd>End Sub</kwd>
+</p>
+
+<h4>Resume Next との複合</h4>
+エラー時の処理に <b>Resume Next</b> を含めた場合、エラー発生時は<b>ラベルにジャンプ後、エラー発生個所の次行より継続される</b>。<br>
+
+<p class="code">
+<kwd>Sub</kwd> Sample()
+    <cmt>' エラー監視 ここから</cmt>
+    <cmt>' (エラー発生時は myErr にジャンプ)</cmt>
+    <kwd>On Error GoTo myErr</kwd>
+
+    DoSomething1                                   <cmt>'< ① ここでエラーが発生すると</cmt>
+                                                   <cmt>'  │  ┌──────────────────┐</cmt>
+                                                   <cmt>'  │  ↓                                    │</cmt>
+    DoSomething2                                   <cmt>'< │  ④ ここから処理が継続される           │</cmt>
+                                                   <cmt>'  │                                        │</cmt>
+    <cmt>' 正常終了                                        │                                        │</cmt>
+    <kwd>Exit Sub</kwd>                                       <cmt>'  │                                        │</cmt>
+                                                   <cmt>'  │                                        │</cmt>
+    <cmt>' エラー発生時の処理                              ↓                                        │</cmt>
+<kwd>myErr:</kwd>                                             <cmt>'< ② ここにジャンプ                         │</cmt>
+    MsgBox <ltr>"エラーが発生しました。"</ltr>, vbExclamation <cmt>'                                            │</cmt>
+                                                   <cmt>'                                            │</cmt>
+    <kwd>Resume Next</kwd>                                    <cmt>'< ③ ここからエラー発生個所の次行にジャンプ ┘</cmt>
+
+<kwd>End Sub</kwd>
+</p>
+
+上の例では、<br>
+① DoSomething1 でエラーが発生<br>
+↓<br>
+② ラベル myErr にジャンプ<br>
+↓<br>
+エラーが発生しました。 メッセージボックス表示<br>
+↓<br>
+③ Resume Next に遭遇<br>
+↓<br>
+④ DoSomething2 (DoSomething1 の次行)より処理を継続<br>
+という流れとなる。<br>
+
+<h2>On Error を複数記述</h2>
+<img src="_Img/MS Excel/VBA_Error_Handling/03.png"><br>
+<b>On Error GoTo 0</b> を記述すると、その行以降はエラーの監視範囲外となる。<br>
+即ち、<b>On Error GoTo 0</b> の直前で、それより上にある On Error ステートメントの有効範囲は終了し、次行以降に別の On Error ステートメントを記述することができる。<br>
+これにより、エラーの発生個所ごとに異なるエラー処理を実装することができる。
+
+<h2>エラー要因の判別 (Err オブジェクト)</h2>
+<p class="code">
+<kwd>Sub</kwd> Sample()
+    <cmt>' エラー監視 ここから</cmt>
+    <kwd>On Error GoTo myErr</kwd>
+
+    :
+
+    <kwd>Exit Sub</kwd>
+
+<kwd>myErr:</kwd>
+
+    <cmt>' エラー要因(Err.Number)に応じた処理</cmt>
+    <kwd>Select Case</kwd> Err.Number
+    <kwd>Case</kwd> 9
+        MsgBox <ltr>"シート名を変更できませんでした。"</ltr> & vbCrLf & Err.Description, vbExclamation
+
+    <kwd>Case</kwd> 53
+        MsgBox <ltr>"ファイルを開けませんでした。"</ltr> & vbCrLf & Err.Description, vbExclamation
+
+    <kwd>Case Else</kwd>
+        MsgBox <ltr>"予期せぬエラーが発生しました。"</ltr>, vbExclamation
+
+    <kwd>End Select</kwd>
+
+<kwd>End Sub</kwd>
+</p>
+
+プログラム中でエラーが発生すると、<b>Err</b> オブジェクトにエラー要因に応じた値が格納される。<br>
+これにより、<b>Err.Number</b> (エラー番号 : 数値)および <b>Err.Description</b> (エラーの説明 : 文字列)から、エラー要因を確認することができる。<br>
+(要因ごとの Number および Description の値は出典元を参照。エラーが発生していない場合は Number = 0 。)<br>
+
+<h3>Err.Raise と Err.Clear</h3>
+<p class="code">
+<cmt>' エラーを発生させる f1 プロシージャ</cmt>
+<kwd>Private Sub</kwd> f1(<kwd>ByVal</kwd> v <kwd>as Integer</kwd>)
+
+    <kwd>If</kwd> v  <ltr>0</ltr> <kwd>Then</kwd>
+        <cmt>' エラーをクリア</cmt>
+        Err.Clear
+
+        <cmt>' エラー999を発生</cmt>
+        Err.Raise Number:=<ltr>999</ltr>, Description:=<ltr>"something went wrong"</ltr>
+    <kwd>End if</kwd>
+
+<kwd>End Sub</kwd>
+
+<cmt>' f2 プロシージャ</cmt>
+<kwd>Private Sub</kwd> f2()
+
+    <cmt>' エラー監視ここから</cmt>
+    <kwd>On Error Goto Have_Err</kwd>
+
+    <cmt>' f1 をコール(エラー発生)</cmt>
+    <kwd>Call</kwd> f1(<ltr>-1</ltr>)
+
+<kwd>Have_Err:</kwd>
+
+    <kwd>If</kwd> Err.Number = <ltr>999</ltr> <kwd>Then</kwd>
+        MsgBox Err.Number & vbCrLf & Err.Description
+        <kwd>Exit Sub</kwd>
+    <kwd>End If</kwd>
+
+<kwd>End Sub</kwd>
+</p>
+
+<b>Err.Raise</b> メソッドにより、任意の Number および Description のエラーを発生させることができる。<br>
+(これは例外機構がある言語における、例外を投げる(throw)処理に相当する。)<br>
+また、<b>Err.Clear</b> メソッドにより、発生していたエラーをクリアすることができる。<br>
+
+</body>
+</html>

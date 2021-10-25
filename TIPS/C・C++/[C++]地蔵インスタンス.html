@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://ja.wikipedia.org/wiki/RAII">RAII - Wikipedia</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C%E3%83%BBC++/[C++]%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%83%9D%E3%82%A4%E3%83%B3%E3%82%BF.html">
+[C++]スマートポインタ</a><br>
+
+<a href="TIPS/ソフトウェア開発一般/%E3%82%AC%E3%83%BC%E3%83%89%E7%AF%80.html">
+ガード節</a><br>
+
+<a href="TIPS/C%E3%83%BBC++/[C++]%E4%BE%8B%E5%A4%96%E5%87%A6%E7%90%86.html">
+[C++]例外処理</a><br>
+
+<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A.html">
+[C++／STL／コンテナ]コンテナ</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>地蔵インスタンスとは</h2>
+お地蔵様のように、「置いておくだけで効力を発揮する」インスタンス。<br>
+一般には <b>RAII(Resource Acquisition Is Initialization)</b> として知られる、例外安全を確保するためのプログラミング技法である。<br>
+C++においては、インスタンスの生成時にコンストラクタが呼ばれ、破棄される際にデストラクタが呼ばれる。 <br>
+<b>ローカルインスタンスであればスコープを抜ける際に必ず破棄される( = デストラクタが呼ばれる)</b> ため、 <br>
+<b>セマフォの獲得・解放や割り込み禁止のオン・オフ専用のクラスインスタンスを「置いておく」だけで後処理の実装忘れを防止できる</b> 。<br>
+<b>ヒープの確保・解放にも同様に応用でき、そちらは特に「(広義の)スマートポインタ」と呼ばれる</b>。<br>
+(STLの<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A.html">コンテナ</a>はいずれも(RAIIを応用して実装された)スマートポインタであるため、ヒープの解放に配慮する必要は無い。<br>
+狭義のスマートポインタに関しては<a href="TIPS/C%E3%83%BBC++/[C++]%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%83%9D%E3%82%A4%E3%83%B3%E3%82%BF.html">こちら</a>を参照。)<br>
+当然、デストラクタを持たない言語では利用することができないため、C++やD言語で主に用いられる。
+
+<h2>実装例</h2>
+<h3>地蔵インスタンスを用いない場合</h3>
+<p class="code">
+<kwd>int</kwd> Hoge()
+{
+    <cmt>// セマフォ獲得</cmt>
+    sem_wait(SEM_ID_HOGE);
+
+    <kwd>int</kwd> ret;
+
+    <cmt>// 何か処理を行う</cmt>
+    ret = DoSomething1();
+
+    <cmt>// 成功時のみ次の処理を行う</cmt>
+    <kwd>if</kwd> (ret == <ltr>0</ltr>)
+    {
+        ret = DoSomething2();
+    }
+
+    :
+
+    <cmt>// セマフォ解放</cmt>
+    sem_release(SEM_ID_HOGE);
+
+    <cmt>// 最後に行った処理の結果を返す</cmt>
+    <kwd>return</kwd> ret;
+}
+</p>
+Hoge() 関数ではセマフォの獲得・解放を行っている。<br>
+<b>獲得したセマフォを必ず解放しないといけないため、処理( DoSomething#() )に失敗した場合でも、関数を途中で抜けることができない。<br>
+(関数内で例外が発生した場合はさらに煩雑となる。)</b> <br>
+DoSomething#() 失敗時も条件比較を経ることになり、(僅かではあっても)パフォーマンスに悪影響を及ぼすとともに、コードの可読性も低下する。<br>
+(ネスト構造とすればパフォーマンスへの影響は最小化できるが、コードの可読性はさらに低下する。)<br>
+また、仮にセマフォの解放処理を実装し忘れた場合でもコンパイラは警告を発さないため、発見が遅れることもある。<br>
+<h3>地蔵インスタンスを用いた場合</h3>
+<p class="code">
+<cmt>// セマフォの獲得・解放専用クラス</cmt>
+Class C_SemaphoreManager
+{
+<kwd>public</kwd>:
+    <cmt>// コンストラクタ : セマフォ獲得</cmt>
+    C_SemaphoreManager(<kwd>int</kwd> semId) : m_SemId(semId) { sem_wait(m_SemId); }
+
+<kwd>private</kwd>:
+    <kwd>int</kwd> m_SemId;    <cmt>//< セマフォID</cmt>
+
+    <cmt>// デストラクタ : セマフォ解放</cmt>
+    ~C_SemaphoreManager() { sem_release(m_SemId); }
+}
+
+<kwd>int</kwd> Hoge()
+{
+    <cmt>// 地蔵インスタンス配置 ⇒ セマフォ獲得</cmt>
+    C_SemaphoreManager semStatue(SEM_ID_HOGE);
+
+    <kwd>int</kwd> ret;
+
+    <cmt>// 何か処理を行う</cmt>
+    ret = DoSomething1();
+    <kwd>if</kwd> (ret == <ltr>0</ltr>)
+    {
+        <kwd>return</kwd> ret;
+        <cmt>// 関数脱出で地蔵インスタンス破棄 ⇒ セマフォ解放</cmt>
+    }
+   
+    <cmt>// 次の処理を行う</cmt>
+    ret = DoSomething2();
+    <kwd>if</kwd> (ret == <ltr>0</ltr>)
+    {
+        <kwd>return</kwd> ret;
+        <cmt>// 関数脱出で地蔵インスタンス破棄 ⇒ セマフォ解放</cmt>
+    }
+
+    :
+
+    <kwd>return</kwd> <ltr>0</ltr>;
+    <cmt>// 関数脱出で地蔵インスタンス破棄 ⇒ セマフォ解放</cmt>
+}
+</p>
+このコードでは、セマフォの解放を明示的には実行していない。<br>
+<b>地蔵インスタンスを用いた場合、関数の脱出とともにインスタンス( semStatue )が破棄されるため、デストラクタの処理としてセマフォの解放が行われる。<br>
+関数途中での return や例外発生時も同様に、スコープを抜けたタイミングで「確実に」デストラクタが走る。<br>
+</b> セマフォの獲得と解放が必ず一対となるため、セマフォの解放に注意する必要がなくなり、ミスが減る。<br>
+また副次的ではあるが、<b>「クリティカルセクションの始点と終点が分かりやすくなる」</b>効果がある。<br>
+<p class="code">
+<kwd>int</kwd> Hoge()
+{
+    {    <cmt>//&lt; クリティカルセクションここから</cmt>
+    
+        <cmt>// 地蔵インスタンス配置 ⇒ セマフォ獲得</cmt>
+        C_SemaphoreManager semStatue(SEM_ID_HOGE);
+
+        :
+
+        <cmt>// コードブロックを抜ける際に地蔵破棄 ⇒ セマフォ解放</cmt>
+    }    <cmt>//&lt; クリティカルセクションここまで</cmt>
+
+    :
+}
+</p>
+地蔵インスタンスの有効範囲(ここではセマフォを握っている期間)は、インスタンスが生成されたコードブロックの終端(閉じ中括弧(ブレース))までなので、<br>
+<b>コードブロックの先頭に地蔵を置けば、ブレースがクリティカルセクションの始点と終点に(ほぼ)一致する</b>。<br>
+</body>
+</html>
+

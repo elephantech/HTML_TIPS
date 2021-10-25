@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>関連 :</h5>
+<a href="TIPS/Microsoft%20Visual%20Studio・.Net/[Visual C++]基本的なDLLの作成手順.html">[Visual C++]基本的なDLLの作成手順</a><br>
+
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>DLLのエントリポイント</h2>
+一般的なWin32 DLLは  bDllMain()</b>  をエントリポイントに持つ。<br>
+(Win32アプリケーション(EXE)のエントリポイントは  bWinMain()</b>  。)<br>
+DllMain() の一般形(スケルトン)は以下の通り。<br>
+<p class="code">
+BOOL WINAPI DllMain(HINSTANCE hinstDll, DWORD dwReason, LPVOID lpReserved)
+{
+    <kwd>switch</kwd> (dwReason)
+    {
+	
+    <kwd>case</kwd> DLL_PROCESS_ATTACH: <cmt>// DLLがプロセスのアドレス空間にマッピングされた (LoadLibrary)</cmt>
+        <kwd>break</kwd>;
+	
+    <kwd>case</kwd> DLL_THREAD_ATTACH:  <cmt>// スレッドが作成されようとしている</cmt>
+        <kwd>break</kwd>;
+	
+    <kwd>case</kwd> DLL_THREAD_DETACH:  <cmt>// スレッドが破棄されようとしている</cmt>
+        <kwd>break</kwd>;
+	
+    <kwd>case</kwd> DLL_PROCESS_DETACH: <cmt>// DLLのマッピングが解除されようとしている (FreeLibrary)</cmt>
+        <kwd>break</kwd>;
+    }
+
+    <kwd>return</kwd> TRUE;
+}
+</p>
+DLLを(動的に)リンクした場合、DllMain() は以下のタイミングでコールされる。<br>
+<ul>
+<li>DLLロード時(LoadLibrary()) : dwReason = DLL_PROCESS_ATTACH</li>
+<li>DLLアンロード時(FreeLibrary()) : dwReason = DLL_PROCESS_DETACH</li>
+<li>DLL内でスレッドを起動 : dwReason = DLL_THREAD_ATTACH</li>
+<li>DLL内で起動したスレッドが終了 : dwReason = DLL_THREAD_DETACH</li>
+</ul>
+
+<h2>DLL内の静的オブジェクトの生成タイミング</h2>
+DLL内に静的オブジェクトが存在する場合、 bDLLロード時 DllMain() のコールより前に生成され、DLLアンロード時 DllMain() のコール後に破棄される</b> 。<br>
+以下のコードを参照。<br>
+テスト用EXE<br>
+<p class="code">
+<kwd>int</kwd> _tmain(<kwd><kwd>int</kwd></kwd> argc, _TCHAR* argv[])
+{
+    wprintf(<ltr>LMain   , entered\n"</ltr>);
+
+    <cmt>// DLLロード</cmt>
+    wprintf(<ltr>LMain   , loading library\n"</ltr>);
+    HMODULE h = LoadLibrary(<ltr>LTestdll"</ltr>);
+
+    <kwd>if</kwd> (h)
+    {
+        <cmt>// DLLアンロード</cmt>
+        wprintf(<ltr>LMain   , freeing library\n"</ltr>);
+        FreeLibrary(h);
+    }
+
+    wprintf(<ltr>LMain   , exiting\n"</ltr>);
+    <kwd>return</kwd> <ltr>0</ltr>;
+}
+</p>
+DLL<br>
+<p class="code">
+<cmt>// 構造体 Moo 型</cmt>
+<kwd>struct</kwd> Moo
+{
+    Moo() { wprintf(<ltr>LMoo    , constructor\n"</ltr>); }    <cmt>//&lt; コンストラクタ</cmt>
+    ~Moo() { wprintf(<ltr>LMoo    , destructor\n"</ltr>); }    <cmt>//&lt; デストラクタ</cmt>
+};
+
+Moo m;  <cmt>//&lt; 静的な Moo インスタンス</cmt>
+
+<cmt>// DllMain() 関数</cmt>
+BOOL APIENTRY DllMain( HMODULE hModule,
+                       DWORD  ul_reason_for_call,
+                       LPVOID lpReserved)
+{
+    <kwd>switch</kwd> (ul_reason_for_call)
+    {
+    <kwd>case</kwd> DLL_PROCESS_ATTACH:
+        wprintf(<ltr>LDllMain, DLL_PROCESS_ATTACH\n"</ltr>);
+        <kwd>break</kwd>;
+    <kwd>case</kwd> DLL_THREAD_ATTACH:
+        wprintf(<ltr>LDllMain, DLL_THREAD_ATTACH\n"</ltr>);
+        <kwd>break</kwd>;
+    <kwd>case</kwd> DLL_THREAD_DETACH:
+        wprintf(<ltr>LDllMain, DLL_THREAD_DETACH\n"</ltr>);
+        <kwd>break</kwd>;
+    <kwd>case</kwd> DLL_PROCESS_DETACH:
+        wprintf(<ltr>LDllMain, DLL_PROCESS_DETACH\n"</ltr>);
+        <kwd>break</kwd>;
+    <kwd>default</kwd>:
+        wprintf(<ltr>LDllMain, ????\n"</ltr>);
+        <kwd>break</kwd>;
+    }
+    <kwd>return</kwd> TRUE;
+}
+</p>
+出力結果 (解説のために改行、コメントを追加)<br>
+<p class="code">
+Main   , entered
+
+Main   , loading library        <cmt>//&lt; EXEからDLLをロード</cmt>
+Moo    , constructor            <cmt>//&lt; 静的 Moo インスタンス生成</cmt>
+DllMain, DLL_PROCESS_ATTACH     <cmt>//&lt; DllMain() : dwReason = DLL_PROCESS_ATTACH</cmt>
+
+Main   , freeing library        <cmt>//&lt; EXEからDLLをアンロード</cmt>
+DllMain, DLL_PROCESS_DETACH     <cmt>//&lt; DllMain() : dwReason = DLL_PROCESS_DETACH</cmt>
+Moo    , destructor             <cmt>//&lt; 静的 Moo インスタンス破棄</cmt>
+
+Main   , exiting
+</p>
+<br>
+</body>
+</html>
+

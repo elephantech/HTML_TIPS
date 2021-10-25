@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://https://cpprefjp.github.io/lang/cpp11.html">C++11 - cpprefjp - C++日本語リファレンス</a><br>
+<a href="https://ja.wikipedia.org/wikiC%2B%2B11">C++11 - Wikipedia</a><br>
+<a href="https://qiita.com/yumetodo/items/68f58de43094519ae899">C++11からC++17を駆け抜けるC++講座 - Qiita</a><br>
+<a href="https://qiita.com/leon-joel/items/81415c1ef355c6246280">C++11, C++14, C++17 新機能まとめ ～使いそうなものだけ - Qiita</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C%E3%83%BBC++/[C]C99.html">[C]C99</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A.html">[C++／STL／コンテナ]コンテナ</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%A4%E3%83%86%E3%83%AC%E3%83%BC%E3%82%BF.html">[C++／STL／コンテナ]イテレータ</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++]%E5%9E%8B%E6%8E%A8%E8%AB%96.html">[C++]型推論</a><br>
+<a href="TIPS/ソフトウェア開発一般/%E7%84%A1%E5%90%8D%E9%96%A2%E6%95%B0%E3%81%A8%E3%83%A9%E3%83%A0%E3%83%80%E5%BC%8F.html">無名関数とラムダ式</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++]%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%83%9D%E3%82%A4%E3%83%B3%E3%82%BF.html">[C++]スマートポインタ</a><br>
+<a href="TIPS/C・C++/[C++]typedefとusing.html">[C++]typedefとusing</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
+
+<h2>C++11 (ISOIEC 14882:2011) とは</h2>
+2011年に定められた、C++のISO標準。以前の規格であるC++03に対し、コア言語、標準ライブラリの双方に大規模な修正・拡張が施されている。<br>
+後継規格としてC++14、C++17が存在するが、これらはC++11に対するマイナーアップデートに位置づけられる。<br>
+ここではC++11で追加された機能の一部を紹介する。C++11(以降)での拡張は多岐にわたるため、詳細は出典元を参照のこと。<br>
+<h2>ヌルポインタ</h2>
+C++03まではCと同様、定数 0 に整数定数とヌルポインタという二つの役割が与えられている。<br>
+定数 0 の代わりに NULL を用いることで、この潜在的な曖昧性をある程度回避できてはいたが、C++では新たな問題が発生していた。<br>
+Cにおける NULL はプリプロセッサマクロとして、((void*)0) または 0 と展開されるが、C++ではvoid* 型から他のポインタ型への暗黙的変換が認められないため、NULL を同様に定義すると、char* c = NULL; のような表現はコンパイルエラーとなる。<br>
+このためC++では NULL はあらゆるポインタ型への変換が例外的に認められる 0 と展開される。しかし以下のように関数オーバーロードと組み合わせることで回避しにくい問題となる。<br>
+<p class="code">
+<kwd>void</kwd> foo(<kwd>char</kwd>*);
+<kwd>void</kwd> foo(<kwd>int</kwd>);
+</p>
+ここで foo(NULL) として呼び出すと NULL が 0 に置換されるため、foo(int) が呼ばれることとなる。多くの場合で、これはプログラマの意図に反している。<br>
+この問題を受け、C++11ではキーワード bnullptr</b> が導入された。<br>
+bnullptr は整数型との比較・代入ができないが、あらゆるポインタ型との比較・代入ができる</b> 。<br>
+(foo(nullptr) と呼び出すことで、foo(char*) が呼ばれる。)
+
+<h2>一般化された定数式</h2>
+ <b>常に同じ結果を返し、副作用の無い(スコープ外の変数やメモリ等を操作しない)式を定数式と呼ぶ</b> 。(3 + 4 など定数同士の演算、または単項の定数)<br>
+定数式はコンパイラの最適化の対象となり、多くの場合でコンパイル時に演算が行われ、プログラム中にはその結果のみが格納される。<br>
+即ちプログラム中の定数式 3 + 4 は、コンパイルにより定数 7 に置換される。<br>
+但し、関数呼び出しやオブジェクトコンストラクタが出現すると、定数式とは見なされなくなる。<br>
+<p class="code">
+<cmt>// C++03まで (有効でないコード)</cmt>
+<kwd>int</kwd> get5() { <kwd>return</kwd> <ltr>5</ltr>; }
+<kwd>int</kwd> arr_values[get5() + <ltr>5</ltr>];    <cmt>//&lt; 要素数10の配列を作りたいが、</cmt>
+                               <cmt>//&lt; get5() が定数式と見なされないため不可 ⇒ コンパイルエラー</cmt>
+</p>
+C++11ではキーワードbconstexpr</b> が導入され、関数やオブジェクトコンストラクタがコンパイル時定数であることを保証できるようになった。<br>
+即ち、<b>下記の get5() は定数式と解釈される</b>。
+<p class="code">
+<cmt>// C++11以降 (有効なコード)</cmt>
+<kwd>constexpr</kwd> <kwd>int</kwd> get5() { <kwd>return</kwd> <ltr>5</ltr>; }    <cmt>//&lt; constexpr 修飾により get5() は定数式となる</cmt>
+<kwd>int</kwd> arr_values[get5() + <ltr>5</ltr>];           <cmt>//&lt; 要素数10の配列を作る ⇒ []内が定数式のため有効</cmt>
+</p>
+また、定数を定数式として定義することも可能である。(const の代替)<br>
+<p class="code">
+<kwd>constexpr</kwd> <kwd>double</kwd> forceOfGravity = <ltr>9</ltr>.<ltr>8</ltr>;
+<kwd>constexpr</kwd> <kwd>double</kwd> moonGravity = forceOfGravity  <ltr>6</ltr>;
+</p>
+
+<!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
+
+<h2>初期化子リスト</h2>
+C++ではCと同様、構造体を初期化する際に、初期値をブレース { } 内に列記(初期化子リスト)することで各メンバに割り当てることができる。これは入れ子となった構造体や、構造体配列でも有効である。<br>
+<p class="code">
+<kwd>struct</kwd> St_Object
+{
+  <kwd>float</kwd> first;
+  <kwd>int</kwd> second;
+};
+
+St_Object scalar = {<ltr>043F</ltr>, <ltr>10</ltr>};
+St_Object anArray[] = {{<ltr>134F</ltr>, <ltr>3</ltr>}, {<ltr>4328F</ltr>, <ltr>29</ltr>}, {<ltr>5934F</ltr>, <ltr>17</ltr>}};
+</p>
+C++11では初期化子リストがテンプレート bstd::initializer_list</b> と結び付けられ、コンストラクタなどの関数が <b>初期化子リストを引数として</b> 取ることができるようになった。<br>
+<p class="code">
+<kwd>class</kwd> CSequenceClass
+{
+<kwd>public</kwd>:
+  CSequenceClass(std::initializer_list&lt;<kwd>int</kwd>&gt; list);
+};
+
+CSequenceClass someVar = { <ltr>1</ltr>, <ltr>4</ltr>, <ltr>5</ltr>, <ltr>6</ltr> };
+</p>
+
+<!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
+
+<h2>型推論</h2>
+C++03やCでは、変数の型は明示的に指定せねばならず、テンプレートやメタプログラミングとの相性が良くなかった。<br>
+C++11では<b>型推論</b>が導入され、この制約が軽減されている。<br>
+詳細は<a href="TIPS/C%E3%83%BBC++/[C++]%E5%9E%8B%E6%8E%A8%E8%AB%96.html">[C++]型推論</a>を参照。
+
+<!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
+
+<h2>範囲に基づく for ループ</h2>
+C#やJavaには、コンテナの最初から最後までを走査できる foreach 文が存在している。<br>
+C++11にも同様の機能が追加され、for 文の別構文により、コンテナを簡単に走査することができる。<br>
+<p class="code">
+<kwd>int</kwd> my_array[<ltr>5</ltr>] = {<ltr>1</ltr>, <ltr>2</ltr>, <ltr>3</ltr>, <ltr>4</ltr>, <ltr><ltr>5</ltr></ltr>};
+<cmt>// my_array を先頭から末尾まで走査</cmt>
+<kwd>for</kwd> (<kwd>int</kwd>&amp; x : my_array) 
+{
+    x *= <ltr>2</ltr>;
+}
+<cmt>// 実行結果 : {2, 4, 6, 8, 10}</cmt>
+</p>
+Cスタイルの配列に限らず、初期化リスト、STLで定義されるコンテナおよび、イテレータ begin() 、end() を有するあらゆる型に用いることができる。<br>
+
+<!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
+
+<h2>ラムダ関数とラムダ式</h2>
+<a href="TIPS/ソフトウェア開発一般/%E7%84%A1%E5%90%8D%E9%96%A2%E6%95%B0%E3%81%A8%E3%83%A9%E3%83%A0%E3%83%80%E5%BC%8F.html">無名関数とラムダ式</a>を参照。<br>
+<h2>オブジェクト構築の改良</h2>
+C++03までは、コンストラクタは他のコンストラクタを呼び出せず、それぞれのコンストラクタでメンバの初期化を行う必要があったため、コードの重複が避けられなかった。<br>
+また、基底クラスのコンストラクタは派生クラスには直接公開されず、派生クラス側で(基底クラスと重複する)コンストラクタを定義する必要があった。<br>
+C++11ではコンストラクタが他の同等なコンストラクタを呼び出すこと(委譲)が可能となっている。<br>
+<p class="code">
+<kwd>class</kwd> C_SomeType 
+{
+    <kwd>int</kwd> number;
+<kwd>public</kwd>:
+    C_SomeType(<kwd>int</kwd> newNumber) : number(newNumber) {}
+    C_SomeType() : C_SomeType(<ltr>42</ltr>) {}                       <cmt>//&lt; C_SomeType() が C_SomeType(int) を呼び出している</cmt>
+};
+</p>
+<p class="code">
+<cmt>// 基底クラス</cmt>
+<kwd>class</kwd> C_BaseClass 
+{
+<kwd>public</kwd>:
+    C_BaseClass (<kwd>int</kwd> value);
+    C_BaseClass (<kwd>float</kwd> value);
+};
+
+<cmt>// 派生クラス</cmt>
+<kwd>class</kwd> C_DerivedClass : <kwd>public</kwd> C_BaseClass 
+{
+<kwd>public</kwd>:
+    using C_BaseClass::C_BaseClass;    <cmt>//&lt; 基底クラスのコンストラクタを使用する</cmt>
+};
+</p>
+更に、メンバの初期化に以下の構文が使用できる。コンストラクタで初期化内容を上書きすることもできる。<br>
+<p class="code">
+<kwd>class</kwd> C_SomeClass 
+{
+  <kwd>int</kwd> iValue = <ltr>5</ltr>;    <cmt>//&lt; クラス定義中でメンバ iValue を初期化</cmt>
+<kwd>public</kwd>:
+    C_SomeClass () {}
+    <kwd>explicit</kwd> C_SomeClass (<kwd>int</kwd> iNewValue) : iValue(iNewValue) {}  <cmt>//&lt; int 型引数付きで呼ばれた場合、引数で iValue を初期化</cmt>
+};
+</p>
+
+<!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
+
+<h2>統一初期化記法</h2>
+C++03までは、型の初期化の方法が複数存在する場合、取り違えると同じ結果にはならなかった。<br>
+C++11では「統一初期化記法(uniform initialization)」が導入され、どのようなオブジェクトでも同様の記法で初期化できるようになった。これは初期化リスト構文の拡張である。<br>
+<p class="code">
+<kwd>struct</kwd> St_BasicStruct
+{
+    <kwd>int</kwd> x;
+    <kwd>double</kwd> y;
+};
+
+<kwd>struct</kwd> St_AltStruct 
+{
+<kwd>public</kwd>:
+    <cmt>// コンストラクタ</cmt>
+    St_AltStruct(<kwd>int</kwd> x, <kwd>double</kwd> y) : x_(x), y_(y) {}
+<kwd>private</kwd>:
+    <kwd>int</kwd> x_;
+    <kwd>double</kwd> y_;
+};
+
+St_BasicStruct var1 { <ltr>5</ltr>, <ltr>32</ltr> };
+St_AltStruct var2 { <ltr>2</ltr>, <ltr>43</ltr> };
+</p>
+St_BasicStruct 型の var1 と、St_AltStruct 型の var2 を、同様の記法(ブレースに初期値を列挙)で初期化している。var1 ではC形式の初期化子リストと同様に振る舞い、var2 ではコンストラクタを呼んでいる。<br>
+型推論と組み合わせて、以下のように応用できる。<br>
+<p class="code">
+<kwd>struct</kwd> St_IdString
+{
+    std::<kwd>string</kwd> name;
+    <kwd>int</kwd> identifier;
+};
+
+St_IdString get_string()
+{
+    <kwd>return</kwd> { <ltr>"SomeName"</ltr>, <ltr>4</ltr> };
+}
+</p>
+return 文にて暗黙の一時変数を統一初期化記法で初期化し、返却している。関数の戻り値は宣言から St_IdString 型であることが明白であるため、一時変数の型を明示していない。<br>
+C99における複合リテラルと同様。<br>
+
+<!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
+
+<h2>強い型付けの列挙型</h2>
+C++03までの列挙型 (enum) は型安全ではなく、型の異なる列挙型同士の値が比較できていた。<br>
+また、列挙値のスコープは、列挙体が定義されたスコープと同じとなるため、二つの異なる列挙体が、同じ名前のメンバを持つことができなかった。<br>
+C++11では型安全な(クラス化された)列挙体が導入された。<br>
+<p class="code">
+<cmt>// 列挙型の定義 (enum class は enum struct に代替可能)</cmt>
+<kwd>enum</kwd> <kwd>class</kwd> E_Enumeration
+{
+    VAL1,        <cmt>//&lt; == 0</cmt>
+    VAL2,
+    VAL3 = <ltr>100</ltr>,
+    VAL4,        <cmt>//&lt; == 101</cmt>
+};
+</p>
+この列挙型は暗黙的に整数値に変換されることは無く、整数値や他の列挙型との直接比較はできない。<br>
+<b>列挙値へのアクセスは E_Enumeration::E_VAL2 のように、スコープを明示する必要がある</b> 。(C#における列挙型と同様)<br>
+列挙値(のラベル)は型に拘束されるため、異なる列挙型で同じ名前のメンバを持つことができる。<br>
+
+<!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
+
+<h2>明示的な仮想関数オーバーライド ( override )</h2>
+C++03では、基底クラスの仮想関数をオーバーライドする際に、(タイプミスなどで)誤って意図に反する新しい仮想関数を作成してしまうことがある。<br>
+<p class="code">
+<cmt>// 基底クラス</cmt>
+<kwd>class</kwd> C_Base
+{
+<kwd>public</kwd>:
+    <kwd>virtual</kwd> <kwd>void</kwd> some_func(<kwd>float</kwd>);
+    <kwd>virtual</kwd> <kwd>bool</kwd> on_error();
+};
+
+<cmt>// 派生クラス</cmt>
+<kwd>class</kwd> C_Derived : C_Base
+{
+    <kwd>virtual</kwd> <kwd>void</kwd> some_func(<kwd>int</kwd>);    <cmt>//&lt; 基底クラスの some_func(float) をオーバーライドするつもりが、</cmt>
+                                    <cmt>//&lt; 引数の型が異なっている</cmt>
+    <kwd>virtual</kwd> <kwd>bool</kwd> on_eror();         <cmt>//&lt; 基底クラスの on_error() をオーバーライドするつもりが、</cmt>
+                                    <cmt>//&lt; 関数名(シグネチャ)を誤っている</cmt>
+};
+</p>
+上記は、派生クラスで基底クラスの仮想関数をオーバーライドしようとして、意図に反して新たな仮想関数を作成してしまった例である。<br>
+文法上は誤りではないためコンパイルエラーとはならず、間違いに気づくことができない。<br>
+C++11では boverride</b> キーワードを導入することで、解決が図られている。<br>
+<p class="code">
+<cmt>// 基底クラス</cmt>
+<kwd>class</kwd> C_Base
+{
+<kwd>public</kwd>:
+    <kwd>virtual</kwd> <kwd>void</kwd> some_func(<kwd>float</kwd>);
+    <kwd>virtual</kwd> <kwd>bool</kwd> on_error();
+};
+
+<cmt>// 派生クラス</cmt>
+<kwd>class</kwd> C_Derived : C_Base
+{
+    <kwd>virtual</kwd> <kwd>void</kwd> some_func(<kwd>int</kwd>) <kwd>override</kwd>;    <cmt>//&lt; 不正 : 引数の型が異なっている</cmt>
+    <kwd>virtual</kwd> <kwd>bool</kwd> on_eror() <kwd>override</kwd>;         <cmt>//&lt; 不正 : 関数名(シグネチャ)を誤っている</cmt>
+};
+</p>
+boverride</b> 修飾された仮想関数が、基底クラスのオーバーライド先と一致しない場合にコンパイルエラーとなる。<br>
+
+<!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
+
+<h2>継承・オーバーライドの禁止 ( final )</h2>
+C++11では bfinal</b> キーワードが追加された。クラスに適用した場合と仮想関数に適用した場合で、意味が異なる。<br>
+
+<!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
+
+<h3>クラスの final 修飾</h3>
+クラスを final 修飾した場合、 <b>そのクラスを派生(継承)させることができなくなる</b> 。<br>
+<p class="code">
+<cmt>// 基底クラス</cmt>
+<cmt>// final : 継承不可となる</cmt>
+<kwd>class</kwd> C_Base <kwd>final</kwd>
+{
+<kwd>public</kwd>:
+    <kwd>virtual</kwd> <kwd>void</kwd> some_func(<kwd>float</kwd>);
+    <kwd>virtual</kwd> <kwd>int</kwd> f();
+};
+
+<cmt>// 派生クラス</cmt>
+<cmt>// エラー : 継承できない基底クラスを継承しようとしている</cmt>
+<kwd>class</kwd> C_Derived : C_Base
+{
+    :
+};
+</p>
+
+<!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
+
+<h3>仮想関数の final 修飾</h3>
+仮想関数を final 修飾した場合、 <b>その関数はオーバーライド不可となる</b> 。<br>
+<p class="code">
+<cmt>// 基底クラス</cmt>
+<kwd>class</kwd> C_Base
+{
+<kwd>public</kwd>:
+    <kwd>virtual</kwd> <kwd>void</kwd> some_func(<kwd>float</kwd>) <kwd>final</kwd>;    <cmt>//&lt; final : some_func(float) はオーバーライド不可となる</cmt>
+};
+
+<cmt>// 派生クラス</cmt>
+<kwd>class</kwd> C_Derived : C_Base
+{
+    <kwd>void</kwd> some_func(<kwd>float</kwd>);    <cmt>//&lt; 不正 : final 修飾された関数をオーバーライドしようとしている</cmt>
+};
+</p>
+
+<!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
+
+<h2>型エイリアス (using)</h2>
+C++03(およびC)では、既存の型に別名を付ける際にはbtypedef</b>を用いていた。しかし typedef にはテンプレートを作ることはできないという制約がある。<br>
+C++11ではbusing</b>を用いることで、テンプレートに対しても別名を付与することが可能である。<br>
+詳細は 
+<a href="
+TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/HowToTIPSC%E3%83%BBC++/[C++]typedef%E3%81%A8usinghtml
+">
+[C++]typedefとusing</a>
+ を参照。
+
+<!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
+
+<h2>スマートポインタ (unique_ptr&lt;T&gt;  shared_ptr&lt;T&gt;  weak_ptr&lt;T&gt;)</h2>
+動的メモリ(ヒープ)を安全に使用するための機構。<br>
+スマートポインタを使用すると、スコープを抜ける際に自動的にヒープが解放されるため、解放忘れによるメモリリークの危険性が減る。<br>
+C++03で利用できた auto_ptr&lt;T&gt; に加え、unique_ptr&lt;T&gt;  shared_ptr&lt;T&gt;  weak_ptr&lt;T&gt; が新たに導入された。<br>
+詳細は
+<a href="TIPS/C%E3%83%BBC++/[C++]%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%83%9D%E3%82%A4%E3%83%B3%E3%82%BF.html">
+[C++]スマートポインタ</a>を参照。
+
+</body>
+</html>
+

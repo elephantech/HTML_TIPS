@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+
+<a href="https://ja.wikipedia.org/wiki/%E5%A7%94%E8%AD%B2">
+委譲 - Wikipedia</a><br>
+
+<a href="https://ikenox.info/blog/inheritance-and-delegation-and-interface/">
+継承と委譲の使い分けと、インターフェースの重要性について</a><br>
+
+<h5>関連 :</h5>
+
+<a href="TIPS/ソフトウェア開発一般/[%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E6%8C%87%E5%90%91]%E3%82%A4%E3%83%B3%E3%82%BF%E3%83%95%E3%82%A7%E3%83%BC%E3%82%B9.html">
+[オブジェクト指向]インタフェース</a><br>
+
+<a href="TIPS/ソフトウェア開発一般/[%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E6%8C%87%E5%90%91]SOLID%E3%81%AE%E5%8E%9F%E5%89%87.html">
+[オブジェクト指向]SOLIDの原則</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>委譲 (delegation) とは</h2>
+オブジェクト指向プログラミングにおいて、あるオブジェクトに対する操作の一部を他のオブジェクトに代替させる手法のこと。<br>
+委譲する側のオブジェクトが、委譲される側のオブジェクトの機能を呼び出す(利用する)ことを表す。<br>
+尚、「移譲」は誤り。
+
+<h2>継承と委譲の使い分け</h2>
+あるオブジェクトが別のオブジェクトの機能を用いる場合、<b>継承によってその機能を獲得するか、委譲によってその機能を利用するか</b>の選択が必要となることがある。<br>
+いずれを用いるかは両者の関係によって異なる。
+
+<h3>継承を用いる場合</h3>
+<p class="code">
+<cmt>// 「乗り物」クラス</cmt>
+<kwd>class</kwd> Vehicle
+{
+<kwd>public</kwd>:
+    <cmt>// 加速</cmt>
+    <kwd>virtual</kwd> <kwd>void</kwd> Accelarate() = <ltr>0</ltr>;
+};
+
+<cmt>// 「自動車」クラス : Vehicle を継承</cmt>
+<kwd>class</kwd> Car : <kwd>public</kwd> Vehicle
+{
+<kwd>public</kwd>:
+    <cmt>// 加速</cmt>
+    <kwd>virtual</kwd> <kwd>void</kwd> Accelarate();
+};
+
+<cmt>// 「自動二輪車」クラス : Vehicle を継承</cmt>
+<kwd>class</kwd> MotorCycle : <kwd>public</kwd> Vehicle
+{
+<kwd>public</kwd>:
+    <cmt>// 加速</cmt>
+    <kwd>virtual</kwd> <kwd>void</kwd> Accelarate();
+};
+</p>
+この例では、「自動車」・「自動二輪車」が「乗り物」を継承している。<br>
+これは、<b>「自動車」・「自動二輪車」が「乗り物」の範疇に含まれる "<dgreen>is-a</dgreen>" の関係にある</b>ことによる。<br>
+(Car <b class="dgreen">is a</b> Vehicle 「自動車は乗り物である」)<br>
+<b>即ち「自動車」は「乗り物」としての特性を有している必要があるため、「乗り物」を継承することでその特性を獲得する</b>。
+
+<h3>移譲を用いる場合</h3>
+<p class="code">
+<cmt>// 「エンジン」クラス</cmt>
+<kwd>class</kwd> Engine
+{
+    :
+};
+
+<cmt>// 「車輪」クラス</cmt>
+<kwd>class</kwd> Wheel
+{
+    :
+};
+
+<cmt>// 「自動車」クラス : Engine 、Wheel を所持</cmt>
+<kwd>class</kwd> Car
+{
+<kwd>private</kwd>:
+    Engine  mEngine;          <cmt>//&lt; エンジン</cmt>
+    Wheel   mWheel;           <cmt>//&lt; 車輪</cmt>
+
+<kwd>public</kwd>:
+    <cmt>// 加速</cmt>
+    <kwd>void</kwd> Accelarate();
+};
+
+<cmt>// 加速</cmt>
+<kwd>void</kwd> Car::Accelarate()
+{
+    mEngineDoSomething();
+    mWheelDoSomething();
+}
+</p>
+この例では、「自動車」が「エンジン」・「車輪」を所持している。<br>
+Car クラスのインスタンスが Accelarate() をコールされた際に、mEngine 、mWheel の機能を用いることで目的を達成しようとする。<br>
+即ち、<b>Car は Engine 、Wheel に処理を「委譲」する</b>。<br>
+これは、<b>「エンジン」・「車輪」が「自動車」の部品として振舞う "<red>part-of</red>" の関係にある</b>ことによる。<br>
+(Engine is a <b class="red">part of</b> a Car 「エンジンは自動車の一部(部品)である」)<br>
+<b>「自動車」は「エンジン」「車輪」を部品として有していればよく、これらの特性を自身が獲得する必要は無い</b>。<br>
+また、移譲する側(Car)が移譲される側(Engine)の「実体」を保有している必要は無く、参照などのアクセス手段を有していればよい。
+</body>
+</html>

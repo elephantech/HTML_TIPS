@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+    head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>プロキシサーバの設定</h2>
+Backlog上のGitにアクセスする際は、アクセス元のPCに合わせたプロキシサーバの設定が必要となる。<br>
+(おそらくSubversionも同様)<br>
+
+<h3>準備 : プロキシサーバのアドレスを確認</h3>
+コマンドプロンプトから、以下のコマンドを実行する。
+<p class="code">
+reg query HKEY_CURRENT_USER\Software\Microsoft\TIPS/\CurrentVersion\Internet Settings v ProxyServer
+</p>
+
+<h3>.gitconfig を直接変更する場合</h3>
+<ol>
+	<li>
+		gitconfig をテキストエディタなどで開く。<br>
+		gitconfig の所在 :<br>
+		<table>
+			<tr>
+			<td class="col1">(通常の)実PC</td><td><b class="red">C</b>:\Users\[ユーザ名]\.gitconfig</td>
+			</tr>
+			<tr>
+			<td class="col1">AWS Workspaces 仮想PC</td><td><b class="green">D</b>:\Users\[ユーザ名]\.gitconfig</td>
+			</tr>
+		</table>
+		<img src="_Img/Backlog/git_access/git-access-to-backlog_03.png" alt="画像"><br>
+	</li>
+	<li>
+		以下の内容を追記する。
+		<p class="code">
+[http]
+proxy = http://[プロキシサーバアドレス]:[ポート]
+[https]
+proxy = http://[プロキシサーバアドレス]:[ポート]
+		</p>
+	<img src="_Img/Backlog/git_access/git-access-to-backlog_04.png" alt="画像"><br>
+	</li>
+</li>
+
+<h3>TortoiseGitの設定を変更する場合</h3>
+<ol>
+    <li>
+		TortoiseGitの「設定」を開く。<br>
+		<img src="_Img/Backlog/git_access/git-access-to-backlog_01.png" alt="画像">
+    </li>
+    <li>
+		「ネットワーク」を選択、「プロキシサーバーを有効にする」にチェックを入れ、<br>
+		「サーバーアドレス」、「ポート」を入力し、「OK」を押す。<br>
+		<img src="_Img/Backlog/git_access/git-access-to-backlog_02.png" alt="画像">
+    </li>
+</li>
+
+</body>
+</html>

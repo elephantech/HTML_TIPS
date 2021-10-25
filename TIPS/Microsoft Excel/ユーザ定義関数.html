@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>関連 :</h5>
+<a href="TIPS/Microsoft%20Excel/%E5%90%8D%E5%89%8D%E4%BB%98%E3%81%8D%E6%95%B0%E5%BC%8F.html">名前付き数式</a><br>
+<br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+VBE(Visual Basic Editor)を用いて、独自のワークシート関数を作成することができる。<br>
+
+<h2>手順</h2>
+<ol>
+<li>VBEを開く。<br>(「開発」&gt;「Visual Basic」または Alt + F11 )</li>
+<li>関数を定義する。<br>(ここでは標準モジュールを新規作成)<br>
+<img src="_Img/MS Excel/user_defined_function/user_defined_function_01.png" alt="画像">
+</li>
+<li>ワークシート上で、定義した関数を入力する。<br>
+<img src="_Img/MS Excel/user_defined_function/user_defined_function_02.png" alt="画像">
+</li>
+</li>
+
+<h2>その関数が入力されたセル(自身)を取得する</h2>
+<b>Application.ThisCell</b> メソッドを使用する。戻り値は <b>Range</b> 型。<br>
+セルが結合されていると失敗する点に注意。<br>
+
+<p class="code">
+Function MyFunction()
+
+    MyFunction = Application.ThisCell.Address
+ 
+End Function
+</p>
+
+実行結果<br>
+<img src="_Img/MS Excel/user_defined_function/user_defined_function_03.png" alt="画像"><br>
+
+<h2>はしがき</h2>
+VBAの機能を用いずに、数式に名前を付けることもできる。<br>
+<a href="TIPS/Microsoft%20Excel/%E5%90%8D%E5%89%8D%E4%BB%98%E3%81%8D%E6%95%B0%E5%BC%8F.html">名前付き数式</a>を参照。<br>
+</body>
+</html>
+

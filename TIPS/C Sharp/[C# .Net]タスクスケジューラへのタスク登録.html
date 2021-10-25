@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>関連 :</h5>
+<a href="TIPS/Windows/タスクスケジューラ.html">タスクスケジューラ</a><br>
+<a href="TIPS/Microsoft Visual Studio・.Net/[Visual C%23]アプリケーションを常に管理者権限で実行(マニフェスト).html">[Visual C#]アプリケーションを常に管理者権限で実行(マニフェスト)</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>C# Netからのタスクスケジューラ操作</h2>
+C# Netアプリケーションから、タスクスケジューラを操作(タスクの登録など)することが可能。
+
+<h2>注意が必要な点</h2>
+アプリケーションからタスクを登録する場合、実行時に管理者権限が必要となる。<br>
+(管理者権限なしで実行した場合、登録する時点でエラーとなる。)<br>
+管理者権限の付与手順は、<a href="TIPS/Microsoft Visual Studio・.Net/[Visual C%23]アプリケーションを常に管理者権限で実行(マニフェスト).html">ここ</a>を参照。
+
+<h2>サンプルコード</h2>
+
+下記コードは一例。詳細は要調査。
+
+<h3>関数 ( RegistTask() ) 定義</h3>
+<p class="code">
+<cmt>// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -
+// [static]タスクの登録
+// -------+---------------------------------------------------------------------
+// 引数   | string folderName  : [I]タスク登録先フォルダ名
+//        | string taskName    : [I]タスク名
+//        | string execFile    : [I]実行するプロセス(実行ファイル)
+//        | DateTime execTime  : [I]実行時刻
+//        | string author      : [I]タスクの作者
+//        | string description : [I]タスクの説明
+// -------+---------------------------------------------------------------------
+// 戻り値 | bool : 登録成否
+//        |        true  - 成功
+//        |        false - 成功
+// -------+---------------------------------------------------------------------
+// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
+<kwd>public static bool</kwd> RegistTask( <kwd>string</kwd> folderName   , 
+                               <kwd>string</kwd> taskName     ,
+                               <kwd>string</kwd> execFile     ,
+                               DateTime execTime   ,
+                               <kwd>string</kwd> author       = <ltr>""</ltr>,
+                               <kwd>string</kwd> description  = <ltr>""</ltr> )
+{
+    ITaskService taskservice = <kwd>null</kwd>;
+    ITaskFolder rootfolder = <kwd>null</kwd>;
+
+    <kwd>try</kwd>
+    {
+        <cmt>// TaskServiceを生成して接続する
+        // 接続時の User, Domain, Password を必要に応じて設定する</cmt>
+        taskservice = <kwd>new</kwd> TaskSchedulerTaskScheduler();
+        taskserviceConnect(<kwd>null</kwd>, <kwd>null</kwd>, <kwd>null</kwd>, <kwd>null</kwd>);
+
+        <cmt>// タスクの格納先、タスク名を指定</cmt>
+        rootfolder = taskserviceGetFolder(<ltr>"\\"</ltr>);
+        <kwd>var</kwd> path = <ltr>$@"\{folderName}\{taskName}"</ltr>;
+
+        <cmt>// 新規登録用のタスクを定義</cmt>
+        ITaskDefinition taskDefinition = taskserviceNewTask(<ltr>0</ltr>);
+
+        <cmt>// 設定に使うもろもろ</cmt>
+        IRegistrationInfo registrationInfo = taskDefinitionRegistrationInfo;
+        IActionCollection actionCollection = taskDefinitionActions;
+        IExecAction execAction = (IExecAction)actionCollectionCreate(_TASK_ACTION_TYPETASK_ACTION_EXEC);
+        ITriggerCollection triggerCollection = taskDefinitionTriggers;
+        ITimeTrigger timeTrigger = (ITimeTrigger)triggerCollectionCreate(_TASK_TRIGGER_TYPE2TASK_TRIGGER_TIME);
+        ITaskSettings taskSettings = taskDefinitionSettings;
+        IPrincipal principal = taskDefinitionPrincipal;
+
+        <cmt>// タスクの作成者と概要</cmt>
+        registrationInfoAuthor = author;
+        registrationInfoDescription = description;
+
+        <cmt>// タスクの実行時に使うユーザアカウント</cmt>
+        principalUserId = <ltr>$@"{EnvironmentUserDomainName}\{EnvironmentUserName}"</ltr>;
+
+        <cmt>// ユーザがログオンしているかどうかにかかわらず実行
+        // 最上位特権で実行する</cmt>
+        principalLogonType = _TASK_LOGON_TYPETASK_LOGON_S4U;
+        principalRunLevel = _TASK_RUNLEVELTASK_RUNLEVEL_HIGHEST;
+
+        <cmt>// トリガー条件(開始時刻、間隔、有効)</cmt>
+        timeTriggerStartBoundary = execTimeToString(<ltr>"yyyy-MM-ddTHH:mm:ss"</ltr>);
+        timeTriggerRepetitionInterval = <kwd>null</kwd>;     <cmt>//< 繰り返しなし</cmt>
+        timeTriggerEnabled = <kwd>true</kwd>;
+
+        execActionPath = execFile;
+
+        <cmt>// 登録</cmt>
+        rootfolderRegisterTaskDefinition(path,
+                                          taskDefinition,
+                                          (<kwd>int</kwd>)_TASK_CREATIONTASK_CREATE_OR_UPDATE,
+                                          <kwd>null</kwd>,
+                                          <kwd>null</kwd>,
+                                          _TASK_LOGON_TYPETASK_LOGON_NONE,
+                                          <kwd>null</kwd>);
+
+        <cmt>// 正常終了</cmt>
+        <kwd>return true</kwd>;
+    }
+    <cmt>// 例外発生時は不正終了</cmt>
+    <kwd>catch</kwd>
+    {
+        <kwd>return false</kwd>;
+    }
+    <kwd>finally</kwd>
+    {
+        <cmt>// return 前にリソース解放</cmt>
+        <kwd>if</kwd> (taskservice != <kwd>null</kwd>)
+        {
+            SystemRuntimeInteropServicesMarshalReleaseComObject(taskservice);
+        }
+        <kwd>if</kwd> (rootfolder != <kwd>null</kwd>)
+        {
+            SystemRuntimeInteropServicesMarshalReleaseComObject(rootfolder);
+        }
+    }
+}
+</p>
+
+<h3>関数呼び出しと登録イメージ</h3>
+<p class="code">
+<cmt>// C:\Somewhere\sample.exe を</cmt>
+<cmt>// 2020623 17:30:45 に実行</cmt>
+RegistTask( "ユーザタスク",                          <cmt>//&lt; <red>登録先フォルダ</red></cmt>
+            "遅延実行サンプルタスク",                <cmt>//&lt; <dgreen>タスク名</dgreen></cmt>
+            @"C:\Somewhere\sample.exe",              <cmt>//&lt; <black>実行するプログラム</black></cmt>
+            new DateTime(2020, 6, 23, 17, 30, 45),   <cmt>//&lt; <dmagenta>実行日時</dmagenta></cmt>
+            "Solid Snake",                           <cmt>//&lt; <black>作成者</black></cmt>
+            "俺は未来のために銃を握っている" );      <cmt>//&lt; <black>説明</black></cmt>
+</p>
+
+<img src="_Img/MSVS_DotNet_CSharp/TaskScheduler_with_CSharp/cs_task_scheduler_04.png"><br>
+</body>
+</html>

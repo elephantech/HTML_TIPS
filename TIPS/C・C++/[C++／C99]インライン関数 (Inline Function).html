@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>関連 :</h5>
+<a href="TIPS/C%E3%83%BBC++/[C]C99.html">[C]C99</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>インライン関数とは</h2>
+関数の処理内容を呼び出し箇所に展開する機構。Cにおける関数型マクロと類似する。<br>
+本来はC++の機能であるが、C99に逆移植された。<br>
+
+<h2>インライン関数の特徴</h2>
+インライン関数は通常の関数呼び出しと異なり <b>オーバーヘッドが発生しないので、通常の関数よりもはるかに高速に実行できる</b> 。<br>
+反面、すべての呼び出し箇所に処理が展開されるため、 <b>インライン関数が長大に、かつ呼び出し回数が多くなるとプログラムサイズが肥大化する</b> 。<br>
+このため、 <b>ごく短い処理(getter / setter など)をインライン化するのが通例である</b> 。<br>
+
+<h3>関数型マクロとの違い</h3>
+<p class="code">
+<cmt>// 関数型マクロ</cmt>
+<kwd>#define</kwd> Mul(x, y) ( (x) * (y) )
+
+<cmt>// インライン関数</cmt>
+<kwd>inline</kwd> <kwd><kwd><kwd>int</kwd></kwd></kwd> Mul(<kwd><kwd><kwd>int</kwd></kwd></kwd> x, <kwd><kwd><kwd>int</kwd></kwd></kwd> y) { <kwd>return</kwd> x * y; }
+</p>
+関数型マクロでは、展開箇所によらず所望の結果を得るためには括弧が必要で、記述が煩雑となりがちであるが、 <b>インライン関数では括弧を必要としない</b> 。<br>
+またインライン関数はコンパイラによる最適化の対象となるため、 <b>同様の処理を関数型マクロで実装した場合と比較して高速となることが多い</b> 。<br>
+さらにインライン関数では、(通常の関数同様)引数の型チェックを行うことができる。<br>
+
+<h2>インライン化</h2>
+<h3>inline キーワードによるインライン化</h3>
+<p class="code">
+<cmt>// グローバルスコープのインライン関数</cmt>
+<kwd>inline</kwd> <kwd><kwd><kwd>int</kwd></kwd></kwd> Mul(<kwd><kwd><kwd>int</kwd></kwd></kwd> x, <kwd><kwd><kwd>int</kwd></kwd></kwd> y) { <kwd>return</kwd> x * y; }
+
+<cmt>// クラス定義</cmt>
+<kwd>class</kwd> C_Hoge
+{
+<kwd>private</kwd>:
+    U1 m_u1_Val;
+<kwd>public</kwd>:
+    <cmt>// 関数宣言</cmt>
+    U1 GetVal();
+}
+
+<cmt>// 関数定義にてインライン化</cmt>
+<kwd>inline</kwd> U1 C_Hoge::GetVal()
+{
+    <kwd>return</kwd> m_u1_Val;
+}
+</p>
+関数定義の前に <b>inline</b> キーワードを付与することで、インライン化を「要求」できる。<br>
+インライン化はあくまでも「要求」であるため、インライン化できないとコンパイラが判断した場合はインライン化されず、通常の関数となる。<br>
+(再帰、goto文、switch文、変数、ループを含むなど。コンパイラにより条件は異なる。)
+<h3>自動インライン化 (クラスメンバ関数)</h3>
+<p class="code">
+<cmt>// クラス定義</cmt>
+<kwd>class</kwd> C_Hoge
+{
+<kwd>private</kwd>:
+    U1 m_u1_Val;
+<kwd>public</kwd>:
+    <cmt>// 関数定義 ⇒ 自動インライン化</cmt>
+    U1 GetVal() { <kwd>return</kwd> m_u1_Val; }
+}
+</p>
+クラス定義に関数定義を含めた場合、(可能であれば)インライン化される( inline キーワードによる場合と同様)。<br>
+このとき inline キーワードは必要ない(付与しても問題ないが、単に冗長である)。関数定義に改行を含めないことで、インライン関数であることを示すことが多い。<br>
+</body>
+</html>
+

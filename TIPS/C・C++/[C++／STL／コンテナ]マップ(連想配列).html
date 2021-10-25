@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<h5>関連 :</h5>
+<a href="TIPS/C・C++/[C++／STL／コンテナ]コンテナ.html">[C++／STL／コンテナ]コンテナ</a><br>
+<a href="TIPS/C%20Sharp/[C%23%20.Net]Dictionary(連想配列).html">[C# Net]Dictionary(連想配列)</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+</li>
+
+<h2>連想配列とは</h2>
+検索に使用するキーと、対応する値のペアを保持するコンテナのこと。<br>
+要素の格納順を意識する必要が無く、また <b>キーによる要素の検索が高速</b> である。<br>
+C#、PythonのDictionary、Perl、Rubyのハッシュテーブルと共通の概念。<br>
+ bstd::map</b>  はすべてのキーがユニークである必要があるが、キーの重複が許される  bstd::multimap</b> も存在。<br>
+また、より高速でメモリ効率の良い bstd::unordered_map  std::unordered_multimap</b> も存在する(C++11以降で使用可能)。<br>
+<h2>各クラスの比較</h2>
+<table>
+<tr class="row1"><td>クラス</td><td>キーの重複</td><td>要素のソート</td><td>必要なヘッダ</td><td>備考</td></tr>
+<tr><td>std::map</td><td>不可</td><td>昇順</td><td>#include &lt;map&gt;</td><td></td></tr>
+<tr><td>std::multimap</td><td>可</td><td>昇順</td><td>#include &lt;map&gt;</td><td></td></tr>
+<tr><td>std::unordered_map</td><td>不可</td><td>なし</td><td>#include &lt;unordered_map&gt;</td><td>C++11以降</td></tr>
+<tr><td>std::unordered_multimap</td><td>可</td><td>なし</td><td>#include &lt;unordered_map&gt;</td><td>C++11以降</td></tr>
+</table>
+<h2>宣言・初期化</h2>
+"{キー, 値}"の順に記述。<br>
+<p class="code">
+<cmt>// エラーコード対エラーメッセージ</cmt>
+std::map&lt;<kwd>const</kwd> <kwd>long</kwd>, <kwd><kwd>const</kwd></kwd> <kwd>wchar_t</kwd>*&gt; cErrorInfo =
+{
+    <cmt>//キー                , 値</cmt>
+    { OPOS_E_CLOSED,        _T(<ltr>"クローズ中"</ltr>)                          },  <cmt>//&lt; オープン未済</cmt>
+    { OPOS_E_NOTCLAIMED,    _T(<ltr>"Claim中ではない"</ltr>)                     },  <cmt>//&lt; Claim未済</cmt>
+    { OPOS_E_DISABLED,      _T(<ltr>"DeviceEnabled=TRUE中でない"</ltr>)          },  <cmt>//&lt; DeviceEnabledオフ</cmt>
+    { OPOS_E_BUSY,          _T(<ltr>"ビジー"</ltr>)                              },  <cmt>//&lt; ビジー</cmt>
+    { OPOS_E_NOHARDWARE,    _T(<ltr>"ハードウェア異常（決済デバイス）"</ltr>)    },  <cmt>//&lt; 接続異常</cmt>
+};
+</p>
+<h2>要素の参照・更新</h2>
+at() 関数、または添え字演算子([])を使用。<br>
+(VC++では [] が使用できない？要調査)<br>
+<p class="code">
+<cmt>// キー OPOS_E_CLOSED に紐づく値 クローズ中 が出力される</cmt>
+std::cout &lt;&lt; cErrorInfoat(OPOS_E_CLOSED);
+
+<cmt>// OPOS_E_NOTCLAIMED に紐づく値が Claim中ではない から ごにょごにょ に変わる</cmt>
+cErrorInfo[OPOS_E_NOTCLAIMED] = <ltr>"ごにょごにょ"</ltr>;
+</p>
+<h2>要素の追加</h2>
+insert() 関数を使用。<br>
+<p class="code">
+<cmt>// キー : OPOS_E_UNKNOWN 、値 : 未知のエラー のレコードを追加</cmt>
+cErrorInfo.insert(OPOS_E_UNKNOWN, <ltr>"未知のエラー"</ltr>);
+</p>
+<h2>要素の削除</h2>
+elase() 関数を使用。<br>
+<p class="code">
+<cmt>// キー : OPOS_E_UNKNOWNのレコード(値 : 未知のエラー )を削除</cmt>
+cErrorInfo.elase(OPOS_E_UNKNOWN);
+</p>
+<h2>要素数を取得</h2>
+size() 関数を使用。<br>
+<p class="code">
+ <cmt>// レコードの総数( 5 )が出力される</cmt>
+std::cout &lt;&lt; cErrorInfo.size();
+</p>
+</body>
+</html>
+

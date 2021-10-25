@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://sakura-editorgithubiohelpHLP000362.html">Grep置換 - サクラエディタヘルプ</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS//%E3%82%B5%E3%82%AF%E3%83%A9%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF/[%E3%83%9E%E3%82%AF%E3%83%AD]%E3%83%9E%E3%82%AF%E3%83%AD%E3%81%AE%E4%BD%BF%E7%94%A8.html">[マクロ]マクロの使用</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>構文</h2>
+ <b>GrepReplace( replacee, replacer, targetfile, targetfolder, option, charcodeset );</b> <br>
+<table>
+<tr><td class="col1">replacee</td><td>検索文字列</td><td></td></tr>
+<tr><td class="col1">replacer</td><td>置換後文字列</td><td></td></tr>
+<tr><td class="col1">targetfile</td><td>検索対象にするファイル名</td><td></td></tr>
+<tr><td class="col1">targetfolder</td><td>検索対象にするフォルダ名</td><td></td></tr>
+<tr><td class="col1">option</td><td>オプション[省略可]</td><td>詳細後述</td></tr>
+<tr><td class="col1">charcodeset</td><td>文字コードセット[省略可]</td><td>詳細後述</td></tr>
+</table>
+<br>
+
+<h3>「オプション」(option)の指定</h3>
+以下の各値の論理和を指定する。<br>
+基本属性 :<br>
+<table>
+<tr><td class="col1">0x01</td><td>サブフォルダからも検索する</td><td>省略時規定値</td></tr>
+<tr><td class="col1">0x04</td><td>英大文字と英小文字を区別する</td><td>省略時規定値</td></tr>
+<tr><td class="col1">0x08</td><td>正規表現</td><td></td></tr>
+<tr><td class="col1">0x10</td><td>文字コード自動判別</td><td>「文字コードセット : 自動選択」と同じ</td></tr>
+<tr><td class="col1">0x010000</td><td>単語単位で探す</td><td></td></tr>
+<tr><td class="col1">0x020000</td><td>ファイル毎最初のみ検索</td><td></td></tr>
+<tr><td class="col1">0x040000</td><td>ベースフォルダ表示</td><td></td></tr>
+<tr><td class="col1">0x080000</td><td>フォルダ毎に表示</td><td></td></tr>
+<tr><td class="col1">0x100000</td><td>クリップボードから貼り付ける</td><td></td></tr>
+<tr><td class="col1">0x200000</td><td>バックアップ作成</td><td></td></tr>
+</table>
+結果出力 :<br>
+<table>
+<tr><td class="col1">0x00</td><td>該当行</td><td>省略時規定値</td></tr>
+<tr><td class="col1">0x20</td><td>該当部分</td><td></td></tr>
+</table>
+出力形式 :<br>
+<table>
+<tr><td class="col1">0x00</td><td>ノーマル</td><td>省略時規定値</td></tr>
+<tr><td class="col1">0x40</td><td>ファイル毎</td><td></td></tr>
+<tr><td class="col1">0x80</td><td>結果のみ</td><td></td></tr>
+</table>
+文字コードセット<br>
+(charcodesetの設定値と異なる場合は、charcodesetが優先される) :<br>
+<table>
+<tr><td class="col1">0x0000</td><td>SJIS</td><td>省略時規定値</td></tr>
+<tr><td class="col1">0x0100</td><td>JIS</td><td></td></tr>
+<tr><td class="col1">0x0200</td><td>EUC</td><td></td></tr>
+<tr><td class="col1">0x0300</td><td>UTF-16</td><td></td></tr>
+<tr><td class="col1">0x0400</td><td>UTF-8</td><td></td></tr>
+<tr><td class="col1">0x0500</td><td>UTF-7</td><td></td></tr>
+<tr><td class="col1">0x0600</td><td>UTF-16BE</td><td></td></tr>
+<tr><td class="col1">0x0700</td><td>CESU-8</td><td></td></tr>
+<tr><td class="col1">0x0800</td><td>Latin1(TIPS/-1252)</td><td></td></tr>
+<tr><td class="col1">0x6300</td><td>自動選択</td><td>「オプション : 文字コード自動判別」と同じ</td></tr>
+</table>
+<br>
+<h3>「文字コードセット」(charcodeset)の指定</h3>
+(optionの設定値と異なる場合は、こちらが優先される)<br>
+<table>
+<tr><td class="col1">0x0000</td><td>SJIS</td><td>省略時規定値</td></tr>
+<tr><td class="col1">0x0100</td><td>JIS</td><td></td></tr>
+<tr><td class="col1">0x0200</td><td>EUC</td><td></td></tr>
+<tr><td class="col1">0x0300</td><td>UTF-16</td><td></td></tr>
+<tr><td class="col1">0x0400</td><td>UTF-8</td><td></td></tr>
+<tr><td class="col1">0x0500</td><td>UTF-7</td><td></td></tr>
+<tr><td class="col1">0x0600</td><td>UTF-16BE</td><td></td></tr>
+<tr><td class="col1">0x0700</td><td>CESU-8</td><td></td></tr>
+<tr><td class="col1">0x0800</td><td>Latin1(TIPS/-1252)</td><td></td></tr>
+<tr><td class="col1">0x6300</td><td>自動選択</td><td>「オプション : 文字コード自動判別」と同じ</td></tr>
+</table>
+<br>
+
+<h2>使用例</h2>
+ <b>「ディレクトリ C:\Folder 以下にある C 、H ファイルに含まれる単語 hoge を fuga に置換する」</b> <br>
+option :<br>
+<ul>
+<li>サブフォルダも対象とする (0x01)</li>
+<li>英大文字と小文字を区別 (0x04)</li>
+<li>単語単位で探す (0x010000)</li>
+</ul>
+charcodeset :<br>
+<ul>
+<li>自動選択 (0x6300)</li>
+</ul>
+<img src="_Img/SakuraEditor/GREP_and_Replace/grep_and_transform_01.png" alt="画像"><br>
+</body>
+</html>

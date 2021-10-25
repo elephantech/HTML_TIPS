@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://qiita.com/tadnakam/items/99d7c40670fb3649875d">「Visual C++ 文字列 まとめ」 - Qiita</a><br>
+<a href="https://qiita.com/tadnakam/items/d4d01850490a09af590c">「Visual Studio 2017 Visual C++ COM 文字列 BSTR と CComBSTR」 - Qiita</a><br>
+<a href="https://vllv.us/Junk/_T/">_T("")マクロだのL""マクロだのLPCTSTRだのの世界一詳しい解説</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>型一覧</h2>
+<table>
+<tr class="row1"><td>型名</td><td>格納対象</td><td>概要</td><td>備考</td></tr>
+<tr><td>char*</td><td>マルチバイト(ANSI)</td><td rowspan="2">C言語互換の文字列型</td><td></td></tr>
+<tr><td>wchar_t*</td><td>ワイド文字(Unicode)</td><td></td></tr>
+<tr><td>string</td><td>マルチバイト(ANSI)</td><td rowspan="2">C++ STLの標準文字列型(コンテナ)</td><td rowspan="2"><b>スレッドセーフ</b></td></tr>
+<tr><td>wstring</td><td>ワイド文字(Unicode)</td></tr>
+<tr><td>CStringA</td><td>マルチバイト(ANSI)</td><td rowspan="2">MFCにおける文字列処理クラス</td><td rowspan="2"><b>スレッドセーフではない</b> </td></tr>
+<tr><td>CStringW</td><td>ワイド文字(Unicode)</td></tr>
+<tr><td>CStringT</td><td>可変</td><td>ATLにおける文字列処理クラス</td><td>MFC非依存<br>初期化時にマルチバイト・ワイド文字を選択<br> <b>スレッドセーフではない</b> </td></tr>
+<tr><td>CComBSTR</td><td>ワイド文字(Unicode)</td><td>ATLにおける文字列処理クラス<br>BSTR のラッパー(ヘルパー)</td><td>MFC非依存<br>文字列(BSTR)処理のためのメソッドを多数備える</td></tr>
+</table>
+※ Visual C++ におけるワイド文字(Unicode)はUTF-16を指す<br>
+
+<h2>Visual C++ におけるエイリアス・マクロ</h2>
+<table>
+<tr class="row1"><td>シンボル</td><td>表現対象<br>(マルチバイト環境下 :<br>_UNICODE 定義なし)</td><td>表現対象<br>(ワイド文字環境下 :<br>_UNICODE 定義あり)</td><td>備考</td></tr>
+<tr><td>WCHAR</td><td></td><td>wchar_t</td><td></td></tr>
+<tr><td>TCHAR</td><td>char</td><td>wchar_t</td><td>移植性の観点から、<br>使用は推奨されない</td></tr>
+<tr><td>OLECHAR</td><td></td><td>wchar_t</td><td>COM  OLEにおけるワイド文字型</td></tr>
+<tr><td>BSTR</td><td></td><td>wchar_t*</td><td>COM  OLEにおけるワイド文字列型<br>SysAllocString() で確保、<br>SysFreeString() で解放する必要がある</td></tr>
+<tr><td>L文字列"</td><td>(コンパイルエラー)</td><td>文字列をワイド文字列に変換する</td><td></td></tr>
+<tr><td>_T文字列"<br>_TEXT文字列"</td><td>(何もしない :<br>マルチバイト文字列のまま)</td><td>L文字列"</td><td></td></tr>
+<tr><td>CString</td><td>CStringA</td><td>CStringW</td><td>MFCにおける文字列処理クラス</td></tr>
+<tr><td>LPSTR</td><td>char*</td><td>←</td><td></td></tr>
+<tr><td>LPWSTR</td><td>(コンパイルエラー)</td><td>WCHAR*</td><td></td></tr>
+<tr><td>LPTSTR</td><td>LPSTR</td><td>LPWSTR</td><td></td></tr>
+<tr><td>LPCSTR</td><td>const char*</td><td>←</td><td></td></tr>
+<tr><td>LPCWSTR</td><td>(コンパイルエラー)</td><td>const WCHAR*</td><td></td></tr>
+<tr><td>LPCTSTR</td><td>LPCSTR</td><td>LPCWSTR</td><td></td></tr>
+</body>
+</html>

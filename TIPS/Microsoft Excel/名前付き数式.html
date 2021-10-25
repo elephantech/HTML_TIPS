@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>関連 :</h5>
+<a href="TIPS/Microsoft%20Excel/%E7%9B%B8%E5%AF%BE%E5%8F%82%E7%85%A7%E3%81%A8%E7%B5%B6%E5%AF%BE%E5%8F%82%E7%85%A7.html">相対参照と絶対参照</a><br>
+<a href="TIPS/Microsoft%20Excel/%E3%83%A6%E3%83%BC%E3%82%B6%E5%AE%9A%E7%BE%A9%E9%96%A2%E6%95%B0.html">ユーザ定義関数</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+セル(範囲を含む)や数式に名前を付けて管理することができる。<br>
+数式が入れ子になって複雑化している場合などに便利。自己説明的な名前を付けることで処理の意味が分かりやすくなる、機能を抽象化できる、メンテナンスを局所化できるなどのメリットがある。<br>
+<br>
+<h2>手順</h2>
+「単価」、「数量」、「小計」それぞれに名前を付ける場合の例。<br>
+<img src="_Img/MS Excel/named_fomura/named_formura_01.png" alt="画像">
+
+<h3>定義</h3>
+<ol>
+<li><b>【重要】数式を定義する際の基準となるセル(ここでは、上図におけるセルD2)を選択する。</b> <br>
+(名前付き数式における<b>セル指定が相対参照の場合、選択されたセルを基準とした相対位置が適用される</b>。)</li>
+<li>「数式」&gt;「名前の定義」を選択する。<br>
+<img src="_Img/MS Excel/named_fomura/named_formura_02.png" alt="画像">
+</li>
+<li>「名前」に「単価」、「参照範囲」に「=$B2」を入力し、「OK」を押す。<br>
+<img src="_Img/MS Excel/named_fomura/named_formura_03.png" alt="画像">
+</li>
+<li>再度「名前の定義」を選択し、「名前」に「数量」、「参照範囲」に「=$C2」を入力する。</li>
+<li>再度「名前の定義」を選択し、「名前」に「小計」、「参照範囲」に「=単価*数量」を入力する。<br>(名前付き数式内で、既存の名前付き数式を使用することができる)</li>
+</ol>
+
+<h3>参照</h3>
+<ol>
+<li>D2セルに「=小計」を入力すると、数式「小計」の演算結果が表示される。</li>
+<li>同様にD3セル、D4セルにも「=小計」を入力すると、それぞれの行における小計が表示される。<br>
+<img src="_Img/MS Excel/named_fomura/named_formura_04.png" alt="画像">
+</li>
+</ol>
+
+<h4>何が起こっているか？</h4>
+「単価」の行指定を相対参照としているのがポイント。<br>
+定義は「D2に対する$B2」のため、数式をD3、D4で参照すれば数式の演算対象はB3、B4となる。「数量」も同様。
+
+<h3>定義した数式の変更・削除</h3>
+「数式」&gt;「名前の管理」を選択する。<br>
+
+<h2>留意事項</h2>
+特に同じ数式を繰り返し用いる場合、名前が数式の内容よりも短ければ、入力する文字数が減るためファイルサイズを削減できる。<br>
+但し、多重に入れ子になった数式を多用すると動作が重くなる。
+
+<h2>はしがき</h2>
+VBAの機能を用いて、独自のワークシート関数を定義することもできる。(名前付き数式とは異なる)<br>
+<a href="TIPS/Microsoft%20Excel/%E3%83%A6%E3%83%BC%E3%82%B6%E5%AE%9A%E7%BE%A9%E9%96%A2%E6%95%B0.html">ユーザ定義関数</a>を参照。
+
+</body>
+</html>

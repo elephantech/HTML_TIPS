@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://programming.pc-note.net/csharp/copy.html">シャローコピーとディープコピー(C#) - 超初心者向けプログラミング入門</a><br>
+<a href="
+https://cyzennt.co.jp/blog/2020/05/01/c%EF%BC%9A%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AE%E4%B8%AD%E8%BA%AB%E3%82%92%E3%82%B3%E3%83%94%E3%83%BC%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95%EF%BC%88memberwiseclone%E3%83%A1/">C#：オブジェクトの中身をコピーする方法（MemberwiseCloneメソッド実装） – サイゼントの技術ブログ</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C%20Sharp/[C%23]参照渡し.html">[C#]参照渡し</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>C#におけるオブジェクトのコピー</h2>
+C#において、クラスオブジェクトの「代入」を行った場合、<b>代入先には代入元への参照が保持される(シャローコピー)</b>。<br>
+これは<b>クラスオブジェクトが「参照渡し」となっている</b>ためで、コピー後に一方を更新すると、他方まで変更されてしまう。<br>
+メソッド(関数)の引数としてクラスオブジェクトを渡した場合も同様である。<br>
+(このため、オブジェクト引数をとるメソッドでは ref などの参照渡しを表すキーワードは必須ではない)<br>
+ちなみに、C/C++ではオブジェクトは「値渡し」であり、ビット単位での厳密なコピーが作成される(ディープコピー)。<br>
+また、C#においても構造体(struct)オブジェクトや、クラスオブジェクトでない組み込み型(intなど)は「値渡し」である。<br>
+
+<h3>シャローコピーの例</h3>
+<p class="code">
+<cmt>// クラス cMyClass 定義</cmt>
+<kwd>class</kwd> cMyClass
+{
+    <kwd>public int</kwd> valA;
+    <kwd>public int</kwd> valB;
+}
+
+<kwd>class</kwd> cOtherClass
+{
+    <kwd>public void</kwd> DoSomething()
+    {
+        <cmt>// cMyClass 型オブジェクト ob1</cmt>
+        cMyClass ob1;
+        ob1valA = 4;
+        ob1valB = 5;
+
+        <cmt>// cMyClass 型オブジェクト ob2 に ob1 をコピー</cmt>
+        cMyClass ob2 = ob1;
+
+        <cmt>// ob1 、ob2 の内容を出力</cmt>
+        ConsoleWriteLine("編集前の値");
+        ConsoleWriteLine("ob1valA =  + ob1valA);
+        ConsoleWriteLine("ob1valB =  + ob1valB);
+        ConsoleWriteLine("ob2valA =  + ob2valA);
+        ConsoleWriteLine("ob2valB =  + ob2valB);
+
+        <cmt>// ob2 のメンバを編集</cmt>
+        ob2valB = 6;
+
+        <cmt>// ob1 、ob2 の内容を出力</cmt>
+        ConsoleWriteLine("編集後の値");
+        ConsoleWriteLine("ob1valA =  + ob1valA);
+        ConsoleWriteLine("ob1valB =  + ob1valB);
+        ConsoleWriteLine("ob2valA =  + ob2valA);
+        ConsoleWriteLine("ob2valB =  + ob2valB);
+    }
+}
+</p>
+
+実行結果 :
+<p class="code">
+編集前の値
+ob1valA = 4
+ob1valB = 5
+ob2valA = 4
+ob2valB = 5
+編集後の値
+ob1valA = 4
+ob1valB = 6    <cmt>//< 直接編集していない ob1valB が書き換えられている</cmt>
+ob2valA = 4
+ob2valB = 6    <cmt>//< 直接編集した ob2valB</cmt>
+</p>
+
+<h3>MemberwiseClone() メソッドを使用したディープコピー</h3>
+C#の Object 型には、ディープコピーを行うための MemberwiseClone() メソッドが定義されている。<br>
+(C#において、すべての型は Object 型から派生するため、ユーザ定義のすべての型で MemberwiseClone() を用いることができる。)<br>
+但し、MemberwiseClone() の戻り値は Object 型のため、元の型として用いるにはキャストが必要。<br>
+当然、= 演算子を用いた場合はシャローコピーとなる。<br>
+
+<p class="code">
+<kwd>using</kwd> System;
+<kwd>using</kwd> SystemCollectionsGeneric;
+<kwd>using</kwd> SystemLinq;
+<kwd>using</kwd> System;
+<kwd>using</kwd> SystemThreadingTasks;
+
+<kwd>namespace</kwd> CloneTest
+{
+    <cmt>// クローン対象のオブジェクト</cmt>
+    <kwd>class</kwd> CloneableItem
+    {
+        <cmt>// クラスメンバ</cmt>
+        <kwd>public int</kwd> ItemId { get; set; }
+        <kwd>public string</kwd> ItemName { get; set; }
+
+        <cmt>// ディープコピーを行うための Clone() メソッドを定義</cmt>
+        <kwd>public</kwd> CloneableItem Clone()
+        {
+            <cmt>// MemberwiseCloneメソッドを使用</cmt>
+            <cmt>// Object型で返ってくるのでキャストが必要</cmt>
+            <kwd>return</kwd> (CloneableItem)MemberwiseClone();
+        }
+    }
+    
+    <cmt>// クローンのテスト</cmt>
+    <kwd>class</kwd> ItemCloneMain
+    {
+        <kwd>static void</kwd> Main(<kwd>string</kwd>[] args)
+        {
+            <cmt>// - = - = - = - = - = - = - = - = - = -</cmt>
+            <cmt>// シャローコピーの例</cmt>
+            <cmt>// - = - = - = - = - = - = - = - = - = -</cmt>
+
+            ConsoleWriteLine("～～～～～～～～～");
+            ConsoleWriteLine("○シャローコピー○");
+
+            <cmt>// コピー元オブジェクト生成、値設定</cmt>
+            CloneableItem ob1 = <kwd>new</kwd> CloneableItem();
+            ob1ItemId = 1;
+            ob1ItemName = sword";
+
+            <cmt>// = 演算子によるコピー(シャローコピー)</cmt>
+            CloneableItem ob2 = ob1;
+
+            <cmt>// 編集前の状態を出力</cmt>
+            ConsoleWriteLine("編集前の値");
+            ConsoleWriteLine("コピー元 :  + ob1ItemId +    + ob1ItemName);
+            ConsoleWriteLine("コピー先 :  + ob2ItemId +    + ob2ItemName);
+
+            <cmt>// 値を編集</cmt>
+            ob1ItemName = knife";
+
+            <cmt>// 編集後の状態を出力</cmt>
+            ConsoleWriteLine("編集後の値");
+            ConsoleWriteLine("コピー元 :  + ob1ItemId +    + ob1ItemName);
+            ConsoleWriteLine("コピー先 :  + ob2ItemId +    + ob2ItemName);
+
+            <cmt>// - = - = - = - = - = - = - = - = - = -</cmt>
+            <cmt>// ディープコピーの例</cmt>
+            <cmt>// - = - = - = - = - = - = - = - = - = -</cmt>
+
+            ConsoleWriteLine("～～～～～～～～～");
+            ConsoleWriteLine("●ディープコピー●");
+
+            <cmt>// コピー元オブジェクト生成、値設定</cmt>
+            CloneableItem ob3 = <kwd>new</kwd> CloneableItem();
+            ob3ItemId = 3;
+            ob3ItemName = rifle";
+
+            <cmt>// Clone() メソッドの実行(ディープコピー)</cmt>
+            CloneableItem ob4 = ob3Clone();
+
+            <cmt>// 編集前の状態を出力</cmt>
+            ConsoleWriteLine("編集前の値");
+            ConsoleWriteLine("コピー元 :  + ob3ItemId +    + ob3ItemName);
+            ConsoleWriteLine("コピー先 :  + ob4ItemId +    + ob4ItemName);
+
+            <cmt>// 値を編集</cmt>
+            ob3ItemName = cannon";
+
+            <cmt>// 編集後の状態を出力</cmt>
+            ConsoleWriteLine("編集後の値");
+            ConsoleWriteLine("コピー元 :  + ob3ItemId +    + ob3ItemName);
+            ConsoleWriteLine("コピー先 :  + ob4ItemId +    + ob4ItemName);
+        }
+    }
+}
+</p>
+
+実行結果 :
+<p class="code">
+～～～～～～～～～
+○シャローコピー○
+編集前の値
+コピー元 : 1  sword
+コピー先 : 1  sword
+編集後の値
+コピー元 : 1  knife    <cmt>// コピー元を編集すると</cmt>
+コピー先 : 1  kinfe    <cmt>// コピー先にまで波及する</cmt>
+～～～～～～～～～
+●ディープコピー●
+編集前の値
+コピー元 : 3  rifle
+コピー先 : 3  rifle
+編集後の値
+コピー元 : 3  cannon   <cmt>// コピー元を編集しても</cmt>
+コピー先 : 3  rifle    <cmt>// コピー先はそのまま</cmt>
+</p>
+
+<h3>その他の手法</h3>
+ほかにも、クラスオブジェクトをシリアライズ・デシリアライズしたり、コピーコンストラクタを定義するなどの方法で、<br>
+ディープコピーを実現できるがここでは割愛する。<br>
+
+</body>
+</html>
+
+

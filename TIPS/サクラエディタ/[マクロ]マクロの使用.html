@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<!--
+<h5>出典 :</h5>
+<a href="https://sakura-editorgithubiohelp/">サクラエディタヘルプ</a><br>
+-->
+
+<h5>関連 :</h5>
+<a href="TIPS//%E3%82%B5%E3%82%AF%E3%83%A9%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF/[%E3%83%9E%E3%82%AF%E3%83%AD]Grep%E7%BD%AE%E6%8F%9B.html">[マクロ]Grep置換</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+マクロを作成することで、繰り返し操作などを自動化することができる。<br>
+<br>
+<h2>マクロの作成・実行</h2>
+<img src="_Img/SakuraEditor/sakura_macro_01.png" alt="画像"><br>
+
+<h3>手順1 : キー操作を記憶させる場合</h3>
+<ol>
+<li>「ツール」&gt;「キーマクロの記録開始」を選択する。</li>
+<li>記録したい操作を行う。</li>
+<li>「ツール」&gt;「キーマクロの記録終了&amp;実行」を選択すると、記録したマクロが実行される。brファイルに保存する場合は、「ツール」&gt;「キーマクロの記録終了&amp;保存」を選択する。</li>
+<li>「ツール」&gt;「キーマクロの実行」を選択すると、記録したマクロが実行される。</li>
+</ol>
+
+<h3>手順2 : マクロファイルを直接編集する場合</h3>
+マクロファイル(.mac)を作成、または既存のマクロファイルを開き、実行したい操作を記述する。<br>
+デフォルトの保存場所 : C:\Users\(ユーザ名)\AppData\Roaming\sakura<br>
+
+<h3>手順3 : 保存済みのマクロを実行</h3>
+<ol>
+<li>マクロを一度だけ実行する場合は「ツール」&gt;「名前を指定してマクロを実行」を、br繰り返し実行する場合は「ツール」&gt;「キーマクロの読み込み」を選択する。</li>
+<li>(マクロを読み込んだ場合)「ツール」&gt;「キーマクロの実行」を選択すると、読み込んだマクロが実行される。</li>
+</ol>
+<br>
+
+<h2>具体例</h2>
+<h3>Grep置換</h3>
+<a href="TIPS//%E3%82%B5%E3%82%AF%E3%83%A9%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF/[%E3%83%9E%E3%82%AF%E3%83%AD]Grep%E7%BD%AE%E6%8F%9B.html">[マクロ]Grep置換</a>を参照。<br>
+</body>
+</html>

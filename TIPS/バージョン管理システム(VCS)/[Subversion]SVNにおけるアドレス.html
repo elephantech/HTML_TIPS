@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>URLの変換規則</h2>
+変換例<br>(file: に続くスラッシュ( <b>"/"</b> )の数に注意)<br>
+
+<table>
+<tr class="row1">
+<td class="col1">
+</td>
+<td>
+変換前のパス (Windowsでの表記)
+</td>
+<td>
+変換後のパス (SVNへの入力)
+</td>
+</tr>
+
+<tr>
+<td class="col1">
+ローカル
+</td>
+<td>
+C:\AnyDir\SVN_Rep
+</td>
+<td>
+file:<blue class="b">///</blue>C:/AnyDir/SVN_Rep
+</td>
+</tr>
+
+<tr>
+<td class="col1">
+ネットワーク上
+</td>
+<td>
+\\10.14.154.94\AnyDir\SVN_Rep
+</td>
+<td>
+file:<red class="b">//</red>10.14.154.94/AnyDir/SVN_Rep
+</td>
+</tr>
+</table>
+
+<h2>アドレス指定の例</h2>
+コマンドライン・GUIフロントエンド(TortoiseSVNなど)で共通。<br>
+
+<img src="_Img/VCS/svn/svn_url_01.png"><br>
+
+<table>
+<tr class="row1">
+<td class="col1">
+</td>
+<td>アドレス形式</td>
+<td>コマンド例</td>
+</tr>
+
+<tr>
+<td class="col1">(ルート)リポジトリ作成</td>
+<td><b class="blue">ローカルパス</b></td>
+<td>svnadmin create <b class="blue">\\10.14.154.94\AnyDir\SVN_Rep</b></td>
+</tr>
+
+<tr>
+<td class="col1">インポート</td>
+<td>インポート対象 : <b class="blue">ローカルパス</b><br>
+インポート先 : <b class="red">URL</b></td>
+<td>svn import <b class="blue">C:\SandBox01\TargetPj</b> <b class="red">file://10.14.154.94/AnyDir/SVN_Rep/TargetPj</b></td>
+</tr>
+
+<tr>
+<td class="col1">チェックアウト</td>
+<td>チェックアウト対象 : <b class="red">URL</b><br>
+チェックアウト先 : <b class="blue">ローカルパス</b></td>
+<td>svn checkout <b class="red">file://10.14.154.94/AnyDir/SVN_Rep/TargetPj</b> <b class="blue">C:\SandBox02\TargetPj</b></td>
+</tr>
+
+<tr>
+<td class="col1">コミット</td>
+<td><b class="blue">ローカルパス</b></td>
+<td>svn commit <b class="blue">C:\SandBox02\TargetPj</b></td>
+</tr>
+
+
+</table>
+
+
+
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>関連 :</h5>
+<a href="TIPS/C%E3%83%BBC++/[C++]%E7%B6%99%E6%89%BF%20(Inheritance).html">[C++]継承 (Inheritance)</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++]%E4%BB%AE%E6%83%B3%E3%83%87%E3%82%B9%E3%83%88%E3%83%A9%E3%82%AF%E3%82%BF.html">[C++]仮想デストラクタ</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++]C++11.html">[C++]C++11</a><br>
+<a href="TIPS/C%E3%83%BBC++/[C++]%E9%96%A2%E6%95%B0%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%AD%E3%83%BC%E3%83%89%E3%81%A8%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E5%BC%95%E6%95%B0.html">[C++]関数オーバーロードとデフォルト引数</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>仮想関数とは</h2>
+基本クラスで定義され、派生クラスで再定義されるメンバ関数のこと。<br>
+基本クラスと異なる処理を実装する、または基本クラスでは概念のみを定義しておき、派生クラスで具体化するということができる。<br>
+C++に限らず、オブジェクト指向言語では一般的な概念。継承とともにオブジェクト指向の根幹をなす。<br>
+<img src="_Img/CPP/virtual_function/virtual_function_01.png" alt="画像"><br>
+<h2>重要な前提 : 派生クラスと基本クラスのポインタ</h2>
+基本クラスと派生クラスが存在する場合、 <b>基本クラスのポインタは、その基本クラスから派生したすべてのクラスオブジェクトを指し示すことができる</b> 。<br>
+<p class="code">
+<cmt>// 基本クラス Vehicle</cmt>
+<kwd>class</kwd> Vehicle
+{
+<kwd>public</kwd>:
+    <kwd>virtual</kwd> <kwd>void</kwd> Accelarate();
+    :
+}
+
+<cmt>// 派生クラス Car</cmt>
+<kwd>class</kwd> Car : <kwd>public</kwd> Vehicle
+{
+    :
+}
+
+<cmt>// Vehicle 型ポインタが Car の実体を指す</cmt>
+Vehicle* pOb_Vehicle;
+Car Ob_Car;
+pOb_Vehicle = &amp;Ob_Car;
+</p>
+但し、(派生クラスオブジェクトを指す) <b>基本クラスポインタを用いてアクセスできるのは、基本クラスに存在するメンバのみである</b> 。<br>
+ <b>(派生クラスで新たに追加したメンバは、基本クラスポインタを用いてアクセスすることはできない。キャストを用いて強引に行うことは不可能ではないが、推奨されない。)</b><br>
+仮想関数も例外ではないが、 <b>基本クラスに存在する仮想関数を派生クラスで再定義しているため</b> 、<br>
+(派生クラスオブジェクトを指す)基本クラスポインタを用いて仮想関数にアクセスすると、 <b>派生クラスで再定義した仮想関数が正しく呼び出される</b> 。<br>
+(基本クラスの関数を呼び出すわけではない。)<br>
+<h2>仮想関数の定義</h2>
+<p class="code">
+<cmt>// 基本クラス Vehicle</cmt>
+<kwd>class</kwd> Vehicle
+{
+<kwd>public</kwd>:
+    <cmt>// 仮想関数 Accelarate() の定義 : 基本クラス</cmt>
+    <kwd>virtual</kwd> <kwd>void</kwd> Accelarate()
+    {
+        :
+    }
+    :
+}
+
+<cmt>// 派生クラス Car</cmt>
+<kwd>class</kwd> Car : <kwd>public</kwd> Vehicle
+{
+<kwd>public</kwd>:
+    <cmt>// 仮想関数 Accelarate() の定義 : 派生クラス ⇒ virtual キーワードは不要</cmt>
+    <kwd>void</kwd> Accelarate()
+    {
+        :
+    }
+    :
+}
+
+<cmt>// 派生クラス Motorcycle</cmt>
+<kwd>class</kwd> Motorcycle : <kwd>public</kwd> Vehicle
+{
+<kwd>public</kwd>:
+    <cmt>// 仮想関数 Accelarate() を定義しない ⇒ Vehicle の Accelarate() を使用</cmt>
+    :
+}
+</p>
+<br>
+関数を再定義(上書き)することを <b>「オーバーライド (Override)」</b> と呼ぶ。<br>
+仮想関数のオーバーライドの際は、 <b>基本クラスでの定義と引数の型・数、戻り値の型がすべて一致していなければならない</b> 。<br>
+(オーバーロードとの混同に注意。オーバーロードは逆に、引数の型・数のいずれかが異なっていなければならない。詳細は<a href="TIPS/C%E3%83%BBC++/[C++]%E9%96%A2%E6%95%B0%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%AD%E3%83%BC%E3%83%89%E3%81%A8%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E5%BC%95%E6%95%B0.html">[C++]関数オーバーロードとデフォルト引数</a>を参照。)<br>
+オーバーライド時に virtual キーワードは必須ではない。virtual キーワードを省いても関数の仮想性は引き継がれるため、さらに派生を行った場合でも同様にオーバーライドできる。<br>
+(C++11以降)オーバーライド時は override 修飾を行うことで、定義誤りを防ぐことができる。詳細は<a href="TIPS/C%E3%83%BBC++/[C++]C++11.html">[C++]C++11</a>「明示的な仮想関数オーバーライド ( override )」を参照。<br>
+
+<h2>仮想関数の用途 : 実行時ポリモーフィズム</h2>
+上述の通り、基本クラスのポインタが派生クラスのオブジェクトを指すことができるため、以下のような実装が可能。<br>
+<p class="code">
+<kwd>void</kwd> Drive(<kwd>int</kwd> i)
+{
+    Car Ob_Car;                <cmt>//&lt; Car 型オブジェクト</cmt>
+    Motorcycle Ob_Motorcycle;  <cmt>//&lt; Motorcycle 型オブジェクト</cmt>
+    Vehicle* pOb_Vehicle;      <cmt>//&lt; 基本クラス Vehicle 型ポインタ</cmt>
+
+    pOb_Vehicle = ( i == <ltr>0</ltr>) ? &amp;Ob_Car : &amp;Ob_Motorcycle;
+    pOb_Vehicle-&gt;Accelarate();
+}
+</p>
+<br>
+ここで、i の値はプログラムを実行するまで確定しない(コンパイル時に決定できない)ため、pOb_Vehicle が Ob_Car と Ob_Motorcycle のいずれを指すかは実行時までわからない。<br>
+しかし、Accelarate() を基本クラスで仮想関数として定義しておけば、基本クラスポインタがいずれの派生クラスを指す場合でも、インタフェース(Accelarate() のコール)を変更する必要が無い。<br>
+(pOb_Vehicle が Ob_Car を指す場合は Car の、Ob_Motorcycle を指す場合は Motorcycle の Accelarate() が実行される。)<br>
+pOb_Vehicle はプログラムの実行時に、Car 、Motorcycle いずれのポインタとしても振舞うことができる(多態)。<br>
+この性質を「 <b>実行時ポリモーフィズム</b> 」と呼び、派生クラスとしても振舞えることから、(仮想関数を有する)基本クラスを「 <b>ポリモーフィッククラス</b> 」と呼ぶ。<br>
+尚、実行時ポリモーフィズムの実現に当たっては注意が必要。<a href="TIPS/C%E3%83%BBC++/[C++]%E4%BB%AE%E6%83%B3%E3%83%87%E3%82%B9%E3%83%88%E3%83%A9%E3%82%AF%E3%82%BF.html">[C++]仮想デストラクタ</a>を参照のこと。<br>
+
+<h2>純粋仮想関数</h2>
+基本クラスでは仮想関数に有意な処理を実装せずにインタフェース(引数・戻り値)のみを規定し、派生クラスで具体的な処理を実装することができる。<br>
+このような実体の無い仮想関数を <b>「純粋仮想関数(Pure Virtual Function)」</b> と呼ぶ。一般形は以下の通り。<br>
+ここで、<br>
+<ul>
+<li>retval-type : 戻り値の型</li>
+<li>func-name : 関数名</li>
+<li>parameter-list : 引数リスト</li>
+</ol>
+<p class="code">
+<kwd>virtual retval-type</kwd> func-name (parameter-list) <b>= 0</b>; <cmt>//&lt; 末尾に <b>= 0</b> を付与することで純粋仮想化</cmt>
+</p>
+<br>
+<b>純粋仮想関数を含むクラスを「抽象クラス(Abstract Class)」と呼ぶ</b> 。<br>
+重要な点として、 <b>抽象クラスは、自身のインスタンスを作成することができない</b> 。継承されて初めて意味を持つクラスであり、継承され、純粋仮想関数がオーバーライドされることを前提としている。<br>
+但し、 <b>抽象クラスへのポインタは作成できる</b> 。(実行時ポリモーフィズムを実現するため。)<br>
+派生クラスで純粋仮想関数をオーバーライドしなかった場合は、その派生クラスも抽象クラスとなる(純粋仮想性が維持される)。<br>
+<p class="code">
+<cmt>// 基本クラス Vehicle</cmt>
+<kwd>class</kwd> Vehicle
+{
+<kwd>public</kwd>:
+    <cmt>// 純粋仮想関数 Accelarate() の定義</cmt>
+    <kwd>virtual</kwd> <kwd>void</kwd> Accelarate() = <ltr>0</ltr>;
+    :
+}
+
+<cmt>// 派生クラス Car</cmt>
+<kwd>class</kwd> Car : <kwd>public</kwd> Vehicle
+{
+<kwd>public</kwd>:
+    <cmt>// Accelarate() のオーバーライド</cmt>
+    <kwd>void</kwd> Accelarate()
+    {
+        :
+    }
+    :
+}
+</p>
+</body>
+</html>
+

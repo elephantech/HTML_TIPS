@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>PowerShellにおける関数</h2>
+関数は、呼び出し元から渡された値(引数)を基に定められた処理を行い、その結果を呼び出し元に返す(戻り値)機構である。<br>
+他のプログラミング言語(スクリプト言語を含む)と同様、PowerShellでも関数を定義して用いることができる。<br>
+尚、自身で定義する以外にも、PowerShellに標準で組み込まれた関数も同様に用いることができる。<br>
+
+<h2>関数定義</h2>
+<h3>基本形</h3>
+[]内の項目は省略可能。引数はカンマに続けて複数設定可能。<br>
+<p class="code">
+<kwd>function</kwd> 関数名 [(引数[=デフォルト値],...)]
+{
+  関数の本体
+  [<kwd>return</kwd> 戻り値]
+}
+</p>
+
+<h3>例</h3>
+<p class="code">
+<cmt># $width と $height の2つの引数をとる関数 Triangle() を定義</cmt>
+<cmt># $width と $height はいずれも double 型</cmt>
+<kwd>function</kwd> Triangle([<kwd>double</kwd>] $width = <ltr>1</ltr>, [<kwd>double</kwd>] $height = <ltr>4</ltr>)
+{
+  <kwd>return</kwd> $width * $height  <ltr>2</ltr>
+}
+</p>
+
+引数の型チェックを行わない場合は型名を省略可能。
+<p class="code">
+<kwd>function</kwd> Triangle($width = <ltr>1</ltr>, $height = <ltr>4</ltr>)
+{
+  <kwd>return</kwd> $width * $height  <ltr>2</ltr>
+}
+</p>
+
+<h2>関数呼び出し</h2>
+関数を呼び出す際は<br>
+<p class="code">
+関数名 引数1 引数2 ...
+</p>
+のように、<b>引数を空白で区切る</b>。<br>
+(C系言語のような括弧は不要。また<b>カンマを用いてはならない</b>。)<br>
+
+<h3>例</h3>
+<p class="code">
+<cmt># 第1引数( $width ) に 4 、第2引数( $height ) に 6 を与えて呼び出し</cmt>
+Triangle 4 6
+<cmt># 結果 : 12</cmt>
+
+<cmt># 引数のラベルを明示して指定</cmt>
+Triangle -width 8 -height 7
+<cmt># 結果 : 28</cmt>
+
+<cmt># ラベルを明示する場合は、順序は問われない</cmt>
+Triangle -height 12 -width 6
+<cmt># 結果 : 36</cmt>
+
+<cmt># 値が与えられなかった引数には、デフォルト値が(定義されていれば)適用される</cmt>
+<cmt># (値が与えられない $width にはデフォルト値 1 が入る)</cmt>
+Triangle -height 12
+<cmt># 結果 : 6</cmt>
+
+<cmt># ($width = 1 、$height = 4 いずれもデフォルト値)</cmt>
+Triangle
+<cmt># 結果 : 2</cmt>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+複数の図形を結合して一つの図形とするなどの処置(ブール演算)を施すことができる。<br>
+尚、PowerPoint上で作成した図形は、ExcelやWordにコピー・ペースト可能。<br>
+
+<h2>手順</h2>
+
+<ol>
+<li>
+演算の対象としたい図形を選択する。<br>
+<b>演算後の図形の書式(枠線・塗りつぶしなど)は最初に選択した図形のものが適用される</b>。(以後すべて A →Bの順に選択する。)<br>
+<img src="_Img/MS PowerPoint/graphics_processing/PowerPoint_Grapics_Processing_01.png">
+</li>
+
+<li>
+「書式」「図形の結合」を選択する。<br>
+<img src="_Img/MS PowerPoint/graphics_processing/PowerPoint_Grapics_Processing_02.png">
+</li>
+
+<li>
+適用したい演算を選択する。<br>
+<img src="_Img/MS PowerPoint/graphics_processing/PowerPoint_Grapics_Processing_03.png">
+</li>
+</ol>
+
+<h3>「接合」(論理和)</h3>
+複数の図形を接合し、一つの図形とする。(「接合」とあるが、元の図形が重なっている必要は無い。)<br>
+<img src="_Img/MS PowerPoint/graphics_processing/PowerPoint_Grapics_Processing_04.png">
+
+<h3>「型抜き合成」(排他的論理和)</h3>
+複数の図形を接合し、一つの図形とする。但し重なっている部分は除外する。<br>
+<img src="_Img/MS PowerPoint/graphics_processing/PowerPoint_Grapics_Processing_05.png">
+
+<h3>「切り出し」</h3>
+輪郭線によってそれぞれの図形を分割する。<br>
+<img src="_Img/MS PowerPoint/graphics_processing/PowerPoint_Grapics_Processing_06.png">
+
+<h3>「重なり抽出」(論理積)</h3>
+両者が重なっている部分のみを新たな図形とする。<br>
+<img src="_Img/MS PowerPoint/graphics_processing/PowerPoint_Grapics_Processing_07.png">
+
+<h3>「単純型抜き」(減算)</h3>
+一方(先に選択した側)から他方(後に選択した側)と共通している領域を取り除く。<br>
+(<b>図形の選択順に注意。どちらが(見た目上)手前にあるかは無関係。</b>)<br>
+<img src="_Img/MS PowerPoint/graphics_processing/PowerPoint_Grapics_Processing_08.png">
+
+<h2>留意事項</h2>
+ブール演算を行うことで、元々の図形の属性は失われる。<br>
+(例として元が円であったとしても、演算後は円として編集できない。)<br>
+
+<h2>応用</h2>
+A(写真)にB(円)を重ね、
+<ol>
+    <li>Aを選択</li>
+    <li>Bを選択</li>
+    <li>「重なり抽出」を実行</li>
+</ol>
+とすると、写真を円形に切り抜くことができる。
+<br>
+<img src="_Img/MS PowerPoint/graphics_processing/PowerPoint_Grapics_Processing_09.png">
+
+</body>
+</html>
