@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://itlogs.net/windows-overlay-icon-order/">Windows 10でオーバーレイアイコンの優先順位を変更して表示させる方法 | 俺の開発研究所</a>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+エクスプローラー上にオーバーレイアイコンを表示するプログラムが複数存在する場合、<br>
+オーバーレイアイコンはもっとも優先度の高いもののみが表示される。<br>
+例) Google DriveとTortoiseGitが動作している場合、Google Driveのオーバーレイのみが表示される<br>
+   ⇒ TortoiseGitのオーバーレイを表示させたい<br>
+   <img src="_Img/Windows/Overlay_Icon/03.png"><br>
+   優先度を変更することで、オーバーレイの表示を切り替えることができる。<br>
+
+<h2>手順</h2>
+<ol>
+    <li>レジストリ エディターを開く。<br>
+        (タスクバーの検索アイコンをクリックし、"regedit"と入力するとアイコンが表示される)<br>
+        <img src="_Img/Windows/Overlay_Icon/04.png">    
+    </li>
+    <li>コンピューター\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ShellIconOverlayIdentifiers<br>
+        を開く。<br>
+        オーバーレイの表示優先度順にフォルダアイコンが並んでいるので、アイコンの名称を変更することで並び順を調整する。<br>
+        <img src="_Img/Windows/Overlay_Icon/01.png">
+    </li>
+    <li>
+        同様に<br>
+        コンピューター\HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\explorer\ShellIconOverlayIdentifiers<br>
+        に対しても、2. と同様の処置を行う。
+    </li>
+    <li>
+        Windowsを再起動させることで、アイコン表示が切り替わる。<br>
+        <img src="_Img/Windows/Overlay_Icon/02.png"><br>
+    </li>
+</ol>
+
+</body>
+</html>
