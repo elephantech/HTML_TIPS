@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -57,7 +57,7 @@
 value = <kwd>null</kwd>;
 </p>
 
-bNull許容型(intblue>?</blue>)</b>
+<b>Null許容型(int<blue>?</blue>)</b>
 <p class="code">
 <cmt>// int を <b class="blue">?</b> で修飾 ⇒ Null許容型</cmt>
 <kwd>int?</kwd> value;
@@ -80,17 +80,17 @@ value = <kwd>null</kwd>;
 <cmt>// value が null でない場合のみ、value.Length にアクセスする</cmt>
 <kwd>if</kwd> ( value != <kwd>null</kwd> )
 {
-    textBox1 = ConvertToString(value.Length);
+    textBox1.Text = Convert.ToString(value.Length);
 }
 </p>
-bNull条件演算子(<b class="blue">?.</b>)を用いたnullチェック(上記のコードと等価)</b>
+<b>Null条件演算子(<b class="blue">?.</b>)を用いたnullチェック(上記のコードと等価)</b>
 <p class="code">
 <kwd>string</kwd> value;
 
 :
 
 <cmt>// value が null でない場合のみ、value.Length にアクセスする</cmt>
-textBox1 = ConvertToString(value<kwd>?.</kwd>Length);
+textBox1.Text = Convert.ToString(value<kwd>?.</kwd>Length);
 </p>
 Null条件演算子の左辺オブジェクトがnullの場合、<b>式全体の評価値がnullとなる</b>。即ち、<br>
 <table>
@@ -110,12 +110,12 @@ Null条件演算子の左辺オブジェクトがnullの場合、<b>式全体の
 <p class="code">
 <kwd>List&lt;string&gt;</kwd> arr = <kwd>null</kwd>;
 
-<cmt>// arrCount (<b class="blue">??</b> の左辺) が null でなければ len = arrCount</cmt>
+<cmt>// arr.Count (<b class="blue">??</b> の左辺) が null でなければ len = arr.Count</cmt>
 <cmt>// null ならば len = 0 (<b class="blue">??</b> の右辺)となる</cmt>
 <kwd>int</kwd> len = arr?.Count <kwd>??</kwd> 0;
 
 <cmt>// 以下のコードと等価</cmt>
-<kwd>int</kwd> len = (arr?.Count != null) ? arrCount : 0;
+<kwd>int</kwd> len = (arr?.Count != null) ? arr.Count : 0;
 </p>
 
 </body>

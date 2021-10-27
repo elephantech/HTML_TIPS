@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -22,7 +22,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -30,8 +30,8 @@
 
 <!-- 出典・関連ページ -->
 <h5>出典 :</h5>
-<a href="https://qiita.com/4_mio_11/items/f9b19c04509328b1e5c1">非同期理解のためにasync awaitとTaskの基礎を学んだ話 - Qiita</a><br>
-<a href="https://qiita.com/acple@github/items/8f63aacb13de9954c5da">Taskを極めろ！async await完全攻略 - Qiita</a><br>
+<a href="https://qiita.com/4_mio_11/items/f9b19c04509328b1e5c1">非同期理解のためにasync/awaitとTaskの基礎を学んだ話 - Qiita</a><br>
+<a href="https://qiita.com/acple@github/items/8f63aacb13de9954c5da">Taskを極めろ！async/await完全攻略 - Qiita</a><br>
 <a href="https://qiita.com/rawr/items/5d49960a4e4d3823722f">C# 今更ですが、await / async - Qiita</a><br>
 
 <!-- 目次 -->
@@ -47,28 +47,28 @@
 <p class="code">
     <kwd>class</kwd> Program
     {
-        <kwd>static string</kwd>  = <kwd>string</kwd>.Empty;
+        <kwd>static string</kwd> text = <kwd>string</kwd>.Empty;
 
         <cmt>// 重い処理</cmt>
         <kwd>private static double</kwd> HeavyWork(<kwd>int</kwd> n)
         {
-            <kwd>return</kwd> EnumerableRange(<ltr>1</ltr>, n).Sum(i => <ltr>1</ltr>  (<kwd>double</kwd>)i) - MathLog(n);
+            <kwd>return</kwd> Enumerable.Range(<ltr>1</ltr>, n).Sum(i => <ltr>1</ltr> / (<kwd>double</kwd>)i) - Math.Log(n);
         }
 
         <cmt>// 重い処理を非同期実行</cmt>
         <cmt>// (関数内で await を使用するため async 修飾、戻り値は Task)</cmt>
         <kwd>private</kwd> async <kwd>static</kwd> Task ExecuteAsync()
         {
-             += <ltr>"計算開始"</ltr> + EnvironmentNewLine;
+            text += <ltr>"計算開始"</ltr> + Environment.NewLine;
 
-            <cmt>// 重い処理を別タスクで実行開始(TaskRun())
+            <cmt>// 重い処理を別タスクで実行開始(Task.Run())
             // await 修飾により、呼び元に処理を戻すとともに
             // 次行以降はタスクの完了を待機した後に実行する</cmt>
-            <kwd>double</kwd> result = await TaskRun(() =>  HeavyWork(<ltr>2000000000</ltr>));
+            <kwd>double</kwd> result = await Task.Run(() =>  HeavyWork(<ltr>2000000000</ltr>));
 
             <cmt>// 結果表示</cmt>
             <cmt>// 別タスク実行された HeavyWork() の完了後に実行される</cmt>
-             += resultToString() + EnvironmentNewLine;
+            text += result.ToString() + Environment.NewLine;
         }
 
         <cmt>// メイン関数</cmt>
@@ -78,21 +78,21 @@
             Task task = ExecuteAsync();
 
             <cmt>// タスクが完了するまで経過を表示</cmt>
-            <kwd>while</kwd> (!taskIsCompleted)
+            <kwd>while</kwd> (!task.IsCompleted)
             {
-                TaskDelay(<ltr>1000</ltr>).Wait();
+                Task.Delay(<ltr>1000</ltr>).Wait();
 
-                ConsoleSetCursorPosition(<ltr>0</ltr>, <ltr>0</ltr>);
+                Console.SetCursorPosition(<ltr>0</ltr>, <ltr>0</ltr>);
 
-                <kwd>if</kwd> (!taskIsCompleted)
+                <kwd>if</kwd> (!task.IsCompleted)
                 {
-                     += <ltr>"..."</ltr> + EnvironmentNewLine;
+                    text += <ltr>"..."</ltr> + Environment.NewLine;
                 }
 
-                ConsoleWriteLine();
+                Console.WriteLine(text);
             }
 
-            ConsoleReadKey();
+            Console.ReadKey();
         }
     }
 </p>
@@ -100,16 +100,16 @@
 <h3>await</h3>
 <b>await</b> は、<b>「続く Task を非同期的に実行(開始)し、終了を待機する」</b>ことを表す。<br>
 これにより、await 修飾された行の後続行は、Task の完了後に実行される。<br>
-さらに、<b>await キーワードに到達した時点で、呼び出し元に処理を戻す</b>点が taskWait() とは異なる。<br>
+さらに、<b>await キーワードに到達した時点で、呼び出し元に処理を戻す</b>点が task.Wait() とは異なる。<br>
 
 <h3>async</h3>
 <b>async</b> は、<b>「その関数中で await を使用する (= 非同期処理を開始する)」</b>ことを表す。<br>
 async 修飾の際は原則として戻り値を<b>Task</b>とする。<br>
 (非同期実行したタスクの状態を監視するため)<br>
-<ol>
+<ul>
 <li>元々の戻り値がvoid ⇒ async Task</li>
 <li>元々の戻り値がT型 ⇒ async Task&lt;T&gt;</li>
-</li>
+</ul>
 Task を明示的に return する必要は無い。<br>
 <b>UIから直接実行されるイベントハンドラは例外的に async void を用いる</b>。<br>
 
@@ -124,14 +124,14 @@ Task を明示的に return する必要は無い。<br>
         Task[] allTasks = <kwd>new</kwd> Task[NUM_TASKS];
         <kwd>for</kwd> (<kwd>int</kwd> i = <ltr>0</ltr>; i &lt; NUM_TASKS; i++)
         {
-            allTasks [i] = TaskRun(() =&gt; SubThread());
+            allTasks [i] = Task.Run(() =&gt; SubThread());
         }
-        await TaskWhenAll(allTasks );
+        await Task.WhenAll(allTasks );
     }
     <cmt>// 例外発生時はメッセージを表示</cmt>
     <kwd>catch</kwd>(Exception ex)
     {
-        MsgBoxFuncShowErrMsgBox(exMessage);
+        MsgBoxFunc.ShowErrMsgBox(ex.Message);
     }
 }
 

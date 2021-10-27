@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -33,6 +33,7 @@
 <!-- 出典・関連ページ -->
 <h5>出典 :</h5>
 <a href="https://ja.stackoverflow.com/questions/36847/class-%E3%83%A1%E3%83%B3%E3%83%90%E3%83%BC%E9%96%A2%E6%95%B0%E3%82%92%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%90%E3%83%83%E3%82%AF%E3%81%A8%E3%81%97%E3%81%A6%E6%B8%A1%E3%81%97%E3%81%9F%E3%81%84">「class メンバー関数をコールバックとして渡したい」 - stack overflow</a><br>
+<a href="https://maku77.github.io/cpp/syntax/pointer-to-member-method.html">「メンバ関数の関数ポインタを扱う方法」- まくまくC/C++ノート</a><br>
 
 <h5>関連 :</h5>
 <a href="TIPS/C%E3%83%BBC++/[C%EF%BC%8FC++]static%E4%BF%AE%E9%A3%BE%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9.html">[C／C++]static修飾の使い方</a><br>
@@ -47,8 +48,10 @@
 
 
 <h2>まえがき</h2>
-クラスにおける、静的( static 修飾)でないメンバ関数は暗黙の引数 this をとる都合上、C互換の通常関数(非メンバ関数および静的メンバ関数)とは(見かけ上)関数の型が等しくても呼び出しに互換性が無い。<br>
-⇒ 非静的メンバ関数をクラス外から関数ポインタ経由で呼び出す場合は、 <b>メンバ関数ポインタを</b> 用いるとともに、this に相当するクラスインスタンスのアドレスを解決する必要がある。<br>
+クラスにおける、静的( static 修飾)でないメンバ関数は暗黙の引数 this をとる都合上、<br>
+C互換の通常関数(非メンバ関数および静的メンバ関数)とは(見かけ上)関数の型が等しくても呼び出しに互換性が無い。<br>
+⇒ 非静的メンバ関数をクラス外から関数ポインタ経由で呼び出す場合は、 <b>メンバ関数ポインタを</b> 用いるとともに、<br>
+this に相当するクラスインスタンスのアドレスを解決する必要がある。<br>
 <img src="_Img/CPP/memberfunc_ptr/memberfunctionpointer_01.png" alt="画像"><br>
 
 <h2>ケース1 : 既知のクラスのメンバとして呼び出す</h2>
@@ -64,8 +67,7 @@
 
 <h2>注意が必要な点</h2>
 <b class="red">::*</b>、<b class="red">.*</b>、<b class="red">-&gt;*</b>の各演算子は関数呼び出しの<b class="dgreen">()</b>よりも優先順位が低いので、関数名全体を<b class="blue">()</b>で囲む必要がある。<br>
-誤 : mReceiver <b class="red">-&gt;*</bCallbackFunc<b class="">(</b0, true<b class="">)</b>;<br>
-正 : <b class="blue">(</bmReceiver<b class="">-&gt;*</bCallbackFunc<b class="">)</b><b class="dgreen">(</b0, true<b class="">)</b>;<br>
-
+誤 : mReceiver <b class="red">-&gt;*</b>CallbackFunc<b class="dgreen">(</b>0, true<b class="dgreen">)</b>;<br>
+正 : <b class="blue">(</b>mReceiver<b class="red">-&gt;*</b>CallbackFunc<b class="blue">)</b><b class="dgreen">(</b>0, true<b class="dgreen">)</b>;<br>
 </body>
 </html>

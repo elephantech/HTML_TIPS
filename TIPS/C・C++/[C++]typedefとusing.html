@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -32,8 +32,17 @@
 
 <!-- 出典・関連ページ -->
 <h5>出典 :</h5>
-<a href="https://cpprefjp.github.io/lang/cpp11/alias_templates.html">エイリアステンプレート - cpprefjp C++日本語リファレンス</a><br>
-<a href="https://qiita.com/Linda_pp/items/44a67c64c14cba00eef1">typedef は C++11 ではオワコン - Qiita</a><br>
+<a href="
+https://cpprefjp.github.io/lang/cpp11/alias_templates.html
+">
+エイリアステンプレート - cpprefjp C++日本語リファレンス
+</a><br>
+
+<a href="
+https://qiita.com/Linda_pp/items/44a67c64c14cba00eef1
+">
+typedef は C++11 ではオワコン - Qiita
+</a><br>
 
 <h5>関連 :</h5>
 <a href="TIPS/C・C++/[C++]C++11.html">[C++]C++11</a><br>
@@ -51,8 +60,8 @@
 <!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
 
 <h2>typedef と using (型エイリアス)</h2>
-C++03(およびC)では、既存の型に別名(エイリアス)を付ける際には btypedef</b> を用いていた。<br>
-C++11以降では同様に busing</b> (型エイリアス)を用いて別名を付与することができる。<br>
+C++03(およびC)では、既存の型に別名(エイリアス)を付ける際には <b>typedef</b> を用いていた。<br>
+C++11以降では同様に <b>using</b> (型エイリアス)を用いて別名を付与することができる。<br>
 typedef は、テンプレートを作ることができないという欠点があるが、using ではこの問題が解消されている。<br>
 
 <h2>基本の書式</h2>
@@ -88,29 +97,29 @@ using は表記が幾分簡潔となる。
 
 <h2>テンプレートへの別名付与</h2>
 typedef では、<b>未知の型をテンプレート引数に含む汎用型</b>に対して別名を付与することができない。<br>
-busing では可能であり、typedef に対する利点となっている。</b><br>
+<b>using では可能であり、typedef に対する利点となっている。</b><br>
 
 <p class="code">
-<cmt>// 汎用クラス SomeType1 , SomeType2 宣言</cmt>
-<kwd>template</kwd> &lt;<kwd>typename</kwd> First, <kwd>typename</kwd> Second, <kwd>int</kwd> Third&gt;
-<kwd>class</kwd> SomeType1;
+<comment>// 汎用クラス SomeType1 , SomeType2 宣言</comment>
+<keyword>template</keyword> &lt;<keyword>typename</keyword> First, <keyword>typename</keyword> Second, <keyword>int</keyword> Third&gt;
+<keyword>class</keyword> SomeType1;
 
-<kwd>template</kwd> &lt;<kwd>typename</kwd> Another&gt;
-<kwd>class</kwd> SomeType2;
+<keyword>template</keyword> &lt;<keyword>typename</keyword> Another&gt;
+<keyword>class</keyword> SomeType2;
 
-<cmt>// すべてのテンプレート引数を明示した SomeType に別名付与 (すべて既知の型)</cmt>
-<kwd>typedef</kwd> SomeType1&lt;KnownType1, KnownType2, <ltr>5</ltr>&gt; TypeAlias;  <cmt>//&lt; typedef による別名付与 ⇒ OK</cmt>
-<kwd>using</kwd> TypeAlias = SomeType1&lt;KnownType1, KnownType2, <ltr>5</ltr>&gt;;  <cmt>//&lt; using   による別名付与 ⇒ OK</cmt>
+<comment>// すべてのテンプレート引数を明示した SomeType に別名付与 (すべて既知の型)</comment>
+<keyword>typedef</keyword> SomeType1&lt;KnownType1, KnownType2, <literal>5</literal>&gt; TypeAlias;  <comment>//&lt; typedef による別名付与 ⇒ OK</comment>
+<keyword>using</keyword> TypeAlias = SomeType1&lt;KnownType1, KnownType2, <literal>5</literal>&gt;;  <comment>//&lt; using   による別名付与 ⇒ OK</comment>
 
-<cmt>// テンプレートに別名付与 (Second は未知の型)</cmt>
-<kwd>tenplate</kwd> &lt;<kwd>typename</kwd> Second&gt;
-<kwd>typedef</kwd> SomeType1&lt;KnownType1, Second, <ltr>5</ltr>&gt; TypeAlias;      <cmt>//&lt; typedef による別名付与 ⇒ NG</cmt>
-<kwd>using</kwd> TypeAlias = SomeType1&lt;KnownType1, Second, <ltr>5</ltr>&gt;;      <cmt>//&lt; using   による別名付与 ⇒ OK</cmt>
+<comment>// テンプレートに別名付与 (Second は未知の型)</comment>
+<keyword>tenplate</keyword> &lt;<keyword>typename</keyword> Second&gt;
+<keyword>typedef</keyword> SomeType1&lt;KnownType1, Second, <literal>5</literal>&gt; TypeAlias;      <comment>//&lt; typedef による別名付与 ⇒ NG</comment>
+<keyword>using</keyword> TypeAlias = SomeType1&lt;KnownType1, Second, <literal>5</literal>&gt;;      <comment>//&lt; using   による別名付与 ⇒ OK</comment>
 
-<cmt>// テンプレートに別名付与 (Another は未知の型)</cmt>
-<kwd>tenplate</kwd> &lt;<kwd>typename</kwd> Another&gt;
-<kwd>typedef</kwd> SomeType2&lt;Another&gt; TypeAlias;                    <cmt>//&lt; typedef による別名付与 ⇒ NG</cmt>
-<kwd>using</kwd> TypeAlias = SomeType2&lt;Another&gt;;                    <cmt>//&lt; using   による別名付与 ⇒ OK</cmt>
+<comment>// テンプレートに別名付与 (Another は未知の型)</comment>
+<keyword>tenplate</keyword> &lt;<keyword>typename</keyword> Another&gt;
+<keyword>typedef</keyword> SomeType2&lt;Another&gt; TypeAlias;                    <comment>//&lt; typedef による別名付与 ⇒ NG</comment>
+<keyword>using</keyword> TypeAlias = SomeType2&lt;Another&gt;;                    <comment>//&lt; using   による別名付与 ⇒ OK</comment>
 </p>
 
 </body>

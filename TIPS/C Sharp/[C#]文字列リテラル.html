@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -33,7 +33,7 @@
 <!-- 出典・関連ページ -->
 <h5>出典 :</h5>
 <a href="https://docs.microsoft.com/ja-jp/dotnet/csharp/language-reference/tokens/interpolated">$ - 文字列補間 - C# リファレンス | Microsoft Docs</a><br>
-<a href="https://docs.microsoft.com/ja-jp/dotnet/standard/base-types/composite-formatting">複合書式指定 | Microsoft Docs</a><br>
+<a href="https://docs.microsoft.com/ja-jp/dotnet/standard/base-types/composite-formatting#alignment-component">複合書式指定 | Microsoft Docs</a><br>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -113,7 +113,7 @@ C/C++同様に二重引用符で括ることで文字列を記述できる。<br
 string name = <ltr>"Mark"</ltr>;
 var date = DateTimeNow;
 
-ConsoleWriteLine(<ltr>"Hello, <b class="dgreen">{0}</b>! Today is <b class="dgreen">{1}</b>, it's <b class="dgreen">{2:HH:mm}</b> now."</ltr>, name, dateDayOfWeek, date);
+Console.WriteLine(<ltr>"Hello, <b class="dgreen">{0}</b>! Today is <b class="dgreen">{1}</b>, it's <b class="dgreen">{2:HH:mm}</b> now."</ltr>, name, date.DayOfWeek, date);
 <cmt>//                         ↑            ↑        ↑              │    │              │</cmt>
 <cmt>//                         └──────│────│───────┘    │              │</cmt>
 <cmt>//                                       └────│──────────┘              │</cmt>
@@ -121,7 +121,7 @@ ConsoleWriteLine(<ltr>"Hello, <b class="dgreen">{0}</b>! Today is <b class="dgre
 </p>
 出力結果<br>
 <p class="code">
-Hello, Mark! Today is Wednesday, it's 19:40 now
+Hello, Mark! Today is Wednesday, it's 19:40 now.
 </p>
     </td>
   </tr>
@@ -139,20 +139,20 @@ Hello, Mark! Today is Wednesday, it's 19:40 now
 コード<br>
 <p class="code">
 string name = <ltr>"Mark"</ltr>;
-var date = DateTimeNow;
+var date = DateTime.Now;
 
-ConsoleWriteLine(<ltr><b class="blue">$</b>"Hello, <b class="dgreen">{name}</b>! Today is <b class="dgreen">{dateDayOfWeek}</b>, it's <b class="dgreen">{date:HH:mm}</b> now."</ltr>);
+Console.WriteLine(<ltr><b class="blue">$</b>"Hello, <b class="dgreen">{name}</b>! Today is <b class="dgreen">{date.DayOfWeek}</b>, it's <b class="dgreen">{date:HH:mm}</b> now."</ltr>);
 </p>
 出力結果<br>
 <p class="code">
-Hello, Mark! Today is Wednesday, it's 19:40 now
+Hello, Mark! Today is Wednesday, it's 19:40 now.
 </p>
     </td>
   </tr>
 </table>
 
 <h3><b class="red">@</b>との併用</h3>
-(文字列補間)<b class="blue">$</b><b class="red">@</b>"文字列の形式で記述。<br>
+(文字列補間)<b class="blue">$</b><b class="red">@</b>"文字列"の形式で記述。<br>
 (C#8.0以降は、<b class="red">@</b><b class="blue">$</b>でも可。)
 
 <p class="code">
@@ -179,8 +179,8 @@ string str02 = <ltr>$"|{"Mark", <b class="red"> 7</b>}|"</ltr>;  <cmt>//< 7文�
 <b>書式指定文字列は二重引用符で囲んではならない</b>。
 
 <p class="code">
-var date = DateTimeNow;                            <cmt>//< 現在日時を取得</cmt>
-string str01 = <ltr>$"It's {date, <b class="red">-7</b>, <b class="dgreen">:HH:MM</b>} now."</ltr>;  <cmt>//< 7文字・左詰め  <b class="dgreen">HH:MM</b>形式 ⇒ It's 17:35 now.</cmt>
+var date = DateTime.Now;                         <cmt>//< 現在日時を取得</cmt>
+string str01 = <ltr>$"It's {date, <b class="red">-7</b>, <b class="dgreen">:HH:MM</b>} now."</ltr>;  <cmt>//< 7文字・左詰め / <b class="dgreen">HH:MM</b>形式 ⇒ It's 17:35 now.</cmt>
 </p>
 
 コロンはそのままでは書式指定文字列の始点とみなされるため、コロンが特別な意味を持つ場合(三項演算子)は、条件式自体を丸括弧で囲む。

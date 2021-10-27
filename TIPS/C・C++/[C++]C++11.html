@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -32,10 +32,11 @@
 
 <!-- 出典・関連ページ -->
 <h5>出典 :</h5>
-<a href="https://https://cpprefjp.github.io/lang/cpp11.html">C++11 - cpprefjp - C++日本語リファレンス</a><br>
-<a href="https://ja.wikipedia.org/wikiC%2B%2B11">C++11 - Wikipedia</a><br>
+<a href="https://cpprefjp.github.io/lang/cpp11.html">C++11 - cpprefjp - C++日本語リファレンス</a><br>
+<a href="https://ja.wikipedia.org/wiki/C%2B%2B11">C++11 - Wikipedia</a><br>
 <a href="https://qiita.com/yumetodo/items/68f58de43094519ae899">C++11からC++17を駆け抜けるC++講座 - Qiita</a><br>
 <a href="https://qiita.com/leon-joel/items/81415c1ef355c6246280">C++11, C++14, C++17 新機能まとめ ～使いそうなものだけ - Qiita</a><br>
+<a href="https://ja.cppreference.com/w/cpp/language/history">C++ の歴史 - cppreference.com</a><br>
 
 <h5>関連 :</h5>
 <a href="TIPS/C%E3%83%BBC++/[C]C99.html">[C]C99</a><br>
@@ -57,7 +58,7 @@
 
 <!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
 
-<h2>C++11 (ISOIEC 14882:2011) とは</h2>
+<h2>C++11 (ISO/IEC 14882:2011) とは</h2>
 2011年に定められた、C++のISO標準。以前の規格であるC++03に対し、コア言語、標準ライブラリの双方に大規模な修正・拡張が施されている。<br>
 後継規格としてC++14、C++17が存在するが、これらはC++11に対するマイナーアップデートに位置づけられる。<br>
 ここではC++11で追加された機能の一部を紹介する。C++11(以降)での拡張は多岐にわたるため、詳細は出典元を参照のこと。<br>
@@ -71,12 +72,12 @@ Cにおける NULL はプリプロセッサマクロとして、((void*)0) ま�
 <kwd>void</kwd> foo(<kwd>int</kwd>);
 </p>
 ここで foo(NULL) として呼び出すと NULL が 0 に置換されるため、foo(int) が呼ばれることとなる。多くの場合で、これはプログラマの意図に反している。<br>
-この問題を受け、C++11ではキーワード bnullptr</b> が導入された。<br>
-bnullptr は整数型との比較・代入ができないが、あらゆるポインタ型との比較・代入ができる</b> 。<br>
+この問題を受け、C++11ではキーワード <strong>nullptr</strong> が導入された。<br>
+<strong>nullptr は整数型との比較・代入ができないが、あらゆるポインタ型との比較・代入ができる</strong> 。<br>
 (foo(nullptr) と呼び出すことで、foo(char*) が呼ばれる。)
 
 <h2>一般化された定数式</h2>
- <b>常に同じ結果を返し、副作用の無い(スコープ外の変数やメモリ等を操作しない)式を定数式と呼ぶ</b> 。(3 + 4 など定数同士の演算、または単項の定数)<br>
+ <strong>常に同じ結果を返し、副作用の無い(スコープ外の変数やメモリ等を操作しない)式を定数式と呼ぶ</strong> 。(3 + 4 など定数同士の演算、または単項の定数)<br>
 定数式はコンパイラの最適化の対象となり、多くの場合でコンパイル時に演算が行われ、プログラム中にはその結果のみが格納される。<br>
 即ちプログラム中の定数式 3 + 4 は、コンパイルにより定数 7 に置換される。<br>
 但し、関数呼び出しやオブジェクトコンストラクタが出現すると、定数式とは見なされなくなる。<br>
@@ -86,7 +87,7 @@ bnullptr は整数型との比較・代入ができないが、あらゆるポ�
 <kwd>int</kwd> arr_values[get5() + <ltr>5</ltr>];    <cmt>//&lt; 要素数10の配列を作りたいが、</cmt>
                                <cmt>//&lt; get5() が定数式と見なされないため不可 ⇒ コンパイルエラー</cmt>
 </p>
-C++11ではキーワードbconstexpr</b> が導入され、関数やオブジェクトコンストラクタがコンパイル時定数であることを保証できるようになった。<br>
+C++11ではキーワード<strong>constexpr</strong> が導入され、関数やオブジェクトコンストラクタがコンパイル時定数であることを保証できるようになった。<br>
 即ち、<b>下記の get5() は定数式と解釈される</b>。
 <p class="code">
 <cmt>// C++11以降 (有効なコード)</cmt>
@@ -96,7 +97,7 @@ C++11ではキーワードbconstexpr</b> が導入され、関数やオブジェ
 また、定数を定数式として定義することも可能である。(const の代替)<br>
 <p class="code">
 <kwd>constexpr</kwd> <kwd>double</kwd> forceOfGravity = <ltr>9</ltr>.<ltr>8</ltr>;
-<kwd>constexpr</kwd> <kwd>double</kwd> moonGravity = forceOfGravity  <ltr>6</ltr>;
+<kwd>constexpr</kwd> <kwd>double</kwd> moonGravity = forceOfGravity / <ltr>6</ltr>;
 </p>
 
 <!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
@@ -110,10 +111,10 @@ C++ではCと同様、構造体を初期化する際に、初期値をブレー�
   <kwd>int</kwd> second;
 };
 
-St_Object scalar = {<ltr>043F</ltr>, <ltr>10</ltr>};
-St_Object anArray[] = {{<ltr>134F</ltr>, <ltr>3</ltr>}, {<ltr>4328F</ltr>, <ltr>29</ltr>}, {<ltr>5934F</ltr>, <ltr>17</ltr>}};
+St_Object scalar = {<ltr>0.43F</ltr>, <ltr>10</ltr>};
+St_Object anArray[] = {{<ltr>13.4F</ltr>, <ltr>3</ltr>}, {<ltr>43.28F</ltr>, <ltr>29</ltr>}, {<ltr>5.934F</ltr>, <ltr>17</ltr>}};
 </p>
-C++11では初期化子リストがテンプレート bstd::initializer_list</b> と結び付けられ、コンストラクタなどの関数が <b>初期化子リストを引数として</b> 取ることができるようになった。<br>
+C++11では初期化子リストがテンプレート <strong>std::initializer_list</strong> と結び付けられ、コンストラクタなどの関数が <strong>初期化子リストを引数として</strong> 取ることができるようになった。<br>
 <p class="code">
 <kwd>class</kwd> CSequenceClass
 {
@@ -159,6 +160,7 @@ C++11ではコンストラクタが他の同等なコンストラクタを呼び
 <kwd>class</kwd> C_SomeType 
 {
     <kwd>int</kwd> number;
+  
 <kwd>public</kwd>:
     C_SomeType(<kwd>int</kwd> newNumber) : number(newNumber) {}
     C_SomeType() : C_SomeType(<ltr>42</ltr>) {}                       <cmt>//&lt; C_SomeType() が C_SomeType(int) を呼び出している</cmt>
@@ -208,13 +210,14 @@ C++11では「統一初期化記法(uniform initialization)」が導入され、
 <kwd>public</kwd>:
     <cmt>// コンストラクタ</cmt>
     St_AltStruct(<kwd>int</kwd> x, <kwd>double</kwd> y) : x_(x), y_(y) {}
+  
 <kwd>private</kwd>:
     <kwd>int</kwd> x_;
     <kwd>double</kwd> y_;
 };
 
-St_BasicStruct var1 { <ltr>5</ltr>, <ltr>32</ltr> };
-St_AltStruct var2 { <ltr>2</ltr>, <ltr>43</ltr> };
+St_BasicStruct var1 { <ltr>5</ltr>, <ltr>3.2</ltr> };
+St_AltStruct var2 { <ltr>2</ltr>, <ltr>4.3</ltr> };
 </p>
 St_BasicStruct 型の var1 と、St_AltStruct 型の var2 を、同様の記法(ブレースに初期値を列挙)で初期化している。var1 ではC形式の初期化子リストと同様に振る舞い、var2 ではコンストラクタを呼んでいる。<br>
 型推論と組み合わせて、以下のように応用できる。<br>
@@ -277,7 +280,7 @@ C++03では、基底クラスの仮想関数をオーバーライドする際に
 </p>
 上記は、派生クラスで基底クラスの仮想関数をオーバーライドしようとして、意図に反して新たな仮想関数を作成してしまった例である。<br>
 文法上は誤りではないためコンパイルエラーとはならず、間違いに気づくことができない。<br>
-C++11では boverride</b> キーワードを導入することで、解決が図られている。<br>
+C++11では <strong>override</strong> キーワードを導入することで、解決が図られている。<br>
 <p class="code">
 <cmt>// 基底クラス</cmt>
 <kwd>class</kwd> C_Base
@@ -294,17 +297,17 @@ C++11では boverride</b> キーワードを導入することで、解決が図
     <kwd>virtual</kwd> <kwd>bool</kwd> on_eror() <kwd>override</kwd>;         <cmt>//&lt; 不正 : 関数名(シグネチャ)を誤っている</cmt>
 };
 </p>
-boverride</b> 修飾された仮想関数が、基底クラスのオーバーライド先と一致しない場合にコンパイルエラーとなる。<br>
+<strong>override</strong> 修飾された仮想関数が、基底クラスのオーバーライド先と一致しない場合にコンパイルエラーとなる。<br>
 
 <!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
 
 <h2>継承・オーバーライドの禁止 ( final )</h2>
-C++11では bfinal</b> キーワードが追加された。クラスに適用した場合と仮想関数に適用した場合で、意味が異なる。<br>
+C++11では <strong>final</strong> キーワードが追加された。クラスに適用した場合と仮想関数に適用した場合で、意味が異なる。<br>
 
 <!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
 
 <h3>クラスの final 修飾</h3>
-クラスを final 修飾した場合、 <b>そのクラスを派生(継承)させることができなくなる</b> 。<br>
+クラスを final 修飾した場合、 <strong>そのクラスを派生(継承)させることができなくなる</strong> 。<br>
 <p class="code">
 <cmt>// 基底クラス</cmt>
 <cmt>// final : 継承不可となる</cmt>
@@ -345,8 +348,8 @@ C++11では bfinal</b> キーワードが追加された。クラスに適用し
 <!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
 
 <h2>型エイリアス (using)</h2>
-C++03(およびC)では、既存の型に別名を付ける際にはbtypedef</b>を用いていた。しかし typedef にはテンプレートを作ることはできないという制約がある。<br>
-C++11ではbusing</b>を用いることで、テンプレートに対しても別名を付与することが可能である。<br>
+C++03(およびC)では、既存の型に別名を付ける際には<b>typedef</b>を用いていた。しかし typedef にはテンプレートを作ることはできないという制約がある。<br>
+C++11では<b>using</b>を用いることで、テンプレートに対しても別名を付与することが可能である。<br>
 詳細は 
 <a href="
 TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/HowToTIPSC%E3%83%BBC++/[C++]typedef%E3%81%A8usinghtml
@@ -356,10 +359,10 @@ TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/HowToTIPSC%E3%83%BBC++/[C++]typedef%E3%8
 
 <!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
 
-<h2>スマートポインタ (unique_ptr&lt;T&gt;  shared_ptr&lt;T&gt;  weak_ptr&lt;T&gt;)</h2>
+<h2>スマートポインタ (unique_ptr&lt;T&gt; / shared_ptr&lt;T&gt; / weak_ptr&lt;T&gt;)</h2>
 動的メモリ(ヒープ)を安全に使用するための機構。<br>
 スマートポインタを使用すると、スコープを抜ける際に自動的にヒープが解放されるため、解放忘れによるメモリリークの危険性が減る。<br>
-C++03で利用できた auto_ptr&lt;T&gt; に加え、unique_ptr&lt;T&gt;  shared_ptr&lt;T&gt;  weak_ptr&lt;T&gt; が新たに導入された。<br>
+C++03で利用できた auto_ptr&lt;T&gt; に加え、unique_ptr&lt;T&gt; / shared_ptr&lt;T&gt; / weak_ptr&lt;T&gt; が新たに導入された。<br>
 詳細は
 <a href="TIPS/C%E3%83%BBC++/[C++]%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%83%9D%E3%82%A4%E3%83%B3%E3%82%BF.html">
 [C++]スマートポインタ</a>を参照。

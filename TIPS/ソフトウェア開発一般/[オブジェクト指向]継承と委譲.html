@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -93,7 +93,7 @@
 </p>
 この例では、「自動車」・「自動二輪車」が「乗り物」を継承している。<br>
 これは、<b>「自動車」・「自動二輪車」が「乗り物」の範疇に含まれる "<dgreen>is-a</dgreen>" の関係にある</b>ことによる。<br>
-(Car <b class="dgreen">is a</b> Vehicle 「自動車は乗り物である」)<br>
+(Car <b class="dgreen">is a</b> Vehicle. 「自動車は乗り物である」)<br>
 <b>即ち「自動車」は「乗り物」としての特性を有している必要があるため、「乗り物」を継承することでその特性を獲得する</b>。
 
 <h3>移譲を用いる場合</h3>
@@ -125,15 +125,15 @@
 <cmt>// 加速</cmt>
 <kwd>void</kwd> Car::Accelarate()
 {
-    mEngineDoSomething();
-    mWheelDoSomething();
+    mEngine.DoSomething();
+    mWheel.DoSomething();
 }
 </p>
 この例では、「自動車」が「エンジン」・「車輪」を所持している。<br>
 Car クラスのインスタンスが Accelarate() をコールされた際に、mEngine 、mWheel の機能を用いることで目的を達成しようとする。<br>
 即ち、<b>Car は Engine 、Wheel に処理を「委譲」する</b>。<br>
 これは、<b>「エンジン」・「車輪」が「自動車」の部品として振舞う "<red>part-of</red>" の関係にある</b>ことによる。<br>
-(Engine is a <b class="red">part of</b> a Car 「エンジンは自動車の一部(部品)である」)<br>
+(Engine is a <b class="red">part of</b> a Car. 「エンジンは自動車の一部(部品)である」)<br>
 <b>「自動車」は「エンジン」「車輪」を部品として有していればよく、これらの特性を自身が獲得する必要は無い</b>。<br>
 また、移譲する側(Car)が移譲される側(Engine)の「実体」を保有している必要は無く、参照などのアクセス手段を有していればよい。
 </body>

@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,13 +24,15 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
 <span id="title"></span>
 
 <!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://dobon.net/vb/dotnet/form/okcancelbutton.html">フォームにOKボタン、キャンセルボタンを付ける - .NET Tips (VB.NET,C#...)</a><br>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -48,7 +50,7 @@
 <ol>
 <li>MainForm から ChildForm を開く。</li>
 <li>ChildForm で、プロパティ DialogResult ( DialogResult 型変数)を設定する。<br>
-(開いたフォームがモーダルの場合は、bDialogResultNone 以外の値が設定されるとフォームの処理を終了する。Close() をコールする必要は無い。</b>)</li>
+(開いたフォームがモーダルの場合は、<b>DialogResult.None 以外の値が設定されるとフォームの処理を終了する。Close() をコールする必要は無い。</b>)</li>
 <li>MainForm から ChildForm のプロパティ DialogResult を確認する。</li>
 </ol>
 
@@ -60,17 +62,17 @@
     <cmt>// ChildForm をモーダルで開く (ShowDialog())
     // (オーナーハンドルとして this を渡す)</cmt>
     ChildForm form = <kwd>new</kwd> ChildForm();
-    formShowDialog(<kwd>this</kwd>);
+    form.ShowDialog(<kwd>this</kwd>);
     
     <cmt>// DialogResult プロパティの値を取得</cmt>
-    <kwd>if</kwd> (formDialogResult == DialogResultOK)
+    <kwd>if</kwd> (form.DialogResult == DialogResult.OK)
     {
-        ConsoleWriteLine(<ltr>"OKボタンが押されました。"</ltr>);
+        Console.WriteLine(<ltr>"OKボタンが押されました。"</ltr>);
     }
 }
 </p>
 
-<h3>呼び出される側の処理(ChildFormcs)</h3>
+<h3>呼び出される側の処理(ChildForm.cs)</h3>
 <p class="code">
 <cmt>// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -
 // イベントハンドラ
@@ -83,17 +85,17 @@
 {
     <cmt>// DialogResult プロパティを設定</cmt>
     <cmt>// (フォームは自動的に閉じる)</cmt>
-    DialogResult = DialogResultOK;
+    DialogResult = DialogResult.OK;
 }
 </p>
 
 <h2>DialogResult 型の取りうる値(一例)</h2>
 <table>
-<tr><td>DialogResultNone</td><td>結果が設定されていない状態(デフォルト)</td></tr>
-<tr><td>DialogResultCancel</td><td>主に「キャンセル」ボタン押下時</td></tr>
-<tr><td>DialogResultOK</td><td>主に「OK」ボタン押下時</td></tr>
-<tr><td>DialogResultYes</td><td>主に「はい」ボタン押下時</td></tr>
-<tr><td>DialogResultNo</td><td>主に「いいえ」ボタン押下時</td></tr>
+<tr><td>DialogResult.None</td><td>結果が設定されていない状態(デフォルト)</td></tr>
+<tr><td>DialogResult.Cancel</td><td>主に「キャンセル」ボタン押下時</td></tr>
+<tr><td>DialogResult.OK</td><td>主に「OK」ボタン押下時</td></tr>
+<tr><td>DialogResult.Yes</td><td>主に「はい」ボタン押下時</td></tr>
+<tr><td>DialogResult.No</td><td>主に「いいえ」ボタン押下時</td></tr>
 </table>
 
 </body>

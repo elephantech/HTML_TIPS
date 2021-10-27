@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -22,7 +22,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -41,11 +41,11 @@
 
 <!-- 本文ここから -->
 
-<h2>C# Netからのタスクスケジューラ操作</h2>
-C# Netアプリケーションから、タスクスケジューラを操作(タスクの登録など)することが可能。
+<h2>C# .Netからのタスクスケジューラ操作</h2>
+C# .Netアプリケーションから、タスクスケジューラを操作(タスクの登録など)することが可能。
 
 <h2>注意が必要な点</h2>
-アプリケーションからタスクを登録する場合、実行時に管理者権限が必要となる。<br>
+作成したアプリケーションからタスクを登録する場合、実行時に管理者権限が必要となる。<br>
 (管理者権限なしで実行した場合、登録する時点でエラーとなる。)<br>
 管理者権限の付与手順は、<a href="TIPS/Microsoft Visual Studio・.Net/[Visual C%23]アプリケーションを常に管理者権限で実行(マニフェスト).html">ここ</a>を参照。
 
@@ -84,51 +84,51 @@ C# Netアプリケーションから、タスクスケジューラを操作(タ�
     {
         <cmt>// TaskServiceを生成して接続する
         // 接続時の User, Domain, Password を必要に応じて設定する</cmt>
-        taskservice = <kwd>new</kwd> TaskSchedulerTaskScheduler();
-        taskserviceConnect(<kwd>null</kwd>, <kwd>null</kwd>, <kwd>null</kwd>, <kwd>null</kwd>);
+        taskservice = <kwd>new</kwd> TaskScheduler.TaskScheduler();
+        taskservice.Connect(<kwd>null</kwd>, <kwd>null</kwd>, <kwd>null</kwd>, <kwd>null</kwd>);
 
         <cmt>// タスクの格納先、タスク名を指定</cmt>
-        rootfolder = taskserviceGetFolder(<ltr>"\\"</ltr>);
+        rootfolder = taskservice.GetFolder(<ltr>"\\"</ltr>);
         <kwd>var</kwd> path = <ltr>$@"\{folderName}\{taskName}"</ltr>;
 
         <cmt>// 新規登録用のタスクを定義</cmt>
-        ITaskDefinition taskDefinition = taskserviceNewTask(<ltr>0</ltr>);
+        ITaskDefinition taskDefinition = taskservice.NewTask(<ltr>0</ltr>);
 
         <cmt>// 設定に使うもろもろ</cmt>
-        IRegistrationInfo registrationInfo = taskDefinitionRegistrationInfo;
-        IActionCollection actionCollection = taskDefinitionActions;
-        IExecAction execAction = (IExecAction)actionCollectionCreate(_TASK_ACTION_TYPETASK_ACTION_EXEC);
-        ITriggerCollection triggerCollection = taskDefinitionTriggers;
-        ITimeTrigger timeTrigger = (ITimeTrigger)triggerCollectionCreate(_TASK_TRIGGER_TYPE2TASK_TRIGGER_TIME);
-        ITaskSettings taskSettings = taskDefinitionSettings;
-        IPrincipal principal = taskDefinitionPrincipal;
+        IRegistrationInfo registrationInfo = taskDefinition.RegistrationInfo;
+        IActionCollection actionCollection = taskDefinition.Actions;
+        IExecAction execAction = (IExecAction)actionCollection.Create(_TASK_ACTION_TYPE.TASK_ACTION_EXEC);
+        ITriggerCollection triggerCollection = taskDefinition.Triggers;
+        ITimeTrigger timeTrigger = (ITimeTrigger)triggerCollection.Create(_TASK_TRIGGER_TYPE2.TASK_TRIGGER_TIME);
+        ITaskSettings taskSettings = taskDefinition.Settings;
+        IPrincipal principal = taskDefinition.Principal;
 
         <cmt>// タスクの作成者と概要</cmt>
-        registrationInfoAuthor = author;
-        registrationInfoDescription = description;
+        registrationInfo.Author = author;
+        registrationInfo.Description = description;
 
         <cmt>// タスクの実行時に使うユーザアカウント</cmt>
-        principalUserId = <ltr>$@"{EnvironmentUserDomainName}\{EnvironmentUserName}"</ltr>;
+        principal.UserId = <ltr>$@"{Environment.UserDomainName}\{Environment.UserName}"</ltr>;
 
         <cmt>// ユーザがログオンしているかどうかにかかわらず実行
         // 最上位特権で実行する</cmt>
-        principalLogonType = _TASK_LOGON_TYPETASK_LOGON_S4U;
-        principalRunLevel = _TASK_RUNLEVELTASK_RUNLEVEL_HIGHEST;
+        principal.LogonType = _TASK_LOGON_TYPE.TASK_LOGON_S4U;
+        principal.RunLevel = _TASK_RUNLEVEL.TASK_RUNLEVEL_HIGHEST;
 
         <cmt>// トリガー条件(開始時刻、間隔、有効)</cmt>
-        timeTriggerStartBoundary = execTimeToString(<ltr>"yyyy-MM-ddTHH:mm:ss"</ltr>);
-        timeTriggerRepetitionInterval = <kwd>null</kwd>;     <cmt>//< 繰り返しなし</cmt>
-        timeTriggerEnabled = <kwd>true</kwd>;
+        timeTrigger.StartBoundary = execTime.ToString(<ltr>"yyyy-MM-ddTHH:mm:ss"</ltr>);
+        timeTrigger.Repetition.Interval = <kwd>null</kwd>;     <cmt>//< 繰り返しなし</cmt>
+        timeTrigger.Enabled = <kwd>true</kwd>;
 
-        execActionPath = execFile;
+        execAction.Path = execFile;
 
         <cmt>// 登録</cmt>
-        rootfolderRegisterTaskDefinition(path,
+        rootfolder.RegisterTaskDefinition(path,
                                           taskDefinition,
-                                          (<kwd>int</kwd>)_TASK_CREATIONTASK_CREATE_OR_UPDATE,
+                                          (<kwd>int</kwd>)_TASK_CREATION.TASK_CREATE_OR_UPDATE,
                                           <kwd>null</kwd>,
                                           <kwd>null</kwd>,
-                                          _TASK_LOGON_TYPETASK_LOGON_NONE,
+                                          _TASK_LOGON_TYPE.TASK_LOGON_NONE,
                                           <kwd>null</kwd>);
 
         <cmt>// 正常終了</cmt>
@@ -144,11 +144,11 @@ C# Netアプリケーションから、タスクスケジューラを操作(タ�
         <cmt>// return 前にリソース解放</cmt>
         <kwd>if</kwd> (taskservice != <kwd>null</kwd>)
         {
-            SystemRuntimeInteropServicesMarshalReleaseComObject(taskservice);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(taskservice);
         }
         <kwd>if</kwd> (rootfolder != <kwd>null</kwd>)
         {
-            SystemRuntimeInteropServicesMarshalReleaseComObject(rootfolder);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(rootfolder);
         }
     }
 }
@@ -157,7 +157,7 @@ C# Netアプリケーションから、タスクスケジューラを操作(タ�
 <h3>関数呼び出しと登録イメージ</h3>
 <p class="code">
 <cmt>// C:\Somewhere\sample.exe を</cmt>
-<cmt>// 2020623 17:30:45 に実行</cmt>
+<cmt>// 2020/6/23 17:30:45 に実行</cmt>
 RegistTask( "ユーザタスク",                          <cmt>//&lt; <red>登録先フォルダ</red></cmt>
             "遅延実行サンプルタスク",                <cmt>//&lt; <dgreen>タスク名</dgreen></cmt>
             @"C:\Somewhere\sample.exe",              <cmt>//&lt; <black>実行するプログラム</black></cmt>

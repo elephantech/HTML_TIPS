@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -32,7 +32,7 @@
 
 <!-- 出典・関連ページ -->
 <h5>出典 :</h5>
-<a href="https://ja.wikipedia.org/wikiSingleton_%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3">Singleton パターン - Wikipedia</a><br>
+<a href="https://ja.wikipedia.org/wiki/Singleton_%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3">Singleton パターン - Wikipedia</a><br>
 <a href="https://qiita.com/Shuuuuuuun/items/0d6f809e8c55fe898ebd">Singletonとは何ぞや - Qiita</a><br>
 <a href="https://qiita.com/shoheiyokoyama/items/c16fd547a77773c0ccc1">デザインパターン「Singleton」- Qiita</a><br>
 
@@ -49,16 +49,15 @@
 
 
 <h2>シングルトン(Singleton)とは</h2>
-オブジェクト指向プログラミングにおけるデザインパターンの一つで、その<b>クラスのインスタンスが一つしか生成されないことを保証する</b>仕組みのこと。<br>
+オブジェクト指向プログラミングにおけるデザインパターンの一つで、その<strong>クラスのインスタンスが一つしか生成されないことを保証する</strong>仕組みのこと。<br>
 インスタンスが一つであることが必要且つ十分で、アプリケーション全体で統一しなければならない仕組みの実装に用いられる。<br>
 <h2>シングルトンの一般形</h2>
 <img src="_Img/Software Development/OOP/singleton/oop-singleton_01.png" alt="画像"><br>
 上図は一般的なシングルトンのクラス図である。特徴は以下の通り。<br>
 <ol>
-<li>インスタンスを <b>自身の中に static メンバとして保持する</b></li>
-		<li><b>コンストラクタを private 化する</b> ⇒ クラス外からのインスタンス生成を許容しない</li>
-		<li>1. のインスタンスを返す <b>getInstance() 関数を有する(public かつ static)</b></li>
-</li>
+<li>インスタンスを <strong>自身の中に static メンバとして保持する</strong></li></li>
+<li><strong>コンストラクタを private 化する</strong> ⇒ クラス外からのインスタンス生成を許容しない</li>
+<li>1. のインスタンスを返す <strong>getInstance() 関数を有する(public かつ static)</strong></li></li>
 </ol>
 これにより、シングルトンのインスタンスが唯一であることが保証され、クラス外からはインスタンスを生成することなく(そもそも生成できない)利用できる。<br>
 <h2>C++での実装例</h2>
@@ -69,7 +68,7 @@ getInstance() 関数の静的ローカル変数をシングルトンインスタ
 また、シングルトンインスタンスを削除するタイミングを明示的に制御できない点にも注意が必要。さらに、Singleton クラスを継承した派生クラスの定義を制限することができない。<br>
 <h3>C++11以降</h3>
 <img src="_Img/Software Development/OOP/singleton/oop-singleton_03.png" alt="画像"><br>
- bdelete 指定によりコンパイラがデフォルトの関数を生成しない(明示的に「定義無し」とする)ようにできる</b> ため、コンストラクタ・デストラクタ以外は private である必要は無い。<br>
+<strong>delete 指定によりコンパイラがデフォルトの関数を生成しない(明示的に「定義無し」とする)ようにできる</strong> ため、コンストラクタ・デストラクタ以外は private である必要は無い。<br>
 旧規格と異なり、静的ローカル変数の初期化は自動的にスレッドセーフとなる。また、final 指定により、派生クラスの定義を禁止することができる。<br>
 <h2>シングルトンを適用するケース</h2>
 プログラム(ソフトウェアコンポーネント)中でインスタンスが唯一であることが保証されるため、プログラム中で(値の)同期が必要となる用途に適する。具体的には<br>

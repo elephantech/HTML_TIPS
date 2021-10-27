@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -49,25 +49,25 @@
 </table>
 
 C/C++で作成したDLLをC#でインポートし、関数をコールするための手順(ここではVisual Studio 2013を用いる)を記す。<br>
-<h2>1 ライブラリ(C++)側の操作</h2>
+<h2>1. ライブラリ(C++)側の操作</h2>
 ライブラリを作成する。<br>
 <a href="TIPS/Microsoft%20Visual%20Studio・.Net/[Visual%20C++]基本的なDLLの作成手順.html">[Visual C++]基本的なDLLの作成手順</a>を参照。<br>
-<h2>2 アプリケーション(C#)側の操作</h2>
+<h2>2. アプリケーション(C#)側の操作</h2>
 ライブラリ関数を呼び出す処理を実装し、ビルドを行う。<br>
 Program.cs<br>
 <p class="code">
-<kwd>using</kwd> SystemRuntimeInteropServices;
+<keyword>using</keyword> System.Runtime.InteropServices;
 
-<kwd>namespace</kwd> Application
+<keyword>namespace</keyword> Application
 {
-    <kwd>internal</kwd> <kwd>class</kwd> Program
+    <keyword>internal</keyword> <keyword>class</keyword> Program
     {
-        <cmt>// インポート</cmt>
-        <cmt>// Librarydll の Test() 関数を _Test() 関数に紐づける</cmt>
-        [DllImport( <ltr>"Librarydll"</ltr>, EntryPoint = <ltr>"Test"</ltr>)]
-        <kwd>static</kwd> <kwd>extern</kwd> <kwd>void</kwd> _Test();
+        <comment>// インポート</comment>
+        <comment>// Library.dll の Test() 関数を _Test() 関数に紐づける</comment>
+        [DllImport( <literal>"Library.dll"</literal>, EntryPoint = <literal>"Test"</literal>)]
+        <keyword>static</keyword> <keyword>extern</keyword> <keyword>void</keyword> _Test();
 
-        <kwd>static</kwd> <kwd>void</kwd> Main()
+        <keyword>static</keyword> <keyword>void</keyword> Main()
         {
             _Test();
         }

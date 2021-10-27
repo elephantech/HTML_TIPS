@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -32,9 +32,8 @@
 
 <!-- 出典・関連ページ -->
 <h5>出典 :</h5>
-
-<a href="http://bashalogc-brainsjp110610-181304php">[Subversion] svn:externals で外部リポジトリを取り込む | バシャログ。</a><br>
-<a href="http://unageanuhatenablogcomentry201001121263307030">svn:externals - うなの日記</a>
+<a href="http://bashalog.c-brains.jp/11/06/10-181304.php">[Subversion] svn:externals で外部リポジトリを取り込む | バシャログ。</a><br>
+<a href="http://unageanu.hatenablog.com/entry/20100112/1263307030">svn:externals - うなの日記</a>
 
 <h5>関連 :</h5>
 <a href="TIPS/バージョン管理システム(VCS)/[Subversion]外部エディタの設定.html">外部エディタの設定</a>
@@ -56,14 +55,14 @@
 
 <p class="code">
 <cmt>参照先のリポジトリ (ProjectFoo)</cmt>
-//Server_Foo/Somewhare/SVN_Rep/ProjectFoo
+file:///Server_Foo/Somewhare/SVN_Rep/ProjectFoo
 ├ Folder01
 └ Folder02
   ├ Filemm
   └ Filenn
 
 <cmt>参照元のリポジトリ (ProjectBar)</cmt>
-//Server_Bar/Somewhare/SVN_Rep/ProjectBar
+file:///Server_Bar/Somewhare/SVN_Rep/ProjectBar
 ├ Folder0x
 └ Folder02   <cmt>⇒ ProjectFoo の Folder02 を参照したい</cmt>
   ├ Filemm
@@ -76,10 +75,10 @@
 コマンド <b class="red">svn propset</b> を用いる。<br>
 (外部エディタを設定している場合は、後述の svn propedit を用いる手法が簡便。)<br>
 「<b class="dcyan">"C:\(略)\ProjectBar"</b> (プロパティの設定先 : ディレクトリ) にある <b class="dgreen">"Folder02"</b> (シンボル) が
-<b class="dyellow">"//Server_Foo/Somewhare/SVN_Rep/ProjectFoo/Folder02"</b> (参照先URL) を指す」
+<b class="dyellow">"file:///Server_Foo/Somewhare/SVN_Rep/ProjectFoo/Folder02"</b> (参照先URL) を指す」
 
 <p class="code">
-<b class="red">svn propset</b> <b class="blue">svn:externals</b> <b class="dmagenta">"<b class="dgreen">"Folder02"</b> <b class="dyellow">"//Server_Foo/Somewhare/SVN_Rep/ProjectFoo/Folder02"</b>"</b> <b class="dcyan">"C:\(略)\ProjectBar"</b>
+<b class="red">svn propset</b> <b class="blue">svn:externals</b> <b class="dmagenta">"<b class="dgreen">"Folder02"</b> <b class="dyellow">"file:///Server_Foo/Somewhare/SVN_Rep/ProjectFoo/Folder02"</b>"</b> <b class="dcyan">"C:\(略)\ProjectBar"</b>
 </p>
 
 <table>
@@ -95,11 +94,11 @@
 
 <tr class="dmagenta">
     <td colspan="2">プロパティに設定する値<br>(二重引用符で囲む必要がある)</td>
-    <td class="b"><b class="dmagenta">"<b class="dgreen">"Folder02"</b> <b class="dyellow">"//Server_Foo/Somewhare/SVN_Rep/ProjectFoo/Folder02"</b>"</b></td>
+    <td class="b"><b class="dmagenta">"<b class="dgreen">"Folder02"</b> <b class="dyellow">"file:///Server_Foo/Somewhare/SVN_Rep/ProjectFoo/Folder02"</b>"</b></td>
 </tr>
 
 <tr class="dgreen">
-    <td rowspan="2"</td>
+    <td rowspan="2"></td>
     <td>シンボル(参照元)<br>(プロパティ設定先ディレクトリからの相対パス)</td>
     <td class="b">"Folder02"</td>
 </tr>
@@ -107,7 +106,7 @@
 <tr class="dyellow">
 
     <td>参照先<br>(リポジトリURL)</td>
-    <td class="b">"//Server_Foo/Somewhare/SVN_Rep/ProjectFoo/Folder02"</td>
+    <td class="b">"file:///Server_Foo/Somewhare/SVN_Rep/ProjectFoo/Folder02"</td>
 </tr>
 
 <tr class="dcyan">

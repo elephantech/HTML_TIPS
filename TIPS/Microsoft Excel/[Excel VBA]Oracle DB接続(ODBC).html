@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -33,17 +33,17 @@
 <!-- 出典・関連ページ -->
 <h5>出典 :</h5>
 <a href="
-https://excelworkinfoexceldatabaseoracleodbc
+https://excelwork.info/excel/databaseoracleodbc/
 ">
-データベース（Oracle）に接続する（ODBCを使用） | ExcelWorkinfo
+データベース（Oracle）に接続する（ODBCを使用） | ExcelWork.info
 </a><br>
 
 <h5>関連 :</h5>
 <a href="
-TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS//%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9ODBC%E3%81%AB%E3%82%88%E3%82%8BOracle%20DB%E6%8E%A5%E7%B6%9Ahtml
+TIPS/データベース/ODBCによるOracle%20DB接続.html
 ">
 ODBCによるOracle DB接続
-</a><br>
+</a>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -57,9 +57,9 @@ ODBCによるOracle DB接続
 <!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
 
 <h2>VBAからのOracle DB接続(ODBC使用)</h2>
-Oracle製ODBCドライバ(ここでは Instant Client 198)を使用してOracle DBに接続するためのサンプルコードを以下に記す。<br>
+Oracle製ODBCドライバ(ここでは Instant Client 19.8)を使用してOracle DBに接続するためのサンプルコードを以下に記す。<br>
 ODBCの設定に関しては、<a href="
-TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS/TIPS//%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9ODBC%E3%81%AB%E3%82%88%E3%82%8BOracle%20DB%E6%8E%A5%E7%B6%9Ahtml
+TIPS/データベース/ODBCによるOracle%20DB接続.html
 ">
 ODBCによるOracle DB接続
 </a> を参照のこと。
@@ -72,7 +72,7 @@ ODBCによるOracle DB接続
     <kwd>Const</kwd> PORT = <ltr>"1521"</ltr>                             <cmt>' ポート番号</cmt>
     <kwd>Const</kwd> NETSERVICENAME = <ltr>"p2db"</ltr>                   <cmt>' ネットサービス名</cmt>
 
-    <kwd>Const</kwd> DSN = <ltr>"PRIME2"</ltr>                            <cmt>' データソース名 (tnsnamesora で設定)</cmt>
+    <kwd>Const</kwd> DSN = <ltr>"PRIME2"</ltr>                            <cmt>' データソース名 (tnsnames.ora で設定)</cmt>
 
     <kwd>Const</kwd> USERNAME = <ltr>"p2dbown"</ltr>                      <cmt>' ユーザー名</cmt>
     <kwd>Const</kwd> PASSWORD = <ltr>"p2dbown"</ltr>                      <cmt>' パスワード</cmt>
@@ -84,27 +84,27 @@ ODBCによるOracle DB接続
 
 <kwd>#If</kwd> 1 <kwd>Then</kwd>
 <cmt>    ' ドライバと接続先を直接指定する場合</cmt>
-    strCon = <ltr>"DRIVER="</ltr> / DRIVER
-    strCon = strCon / <ltr>";DBQ="</ltr> / <ltr>"(DESCRIPTION = "</ltr> / _
-                                    <ltr>"(ADDRESS = (PROTOCOL = TCP)"</ltr> / _
-                                               <ltr>"(HOST = "</ltr> / IP / <ltr>")"</ltr> / _
-                                               <ltr>"(PORT = "</ltr> / PORT / <ltr>"))"</ltr> / _
-                                    <ltr>"(CONNECT_DATA = (SERVICE_NAME = "</ltr> / NETSERVICENAME / <ltr>")))"</ltr>
+    strCon = <ltr>"DRIVER="</ltr> & DRIVER
+    strCon = strCon & <ltr>";DBQ="</ltr> & <ltr>"(DESCRIPTION = "</ltr> & _
+                                    <ltr>"(ADDRESS = (PROTOCOL = TCP)"</ltr> & _
+                                               <ltr>"(HOST = "</ltr> & IP & <ltr>")"</ltr> & _
+                                               <ltr>"(PORT = "</ltr> & PORT & <ltr>"))"</ltr> & _
+                                    <ltr>"(CONNECT_DATA = (SERVICE_NAME = "</ltr> & NETSERVICENAME & <ltr>")))"</ltr>
 <kwd>#Else</kwd>
 <cmt>    ' データソース名を指定する場合</cmt>
-<cmt>    ' (事前に tnsnamesora でのデータソース定義が必要)</cmt>
-    strCon = <ltr>"DSN="</ltr> / DSN
+<cmt>    ' (事前に tnsnames.ora でのデータソース定義が必要)</cmt>
+    strCon = <ltr>"DSN="</ltr> & DSN
 <kwd>#End If</kwd>
 
-    strCon = strCon / <ltr>";UID="</ltr> / USERNAME
-    strCon = strCon / <ltr>";PWD="</ltr> / PASSWORD
+    strCon = strCon & <ltr>";UID="</ltr> & USERNAME
+    strCon = strCon & <ltr>";PWD="</ltr> & PASSWORD
     
 <cmt>    ' ---------------------------------------</cmt>
 <cmt>    ' 接続確立</cmt>
-    <kwd>Dim</kwd> cn <kwd>As</kwd> ADODBConnection
-    <kwd>Set</kwd> cn = <kwd>New</kwd> ADODBConnection
-    cnConnectionString = strCon
-    cnOpen
+    <kwd>Dim</kwd> cn <kwd>As</kwd> ADODB.Connection
+    <kwd>Set</kwd> cn = <kwd>New</kwd> ADODB.Connection
+    cn.ConnectionString = strCon
+    cn.Open
 
 <cmt>    ' ---------------------------------------</cmt>
 <cmt>    ' SQL文構成</cmt>
@@ -113,9 +113,9 @@ ODBCによるOracle DB接続
     
 <cmt>    ' ---------------------------------------</cmt>
 <cmt>    ' SQL文実行(データ取得)</cmt>
-    <kwd>Dim</kwd> rs <kwd>As</kwd> ADODBRecordset
-    <kwd>Set</kwd> rs = <kwd>New</kwd> ADODBRecordset
-    rsOpen strSQL, cn
+    <kwd>Dim</kwd> rs <kwd>As</kwd> ADODB.Recordset
+    <kwd>Set</kwd> rs = <kwd>New</kwd> ADODB.Recordset
+    rs.Open strSQL, cn
 
 <cmt>    ' ---------------------------------------</cmt>
 <cmt>    ' 取得したデータをワークシートに転記</cmt>
@@ -124,26 +124,26 @@ ODBCによるOracle DB接続
 
     <kwd>With</kwd> Worksheets(<ltr>"oracle_odbc"</ltr>)
 
-        CellsClear
+        .Cells.Clear
     
 <cmt>        ' フィールド名</cmt>
-        <kwd>For</kwd> col = <ltr>0</ltr> To rsFieldsCount - <ltr>1</ltr>
-            Cells(<ltr>1</ltr>, col + <ltr>1</ltr>) = rs(col).Name
+        <kwd>For</kwd> col = <ltr>0</ltr> To rs.Fields.Count - <ltr>1</ltr>
+            .Cells(<ltr>1</ltr>, col + <ltr>1</ltr>) = rs(col).Name
         <kwd>Next</kwd> col
     
 <cmt>        ' レコード</cmt>
-        <kwd>Do Until</kwd> rsEOF
-            <kwd>For</kwd> col = <ltr>0</ltr> To rsFieldsCount - <ltr>1</ltr>
-                Cells(row + <ltr>2</ltr>, col + <ltr>1</ltr>) = rs(col).Value
+        <kwd>Do Until</kwd> rs.EOF
+            <kwd>For</kwd> col = <ltr>0</ltr> To rs.Fields.Count - <ltr>1</ltr>
+                .Cells(row + <ltr>2</ltr>, col + <ltr>1</ltr>) = rs(col).Value
             <kwd>Next</kwd> col
             row = row + <ltr>1</ltr>
-            rsMoveNext
+            rs.MoveNext
         <kwd>Loop</kwd>
     
     <kwd>End With</kwd>
     
-    rsClose
-    cnClose
+    rs.Close
+    cn.Close
     <kwd>Set</kwd> cn = <kwd>Nothing</kwd>
     
 <kwd>End Sub</kwd>
@@ -152,18 +152,18 @@ ODBCによるOracle DB接続
 <h3>Recordset に読み込んだデータへのアクセス</h3>
 Recordset (オブジェクト名を rs とする)のデータは、上記のようにフィールドのインデクス(0 起算)を指定するか、<br>
 またはフィールド名を直接指定することで取得できる。<br>
-データを読み込んだ直後は先頭のレコードを指しており、rsMoveNext で次のレコードを指すようになる。<br>
-(繰り返すことで rsEOF に到達するまで読み進めることができる)<br>
-rsMoveFirst で先頭のレコードまで巻き戻すことも可能。<br>
-ここで、読み込んだデータが Null の場合、そのままユーザ定義型()などに格納しようとするとエラーとなるため、<br>
+データを読み込んだ直後は先頭のレコードを指しており、rs.MoveNext で次のレコードを指すようになる。<br>
+(繰り返すことで rs.EOF に到達するまで読み進めることができる)<br>
+rs.MoveFirst で先頭のレコードまで巻き戻すことも可能。<br>
+ここで、読み込んだデータが Null の場合、そのままユーザ定義型(Type)などに格納しようとするとエラーとなるため、<br>
 必要に応じて IsNull() プロシージャで Null かどうかを確認して対処する。
 <p class="code">
 <cmt>    ' インデクス(col)でフィールドを指定</cmt>
-<cmt>    ' col : 0 ～ rsFieldsCount - 1</cmt>
+<cmt>    ' col : 0 ～ rs.Fields.Count - 1</cmt>
     tempVal = rs(col).Value
 
 <cmt>    ' フィールド名("Hoge")でフィールドを指定</cmt>
-    tempVal = rsFields("Hoge").Value
+    tempVal = rs.Fields("Hoge").Value
 
 <cmt>    ' 取得した値が Null であれば 0 に置換する</cmt>
     <kwd>If</kwd> IsNull(tempVal) <kwd>Then</kwd>

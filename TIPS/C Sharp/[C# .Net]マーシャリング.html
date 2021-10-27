@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -53,28 +53,27 @@ C++とC#では型に互換性が無く、データをそのままの形式で渡
 <br>
 
 <h2>実装例</h2>
-いずれも CPlusDLLdll をロードするものとする。<br>
-
+いずれも CPlusDLL.dll をロードするものとする。<br>
 <h3>整数型</h3>
-マーシャリングは不要。但し(ポインタによる)参照渡しの場合は ref  out 修飾が必要。<br>
+マーシャリングは不要。但し(ポインタによる)参照渡しの場合は ref / out 修飾が必要。<br>
 ライブラリ(C++)<br>
 
 <p class="code">
-<kwd>#ifdef</kwd> __cplusplus
-<kwd>#define</kwd> DLLEXPORT <kwd>extern</kwd> <ltr>"<ltr>C</ltr>"</ltr> __declspec(dllexport)
-<kwd>#else</kwd>
-<kwd>#define</kwd> DLLEXPORT __declspec(dllexport)
-<kwd>#endif</kwd>
+<keyword>#ifdef</keyword> __cplusplus
+<keyword>#define</keyword> DLLEXPORT <keyword>extern</keyword> <literal>"<literal>C</literal>"</literal> __declspec(dllexport)
+<keyword>#else</keyword>
+<keyword>#define</keyword> DLLEXPORT __declspec(dllexport)
+<keyword>#endif</keyword>
 
-<cmt>// 値渡し(int)</cmt>
-DLLEXPORT <kwd>int</kwd> __stdcall Mul(<kwd>int</kwd> x, <kwd>int</kwd> y)
+<comment>// 値渡し(int)</comment>
+DLLEXPORT <keyword>int</keyword> __stdcall Mul(<keyword>int</keyword> x, <keyword>int</keyword> y)
 {
-    <kwd>return</kwd> x * y;
+    <keyword>return</keyword> x * y;
 }
 
-<cmt>// 参照渡し(int*)</cmt>
-<cmt>// ( result に結果を格納して返す)</cmt>
-DLLEXPORT <kwd>void</kwd> __stdcall MulUsePointer(<kwd>int</kwd> *x, <kwd>int</kwd> *y, <kwd>int</kwd> *result)
+<comment>// 参照渡し(int*)</comment>
+<comment>// ( result に結果を格納して返す)</comment>
+DLLEXPORT <keyword>void</keyword> __stdcall MulUsePointer(<keyword>int</keyword> *x, <keyword>int</keyword> *y, <keyword>int</keyword> *result)
 {
     *result = (*x) * (*y);
 }
@@ -84,77 +83,77 @@ DLLEXPORT <kwd>void</kwd> __stdcall MulUsePointer(<kwd>int</kwd> *x, <kwd>int</k
 
 <p class="code">
 using System;
-using SystemRuntimeInteropServices;
+using System.Runtime.InteropServices;
 
 namespace ConsoleApp1
 {
-    <kwd>class</kwd> Program
+    <keyword>class</keyword> Program
     {
-        <cmt>// 値渡し</cmt>
-        [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"Mul"</ltr>)]
-        <kwd>static</kwd> <kwd>extern</kwd> <kwd>int</kwd> _Mul(<kwd>int</kwd> x, <kwd>int</kwd> y);
+        <comment>// 値渡し</comment>
+        [DllImport(<literal>"CPlusDLL"</literal>, EntryPoint = <literal>"Mul"</literal>)]
+        <keyword>static</keyword> <keyword>extern</keyword> <keyword>int</keyword> _Mul(<keyword>int</keyword> x, <keyword>int</keyword> y);
 
-        <cmt>// 参照渡し</cmt>
-        <cmt>// DLLへの入力は ref 、DLLからの出力は out (または ref )で修飾</cmt>
-        [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"MulUsePointer"</ltr>)]
-        <kwd>static</kwd> <kwd>extern</kwd> <kwd>void</kwd> _MulUsePointer(ref <kwd>int</kwd> x, ref <kwd>int</kwd> y, out <kwd>int</kwd> result);
+        <comment>// 参照渡し</comment>
+        <comment>// DLLへの入力は ref 、DLLからの出力は out (または ref )で修飾</comment>
+        [DllImport(<literal>"CPlusDLL"</literal>, EntryPoint = <literal>"MulUsePointer"</literal>)]
+        <keyword>static</keyword> <keyword>extern</keyword> <keyword>void</keyword> _MulUsePointer(ref <keyword>int</keyword> x, ref <keyword>int</keyword> y, out <keyword>int</keyword> result);
 
-        <cmt>// 実処理部</cmt>
-        <kwd>static</kwd> <kwd>void</kwd> Main(<kwd>string</kwd>[] args)
+        <comment>// 実処理部</comment>
+        <keyword>static</keyword> <keyword>void</keyword> Main(<keyword>string</keyword>[] args)
         {
-            <kwd>int</kwd> x = <ltr>10</ltr>;
-            <kwd>int</kwd> y = <ltr>20</ltr>;
+            <keyword>int</keyword> x = <literal>10</literal>;
+            <keyword>int</keyword> y = <literal>20</literal>;
 
-            <kwd>int</kwd> resultMul = _Mul(x, y);
-            ConsoleWriteLine(<ltr>"Mul = "</ltr> + resultMul);
+            <keyword>int</keyword> resultMul = _Mul(x, y);
+            Console.WriteLine(<literal>"Mul = "</literal> + resultMul);
 
-            _MulUsePointer(ref x, ref y, out <kwd>int</kwd> resultMulUsePointer);
-            ConsoleWriteLine(<ltr>"MulUsePointer = "</ltr> + resultMulUsePointer);
+            _MulUsePointer(ref x, ref y, out <keyword>int</keyword> resultMulUsePointer);
+            Console.WriteLine(<literal>"MulUsePointer = "</literal> + resultMulUsePointer);
         }
      }
 }
 </p>
 
 <h3>文字列</h3>
-C++の string  wstring とC#の string には互換性が無いため、マーシャリングが必要。<br>
+C++の string / wstring とC#の string には互換性が無いため、マーシャリングが必要。<br>
 ライブラリ(C++)<br>
 
 <p class="code">
-<kwd>#include</kwd> &lt;<kwd>string</kwd>&gt;
+<keyword>#include</keyword> &lt;<keyword>string</keyword>&gt;
 
-<kwd>#ifdef</kwd> __cplusplus
-<kwd>#define</kwd> DLLEXPORT <kwd>extern</kwd> <ltr>"<ltr>C</ltr>"</ltr> __declspec(dllexport)
-<kwd>#else</kwd>
-<kwd>#define</kwd> DLLEXPORT __declspec(dllexport)
-<kwd>#endif</kwd>
+<keyword>#ifdef</keyword> __cplusplus
+<keyword>#define</keyword> DLLEXPORT <keyword>extern</keyword> <literal>"<literal>C</literal>"</literal> __declspec(dllexport)
+<keyword>#else</keyword>
+<keyword>#define</keyword> DLLEXPORT __declspec(dllexport)
+<keyword>#endif</keyword>
 
-<kwd>static</kwd> std::<kwd>string</kwd> _str = <ltr>""</ltr>;
-<kwd>static</kwd> std::<kwd>wstring</kwd> _wstr = <ltr>L""</ltr>;
+<keyword>static</keyword> std::<keyword>string</keyword> _str = <literal>""</literal>;
+<keyword>static</keyword> std::<keyword>wstring</keyword> _wstr = <literal>L""</literal>;
 
-<cmt>// マルチバイト文字列型</cmt>
-<cmt>// (char* ⇒ string)</cmt>
-DLLEXPORT <kwd>void</kwd> __stdcall SetNameStr(<kwd>const</kwd> <kwd>char</kwd> *t)
+<comment>// マルチバイト文字列型</comment>
+<comment>// (char* ⇒ string)</comment>
+DLLEXPORT <keyword>void</keyword> __stdcall SetNameStr(<keyword>const</keyword> <keyword>char</keyword> *t)
 {
-    _str = std::<kwd>string</kwd>(t);
+    _str = std::<keyword>string</keyword>(t);
 }
 
-<cmt>// (string ⇒ char*)</cmt>
-DLLEXPORT <kwd>const</kwd> <kwd>char</kwd> * __stdcall GetNameStr()
+<comment>// (string ⇒ char*)</comment>
+DLLEXPORT <keyword>const</keyword> <keyword>char</keyword> * __stdcall GetNameStr()
 {
-    <kwd>return</kwd> _strc_str();
+    <keyword>return</keyword> _str.c_str();
 }
 
-<cmt>// ワイド文字列型</cmt>
-<cmt>// (wchar_t* ⇒ wstring)</cmt>
-DLLEXPORT <kwd>void</kwd> __stdcall SetNameWStr(<kwd>const</kwd> <kwd>wchar_t</kwd> *t)
+<comment>// ワイド文字列型</comment>
+<comment>// (wchar_t* ⇒ wstring)</comment>
+DLLEXPORT <keyword>void</keyword> __stdcall SetNameWStr(<keyword>const</keyword> <keyword>wchar_t</keyword> *t)
 {
-    _wstr = std::<kwd>wstring</kwd>(t);
+    _wstr = std::<keyword>wstring</keyword>(t);
 }
 
-<cmt>// (wstring ⇒ wchar_t*)</cmt>
-DLLEXPORT <kwd>const</kwd> <kwd>wchar_t</kwd> * __stdcall GetNameWStr()
+<comment>// (wstring ⇒ wchar_t*)</comment>
+DLLEXPORT <keyword>const</keyword> <keyword>wchar_t</keyword> * __stdcall GetNameWStr()
 {
-    <kwd>return</kwd> _wstrc_str();
+    <keyword>return</keyword> _wstr.c_str();
 }
 </p>
 
@@ -162,36 +161,36 @@ DLLEXPORT <kwd>const</kwd> <kwd>wchar_t</kwd> * __stdcall GetNameWStr()
 
 <p class="code">
 using System;
-using SystemRuntimeInteropServices;
+using System.Runtime.InteropServices;
 
 namespace ConsoleApp1
 {
-    <kwd>class</kwd> Program
+    <keyword>class</keyword> Program
     {
-        <cmt>// マルチバイト文字列型</cmt>
-        <cmt>// CharSet = CharSetAnsi</cmt>
-        [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"SetNameStr"</ltr>, CharSet = CharSetAnsi)]
-        <kwd>static</kwd> <kwd>extern</kwd> <kwd>void</kwd> _SetNameStr(<kwd>string</kwd> t);
+        <comment>// マルチバイト文字列型</comment>
+        <comment>// CharSet = CharSet.Ansi</comment>
+        [DllImport(<literal>"CPlusDLL"</literal>, EntryPoint = <literal>"SetNameStr"</literal>, CharSet = CharSet.Ansi)]
+        <keyword>static</keyword> <keyword>extern</keyword> <keyword>void</keyword> _SetNameStr(<keyword>string</keyword> t);
 
-        [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"GetNameStr"</ltr>, CharSet = CharSetAnsi)]
-        <kwd>static</kwd> <kwd>extern</kwd> IntPtr _GetNameStr();
+        [DllImport(<literal>"CPlusDLL"</literal>, EntryPoint = <literal>"GetNameStr"</literal>, CharSet = CharSet.Ansi)]
+        <keyword>static</keyword> <keyword>extern</keyword> IntPtr _GetNameStr();
 
-        <cmt>// ワイド文字列型</cmt>
-        <cmt>// CharSet = CharSetUnicode</cmt>
-        [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"SetNameWStr"</ltr>, CharSet = CharSetUnicode)]
-        <kwd>static</kwd> <kwd>extern</kwd> <kwd>void</kwd> _SetNameWStr(<kwd>string</kwd> t);
+        <comment>// ワイド文字列型</comment>
+        <comment>// CharSet = CharSet.Unicode</comment>
+        [DllImport(<literal>"CPlusDLL"</literal>, EntryPoint = <literal>"SetNameWStr"</literal>, CharSet = CharSet.Unicode)]
+        <keyword>static</keyword> <keyword>extern</keyword> <keyword>void</keyword> _SetNameWStr(<keyword>string</keyword> t);
 
-        [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"GetNameWStr"</ltr>, CharSet = CharSetUnicode)]
-        <kwd>static</kwd> <kwd>extern</kwd> IntPtr _GetNameWStr();
+        [DllImport(<literal>"CPlusDLL"</literal>, EntryPoint = <literal>"GetNameWStr"</literal>, CharSet = CharSet.Unicode)]
+        <keyword>static</keyword> <keyword>extern</keyword> IntPtr _GetNameWStr();
 
-        <kwd>static</kwd> <kwd>void</kwd> Main(<kwd>string</kwd>[] args)
+        <keyword>static</keyword> <keyword>void</keyword> Main(<keyword>string</keyword>[] args)
         {
-            <kwd>string</kwd> testString = <ltr>"東京都新宿 <ltr>1</ltr>-<ltr>1</ltr>"</ltr>;
+            <keyword>string</keyword> testString = <literal>"東京都新宿 <literal>1</literal>-<literal>1</literal>"</literal>;
             _SetNameStr(testString);
-            ConsoleWriteLine(<ltr>"GetNameStr = "</ltr> + MarshalPtrToStringAnsi(_GetNameStr()));
+            Console.WriteLine(<literal>"GetNameStr = "</literal> + Marshal.PtrToStringAnsi(_GetNameStr()));
 
             _SetNameWStr(testString);
-            ConsoleWriteLine(<ltr>"GetNameWStr = "</ltr> + MarshalPtrToStringUni(_GetNameWStr()));
+            Console.WriteLine(<literal>"GetNameWStr = "</literal> + Marshal.PtrToStringUni(_GetNameWStr()));
         }
      }
 }
@@ -216,57 +215,57 @@ DLLEXPORT <kwd>void</kwd> __stdcall SetArray(<kwd>const</kwd> <kwd>int</kwd>* ar
 アプリケーション(C#)<br>
 <p class="code">
 using System;
-using SystemRuntimeInteropServices;
+using System.Runtime.InteropServices;
 
 namespace ConsoleApp1
 {
-    <kwd>class</kwd> Program
+    <keyword>class</keyword> Program
     {
-         [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"SetArray"</ltr>)]
-        <kwd>static</kwd> <kwd>extern</kwd> <kwd>void</kwd> _SetArray(IntPtr arr);
+         [DllImport(<literal>"CPlusDLL"</literal>, EntryPoint = <literal>"SetArray"</literal>)]
+        <keyword>static</keyword> <keyword>extern</keyword> <keyword>void</keyword> _SetArray(IntPtr arr);
 
-        <kwd>static</kwd> <kwd>void</kwd> Main(<kwd>string</kwd>[] args)
+        <keyword>static</keyword> <keyword>void</keyword> Main(<keyword>string</keyword>[] args)
         {
-            <kwd>int</kwd>[,] matrix = new <kwd>int</kwd>[<ltr>3</ltr>, <ltr>3</ltr>]
+            <keyword>int</keyword>[,] matrix = new <keyword>int</keyword>[<literal>3</literal>, <literal>3</literal>]
             {
-                {<ltr>0</ltr>, <ltr>1</ltr>, <ltr>2</ltr>},
-                {<ltr>3</ltr>, <ltr>4</ltr>, <ltr>5</ltr>},
-                {<ltr>6</ltr>, <ltr>7</ltr>, <ltr>8</ltr>},
+                {<literal>0</literal>, <literal>1</literal>, <literal>2</literal>},
+                {<literal>3</literal>, <literal>4</literal>, <literal>5</literal>},
+                {<literal>6</literal>, <literal>7</literal>, <literal>8</literal>},
             };
 
-            <cmt>// matrix をシリアライズ</cmt>
-            <kwd>int</kwd> arr[] = new <kwd>int</kwd>[<ltr>3</ltr>*<ltr>3</ltr>];
-            <kwd>int</kwd> i = <ltr>0</ltr>;
-            <kwd>for</kwd> (<kwd>int</kwd> y = <ltr>0</ltr>; y &lt; <ltr>3</ltr>; ++y)
+            <comment>// matrix をシリアライズ</comment>
+            <keyword>int</keyword> arr[] = new <keyword>int</keyword>[<literal>3</literal>*<literal>3</literal>];
+            <keyword>int</keyword> i = <literal>0</literal>;
+            <keyword>for</keyword> (<keyword>int</keyword> y = <literal>0</literal>; y &lt; <literal>3</literal>; ++y)
             {
-                <kwd>for</kwd> (<kwd>int</kwd> x = <ltr>0</ltr>; x &lt; <ltr>3</ltr>; ++x)
+                <keyword>for</keyword> (<keyword>int</keyword> x = <literal>0</literal>; x &lt; <literal>3</literal>; ++x)
                 {
                     arr[i] = matrix[y,x];
                     ++i;
                 }
             }
 
-            <cmt>// データ授受用の IntPtr 生成( arr (matrix) の内容を格納する領域を確保</cmt>
-            IntPtr ptr =  MarshalAllocHGlobal(MarshalSizeOf(typeof(<kwd>int</kwd>)) * <ltr>3</ltr> * <ltr>3</ltr>)
+            <comment>// データ授受用の IntPtr 生成( arr (matrix) の内容を格納する領域を確保</comment>
+            IntPtr ptr =  Marshal.AllocHGlobal(Marshal.SizeOf(typeof(<keyword>int</keyword>)) * <literal>3</literal> * <literal>3</literal>)
  
-            <cmt>// arr の内容を ptr にコピー</cmt>
-            MarshalCopy(arr, <ltr>0</ltr>, ptr, <ltr>3</ltr>*<ltr>3</ltr>);
+            <comment>// arr の内容を ptr にコピー</comment>
+            Marshal.Copy(arr, <literal>0</literal>, ptr, <literal>3</literal>*<literal>3</literal>);
  
-            <cmt>// DLL APIコール</cmt>
+            <comment>// DLL APIコール</comment>
             _SetArray(ptr);
  
-            <cmt>// ptr の内容を arr にコピー</cmt>
-            MarshalCopy(ptr, arr, <ltr>0</ltr>, <ltr>3</ltr>*<ltr>3</ltr>);
+            <comment>// ptr の内容を arr にコピー</comment>
+            Marshal.Copy(ptr, arr, <literal>0</literal>, <literal>3</literal>*<literal>3</literal>);
  
-            <cmt>// 領域解放</cmt>
-            MarshalFreeHGlobal(ptr);
+            <comment>// 領域解放</comment>
+            Marshal.FreeHGlobal(ptr);
         }
      }
 }
 </p>
 
 <h3>構造体</h3>
-書式指定[StructLayout(LayoutKindSequential)]、入力・出力マーシャリング指定[In][Out]の指定が必要。<br>
+書式指定[StructLayout(LayoutKind.Sequential)]、入力・出力マーシャリング指定[In][Out]の指定が必要。<br>
 [In] : 入力方向(C# ⇒ C++)のマーシャリングを行う<br>
 [Out] : 出力方向(C++ ⇒ C#)のマーシャリングを行う<br>
 ライブラリ(C++)<br>
@@ -299,34 +298,34 @@ DLLEXPORT <kwd>void</kwd> __stdcall GetStruct(stSample* st)
 アプリケーション(C#)<br>
 <p class="code">
 using System;
-using SystemRuntimeInteropServices;
+using System.Runtime.InteropServices;
 
 namespace ConsoleApp1
 {
-    <cmt>// 構造体定義</cmt>
-    <cmt>// class として定義する点に注意(参照渡しとするため)</cmt>
-    [StructLayout(LayoutKindSequential)]
-    <kwd>class</kwd> stSample
+    <comment>// 構造体定義</comment>
+    <comment>// class として定義する点に注意(参照渡しとするため)</comment>
+    [StructLayout(LayoutKind.Sequential)]
+    <keyword>class</keyword> stSample
     {
-        <kwd>int</kwd> a;
-        <kwd>int</kwd> b;
+        <keyword>int</keyword> a;
+        <keyword>int</keyword> b;
     };
 
-    <kwd>class</kwd> Program
+    <keyword>class</keyword> Program
     {
-        <cmt>// DLLに構造体を渡す</cmt>
-         [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"_SetStruct"</ltr>)]
-        <kwd>static</kwd> <kwd>extern</kwd> <kwd>void</kwd> _SetStruct([In] stSample st);
+        <comment>// DLLに構造体を渡す</comment>
+         [DllImport(<literal>"CPlusDLL"</literal>, EntryPoint = <literal>"_SetStruct"</literal>)]
+        <keyword>static</keyword> <keyword>extern</keyword> <keyword>void</keyword> _SetStruct([In] stSample st);
 
-        <cmt>// DLLから構造体を受け取る</cmt>
-         [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"_GetStruct"</ltr>)]
-        <kwd>static</kwd> <kwd>extern</kwd> <kwd>void</kwd> _GetStruct([Out] stSample st);
+        <comment>// DLLから構造体を受け取る</comment>
+         [DllImport(<literal>"CPlusDLL"</literal>, EntryPoint = <literal>"_GetStruct"</literal>)]
+        <keyword>static</keyword> <keyword>extern</keyword> <keyword>void</keyword> _GetStruct([Out] stSample st);
 
-        <kwd>static</kwd> <kwd>void</kwd> Main(<kwd>string</kwd>[] args)
+        <keyword>static</keyword> <keyword>void</keyword> Main(<keyword>string</keyword>[] args)
         {
             stSample st;
 
-            <cmt>// DLL APIコール</cmt>
+            <comment>// DLL APIコール</comment>
             _SetStruct(st);
             _GetStruct(st);
         }

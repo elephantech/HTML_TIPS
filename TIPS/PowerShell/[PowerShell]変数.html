@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,20 +24,18 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
 <span id="title"></span>
 
 <!-- 出典・関連ページ -->
-<!--
 <h5>出典 :</h5>
-<a href="https://www.atmarkitcojpaitarticles070830news137.html">PowerShellスクリプティングの第一歩(前編) - ＠IT</a><br>
-<a href="https://www.atmarkitcojpaitarticles070920news125.html">PowerShellスクリプティングの第一歩(後編) - ＠IT</a><br>
-<a href="https://cheshire-waracompowershellps-textbooksbasic-grammararray-biginner1/">そうだったのか！配列の超簡単入門PowerShellで配列デビュー 第1回 | 【ﾁｪｼｬわら】</a><br>
-<a href="https://cheshire-waracompowershellps-textbooksbasic-grammararray-biginner2/">【連想配列 (ハッシュ) 】って何者？使い方は？PowerShellで配列デビュー 第2回 | 【ﾁｪｼｬわら】</a><br>
--->
+<a href="https://www.atmarkit.co.jp/ait/articles/0708/30/news137.html">PowerShellスクリプティングの第一歩(前編) - ＠IT</a><br>
+<a href="https://www.atmarkit.co.jp/ait/articles/0709/20/news125.html">PowerShellスクリプティングの第一歩(後編) - ＠IT</a><br>
+<a href="https://cheshire-wara.com/powershell/ps-textbooks/basic-grammar/array-biginner1/">そうだったのか！配列の超簡単入門/PowerShellで配列デビュー 第1回 | 【ﾁｪｼｬわら】</a><br>
+<a href="https://cheshire-wara.com/powershell/ps-textbooks/basic-grammar/array-biginner2/">【連想配列 (ハッシュ) 】って何者？使い方は？/PowerShellで配列デビュー 第2回 | 【ﾁｪｼｬわら】</a><br>
 
 <h5>関連 :</h5>
 <a href="TIPS/C・C++/[C++／STL／コンテナ]コンテナ.html">[C++／STL／コンテナ]マップ(連想配列)</a><br>
@@ -81,21 +79,21 @@ PowerShellは他のスクリプト言語同様、静的な型付けを行わず�
 <p class="code">
 <cmt># $ttt に 1 (数値)を代入し、型を確認
 # ⇒ Int32 (ValueType : 値型)</cmt>
-PS  $ttt = <ltr>1</ltr>
-PS  $tttGetType()
+PS > $ttt = <ltr>1</ltr>
+PS > $ttt.GetType()
 
 IsPublic IsSerial Name                                     BaseType                                                                                                                     
 -------- -------- ----                                     --------                                                                                                                     
-True     True     Int32                                    SystemValueType                                                                                                             
+True     True     Int32                                    System.ValueType                                                                                                             
 
-<cmt># $ttt に abc (文字列)を代入し、型を確認
+<cmt># $ttt に "abc" (文字列)を代入し、型を確認
 # ⇒ String (Object : オブジェクト型)</cmt>
-PS  $ttt = <ltr>"abc"</ltr>
-PS  $tttGetType()
+PS > $ttt = <ltr>"abc"</ltr>
+PS > $ttt.GetType()
 
 IsPublic IsSerial Name                                     BaseType                                                                                                                     
 -------- -------- ----                                     --------                                                                                                                     
-True     True     String                                   SystemObject                                                                                                                
+True     True     String                                   System.Object                                                                                                                
 </p>
 
 <h2>文字列変数の自動展開</h2>
@@ -137,19 +135,19 @@ $arr = <ltr>@(1, 2, 3, 4)</ltr>
 また、添字に -1 を指定することで末尾要素にアクセスできる。<br>
 添字を省略した場合、すべての要素を参照する。<br>
 <p class="code">
-PS  $arr = @(1, 2, 3, 4)
-PS  $arr[0]   <cmt>#< 先頭要素にアクセス</cmt>
+PS > $arr = @(1, 2, 3, 4)
+PS > $arr[0]   <cmt>#< 先頭要素にアクセス</cmt>
 1
-PS  $arr[1]
+PS > $arr[1]
 2
-PS  $arr[-1]  <cmt>#< 末尾要素にアクセス</cmt>
+PS > $arr[-1]  <cmt>#< 末尾要素にアクセス</cmt>
 4
-PS  $arr      <cmt>#< 全要素にアクセス</cmt>
+PS > $arr      <cmt>#< 全要素にアクセス</cmt>
 1
 2
 3
 4
-PS 
+PS >
 </p>
 
 <h2>連想配列(ハッシュテーブル)</h2>
@@ -165,42 +163,42 @@ C++、C#における同種の概念については、<br>
 <p class="code">
 <cmt># 変数 $map_height を連想配列として初期化</cmt>
 <cmt># 氏名と身長を対にして保持する</cmt>
-$map_height = <ltr>@{"相原 = 168; 新井 = 170; 早矢仕 = 180}</ltr>
+$map_height = <ltr>@{"相原" = 168; "新井" = 170; "早矢仕" = 180}</ltr>
 </p>
 
 <h3>参照</h3>
-<b>変数名[キー]</b> または <b>変数名キー</b> の形式で指定する。<br>
+<b>変数名[キー]</b> または <b>変数名.キー</b> の形式で指定する。<br>
 キーを省略した場合は通常の配列同様、すべての要素を参照する。<br>
 <p class="code">
-PS  $map_height = @{"相原 = 168; 新井 = 170; 早矢仕 = 180}
+PS > $map_height = @{"相原" = 168; "新井" = 170; "早矢仕" = 180}
 
-PS  $map_height["相原"]        <cmt>#< 相原 の身長</cmt>
+PS > $map_height["相原"]        <cmt>#< "相原" の身長</cmt>
 168
 
-PS  $map_height."新井         <cmt>#< 新井 の身長</cmt>
+PS > $map_height."新井"         <cmt>#< "新井" の身長</cmt>
 170
 
-PS  $map_height早矢仕         <cmt>#<  (ドット)を用いる場合、引用符は省略可能</cmt>
+PS > $map_height.早矢仕         <cmt>#< . (ドット)を用いる場合、引用符は省略可能</cmt>
 180
 
-PS  $map_height                <cmt>#< 全要素にアクセス</cmt>
+PS > $map_height                <cmt>#< 全要素にアクセス</cmt>
 Name                 Value
 ----                 -----
 相原                 168
 新井                 170
 早矢仕               180
 
-PS  $map_heightKeys           <cmt>#< Keys プロパティでキーの一覧を取得</cmt>
+PS > $map_height.Keys           <cmt>#< Keys プロパティでキーの一覧を取得</cmt>
 相原
 新井
 早矢仕
 
-PS  $map_heightValues         <cmt>#< Values プロパティで値の一覧を取得</cmt>
+PS > $map_height.Values         <cmt>#< Values プロパティで値の一覧を取得</cmt>
 168
 170
 180
 
-PS 
+PS >
 </p>
 
 

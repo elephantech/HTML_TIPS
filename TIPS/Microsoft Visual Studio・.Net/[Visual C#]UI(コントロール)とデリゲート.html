@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -54,14 +54,13 @@
 即ち、<b>コントロールの操作は原則として、当該フォームのコンストラクタとイベントハンドラ(およびそれらのサブルーチン)からに限定される</b>。<br>
 (子フォームを起動した場合も同様。子フォーム(のスレッド)からは親フォームのコントロールを操作することはできない。)<br>
 <h2>別スレッドからのコントロールの操作</h2>
-別スレッドからコントロールを操作する場合は、bUIスレッドに操作を委譲する必要がある</b>。<br>
+別スレッドからコントロールを操作する場合は、<strong>UIスレッドに操作を委譲する必要がある</strong>。<br>
 <img src="_Img/MSVS_DotNet_CSharp/UI_delegate/UiControl_and_Delegate_02.png" alt="画像"><br>
 <h3>InvokeRequired</h3>
-各コントロール(フォームを含む)にはbInvokeRequired</b>というプロパティが存在し、Invoke() の要否( == UIスレッド外からの操作)を判定することができる。<br>
+各コントロール(フォームを含む)には<strong>InvokeRequired</strong>というプロパティが存在し、Invoke() の要否( == UIスレッド外からの操作)を判定することができる。<br>
 上記のコード例を InvokeRequired を用いて書き直すと以下のようになる。これによりUIスレッド、UIスレッド外を問わず、一つの関数を共用できる。<br>
 <img src="_Img/MSVS_DotNet_CSharp/UI_delegate/UiControl_and_Delegate_03.png" alt="画像"><br>
-UpdateLabelText() は自分自身をデリゲートとして渡している。(≒再帰呼び出し)<br>
-<br>
-<br>
+UpdateLabelText() は自分自身をデリゲートとして渡している。(≒再帰呼び出し)
+
 </body>
 </html>

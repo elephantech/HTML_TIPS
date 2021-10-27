@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -35,11 +35,11 @@
 <a href="
 http://officetanaka.net/excel/vba/tips/tips104.htm
 ">
-Office TANAKA - Excel VBA TIPS/[エラーに負けない]
+Office TANAKA - Excel VBA Tips[エラーに負けない]
 </a><br>
 
 <a href="
-https://www.sejuku.net/blog35484
+https://www.sejuku.net/blog/35484
 ">
 【VBA入門】エラーを処理する方法(On Error、Resume、GoTo) | 侍エンジニアブログ
 </a><br>
@@ -174,7 +174,7 @@ VBAではエラーへの対処を <b>On Error</b> ステートメントを用い
 ↓<br>
 ② ラベル myErr にジャンプ<br>
 ↓<br>
-エラーが発生しました。 メッセージボックス表示<br>
+"エラーが発生しました。" メッセージボックス表示<br>
 ↓<br>
 ③ Resume Next に遭遇<br>
 ↓<br>
@@ -224,7 +224,7 @@ VBAではエラーへの対処を <b>On Error</b> ステートメントを用い
 <cmt>' エラーを発生させる f1 プロシージャ</cmt>
 <kwd>Private Sub</kwd> f1(<kwd>ByVal</kwd> v <kwd>as Integer</kwd>)
 
-    <kwd>If</kwd> v  <ltr>0</ltr> <kwd>Then</kwd>
+    <kwd>If</kwd> v < <ltr>0</ltr> <kwd>Then</kwd>
         <cmt>' エラーをクリア</cmt>
         Err.Clear
 

@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,18 +24,16 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
 <span id="title"></span>
 
 <!-- 出典・関連ページ -->
-<!--
 <h5>出典 :</h5>
-<a href="https://devclassmethodjpetcmake_windows_symbolic_link/">TIPS/でシンボリックリンクを作る - DevelopersIO</a><br>
-<a href="https://www.atmarkitcojpaitarticles130607news111.html">TIPS/のシンボリックリンクとジャンクションとハードリンクの違い - @IT</a><br>
--->
+<a href="https://dev.classmethod.jp/etc/make_windows_symbolic_link/">Windowsでシンボリックリンクを作る - Developers.IO</a><br>
+<a href="https://www.atmarkit.co.jp/ait/articles/1306/07/news111.html">Windowsのシンボリックリンクとジャンクションとハードリンクの違い - @IT</a><br>
 
 <h5>関連 :</h5>
 <a href="TIPS/Windows/ネットワークドライブ.html">ネットワークドライブ</a>
@@ -53,9 +51,9 @@
 コマンドプロンプトを <b>管理者権限で</b> 開き、mklink コマンドを入力する。<br>
 
 <p class="code">
-<cmt>rem C/hereSLink が //Somewherelocation を指すようにする</cmt>
+<cmt>rem C:/here/SLink が //Somewhere/location を指すようにする</cmt>
 
-><b class="red">mklink</b> <b class="dyellow">/D</b> <b class="dmagenta">"C/hereSLink"</b> <b class="dcyan">"//Somewherelocation"</b>
+><b class="red">mklink</b> <b class="dyellow">/D</b> <b class="dmagenta">"C:/here/SLink"</b> <b class="dcyan">"//Somewhere/location"</b>
 </p>
 
 <table>
@@ -65,18 +63,18 @@
 </tr>
 
 <tr class="dyellow">
-<td>オプションbr>(作成するリンクの種類)</td>
-<td class="b">/Dbr>(ディレクトリのシンボリックリンク)</td>
+<td>オプション<br>(作成するリンクの種類)</td>
+<td class="b">/D<br>(ディレクトリのシンボリックリンク)</td>
 </tr>
 
 <tr class="dmagenta">
 <td>参照元</td>
-<td class="b">"C/hereSLink"</td>
+<td class="b">"C:/here/SLink"</td>
 </tr>
 
 <tr class="dcyan">
 <td>参照先</td>
-<td class="b">"//Somewherelocation"</td>
+<td class="b">"//Somewhere/location"</td>
 </tr>
 
 </table>
@@ -102,9 +100,9 @@
 PowerShellを <b>管理者権限で</b> 開き、New-Item コマンドを入力する。<br>
 
 <p class="code">
-<cmt># C/hereSLink が //Somewherelocation を指すようにする</cmt>
+<cmt># C:/here/SLink が //Somewhere/location を指すようにする</cmt>
 
-><b class="red">New-Item</b> <b class="blue">-Path 'C/here'</b> <b class="dmagenta">-Name SLink</b> <b class="dcyan">-Value '//Somewherelocation'</b> <b class="dyellow">-ItemType SymbolicLink</b>
+><b class="red">New-Item</b> <b class="blue">-Path 'C:/here'</b> <b class="dmagenta">-Name SLink</b> <b class="dcyan">-Value '//Somewhere/location'</b> <b class="dyellow">-ItemType SymbolicLink</b>
 </p>
 
 <table>
@@ -114,23 +112,23 @@ PowerShellを <b>管理者権限で</b> 開き、New-Item コマンドを入力�
 </tr>
 
 <tr class="blue">
-<td>-Pathbr>(作成する先(ディレクトリ))</td>
-<td class="b">'C/here'</td>
+<td>-Path<br>(作成する先(ディレクトリ))</td>
+<td class="b">'C:/here'</td>
 </tr>
 
 <tr class="dmagenta">
-<td>-Namebr>(作成するアイテム名 ⇒ 参照元)</td>
+<td>-Name<br>(作成するアイテム名 ⇒ 参照元)</td>
 <td class="b">SLink</td>
 </tr>
 
 <tr class="dcyan">
-<td>-Valuebr>(設定する値 ⇒ 参照先)</td>
-<td class="b">'//Somewherelocation'</td>
+<td>-Value<br>(設定する値 ⇒ 参照先)</td>
+<td class="b">'//Somewhere/location'</td>
 </tr>
 
 <tr class="dyellow">
-<td>-ItemTypebr>(作成するアイテムの種類)</td>
-<td class="b">SymbolicLinkbr>(シンボリックリンク)</td>
+<td>-ItemType<br>(作成するアイテムの種類)</td>
+<td class="b">SymbolicLink<br>(シンボリックリンク)</td>
 </tr>
 </table>
 
@@ -141,17 +139,17 @@ PowerShellを <b>管理者権限で</b> 開き、New-Item コマンドを入力�
 <h3>手順 (PowerShell)</h3>
 
 <p class="code">
-<cmt># C/hereSLink (シンボリックリンク)が //Somewherelocation (実パス)を指す場合</cmt>
+<cmt># C:/here/SLink (シンボリックリンク)が //Somewhere/location (実パス)を指す場合</cmt>
 
-<cmt># C/hereSLink をアイテムとして取得</cmt>
-$sLink = Get-Item -Path 'C/hereSLink'
+<cmt># C:/here/SLink をアイテムとして取得</cmt>
+$sLink = Get-Item -Path 'C:/here/SLink'
 
-<cmt># C/hereSLink のリンク種別を取得</cmt>
-$sLinkLinkType
+<cmt># C:/here/SLink のリンク種別を取得</cmt>
+$sLink.LinkType
 <cmt># SymbolicLink が返る(シンボリックリンク)</cmt>
 
-<cmt># C/hereSLink のターゲットを取得</cmt>
-$sLinkTarget
+<cmt># C:/here/SLink のターゲットを取得</cmt>
+$sLink.Target
 <cmt># UNC\Somewhere\location が返る(UNCパス)</cmt>
 </p>
 

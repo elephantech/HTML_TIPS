@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -19,11 +19,10 @@
 <!-- 目次表示 -->
 <script src="_Assets/MakeToc.js" type="text/javascript"></script>
 
-  charsetutf-8 
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 
@@ -60,32 +59,32 @@ Java、C#、Swiftなどモダン言語が型推論をサポートしており、
 <kwd>auto</kwd> otherVariable = <ltr>5</ltr>;
 </p>
 
-明示的に初期化される変数の宣言に bauto</b> キーワードを用いると、初期化子によって変数の型が特定される。<br>
+明示的に初期化される変数の宣言に <b>auto</b> キーワードを用いると、初期化子によって変数の型が特定される。<br>
 上記の例において、変数 someStrangeCallableType の型は<br>
 関数テンプレート boost::bind() がその引数に応じて返す戻り値の型であり、<br>
 これはコンパイラは容易に判断できても、プログラマが調べるのは困難または不可能である。<br>
-このように型の特定が難しい場合でも bauto を用いることで、自動的に変数や戻り値の型を決定できる</b>。<br>
+このように型の特定が難しい場合でも <b>auto</b> を用いることで、自動的に変数や戻り値の型を決定できる</b>。<br>
 また、同様に <b>auto</b> を用いた変数 otherVariable の型はリテラル(5)によって int となる。<br>
 <br>
 auto はコードの簡略化(冗長性の排除)にも有効である。<br>
 <p class="code">
 <cmt>// std::vector&lt;int&gt; myvec (ベクトル)を走査する場合</cmt>
 
-<cmt>// auto を使用しない for ループ</cmt>
-<kwd>for</kwd> (std::vector&lt;<kwd>int</kwd>&gt;::const_iterator itr = myvecbegin(); itr != myvecend(); ++itr)
+<comment>// auto を使用しない for ループ</comment>
+<keyword>for</keyword> (std::vector&lt;<keyword>int</keyword>&gt;::const_iterator itr = myvec.begin(); itr != myvec.end(); ++itr)
 {
     :
 }
 
-<cmt>// auto を使用した for ループ</cmt>
-<cmt>// myvecbegin() がイテレータを返すことから、itr がイテレータであることは明白</cmt>
-<kwd>for</kwd> (<kwd>auto</kwd> itr = myvecbegin(); itr != myvecend(); ++itr)
+<comment>// auto を使用した for ループ</comment>
+<comment>// myvec.begin() がイテレータを返すことから、itr がイテレータであることは明白</comment>
+<keyword>for</keyword> (<keyword>auto</keyword> itr = myvec.begin(); itr != myvec.end(); ++itr)
 {
     :
 }
 </p>
 
-myvecbegin() の戻り値の型からイテレータ itr の型を推論することができる。<br>
+myvec.begin() の戻り値の型からイテレータ itr の型を推論することができる。<br>
 コンテナがネストするような場合は特に効果が大きい。コンテナおよびイテレータについては、<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A.html">[C++／STL／コンテナ]コンテナ</a>および
 <a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%A4%E3%83%86%E3%83%AC%E3%83%BC%E3%82%BF.html">[C++／STL／コンテナ]イテレータ</a>
 を参照のこと。<br>

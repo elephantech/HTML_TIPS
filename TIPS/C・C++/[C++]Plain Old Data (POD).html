@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -32,9 +32,14 @@
 
 <!-- 出典・関連ページ -->
 <h5>出典 :</h5>
-<a href="https://ja.wikipedia.org/wikiC%2B%2B11">C++11 - Wikipedia</a><br>
+<a href="https://kaworu.jpn.org/cpp/POD">POD - C++入門</a><br>
+<a href="https://ja.wikipedia.org/wiki/C%2B%2B11">C++11 - Wikipedia</a><br>
+<a href="https://nekko1119.hatenablog.com/entry/20120709/1341800447">POD型とnon-POD型 - C++と色々</a><br>
+<a href="http://cpp.aquariuscode.com/plain-old-data">Plain Old Data | 闇夜のC++</a><br>
+<a href="https://cpplover.blogspot.com/2010/06/c0xpod.html">C++0xにおけるPODの定義 - 本の虫</a><br>
 <a href="https://cpprefjp.github.io/reference/type_traits/is_pod.html">is_pod - cpprefjp C++日本語リファレンス</a><br>
 <a href="https://qiita.com/SaitoAtsushi/items/6b8cf84bf13146ae8b33">POD 型のデフォルト初期化 - Qiita</a><br>
+<a href="https://tu3.jp/01004">C++98 C++03 の POD - つーさのくーかん</a><br>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -46,7 +51,7 @@
 
 
 <h2>Plain Old Data (POD)とは</h2>
-bC言語の構造体と互換性のある</b> オブジェクトレイアウト(型)のこと。<br>
+<strong>C言語の構造体と互換性のある</strong> オブジェクトレイアウト(型)のこと。<br>
 連続したバイトで表現されるため、C言語とのデータ共有に用いることができ、memcpy() 、memset() でコピー、初期化できる。<br>
 逆にPODでない型は、memcpy() 、memset() が使用できず、C言語とのデータ共有ができない。<br>
 <h2>PODである条件</h2>
@@ -56,7 +61,7 @@ C++03とC++11(以降)では一部条件が異なる(C++03よりも条件が緩�
 <li>aggregate である</li>
 <li>ユーザ定義のコンストラクタを持たない</li>
 <li>基底クラスを持たない (派生クラスではない)</li>
-<li>static でない private  protected な データメンバ を持たない ( = 非静的メンバがいずれも public )</li>
+<li>static でない private / protected な データメンバ を持たない ( = 非静的メンバがいずれも public )</li>
 <li>virtual なメンバ関数(仮想関数)を持たない</li>
 <li>ユーザ定義のデストラクタを持たない</li>
 <li>ユーザ定義の operator = を持たない</li>
@@ -75,7 +80,7 @@ C++03とC++11(以降)では一部条件が異なる(C++03よりも条件が緩�
 <li>trivial なデストラクタを持つ</li>
 <li>standard-layout である</li>
 <li>全ての非静的データメンバが standard-layout 型である</li>
-<li>全ての非静的データメンバに、同じアクセス制御 (public  private  protected) がかかっている( = 混在していない)</li>
+<li>全ての非静的データメンバに、同じアクセス制御 (public / private / protected) がかかっている( = 混在していない)</li>
 <li>仮想関数を持たない</li>
 <li>仮想基底クラスを持たない</li>
 <li>全ての基底クラスが standard-layout 型である</li>
@@ -90,7 +95,7 @@ C++03とC++11(以降)では一部条件が異なる(C++03よりも条件が緩�
 </ul>
 を意味する。<br>
 <br>
-C++03ではすべての非静的 (non-static) メンバが public である必要があるが、C++11では public  private  protected のいずれか一つに統一されていればよい。<br>
+C++03ではすべての非静的 (non-static) メンバが public である必要があるが、C++11では public / private / protected のいずれか一つに統一されていればよい。<br>
 <h2>POD型であることのチェック (C++11以降)</h2>
 <b>std::is_pod&lt;&gt;</b> を用いることで確認できる。<br>
 <p class="code">

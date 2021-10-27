@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -63,7 +63,7 @@
 		<td class="bg_lh center">-</td>
 		<td class="bg_lh center">-</td>
 		<td><img src="_Img/MSVS_DotNet_CSharp/Form_Appearance/02.png"> </td>
-		<td>すべてのボタンが<b>非表示</b>となるbrMaximizeBox 、MinimizeBox の値は参照されない</td>
+		<td>すべてのボタンが<b>非表示</b>となる<br>MaximizeBox 、MinimizeBox の値は参照されない</td>
 	</tr>
 	<tr>
 		<td class="bg_lg center">True</td>
@@ -98,7 +98,7 @@
 
 <kwd>IntPtr hWnd</kwd> = Process.GetCurrentProcess().MainWindowHandle;
 
-<kwd>if</kwd> (hWnd != IntPtrZero)
+<kwd>if</kwd> (hWnd != IntPtr.Zero)
 {
     <cmt>// ［閉じる］ボタンの無効化</cmt>
     <kwd>IntPtr</kwd> hMenu = GetSystemMenu(hWnd, 0);
@@ -107,7 +107,7 @@
 </p>
 
 <h2>アイコンの表示・非表示</h2>
-フォームプロパティの bShowIcon</b> の値で切り替える。<br>
+フォームプロパティの <b>ShowIcon</b> の値で切り替える。<br>
 <img src="_Img/MSVS_DotNet_CSharp/Form_Appearance/06.png" class="middle"> ⇔ <img src="_Img/MSVS_DotNet_CSharp/Form_Appearance/07.png" class="middle">
 
 </body>

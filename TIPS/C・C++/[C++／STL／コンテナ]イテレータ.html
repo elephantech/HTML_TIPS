@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -61,12 +61,12 @@ for() 文はC++11以降であれば、
 <a href="TIPS/C%E3%83%BBC++/[C++]%E5%9E%8B%E6%8E%A8%E8%AB%96.html">auto(型推論)</a>
 を用いて以下のように書ける。<br>
 <p class="code">
-<kwd>for</kwd>( <kwd>auto</kwd> it = aVectorbegin(); it != aVectorend(); ++it )
+<keyword>for</keyword>( <keyword>auto</keyword> it = aVector.begin(); it != aVector.end(); ++it )
 </p>
 また、end() が周回ごとに呼ばれるのを避ける( end() に重い処理を含む場合など)には、以下のようにする。<br>
 <p class="code">
-<kwd>auto</kwd> end = aVectorend();
-<kwd>for</kwd>( <kwd>auto</kwd> it = aVectorbegin(); it != end ; ++it )
+<keyword>auto</keyword> end = aVector.end();
+<keyword>for</keyword>( <keyword>auto</keyword> it = aVector.begin(); it != end ; ++it )
 </p>
 <h2>イテレータとポインタの違い</h2>
 vector 、array 、およびC互換の配列は各要素が添字順にメモリに格納されるため、先頭要素へのポインタを加算することで要素を順に走査できる。<br>

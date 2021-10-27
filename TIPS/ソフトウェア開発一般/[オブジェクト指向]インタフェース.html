@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -39,7 +39,7 @@
 <a href="https://qiita.com/yoshinori_hisakawa/items/cc094bef1caa011cb739">
 【詳解】抽象クラスとインタフェースを使いこなそう！！ - Qiita</a><br>
 
-<a href="https://www.internetacademyjpitprogrammingjavadifference-between-interface-and-abstract.html">
+<a href="https://www.internetacademy.jp/it/programming/java/difference-between-interface-and-abstract.html">
 【Java入門】インターフェースとは？抽象クラス（abstract）との違い</a><br>
 
 <h5>関連 :</h5>
@@ -81,13 +81,13 @@ JavaやC#ではクラスの多重継承が認められていないが、イン�
 <h2>インタフェースの例</h2>
 <h3>Java</h3>
 <h4>インタフェースの定義</h4>
-(Cashierjava)
+(Cashier.java)
 <p class="code">
-<cmt>// 「レジ」インタフェース</cmt>
-<kwd>public</kwd> <kwd>interface</kwd> Cashier
+<comment>// 「レジ」インタフェース</comment>
+<keyword>public</keyword> <keyword>interface</keyword> Cashier
 {
-    <cmt>// 「会計」メソッド</cmt>
-    <kwd>public</kwd> <kwd>void</kwd> bill();
+    <comment>// 「会計」メソッド</comment>
+    <keyword>public</keyword> <keyword>void</keyword> bill();
 }
 </p>
 class ではなく <b>interface</b> キーワードを用いる点に注意。
@@ -95,30 +95,30 @@ class ではなく <b>interface</b> キーワードを用いる点に注意。
 <h4>インタフェースの実装</h4>
 (CreditCard.java)
 <p class="code">
-<cmt>// 「クレジットカード」</cmt>
-<cmt>// インタフェース Cashier を実装</cmt>
-<kwd>public</kwd> <kwd>class</kwd> CreditCard <kwd>implements</kwd> Cashier
+<comment>// 「クレジットカード」</comment>
+<comment>// インタフェース Cashier を実装</comment>
+<keyword>public</keyword> <keyword>class</keyword> CreditCard <keyword>implements</keyword> Cashier
 {
-    <cmt>// 「会計」メソッドのオーバーライド</cmt>
+    <comment>// 「会計」メソッドのオーバーライド</comment>
     @Override
-    <kwd>public</kwd> <kwd>void</kwd> bill()
+    <keyword>public</keyword> <keyword>void</keyword> bill()
     {
-        System.out.println(<ltr>"クレジットカードでお会計をいたします。"</ltr>);
+        System<literal>.</literal>literal>.</literal<literal>.</literal>out<literal>.</literal>literal>.</literal<literal>.</literal>println(<literal>"クレジットカードでお会計をいたします。"</literal>);
     }
 }
 </p>
 
 (Cash.java)
 <p class="code">
-<cmt>// 「現金」</cmt>
-<cmt>// インタフェース Cashier を実装</cmt>
-<kwd>public</kwd> <kwd>class</kwd> Cash <kwd>implements</kwd> Cashier
+<comment>// 「現金」</comment>
+<comment>// インタフェース Cashier を実装</comment>
+<keyword>public</keyword> <keyword>class</keyword> Cash <keyword>implements</keyword> Cashier
 {
-    <cmt>// 「会計」メソッドのオーバーライド</cmt>
+    <comment>// 「会計」メソッドのオーバーライド</comment>
     @Override
-    <kwd>public</kwd> <kwd>void</kwd> bill()
+    <keyword>public</keyword> <keyword>void</keyword> bill()
     {
-        System.out.println(<ltr>"現金でお会計をいたします。"</ltr>);
+        System<literal>.</literal>literal>.</literal<literal>.</literal>out<literal>.</literal>literal>.</literal<literal>.</literal>println(<literal>"現金でお会計をいたします。"</literal>);
     }
 }
 </p>
@@ -127,16 +127,16 @@ class ではなく <b>interface</b> キーワードを用いる点に注意。
 <h4>実装されたインタフェースの呼び出し</h4>
 (Staff.java)
 <p class="code">
-<cmt>// 「スタッフ」</cmt>
-<kwd>public</kwd> <kwd>class</kwd> Staff
+<comment>// 「スタッフ」</comment>
+<keyword>public</keyword> <keyword>class</keyword> Staff
 {
-    <kwd>public</kwd> <kwd>static</kwd> <kwd>void</kwd> main(<kwd>string</kwd>[] arg)
+    <keyword>public</keyword> <keyword>static</keyword> <keyword>void</keyword> main(<keyword>string</keyword>[] arg)
     {
-        Cashier cashier[] = <kwd>new</kwd> cashier[<ltr>2</ltr>];
-        cashier[<ltr>0</ltr>] = <kwd>new</kwd> CreditCard();
-        cashier[<ltr>1</ltr>] = <kwd>new</kwd> Cash();
+        Cashier cashier[] = <keyword>new</keyword> cashier[<literal>2</literal>];
+        cashier[<literal>0</literal>] = <keyword>new</keyword> CreditCard();
+        cashier[<literal>1</literal>] = <keyword>new</keyword> Cash();
         
-        <kwd>int</kwd> i = GetPaymentMethod();
+        <keyword>int</keyword> i = GetPaymentMethod();
         
         cashier[i].bill();
     }

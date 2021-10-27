@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -57,7 +57,7 @@ Visual Studioから新しいプロジェクトを作成する。その際、テ�
 </li>
 
 <li>
-「アプリケーション」「出力の種類」を「TIPS/ アプリケーション」から「コンソール アプリケーション」に切り替える。<br>
+「アプリケーション」>「出力の種類」を「Windows アプリケーション」から「コンソール アプリケーション」に切り替える。<br>
 <img src="_Img/MSVS_DotNet_CSharp/VS_Form_And_Console/03.png"><br>
 </li>
 
@@ -77,7 +77,7 @@ Visual Studioから新しいプロジェクトを作成する。その際、テ�
 
 <kwd>IntPtr hWnd</kwd> = Process.GetCurrentProcess().MainWindowHandle;
 
-<kwd>if</kwd> (hWnd != IntPtrZero)
+<kwd>if</kwd> (hWnd != IntPtr.Zero)
 {
     <cmt>// ［閉じる］ボタンの無効化</cmt>
     <kwd>IntPtr</kwd> hMenu = GetSystemMenu(hWnd, 0);

@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,13 +24,15 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
 <span id="title"></span>
 
 <!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://programming-place.net/ppp/contents/cpp/library/013.html">bitset | Programming Place Plus　C++編【標準ライブラリ】　第１３章</a><br>
 
 <h5>関連 :</h5>
 <a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A.html">[C++／STL／コンテナ]コンテナ</a><br>
@@ -58,7 +60,7 @@ STLで規定されるコンテナの一つで、固定長のビット列。フ�
 <img src="_Img/CPP/bitset/bitset_01.png" alt="画像"><br>
 
 <h3>C++11以降</h3>
-上記に加え、const char*(リテラル)を初期値に使用可能。また、false  true に割り当てる文字を指定できる。<br>
+上記に加え、const char*(リテラル)を初期値に使用可能。また、false / true に割り当てる文字を指定できる。<br>
 (省略時は '0' と '1' となる。)<br>
 <img src="_Img/CPP/bitset/bitset_02.png" alt="画像"><br>
 
@@ -77,8 +79,8 @@ bitset はヒープ(動的メモリ)を使用しないため、デストラク�
 
     std::cout &lt;&lt; bset[<ltr>0</ltr>] &lt;&lt; std::endl;        <cmt>//&lt; 0</cmt>
     std::cout &lt;&lt; bset[<ltr>4</ltr>] &lt;&lt; std::endl;        <cmt>//&lt; 1</cmt>
-    std::cout &lt;&lt; bsettest(<ltr>1</ltr>) &lt;&lt; std::endl;   <cmt>//&lt; 0</cmt>
-    std::cout &lt;&lt; bsettest(<ltr>5</ltr>) &lt;&lt; std::endl;   <cmt>//&lt; 1</cmt>
+    std::cout &lt;&lt; bset.test(<ltr>1</ltr>) &lt;&lt; std::endl;   <cmt>//&lt; 0</cmt>
+    std::cout &lt;&lt; bset.test(<ltr>5</ltr>) &lt;&lt; std::endl;   <cmt>//&lt; 1</cmt>
 }
 </p>
 
@@ -86,9 +88,9 @@ bitset はヒープ(動的メモリ)を使用しないため、デストラク�
 <ul>
 <li>size() : ビット幅(桁数)を取得</li>
 <li>count() : true となっているビットの総数を取得</li>
-<li>any() : いずれかのビットが true となっていれば true 、そうでなければ(全ビット false ならば) falsebr>( count() &gt; 0 )</li>
-<li>none() : いずれのビットも true となっていなければ true 、そうでなければ(いずれかが true ならば) falsebr>( count() == 0 )</li>
-<li>all() <b>(C++11以降)</b> : すべてのビットが true となっていれば true 、そうでなければ(いずれかが false ならば) falsebr>( count() == size() )</li>
+<li>any() : いずれかのビットが true となっていれば true 、そうでなければ(全ビット false ならば) false<br>( count() &gt; 0 )</li>
+<li>none() : いずれのビットも true となっていなければ true 、そうでなければ(いずれかが true ならば) false<br>( count() == 0 )</li>
+<li>all() <b>(C++11以降)</b> : すべてのビットが true となっていれば true 、そうでなければ(いずれかが false ならば) false<br>( count() == size() )</li>
 </ul>
 
 <h2>要素の更新</h2>
@@ -103,15 +105,15 @@ bitset はヒープ(動的メモリ)を使用しないため、デストラク�
 
     bset[<ltr>0</ltr>] = <kwd>true</kwd>;                 <cmt>//&lt; 0ビット目を true  に   ⇒ 11110001</cmt>
 
-    bsetset(<ltr>3</ltr>);                    <cmt>//&lt; 3ビット目を true  に   ⇒ 11111001</cmt>
-    bsetset(<ltr>7</ltr>, <kwd>false</kwd>);             <cmt>//&lt; 7ビット目を false に   ⇒ 01111001</cmt>
-    bsetset();                     <cmt>//&lt; 全ビット を true  に   ⇒ 11111111</cmt>
+    bset.set(<ltr>3</ltr>);                    <cmt>//&lt; 3ビット目を true  に   ⇒ 11111001</cmt>
+    bset.set(<ltr>7</ltr>, <kwd>false</kwd>);             <cmt>//&lt; 7ビット目を false に   ⇒ 01111001</cmt>
+    bset.set();                     <cmt>//&lt; 全ビット を true  に   ⇒ 11111111</cmt>
 
-    bsetreset(<ltr>4</ltr>);                  <cmt>//&lt; 4ビット目を false に   ⇒ 11101111</cmt>
-    bsetreset();                   <cmt>//&lt; 全ビット を false に   ⇒ 00000000</cmt>
+    bset.reset(<ltr>4</ltr>);                  <cmt>//&lt; 4ビット目を false に   ⇒ 11101111</cmt>
+    bset.reset();                   <cmt>//&lt; 全ビット を false に   ⇒ 00000000</cmt>
 
-    bsetflip(<ltr>6</ltr>);                   <cmt>//&lt; 6ビット目を 反転       ⇒ 01000000</cmt>
-    bsetflip();                    <cmt>//&lt; 全ビット を 反転       ⇒ 10111111</cmt>
+    bset.flip(<ltr>6</ltr>);                   <cmt>//&lt; 6ビット目を 反転       ⇒ 01000000</cmt>
+    bset.flip();                    <cmt>//&lt; 全ビット を 反転       ⇒ 10111111</cmt>
 }
 </p>
 
@@ -170,12 +172,12 @@ bitset は標準入出力ストリームと直接連携できる。<br>
 {
     std::bitset&lt;<ltr>10</ltr>&gt; bset(<ltr>0xF0</ltr>);
 
-    std::<kwd>string</kwd> s = bsetto_string&lt;<kwd><kwd><kwd>char</kwd></kwd></kwd>, std::char_traits&lt;<kwd><kwd><kwd>char</kwd></kwd></kwd>&gt;, std::allocator&lt;<kwd><kwd><kwd>char</kwd></kwd></kwd>&gt; &gt;();    <cmt>//&lt; 0011110000"</cmt>
+    std::<kwd>string</kwd> s = bset.to_string&lt;<kwd><kwd><kwd>char</kwd></kwd></kwd>, std::char_traits&lt;<kwd><kwd><kwd>char</kwd></kwd></kwd>&gt;, std::allocator&lt;<kwd><kwd><kwd>char</kwd></kwd></kwd>&gt; &gt;();    <cmt>//&lt; "0011110000"</cmt>
 }
 </p>
 
 <h4>C++11以降</h4>
-デフォルトのテンプレート実引数が与えられるため、テンプレート実引数の指定は不要。また、false  true に割り当てる文字を指定できる。(省略時は '0' と '1' 。)<br>
+デフォルトのテンプレート実引数が与えられるため、テンプレート実引数の指定は不要。また、false / true に割り当てる文字を指定できる。(省略時は '0' と '1' 。)<br>
 <p class="code">
 <kwd>#include</kwd> &lt;bitset&gt;
 
@@ -183,8 +185,8 @@ bitset は標準入出力ストリームと直接連携できる。<br>
 {
     std::bitset&lt;<ltr>10</ltr>&gt; bset(<ltr>0xF0</ltr>);
 
-    std::<kwd>string</kwd> s = bsetto_string(<ltr>'<ltr>F</ltr>'</ltr>, <ltr>'T'</ltr>);    <cmt>//&lt; FFTTTTFFFF"</cmt>
-    std::<kwd>string</kwd> s = bsetto_string();            <cmt>//&lt; 0011110000"</cmt>
+    std::<kwd>string</kwd> s = bset.to_string(<ltr>'<ltr>F</ltr>'</ltr>, <ltr>'T'</ltr>);    <cmt>//&lt; "FFTTTTFFFF"</cmt>
+    std::<kwd>string</kwd> s = bset.to_string();            <cmt>//&lt; "0011110000"</cmt>
 }
 </p>
 

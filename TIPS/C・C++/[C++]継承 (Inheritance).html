@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -36,6 +36,7 @@
 <a href="TIPS/C%E3%83%BBC++/[C++]%E4%BB%AE%E6%83%B3%E3%83%87%E3%82%B9%E3%83%88%E3%83%A9%E3%82%AF%E3%82%BF.html">[C++]仮想デストラクタ</a><br>
 <a href="TIPS/ソフトウェア開発一般/[%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E6%8C%87%E5%90%91]%E3%82%A4%E3%83%B3%E3%82%BF%E3%83%95%E3%82%A7%E3%83%BC%E3%82%B9.html">
 [オブジェクト指向]インタフェース</a><br>
+
 <!-- 目次 -->
 <h5>目次 :</h5>
 <div id="toc"></div>
@@ -94,13 +95,13 @@ protected と private は、「派生クラスからのアクセス可否」の�
 <br>
 
 <h3>継承の種別によるアクセス指定の変化</h3>
-継承の種別を private  protected  public から選択できるが、これにより <b>基本クラスにおいて private でないメンバの、派生クラスにおけるアクセス可否が変化する</b> 。<br>
+継承の種別を private / protected / public から選択できるが、これにより <strong>基本クラスにおいて private でないメンバの、派生クラスにおけるアクセス可否が変化する</strong> 。<br>
 いずれの場合でも、前述のとおり基本クラスの private メンバにはアクセス不可。<br>
  <b>継承前後でアクセス指定が変化しない public 継承を主に用いるとよい</b> 。<br>
  <br>
  <b>派生クラスにおけるアクセス可否</b> <br>
 <table>
-<tr class="row1"><td class="col1 width46%">基本クラスにおけるアクセス指定 ＼ 継承種別</td><td> width18%">private 継承</td><td> width18%">protected 継承</td><td> width18%">public 継承</td></tr>
+<tr class="row1"><td class="col1" width="46%">基本クラスにおけるアクセス指定 ＼ 継承種別</td><td width="18%">private 継承</td><td width="18%">protected 継承</td><td width="18%">public 継承</td></tr>
 <tr><td class="col1">private メンバ</td><td class="center bg_lh">(アクセス不可)</td><td class="center bg_lh">(アクセス不可)</td><td class="center bg_lh">(アクセス不可)</td></tr>
 <tr><td class="col1">protected メンバ</td><td class="center bg_lr">private</td><td class="center bg_ly">protected</td><td class="center bg_ly">protected</td></tr>
 <tr><td class="col1">public メンバ</td><td class="center bg_lr">private</td><td class="center bg_ly">protected</td><td class="center bg_lg">public</td></tr>

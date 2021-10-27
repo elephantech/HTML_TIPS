@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,13 +24,16 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
 <span id="title"></span>
 
 <!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://www.atmarkit.co.jp/ait/articles/0708/30/news137.html">PowerShellスクリプティングの第一歩(前編) - ＠IT</a><br>
+<a href="https://www.atmarkit.co.jp/ait/articles/0709/20/news125.html">PowerShellスクリプティングの第一歩(後編) - ＠IT</a><br>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -63,7 +66,7 @@
 <cmt># $width と $height はいずれも double 型</cmt>
 <kwd>function</kwd> Triangle([<kwd>double</kwd>] $width = <ltr>1</ltr>, [<kwd>double</kwd>] $height = <ltr>4</ltr>)
 {
-  <kwd>return</kwd> $width * $height  <ltr>2</ltr>
+  <kwd>return</kwd> $width * $height / <ltr>2</ltr>
 }
 </p>
 
@@ -71,7 +74,7 @@
 <p class="code">
 <kwd>function</kwd> Triangle($width = <ltr>1</ltr>, $height = <ltr>4</ltr>)
 {
-  <kwd>return</kwd> $width * $height  <ltr>2</ltr>
+  <kwd>return</kwd> $width * $height / <ltr>2</ltr>
 }
 </p>
 

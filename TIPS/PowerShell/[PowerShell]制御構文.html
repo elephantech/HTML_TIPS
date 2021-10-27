@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,13 +24,16 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
 <span id="title"></span>
 
 <!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://www.atmarkit.co.jp/ait/articles/0708/30/news137.html">PowerShellスクリプティングの第一歩(前編) - ＠IT</a><br>
+<a href="https://www.atmarkit.co.jp/ait/articles/0709/20/news125.html">PowerShellスクリプティングの第一歩(後編) - ＠IT</a><br>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -145,7 +148,7 @@ C系言語の for 節と同様。初期条件・継続条件・増分式を for 
 $ary = <ltr>@(100, 120, 300)</ltr>
 
 <cmt># for 節</cmt>
-<cmt># ループ制御変数として $i を使用、$i  3 の間ブロックの実行を繰り返す</cmt>
+<cmt># ループ制御変数として $i を使用、$i < 3 の間ブロックの実行を繰り返す</cmt>
 <kwd>for</kwd>($i = 0; $i -lt 3; $i++)
 {
   <cmt># 変数 $sum に $ary[$i] の値を加算</cmt>
@@ -183,10 +186,12 @@ $ary = <ltr>@(100, 120, 300)</ltr>
 </p>
 
 よりリソース消費が少ない ForEach-Object コマンドレットも存在する。<br>
-詳細は割愛。
+詳細は
+<a href="https://www.atmarkit.co.jp/ait/articles/0709/20/news125.html">出典元</a>
+を参照。
 
-<h3>while  do ～ while 節</h3>
-C系言語の while  do ～ while 節と同様。継続条件を満たしている間、ループを繰り返す。<br>
+<h3>while / do ～ while 節</h3>
+C系言語の while / do ～ while 節と同様。継続条件を満たしている間、ループを繰り返す。<br>
 do ～ wihle 節は、継続条件を満たしているかに関わらず、必ず一回はループの処理を行う。<br>
 
 <h4>while 節</h4>
@@ -195,7 +200,7 @@ $i   = <ltr>0</ltr>;
 $sum = <ltr>0</ltr>;
 $ary = <ltr>@(100, 120, 300)</ltr>
 
-<cmt># 変数 $i  3 の間、ループを継続</cmt>
+<cmt># 変数 $i < 3 の間、ループを継続</cmt>
 <kwd>while</kwd>($i -lt 3)
 {
   $sum += $ary[$i];
@@ -215,7 +220,7 @@ $ary = <ltr>@(100, 120, 300)</ltr>
 {
   $sum += $ary[$i];
   $i++;
-} <kwd>while</kwd>($i -lt 3) <cmt>#< 変数 $i  3 の間、ループを継続</cmt>
+} <kwd>while</kwd>($i -lt 3) <cmt>#< 変数 $i < 3 の間、ループを継続</cmt>
 
 <kwd>Write-Output</kwd> $sum
 </p>

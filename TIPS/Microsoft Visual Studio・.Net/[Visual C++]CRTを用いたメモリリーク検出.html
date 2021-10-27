@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,13 +24,16 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
 <span id="title"></span>
 
 <!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://docs.microsoft.com/ja-jp/visualstudio/debugger/finding-memory-leaks-using-the-crt-library?view=vs-2019">CRT ライブラリを使用したメモリ リークの検出 - Microsoft</a><br>
+<a href="https://hwada.hatenablog.com/entry/20080304/1204609100">メモリリークの自動検出をしてみる - wata_d's diary</a><br>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -48,7 +51,7 @@ CRT(Cランタイム)ライブラリの機能を用いて、メモリリーク�
 <p class="code">
 <kwd>#if</kwd> _DEBUG
 <kwd>#define</kwd> _CRTDBG_MAP_ALLOC
-<kwd>#include</kwd> &lt;crtdbgh&gt;
+<kwd>#include</kwd> &lt;crtdbg.h&gt;
 <kwd>#define</kwd> new new(_NORMAL_BLOCK, __FILE__, __LINE__)
 <kwd>#define</kwd> malloc(s)             _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__)
 <kwd>#define</kwd> calloc(c, s)          _calloc_dbg(c, s, _NORMAL_BLOCK, __FILE__, __LINE__)
@@ -61,17 +64,20 @@ CRT(Cランタイム)ライブラリの機能を用いて、メモリリーク�
 <p class="code">
 <kwd>#if</kwd> _DEBUG
 <kwd>#define</kwd> _CRTDBG_MAP_ALLOC
-<kwd>#include</kwd> &lt;crtdbgh&gt;
+<kwd>#include</kwd> &lt;crtdbg.h&gt;
 <kwd>#define</kwd> new new(__FILE__, __LINE__)
 <kwd>#endif</kwd>
 </p>
-</li><li>エントリ関数(CWinApp::InitInstance() など)の先頭に以下のコードを追記する。<br>
+</li>
+<li>エントリ関数(CWinApp::InitInstance() など)の先頭に以下のコードを追記する。<br>
 <p class="code">
 ::_CrtSetDbgFlag(_CRTDBG_LEAK_CHECK_DF | _CRTDBG_ALLOC_MEM_DF);
 </p>
-</li><li>プログラムをビルドし、デバッグを開始する。プログラム終了時に「出力」ウィンドウに検出結果が表示される。<br>
+</li>
+<li>プログラムをビルドし、デバッグを開始する。プログラム終了時に「出力」ウィンドウに検出結果が表示される。<br>
 <img src="_Img/MSVS_DotNet_CSharp/CRT_leak_detection/leak_detect_with_CRT.png"><br>
-</li></ol>
+</li>
+</ol>
 </body>
 </html>
 

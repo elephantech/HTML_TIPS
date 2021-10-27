@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -59,9 +59,9 @@ DoSomething() 内で例外が発生しなかった(正常終了した)場合は�
 すなわち、いずれの場合においても finally 節は実行される。<br>
 <img src="_Img/MSVS_DotNet_CSharp/CS_TryCatchFinally/01.png"><br>
 
-<h2>try  catch 節に return を含む場合</h2>
-try 節、または catch 節に return を含む場合、bfinally 節は return 文の直前に実行される</b>。<br>
-このため try  catch 節に return を含み、かつ finally 節に return が存在すると、btry  catch 節の return は到達できないコードとなる</b>。<br>
+<h2>try / catch 節に return を含む場合</h2>
+try 節、または catch 節に return を含む場合、<b>finally 節は return 文の直前に実行される</b>。<br>
+このため、try / catch 節に return を含む場合、finally 節に return を記述すると、try / catch 節の return は到達できないコードとなる。<br>
 これにより例外を握りつぶす可能性があるため、注意が必要。<br>
 <img src="_Img/MSVS_DotNet_CSharp/CS_TryCatchFinally/02.png"><br>
 

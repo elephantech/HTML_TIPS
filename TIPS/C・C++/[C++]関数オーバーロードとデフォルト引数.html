@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -58,7 +58,7 @@
 {
     <cmt>// どちらの myabs() を呼ぶかは、コンパイラが引数の型から自動判別してくれる</cmt>
     cout &lt;&lt; <ltr>"-10の絶対値"</ltr> &lt;&lt; myabs(-<ltr>10</ltr>) &lt;&lt; <ltr>"\n"</ltr>;      <cmt>//&lt; int   引数の myabs()</cmt>
-    cout &lt;&lt; <ltr>"93の絶対値" </ltr> &lt;&lt; myabs(<ltr>93</ltr>)  &lt;&lt; <ltr>"\n"</ltr>;      <cmt>//&lt; float 引数の myabs()</cmt>
+    cout &lt;&lt; <ltr>"9.3の絶対値"</ltr> &lt;&lt; myabs(<ltr>9.3</ltr>)  &lt;&lt; <ltr>"\n"</ltr>;      <cmt>//&lt; float 引数の myabs()</cmt>
 }
 </p>
 Cではオーバーロードがサポートされていないため、同様の機能を持つ関数を定義する場合に別名を割り当てる必要があった。<br>
@@ -87,8 +87,8 @@ C++(やその他のモダン言語)ではオーバーロードにより同名の
 <cmt>// 構造体引数を取る putDate()</cmt>
 <kwd>void</kwd> putDate(St_Date date)
 {
-    <cmt>// 関数内でオーバーロード関数をコール</cmt>
-    putDate(dateyear, datemonth, dateday);
+    <comment>// 関数内でオーバーロード関数をコール</comment>
+    putDate(date.year, date.month, date.day);
 }
 
 <cmt>// 年、月、日を個別に指定する putDate()</cmt>

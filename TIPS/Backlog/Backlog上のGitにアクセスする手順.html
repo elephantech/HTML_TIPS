@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-    head
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -22,7 +22,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -45,14 +45,14 @@ Backlog上のGitにアクセスする際は、アクセス元のPCに合わせ�
 <h3>準備 : プロキシサーバのアドレスを確認</h3>
 コマンドプロンプトから、以下のコマンドを実行する。
 <p class="code">
-reg query HKEY_CURRENT_USER\Software\Microsoft\TIPS/\CurrentVersion\Internet Settings v ProxyServer
+reg query "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer
 </p>
 
 <h3>.gitconfig を直接変更する場合</h3>
 <ol>
 	<li>
-		gitconfig をテキストエディタなどで開く。<br>
-		gitconfig の所在 :<br>
+        .gitconfig をテキストエディタなどで開く。<br>
+		.gitconfig の所在 :<br>
 		<table>
 			<tr>
 			<td class="col1">(通常の)実PC</td><td><b class="red">C</b>:\Users\[ユーザ名]\.gitconfig</td>
@@ -67,13 +67,13 @@ reg query HKEY_CURRENT_USER\Software\Microsoft\TIPS/\CurrentVersion\Internet Set
 		以下の内容を追記する。
 		<p class="code">
 [http]
-proxy = http://[プロキシサーバアドレス]:[ポート]
+  proxy = http://[プロキシサーバアドレス]:[ポート]
 [https]
-proxy = http://[プロキシサーバアドレス]:[ポート]
+  proxy = http://[プロキシサーバアドレス]:[ポート]
 		</p>
-	<img src="_Img/Backlog/git_access/git-access-to-backlog_04.png" alt="画像"><br>
+		<img src="_Img/Backlog/git_access/git-access-to-backlog_04.png" alt="画像"><br>
 	</li>
-</li>
+</ol>
 
 <h3>TortoiseGitの設定を変更する場合</h3>
 <ol>
@@ -86,7 +86,7 @@ proxy = http://[プロキシサーバアドレス]:[ポート]
 		「サーバーアドレス」、「ポート」を入力し、「OK」を押す。<br>
 		<img src="_Img/Backlog/git_access/git-access-to-backlog_02.png" alt="画像">
     </li>
-</li>
+</ol>
 
 </body>
 </html>

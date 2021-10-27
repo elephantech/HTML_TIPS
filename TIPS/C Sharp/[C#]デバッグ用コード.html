@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -53,7 +53,7 @@
 <b>DEBUG</b> 定数が定義されている場合のみ有効なコードの記述例 :
 <p class="code">
 <kwd>#if</kwd> DEBUG
-    ConsoleWriteLine("デバッグビルド");
+    Console.WriteLine("デバッグビルド");
 <kwd>#endif</kwd>
 </p>
 
@@ -62,11 +62,11 @@ C#における <b class="blue">#if</b> はC/C++の <b class="blue">#ifdef</b> �
 
 <p class="code">
 <kwd>#if</kwd> DEBUG
-    ConsoleWriteLine("DEBUGが定義されている");
+    Console.WriteLine("DEBUGが定義されている");
 <kwd>#elif</kwd> TRACE
-    ConsoleWriteLine("TRACEが定義されている");
+    Console.WriteLine("TRACEが定義されている");
 <kwd>#else</kwd>
-    ConsoleWriteLine("どちらも定義されていない");
+    Console.WriteLine("どちらも定義されていない");
 <kwd>#endif</kwd>
 </p>
 

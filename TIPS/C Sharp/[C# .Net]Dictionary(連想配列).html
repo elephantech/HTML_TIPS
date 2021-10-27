@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -22,13 +22,19 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
 <span id="title"></span>
 
 <!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://takachan.hatenablog.com/entry/2015/06/23/160515">
+C# の Dictionary&lt;TKey, TValue&gt; の使い方 - PG日誌</a><br>
+
+<a href="https://ohke.hateblo.jp/entry/2017/03/17/000000">C# Dictionaryのキーに複数の値を使う - け日記</a><br>
+
 <h5>関連 :</h5>
 <a href="TIPS/C%20Sharp/[C%23%20.Net]コレクション.html">[C# Net]コレクション</a><br>
 <a href="TIPS/C・C++/[C++／STL／コンテナ]マップ(連想配列).html">[C++／STL／コンテナ]マップ(連想配列)</a><br>
@@ -43,7 +49,7 @@
 <!-- 本文ここから -->
 
 <h2>Dictionary とは</h2>
-Netにおける連想配列クラス。キーと値を関連付けて、キーから値を検索できる。<br>
+.Netにおける連想配列クラス。キーと値を関連付けて、キーから値を検索できる。<br>
 C++(STL)における std::map と共通の概念。<br>
 
 <h2>依存する名前空間</h2>
@@ -65,21 +71,21 @@ TKey 、TValue ともに <b>任意の型を指定できる</b>(「文字列を�
 (ラムダ式については<a href="TIPS/ソフトウェア開発一般/無名関数とラムダ式.html">無名関数とラムダ式</a>を参照)<br>
 注) 値が重複している場合は、最初に見つかった要素のキーが返る。<br>
 <p class="code">
-<cmt>// Dictionary を初期化</cmt>
-Dictionary &lt;<kwd>int</kwd>, <kwd>string</kwd>&gt; dic = <kwd>new</kwd> Dictionary &lt;<kwd>int</kwd>, <kwd>string</kwd>&gt;
+<comment>// Dictionary を初期化</comment>
+Dictionary &lt;<keyword>int</keyword>, <keyword>string</keyword>&gt; dic = <keyword>new</keyword> Dictionary &lt;<keyword>int</keyword>, <keyword>string</keyword>&gt;
 {
-    { <ltr>0</ltr>, <ltr>"りんご"</ltr> },
-    { <ltr>1</ltr>, <ltr>"みかん"</ltr> },
-    { <ltr>2</ltr>, <ltr>"いちご"</ltr> },
+    { <literal>0</literal>, <literal>"りんご"</literal> },
+    { <literal>1</literal>, <literal>"みかん"</literal> },
+    { <literal>2</literal>, <literal>"いちご"</literal> },
 };
 
-<cmt>// 値 (Value) がみかんの要素のキー (Key) を取得 (== 1)</cmt>
-<kwd>int</kwd> key = dicFirst(x =&gt; xValue == <ltr>"みかん"</ltr>).Key;
+<comment>// 値 (Value) が"みかん"の要素のキー (Key) を取得 (== 1)</comment>
+<keyword>int</keyword> key = dic.First(x =&gt; x.Value == <literal>"みかん"</literal>).Key;
 </p>
 First() 関数の代わりに All() 関数を用いると、該当する要素すべて(集合)が返る。<br>
 
 <h2>余談</h2>
-Dictionary はC#固有ではなく Net Framework の機能であるため、Visual Basic でも使用可能。<br>
+Dictionary はC#固有ではなく .Net Framework の機能であるため、Visual Basic でも使用可能。<br>
 
 </body>
 </html>

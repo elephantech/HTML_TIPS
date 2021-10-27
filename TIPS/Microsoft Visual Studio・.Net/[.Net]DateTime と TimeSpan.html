@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -56,10 +56,10 @@ DateTime dt2 = <kwd>new</kwd> DateTime(<ltr>2020</ltr>, <ltr> 8</ltr>, <ltr>18</
 DateTime dt3 = <kwd>new</kwd> DateTime();                                <cmt>//< 日時 0001年 1月 1日  0時00分00秒 を表現</cmt>
 
 <cmt>// 文字列に変換</cmt>
-Console.WriteLine(dt1.ToString());                            <cmt>//< 書式指定なし                   ⇒ 20200620 18:45:03"</cmt>
-Console.WriteLine(dt1.ToString(<ltr>"yyyyMMdd_HHmmss"</ltr>));           <cmt>//< 書式指定                       ⇒ 20200620_184503"</cmt>
-Console.WriteLine(dt1.ToString(<ltr>"yyyy/MM/dd HH:mm:ss.fff"</ltr>));   <cmt>//< 書式指定(ミリ秒まで表示)       ⇒ 2020/06/20 18:45:03.000"</cmt>
-Console.WriteLine(dt1.ToString(<ltr>"yyyy/M/d HH:mm:ss"</ltr>));         <cmt>//< 書式指定(月・日のゼロ埋め無し) ⇒ 2020/6/20 18:45:03"</cmt>
+Console.WriteLine(dt1.ToString());                            <cmt>//< 書式指定なし                     ⇒ "2020/06/20 18:45:03"</cmt>
+Console.WriteLine(dt1.ToString(<ltr>"yyyyMMdd_HHmmss"</ltr>));           <cmt>//< 書式指定                         ⇒ "20200620_184503"</cmt>
+Console.WriteLine(dt1.ToString(<ltr>"yyyy/MM/dd HH:mm:ss.fff"</ltr>));   <cmt>//< 書式指定(ミリ秒まで表示)         ⇒ "2020/06/20 18:45:03.000"</cmt>
+Console.WriteLine(dt1.ToString(<ltr>"yyyy/M/d HH:mm:ss"</ltr>));         <cmt>//< 書式指定(月・日のゼロ埋め無し)   ⇒ "2020/6/20 18:45:03"</cmt>
 
 <cmt>// 各要素の抽出</cmt>
 Console.WriteLine(dt1.Hour);                                  <cmt>//< 時   ⇒ 18</cmt>
@@ -70,21 +70,21 @@ Console.WriteLine(dt1.DayOfWeek);                             <cmt>//< 曜日 �
 <ul>
 	<li>ToString() 書式指定文字列
 		<ul>
-			<li>"MM"(またはM")(大文字)は月、"mm"(または"m")(小文字)は分を表す。</li>
+			<li>"MM"(または"M")(大文字)は月、"mm"(または"m")(小文字)は分を表す。</li>
 			<li>時の"HH"(または"H")(大文字)は24時間表記、"hh"(または"h")(小文字)は12時間表記となる。
 				<ul>
-					<li>dt1.ToString("HH:mm:ss") ⇒ 18:45:03"</li>
-					<li>dt1.ToString("hh:mm:ss") ⇒ 06:45:03"</li>
+					<li>dt1.ToString("HH:mm:ss") ⇒ "18:45:03"</li>
+					<li>dt1.ToString("hh:mm:ss") ⇒ "06:45:03"</li>
 				</ul>
 			</li>
 			<li>"MM"、"dd"など表示桁数を指定した場合、足りない桁は 0 で埋められる。
 				<ul>
-					<li>dt1.ToString("hh:mm:ss") ⇒ 06:45:03 (「時」を2桁表示。0 で埋められる)</li>
-					<li>dt1.ToString("h:mm:ss")  ⇒ 6:45:03 (「時」をそのまま表示。0 で埋められない)</li>
-					<li>dt1.ToString("H:mm:ss")  ⇒ 18:45:03 (「時」をそのまま表示。0 で埋められない)</li>
+					<li>dt1.ToString("hh:mm:ss") ⇒ "06:45:03" (「時」を2桁表示。0 で埋められる)</li>
+					<li>dt1.ToString("h:mm:ss")  ⇒ "6:45:03" (「時」をそのまま表示。0 で埋められない)</li>
+					<li>dt1.ToString("H:mm:ss")  ⇒ "18:45:03" (「時」をそのまま表示。0 で埋められない)</li>
 				</ul>
 			</li>
-		</li>
+		</ul>
 	</li>
 </ul>
 
@@ -95,9 +95,9 @@ TimeSpan ts1 = <kwd>new</kwd> TimeSpan(<ltr>45</ltr>, <ltr>3</ltr>, <ltr>21</ltr
 TimeSpan ts2 = <kwd>new</kwd> TimeSpan();                          <cmt>//< 期間 0日  0時間 0分0秒 を表現</cmt>
 
 <cmt>// 文字列に変換</cmt>
-Console.WriteLine(ts1.ToString());                      <cmt>//< 書式指定なし           ⇒ 45 03:21:00"</cmt>
-Console.WriteLine(ts1.ToString(<ltr>"ddhhmmss"</ltr>));            <cmt>//< 書式指定               ⇒ 45032100"</cmt>
-Console.WriteLine(ts1.ToString(<ltr>"fff"</ltr>));                 <cmt>//< 書式指定(ミリ秒を表示) ⇒ 000"</cmt>
+Console.WriteLine(ts1.ToString());                      <cmt>//< 書式指定なし           ⇒ "45.03:21:00"</cmt>
+Console.WriteLine(ts1.ToString(<ltr>"ddhhmmss"</ltr>));            <cmt>//< 書式指定               ⇒ "45032100"</cmt>
+Console.WriteLine(ts1.ToString(<ltr>"fff"</ltr>));                 <cmt>//< 書式指定(ミリ秒を表示) ⇒ "000"</cmt>
 
 <cmt>// 各要素の抽出</cmt>
 Console.WriteLine(ts1.Hours);                           <cmt>//< 時間           ⇒ 3</cmt>
@@ -116,7 +116,7 @@ Console.WriteLine(ts1.TotalMinutes);                    <cmt>//< 合計を分に
 	</li>
 </ul>
 
-<h3>DateTime  TimeSpan に対する演算</h3>
+<h3>DateTime / TimeSpan に対する演算</h3>
 <p class="code">
 <cmt>// DateTime 同士の比較</cmt>
 <kwd>if</kwd> ( dt1 < dt2 )

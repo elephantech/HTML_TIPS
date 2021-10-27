@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,13 +24,15 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
 <span id="title"></span>
 
 <!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="http://vivi.dyndns.org/tech/cpp/vector.html">C++ 動的配列クラス</a><br>
 
 <h5>関連 :</h5>
 <a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A.html">[C++／STL／コンテナ]コンテナ</a><br>
@@ -116,25 +118,25 @@ d = c = b;    <cmt>//&lt; 連続代入も可能</cmt>
 ベクトルで保持するオブジェクトがクラスの場合、push_back() コール時にオブジェクト(テンポラリコピー)が生成され、さらに push_back() 内でコピーコンストラクタに渡されて生成されたオブジェクトがベクトルに追加され、テンポラリコピーが破棄される。<br>
 テンポラリコピーは本来不要であり、コピーコンストラクタおよびデストラクタの処理が重いクラスの場合は、無駄にパフォーマンスを低下させる恐れがある。<br>
 C++11 で追加された emplace_back() は、テンポラリコピーを生成しないため、コピーコンストラクタ、デストラクタが呼ばれることは無い。<br>
-insert() は<b>第1引数にイテレータを取る</b>。 bbegin() + 添字</b> で添字位置要素へのイテレータを取得できる。<br>
+insert() は<b>第1引数にイテレータを取る</b>。 <b>begin() + 添字</b> で添字位置要素へのイテレータを取得できる。<br>
 <p class="code">
-std::vector&lt;<kwd>int</kwd>&gt; v;		<cmt>//&lt; 空の動的配列を生成</cmt>
-vpush_back(<ltr>123</ltr>);		<cmt>//&lt; 末尾に 123 を追加</cmt>
+std::vector&lt;<keyword>int</keyword>&gt; v;		<comment>//&lt; 空の動的配列を生成</comment>
+v.push_back(<literal>123</literal>);		<comment>//&lt; 末尾に 123 を追加</comment>
 </p>
 <p class="code">
-<kwd>class</kwd> Hoge {
-<kwd>public</kwd>:
-    Hoge(std::<kwd>string</kwd>&amp;, <kwd>int</kwd>);       <cmt>//&lt; コンストラクタ</cmt>
+<keyword>class</keyword> Hoge {
+<keyword>public</keyword>:
+    Hoge(std::<keyword>string</keyword>&amp;, <keyword>int</keyword>);       <comment>//&lt; コンストラクタ</comment>
     .....
 };
     .....
     std::vector&lt;Hoge&gt; v;
-    vemplace_back(<ltr>"abc"</ltr>, <ltr>123</ltr>);   <cmt>//&lt; emplace_back(Hoge("abc", 123)) と同意</cmt>
+    v.emplace_back(<literal>"abc"</literal>, <literal>123</literal>);   <comment>//&lt; emplace_back(Hoge("abc", 123)) と同意</comment>
 </p>
 <p class="code">
-std::vector&lt;<kwd>int</kwd>&gt; v(<ltr>10</ltr>, <ltr>3</ltr>);        <cmt>//&lt; 要素数 10 、値はすべて 3</cmt>
-vinsert(vbegin() + <ltr>4</ltr>, <ltr>7</ltr>);       <cmt>//&lt;  [4] の位置( begin() + 4 )に 7 を挿入</cmt>
-<cmt>// 結果は {3, 3, 3, 3, 7, 3, 3, 3, 3, 3, 3} となる</cmt>
+std::vector&lt;<keyword>int</keyword>&gt; v(<literal>10</literal>, <literal>3</literal>);        <comment>//&lt; 要素数 10 、値はすべて 3</comment>
+v.insert(v.begin() + <literal>4</literal>, <literal>7</literal>);       <comment>//&lt;  [4] の位置( begin() + 4 )に 7 を挿入</comment>
+<comment>// 結果は {3, 3, 3, 3, 7, 3, 3, 3, 3, 3, 3} となる</comment>
 </p>
 
 <h2>要素の削除</h2>
@@ -144,13 +146,14 @@ vinsert(vbegin() + <ltr>4</ltr>, <ltr>7</ltr>);       <cmt>//&lt;  [4] の位置
 </ul>
 elase() は insert() 同様、第1引数にイテレータを取る。<br>
 <p class="code">
-std::vector&lt;<kwd>int</kwd>&gt; v{<ltr>3</ltr>, <ltr><ltr>1</ltr></ltr>, <ltr>4</ltr>, <ltr><ltr>1</ltr></ltr>, <ltr>5</ltr>};
-vpop_back();            <cmt>//&lt; 末尾データ（この場合は 5）を削除</cmt>
+std::vector&lt;<keyword>int</keyword>&gt; v{<literal>3</literal>, <literal><literal>1</literal></literal>, <literal>4</literal>, <literal><literal>1</literal></literal>, <literal>5</literal>};
+v.pop_back();            <comment>//&lt; 末尾データ（この場合は 5）を削除</comment>
 </p>
 <p class="code">
-std::vector&lt;<kwd>int</kwd>&gt; v{<ltr>3</ltr>, <ltr>1</ltr>, <ltr>9</ltr>, <ltr>4</ltr>};
-verase(vbegin() + <ltr>2</ltr>);       <cmt>//&lt; [2]の位置（9）を削除</cmt>
+std::vector&lt;<keyword>int</keyword>&gt; v{<literal>3</literal>, <literal>1</literal>, <literal>9</literal>, <literal>4</literal>};
+v.erase(v.begin() + <literal>2</literal>);       <comment>//&lt; [2]の位置（9）を削除</comment>
 </p>
+
 <h2>ベクトルの状態を取得</h2>
 <ul>
 <li>empty() : ベクトルが空なら true 、そうでなければ false を返す</li>

@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,7 +24,7 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
@@ -33,19 +33,19 @@
 <!-- 出典・関連ページ -->
 <h5>出典 :</h5>
 <a href="
-https://notekiriukuncomentry20151124-oracle-instant-client-odbc
+https://note.kiriukun.com/entry/20151124-oracle-instant-client-odbc
 ">
-TIPS/でOracleDBにOracle Instant ClientでODBC接続する - キリウ君が読まないノート
+WindowsでOracleDBにOracle Instant ClientでODBC接続する - キリウ君が読まないノート
 </a><br>
 
 <a href="
-https://ja.wikipedia.org/wikiOpen_Database_Connectivity
+https://ja.wikipedia.org/wiki/Open_Database_Connectivity
 ">
 Open Database Connectivity - Wikipedia
 </a><br>
 
 <a href="
-https://www.oraclecomtechnetworkjpcontent0127-1330-db-middleware-297515-japdf
+https://www.oracle.com/technetwork/jp/content/0127-1330-db-middleware-297515-ja.pdf
 ">
 Oracle DB接続ミドルウェアを理解する[PDF]
 </a><br>
@@ -60,16 +60,16 @@ Oracle DB接続ミドルウェアを理解する[PDF]
 
 <h2>ODBCとは</h2>
 ODBC(Open Database Connectivity)は、関係データベース管理システム(RDBMS)にアクセスするための共通インタフェース(API)である。<br>
-アプリケーション(主に)からデータベースに接続する際に用いられる。
+アプリケーション(主にWindows)からデータベースに接続する際に用いられる。
 
 <h3>OracleとODBC</h3>
 Oracleからは、データベース接続用のミドルウェアがアプリケーションプラットフォーム(言語)に合わせて複数リリースされており、ODBCミドルウェアもその一つである。<br>
 以前はMicrosoftからもOracleに接続できるODBCドライバがリリースされていたが、現在はサポートされていない。<br>
 
-<h2>導入手順(20213時点)</h2>
+<h2>導入手順(2021.3時点)</h2>
 <h3>Oracle Instant Clientのインストール</h3>
 <h4>注意が必要な点</h4>
-ODBCミドルウェアを呼び出すアプリケーションと、ミドルウェアのアーキテクチャ(32-bit  64-bit)を合わせる必要がある。<br>
+ODBCミドルウェアを呼び出すアプリケーションと、ミドルウェアのアーキテクチャ(32-bit / 64-bit)を合わせる必要がある。<br>
 (OSのアーキテクチャとは必ずしも一致しない点に注意)<br>
 例えば、Excel(32-bit)から64-bitのミドルウェアは呼び出せない。
 
@@ -121,8 +121,8 @@ ODBCミドルウェアを呼び出すアプリケーションと、ミドルウ�
 <h4>ODBCドライバのインストール</h4>
 コマンドプロンプトを<b>管理者権限で開き</b>、
 <p class="code">
-cd C:\oracle\instantclient_19_8
-odbc_install.exe JA
+>cd C:\oracle\instantclient_19_8
+>odbc_install.exe JA
 </p>
 を実行する。
 
@@ -131,13 +131,13 @@ tnsnames.ora はOracle DBへの接続情報を保持するテキストファイ�
 ここでは、<b>C:\oracle\instantclient_19_8\network\admin\</b> 下に以下の内容で作成するものとする。
 <p class="code">
 <cmt># データソース名 : PRIME2
-# IP             : 10141461
+# IP             : 10.14.14.61
 # ポート番号     : 1521
 # サービス名     : p2db</cmt>
 
 PRIME2=
 (DESCRIPTION =
-    (ADDRESS = (PROTOCOL = TCP)(HOST = 10141461)(PORT = 1521))
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 10.14.14.61)(PORT = 1521))
     (CONNECT_DATA =
         (SERVICE_NAME = p2db)
     )
@@ -167,7 +167,7 @@ PRIME2=
 <h3>ODBCデータソースの設定</h3>
 <ol>
 <li>
-「コントロール パネル」「すべてのコントロール パネル項目」「管理ツール」を開き、<br>
+「コントロール パネル」>「すべてのコントロール パネル項目」>「管理ツール」を開き、<br>
 インストールしたInstant Clientが32-bitの場合は<b>「ODBC Data Sources (32-bit)」</b>、<br>
 64-bitの場合は<b>「ODBC データ ソース (64 ビット)」</b>を開く。<br>
 以下、操作は共通。<br>

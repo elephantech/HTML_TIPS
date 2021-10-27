@@ -2,7 +2,7 @@
 
 <html lang="ja">
 <!-- --------------------------------------
-<head>
+head
 --------------------------------------- -->
 <head>
 <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
@@ -24,18 +24,16 @@
 </head>
 
 <!-- --------------------------------------
-<body>
+body
 --------------------------------------- -->
 <body>
 <!-- ページタイトル(ページ内表示) -->
 <span id="title"></span>
 
 <!-- 出典・関連ページ -->
-<!--
 <h5>出典 :</h5>
-<a href="https://winjust4funbiz/?PowerShell/%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%89%E3%83%A9%E3%82%A4%E3%83%96%E3%81%AE%E6%8E%A5%E7%B6%9A%E3%83%BB%E5%88%87%E6%96%AD%E6%96%B9%E6%B3%95">PowerShellネットワークドライブの接続・切断方法 - TIPS/と暮らす</a><br>
-<a href="https://www.it-swarmdevjac%23/%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%89%E3%83%A9%E3%82%A4%E3%83%96%E3%81%AB%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA%E3%81%8C%E5%AD%98%E5%9C%A8%E3%81%99%E3%82%8B%E3%81%8B%E3%81%A9%E3%81%86%E3%81%8B%E3%82%92%E7%A2%BA%E8%AA%8D%E3%81%97%E3%81%BE%E3%81%991041188804/">c# — ネットワークドライブにディレクトリが存在するかどうかを確認します</a>
--->
+<a href="https://win.just4fun.biz/?PowerShell/%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%89%E3%83%A9%E3%82%A4%E3%83%96%E3%81%AE%E6%8E%A5%E7%B6%9A%E3%83%BB%E5%88%87%E6%96%AD%E6%96%B9%E6%B3%95">PowerShell/ネットワークドライブの接続・切断方法 - Windowsと暮らす</a><br>
+<a href="https://www.it-swarm.dev/ja/c%23/%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%89%E3%83%A9%E3%82%A4%E3%83%96%E3%81%AB%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA%E3%81%8C%E5%AD%98%E5%9C%A8%E3%81%99%E3%82%8B%E3%81%8B%E3%81%A9%E3%81%86%E3%81%8B%E3%82%92%E7%A2%BA%E8%AA%8D%E3%81%97%E3%81%BE%E3%81%99/1041188804/">c# — ネットワークドライブにディレクトリが存在するかどうかを確認します</a>
 
 <h5>関連 :</h5>
 <a href="TIPS/Windows/Windowsでシンボリックリンクをつくる.html">Windowsでシンボリックリンクをつくる</a><br>
@@ -48,9 +46,9 @@
 
 <!-- 本文ここから -->
 
-
 <h2>ネットワークドライブの割り当て</h2>
 特定のディレクトリ(ネットワーク上のリソースに限らず、ローカル(自PC)のロケーションでも可)にドライブレターを割り当てる。
+
 <h3>コマンド例 (PowerShell)</h3>
 
 <p class="code">
@@ -67,7 +65,7 @@ Remove-PSDrive -Name J
 </p>
 
 <h2>実行権限とネットワークドライブとの関係</h2>
-TIPS/アプリケーションを<b>管理者権限で実行している場合、アプリケーションからネットワークドライブに直接アクセスすることができない</b>。<br>
+Windowsアプリケーションを<b>管理者権限で実行している場合、アプリケーションからネットワークドライブに直接アクセスすることができない</b>。<br>
 
 <table>
 <tr class="row1">
@@ -93,12 +91,12 @@ TIPS/アプリケーションを<b>管理者権限で実行している場合、
 ネットワークドライブのUNCパスを取得し、UNCパスに対してアクセスする。
 
 <h4>クラス・関数定義</h4>
-ライブラリ mprdll の WNetGetConnection() を用いる。<br>
+ライブラリ mpr.dll の WNetGetConnection() を用いる。<br>
 <p class="code">
 <kwd>using</kwd> System;
 <kwd>using</kwd> System.IO;
 <kwd>using</kwd> System.Runtime.InteropServices;
-<kwd>using</kwd> System;
+<kwd>using</kwd> System.Text;
 
 <kwd>public</kwd> <kwd>static</kwd> <kwd>class</kwd> MappedDriveResolver
 {
@@ -110,28 +108,28 @@ TIPS/アプリケーションを<b>管理者権限で実行している場合、
     <cmt>// 戻り値 | string : 変換後のパス(UNC)</cmt>
     <cmt>// -------+---------------------------------------------------------------------</cmt>
     <cmt>// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
-    [DllImport(<ltr>"mprdll"</ltr>, CharSet = CharSetUnicode, SetLastError = <kwd>true</kwd>)]
-    <kwd>public</kwd> <kwd>static</kwd> <kwd>extern</kwd> <kwd>int</kwd> WNetGetConnection([MarshalAs(UnmanagedTypeLPTStr)] <kwd>string</kwd> localName,
-                                               [MarshalAs(UnmanagedTypeLPTStr)] StringBuilder remoteName,
+    [DllImport(<ltr>"mpr.dll"</ltr>, CharSet = CharSet.Unicode, SetLastError = <kwd>true</kwd>)]
+    <kwd>public</kwd> <kwd>static</kwd> <kwd>extern</kwd> <kwd>int</kwd> WNetGetConnection([MarshalAs(UnmanagedType.LPTStr)] <kwd>string</kwd> localName,
+                                               [MarshalAs(UnmanagedType.LPTStr)] StringBuilder remoteName,
                                                ref <kwd>int</kwd> length);
 
     <kwd>public</kwd> <kwd>static</kwd> <kwd>string</kwd> GetUNCPath(<kwd>string</kwd> path_Org)
     {
         <cmt>// path_Org がドライブレターを含む場合</cmt>
-        <cmt>// ("a:"～z:" または A:" ～ Z:" で始まる)</cmt>
+        <cmt>// ("a:"～"z:" または "A:" ～ "Z:" で始まる)</cmt>
         <kwd>char</kwd> l = path_Org[<ltr>0</ltr>];
-        <kwd>if</kwd> ( (path_OrgLength &gt; <ltr>2</ltr>        ) &&
+        <kwd>if</kwd> ( (path_Org.Length &gt; <ltr>2</ltr>        ) &&
              (path_Org[<ltr>1</ltr>] == <ltr>':'</ltr>         ) &&
              ( (l &gt;= <ltr>'a'</ltr> && l &lt;= <ltr>'z'</ltr>) ||
                (l &gt;= <ltr>'A'</ltr> && l &lt;= <ltr>'Z'</ltr>)    )    )
         {
             StringBuilder sb = <kwd>new</kwd> StringBuilder(<ltr>512</ltr>);
-            <kwd>int</kwd> size = sbCapacity;
+            <kwd>int</kwd> size = sb.Capacity;
 
             <cmt>// 接続先のUNCパスを返す</cmt>
-            WNetGetConnection(path_OrgSubstring(<ltr>0</ltr>, <ltr>2</ltr>), sb, ref size);
-            <kwd>string</kwd> path_Mod = PathGetFullPath(path_Org).Substring(PathGetPathRoot(path_Org).Length);
-            <kwd>return</kwd> PathCombine(sbToString().TrimEnd(), path_Mod);
+            WNetGetConnection(path_Org.Substring(<ltr>0</ltr>, <ltr>2</ltr>), sb, ref size);
+            <kwd>string</kwd> path_Mod = Path.GetFullPath(path_Org).Substring(Path.GetPathRoot(path_Org).Length);
+            <kwd>return</kwd> Path.Combine(sb.ToString().TrimEnd(), path_Mod);
         }
 
         <cmt>// 元のパスを返す</cmt>
