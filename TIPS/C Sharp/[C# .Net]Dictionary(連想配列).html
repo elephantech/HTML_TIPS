@@ -71,16 +71,16 @@ TKey 、TValue ともに <b>任意の型を指定できる</b>(「文字列を�
 (ラムダ式については<a href="TIPS/ソフトウェア開発一般/無名関数とラムダ式.html">無名関数とラムダ式</a>を参照)<br>
 注) 値が重複している場合は、最初に見つかった要素のキーが返る。<br>
 <p class="code">
-<comment>// Dictionary を初期化</comment>
-Dictionary &lt;<keyword>int</keyword>, <keyword>string</keyword>&gt; dic = <keyword>new</keyword> Dictionary &lt;<keyword>int</keyword>, <keyword>string</keyword>&gt;
+<cmt>// Dictionary を初期化</cmt>
+Dictionary &lt;<kwd>int</kwd>, <kwd>string</kwd>&gt; dic = <kwd>new</kwd> Dictionary &lt;<kwd>int</kwd>, <kwd>string</kwd>&gt;
 {
-    { <literal>0</literal>, <literal>"りんご"</literal> },
-    { <literal>1</literal>, <literal>"みかん"</literal> },
-    { <literal>2</literal>, <literal>"いちご"</literal> },
+    { <ltr>0</ltr>, <ltr>"りんご"</ltr> },
+    { <ltr>1</ltr>, <ltr>"みかん"</ltr> },
+    { <ltr>2</ltr>, <ltr>"いちご"</ltr> },
 };
 
-<comment>// 値 (Value) が"みかん"の要素のキー (Key) を取得 (== 1)</comment>
-<keyword>int</keyword> key = dic.First(x =&gt; x.Value == <literal>"みかん"</literal>).Key;
+<cmt>// 値 (Value) が"みかん"の要素のキー (Key) を取得 (== 1)</cmt>
+<kwd>int</kwd> key = dic.First(x =&gt; x.Value == <ltr>"みかん"</ltr>).Key;
 </p>
 First() 関数の代わりに All() 関数を用いると、該当する要素すべて(集合)が返る。<br>
 

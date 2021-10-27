@@ -58,7 +58,7 @@ body
 <kwd>#define</kwd> Mul(x, y) ( (x) * (y) )
 
 <cmt>// インライン関数</cmt>
-<kwd>inline</kwd> <kwd><kwd><kwd>int</kwd></kwd></kwd> Mul(<kwd><kwd><kwd>int</kwd></kwd></kwd> x, <kwd><kwd><kwd>int</kwd></kwd></kwd> y) { <kwd>return</kwd> x * y; }
+<kwd>inline</kwd> <kwd>int</kwd> Mul(<kwd>int</kwd> x, <kwd>int</kwd> y) { <kwd>return</kwd> x * y; }
 </p>
 関数型マクロでは、展開箇所によらず所望の結果を得るためには括弧が必要で、記述が煩雑となりがちであるが、 <b>インライン関数では括弧を必要としない</b> 。<br>
 またインライン関数はコンパイラによる最適化の対象となるため、 <b>同様の処理を関数型マクロで実装した場合と比較して高速となることが多い</b> 。<br>
@@ -68,7 +68,7 @@ body
 <h3>inline キーワードによるインライン化</h3>
 <p class="code">
 <cmt>// グローバルスコープのインライン関数</cmt>
-<kwd>inline</kwd> <kwd><kwd><kwd>int</kwd></kwd></kwd> Mul(<kwd><kwd><kwd>int</kwd></kwd></kwd> x, <kwd><kwd><kwd>int</kwd></kwd></kwd> y) { <kwd>return</kwd> x * y; }
+<kwd>inline</kwd> <kwd>int</kwd> Mul(<kwd>int</kwd> x, <kwd>int</kwd> y) { <kwd>return</kwd> x * y; }
 
 <cmt>// クラス定義</cmt>
 <kwd>class</kwd> C_Hoge

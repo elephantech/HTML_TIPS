@@ -172,7 +172,7 @@ bitset は標準入出力ストリームと直接連携できる。<br>
 {
     std::bitset&lt;<ltr>10</ltr>&gt; bset(<ltr>0xF0</ltr>);
 
-    std::<kwd>string</kwd> s = bset.to_string&lt;<kwd><kwd><kwd>char</kwd></kwd></kwd>, std::char_traits&lt;<kwd><kwd><kwd>char</kwd></kwd></kwd>&gt;, std::allocator&lt;<kwd><kwd><kwd>char</kwd></kwd></kwd>&gt; &gt;();    <cmt>//&lt; "0011110000"</cmt>
+    std::<kwd>string</kwd> s = bset.to_string&lt;<kwd>char</kwd>, std::char_traits&lt;<kwd>char</kwd>&gt;, std::allocator&lt;<kwd>char</kwd>&gt; &gt;();    <cmt>//&lt; "0011110000"</cmt>
 }
 </p>
 

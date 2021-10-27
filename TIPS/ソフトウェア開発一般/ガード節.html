@@ -63,38 +63,38 @@ if-then-elseを使うかガード節を使うかの判断基準 - MogLog</a><br>
 <h2>ガード節の例</h2>
 <h3>ガード節を使用しない場合</h3>
 <p class="code">
-<keyword>bool</keyword> Func()
+<kwd>bool</kwd> Func()
 {
-    <keyword>bool</keyword> ret = <keyword>true</keyword>;    <comment>//&lt; 戻り値</comment>
+    <kwd>bool</kwd> ret = <kwd>true</kwd>;    <cmt>//&lt; 戻り値</cmt>
 
-    <keyword>if</keyword> ( DoSomething01() )
+    <kwd>if</kwd> ( DoSomething01() )
     {
-        <keyword>if</keyword> ( DoSomething02() )
+        <kwd>if</kwd> ( DoSomething02() )
         {
-            <keyword>if</keyword> ( DoSomething03() )
+            <kwd>if</kwd> ( DoSomething03() )
             {
-                <comment>// すべて成功</comment>
-                ret = <keyword>true</keyword>;
+                <cmt>// すべて成功</cmt>
+                ret = <kwd>true</kwd>;
             }
-            <keyword>else</keyword>
+            <kwd>else</kwd>
             {
-                <comment>// DoSomething03() 失敗</comment>
-                ret = <keyword>false</keyword>;
+                <cmt>// DoSomething03() 失敗</cmt>
+                ret = <kwd>false</kwd>;
             }
         }
-        <keyword>else</keyword>
+        <kwd>else</kwd>
         {
-            <comment>// DoSomething02() 失敗</comment>
-            ret = <keyword>false</keyword>;
+            <cmt>// DoSomething02() 失敗</cmt>
+            ret = <kwd>false</kwd>;
         }
     }
-    <keyword>else</keyword>
+    <kwd>else</kwd>
     {
-        <comment>// DoSomething01() 失敗</comment>
-        ret = <keyword>false</keyword>;
+        <cmt>// DoSomething01() 失敗</cmt>
+        ret = <kwd>false</kwd>;
     }
 
-    <keyword>return</keyword> ret;
+    <kwd>return</kwd> ret;
 }
 </p>
 
@@ -104,28 +104,28 @@ if-then-elseを使うかガード節を使うかの判断基準 - MogLog</a><br>
 
 <h3>ガード節を使用した場合</h3>
 <p class="code">
-<keyword>bool</keyword> Func()
+<kwd>bool</kwd> Func()
 {
-    <comment>// DoSomething01() 失敗時は抜ける</comment>
-    <keyword>if</keyword> ( !DoSomething01() )
+    <cmt>// DoSomething01() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething01() )
     {
-        <keyword>return</keyword> <keyword>false</keyword>;
+        <kwd>return</kwd> <kwd>false</kwd>;
     }
 
-    <comment>// DoSomething02() 失敗時は抜ける</comment>
-    <keyword>if</keyword> ( !DoSomething02() )
+    <cmt>// DoSomething02() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething02() )
     {
-        <keyword>return</keyword> <keyword>false</keyword>;
+        <kwd>return</kwd> <kwd>false</kwd>;
     }
 
-    <comment>// DoSomething03() 失敗時は抜ける</comment>
-    <keyword>if</keyword> ( !DoSomething03() )
+    <cmt>// DoSomething03() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething03() )
     {
-        <keyword>return</keyword> <keyword>false</keyword>;
+        <kwd>return</kwd> <kwd>false</kwd>;
     }
 
-    <comment>// すべて正常</comment>
-    <keyword>return</keyword> <keyword>true</keyword>;
+    <cmt>// すべて正常</cmt>
+    <kwd>return</kwd> <kwd>true</kwd>;
 }
 </p>
 
@@ -134,30 +134,30 @@ if-then-elseを使うかガード節を使うかの判断基準 - MogLog</a><br>
 
 <h2>ガード節を用いる上での注意</h2>
 <p class="code">
-<keyword>bool</keyword> Func()
+<kwd>bool</kwd> Func()
 {
-    <comment>// セマフォ獲得</comment>
+    <cmt>// セマフォ獲得</cmt>
     _wait_sem();
 
-    <comment>// DoSomething01() 失敗時は抜ける</comment>
-    <keyword>if</keyword> ( !DoSomething01() )
+    <cmt>// DoSomething01() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething01() )
     {
-        <comment>// ここで抜けるとセマフォを握ったままとなる</comment>
-        <keyword>return</keyword> <keyword>false</keyword>;
+        <cmt>// ここで抜けるとセマフォを握ったままとなる</cmt>
+        <kwd>return</kwd> <kwd>false</kwd>;
     }
 
-    <comment>// DoSomething02() 失敗時は抜ける</comment>
-    <keyword>if</keyword> ( !DoSomething02() )
+    <cmt>// DoSomething02() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething02() )
     {
-        <comment>// ここで抜けるとセマフォを握ったままとなる</comment>
-        <keyword>return</keyword> <keyword>false</keyword>;
+        <cmt>// ここで抜けるとセマフォを握ったままとなる</cmt>
+        <kwd>return</kwd> <kwd>false</kwd>;
     }
 
-    <comment>// セマフォ解放</comment>
+    <cmt>// セマフォ解放</cmt>
     _release_sem();
 
-    <comment>// すべて正常</comment>
-    <keyword>return</keyword> <keyword>true</keyword>;
+    <cmt>// すべて正常</cmt>
+    <kwd>return</kwd> <kwd>true</kwd>;
 }
 </p>
 
@@ -167,40 +167,40 @@ if-then-elseを使うかガード節を使うかの判断基準 - MogLog</a><br>
 <h3>本体をサブルーチン化</h3>
 
 <p class="code">
-<comment>// Func_Core()のシンタクスシュガー</comment>
-<keyword>bool</keyword> Func()
+<cmt>// Func_Core()のシンタクスシュガー</cmt>
+<kwd>bool</kwd> Func()
 {
-    <keyword>bool</keyword> ret;
+    <kwd>bool</kwd> ret;
 
-    <comment>// セマフォ獲得</comment>
+    <cmt>// セマフォ獲得</cmt>
     _wait_sem();
 
-    <comment>// (セマフォの中で行う)本体の処理</comment>
+    <cmt>// (セマフォの中で行う)本体の処理</cmt>
     ret = Func_Core();
 
-    <comment>// セマフォ解放</comment>
+    <cmt>// セマフォ解放</cmt>
     _release_sem();
 
-    <keyword>return</keyword> ret;
+    <kwd>return</kwd> ret;
 }
 
-<comment>// 本体の処理 (Func()のサブルーチン)</comment>
-<keyword>bool</keyword> Func_Core()
+<cmt>// 本体の処理 (Func()のサブルーチン)</cmt>
+<kwd>bool</kwd> Func_Core()
 {
-    <comment>// DoSomething01() 失敗時は抜ける</comment>
-    <keyword>if</keyword> ( !DoSomething01() )
+    <cmt>// DoSomething01() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething01() )
     {
-        <keyword>return</keyword> <keyword>false</keyword>;
+        <kwd>return</kwd> <kwd>false</kwd>;
     }
 
-    <comment>// DoSomething02() 失敗時は抜ける</comment>
-    <keyword>if</keyword> ( !DoSomething02() )
+    <cmt>// DoSomething02() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething02() )
     {
-        <keyword>return</keyword> <keyword>false</keyword>;
+        <kwd>return</kwd> <kwd>false</kwd>;
     }
 
-    <comment>// すべて正常</comment>
-    <keyword>return</keyword> <keyword>true</keyword>;
+    <cmt>// すべて正常</cmt>
+    <kwd>return</kwd> <kwd>true</kwd>;
 }
 </p>
 
@@ -211,51 +211,51 @@ Func() で行いたい処理をサブルーチンである Func_Core() に移し
 (ただし後述のRAIIを用いる方が記述は簡潔で、かつ確実である。)<br>
 
 <p class="code">
-<comment>// Func_Core()のシンタクスシュガー</comment>
-<keyword>bool</keyword> Func()
+<cmt>// Func_Core()のシンタクスシュガー</cmt>
+<kwd>bool</kwd> Func()
 {
-    <keyword>bool</keyword> ret = false;
+    <kwd>bool</kwd> ret = false;
 
-    <comment>// セマフォ獲得</comment>
+    <cmt>// セマフォ獲得</cmt>
     _wait_sem();
 
-    <comment>// Func_Core() で発生した例外を捕捉</comment>
-    <keyword>try</keyword>
+    <cmt>// Func_Core() で発生した例外を捕捉</cmt>
+    <kwd>try</kwd>
     {
         ret = Func_Core();
     }
-    <keyword>catch</keyword>(...)
+    <kwd>catch</kwd>(...)
     {
-        <comment>// セマフォ解放</comment>
+        <cmt>// セマフォ解放</cmt>
         _release_sem();
 
-        <comment>// (Func() 外で例外を捕捉している場合)例外を投げなおす</comment>
-        <keyword>throw</keyword> <literal>"Func_Core() で例外発生"</literal>;
+        <cmt>// (Func() 外で例外を捕捉している場合)例外を投げなおす</cmt>
+        <kwd>throw</kwd> <ltr>"Func_Core() で例外発生"</ltr>;
     }
 
-    <comment>// セマフォ解放</comment>
+    <cmt>// セマフォ解放</cmt>
     _release_sem();
 
-    <keyword>return</keyword> ret;
+    <kwd>return</kwd> ret;
 }
 
-<comment>// 本体の処理 (Func()のサブルーチン)</comment>
-<keyword>bool</keyword> Func_Core()
+<cmt>// 本体の処理 (Func()のサブルーチン)</cmt>
+<kwd>bool</kwd> Func_Core()
 {
-    <comment>// DoSomething01() 失敗時は抜ける</comment>
-    <keyword>if</keyword> ( !DoSomething01() )
+    <cmt>// DoSomething01() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething01() )
     {
-        <keyword>return</keyword> <keyword>false</keyword>;
+        <kwd>return</kwd> <kwd>false</kwd>;
     }
 
-    <comment>// DoSomething02() 失敗時は抜ける</comment>
-    <keyword>if</keyword> ( !DoSomething02() )
+    <cmt>// DoSomething02() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething02() )
     {
-        <keyword>return</keyword> <keyword>false</keyword>;
+        <kwd>return</kwd> <kwd>false</kwd>;
     }
 
-    <comment>// すべて正常</comment>
-    <keyword>return</keyword> <keyword>true</keyword>;
+    <cmt>// すべて正常</cmt>
+    <kwd>return</kwd> <kwd>true</kwd>;
 }
 </p>
 
@@ -263,41 +263,41 @@ Func() で行いたい処理をサブルーチンである Func_Core() に移し
 <h3>(C++)RAIIを用いる</h3>
 
 <p class="code">
-<comment>// セマフォの獲得・解放専用クラス</comment>
+<cmt>// セマフォの獲得・解放専用クラス</cmt>
 Class C_SemaphoreManager
 {
-<keyword>public</keyword>:
-    <comment>// コンストラクタ : セマフォ獲得</comment>
+<kwd>public</kwd>:
+    <cmt>// コンストラクタ : セマフォ獲得</cmt>
     C_SemaphoreManager() { _wait_sem(); }
 
-<keyword>private</keyword>:
-    <comment>// デストラクタ : セマフォ解放</comment>
+<kwd>private</kwd>:
+    <cmt>// デストラクタ : セマフォ解放</cmt>
     ~C_SemaphoreManager() { _release_sem(); }
 };
 
-<comment>// Func()</comment>
-<keyword>bool</keyword> Func()
+<cmt>// Func()</cmt>
+<kwd>bool</kwd> Func()
 {
-    <comment>// セマフォ管理用インスタンス(地蔵)生成(セマフォ獲得)</comment>
+    <cmt>// セマフォ管理用インスタンス(地蔵)生成(セマフォ獲得)</cmt>
     C_SemaphoreManager semStature;
 
-    <comment>// DoSomething01() 失敗時は抜ける</comment>
-    <keyword>if</keyword> ( !DoSomething01() )
+    <cmt>// DoSomething01() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething01() )
     {
-        <comment>// ここで抜けてもデストラクタが走る</comment>
-        <keyword>return</keyword> <keyword>false</keyword>;
+        <cmt>// ここで抜けてもデストラクタが走る</cmt>
+        <kwd>return</kwd> <kwd>false</kwd>;
     }
 
-    <comment>// DoSomething02() 失敗時は抜ける</comment>
-    <keyword>if</keyword> ( !DoSomething02() )
+    <cmt>// DoSomething02() 失敗時は抜ける</cmt>
+    <kwd>if</kwd> ( !DoSomething02() )
     {
-        <comment>// ここで抜けてもデストラクタが走る</comment>
-        <keyword>return</keyword> <keyword>false</keyword>;
+        <cmt>// ここで抜けてもデストラクタが走る</cmt>
+        <kwd>return</kwd> <kwd>false</kwd>;
     }
 
-    <comment>// すべて正常</comment>
-    <comment>// ここで抜けてもデストラクタが走る</comment>
-    <keyword>return</keyword> <keyword>true</keyword>;
+    <cmt>// すべて正常</cmt>
+    <cmt>// ここで抜けてもデストラクタが走る</cmt>
+    <kwd>return</kwd> <kwd>true</kwd>;
 }
 </p>
 

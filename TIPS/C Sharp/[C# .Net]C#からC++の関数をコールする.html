@@ -56,18 +56,18 @@ C/C++で作成したDLLをC#でインポートし、関数をコールするた�
 ライブラリ関数を呼び出す処理を実装し、ビルドを行う。<br>
 Program.cs<br>
 <p class="code">
-<keyword>using</keyword> System.Runtime.InteropServices;
+<kwd>using</kwd> System.Runtime.InteropServices;
 
-<keyword>namespace</keyword> Application
+<kwd>namespace</kwd> Application
 {
-    <keyword>internal</keyword> <keyword>class</keyword> Program
+    <kwd>internal</kwd> <kwd>class</kwd> Program
     {
-        <comment>// インポート</comment>
-        <comment>// Library.dll の Test() 関数を _Test() 関数に紐づける</comment>
-        [DllImport( <literal>"Library.dll"</literal>, EntryPoint = <literal>"Test"</literal>)]
-        <keyword>static</keyword> <keyword>extern</keyword> <keyword>void</keyword> _Test();
+        <cmt>// インポート</cmt>
+        <cmt>// Library.dll の Test() 関数を _Test() 関数に紐づける</cmt>
+        [DllImport( <ltr>"Library.dll"</ltr>, EntryPoint = <ltr>"Test"</ltr>)]
+        <kwd>static extern void</kwd> _Test();
 
-        <keyword>static</keyword> <keyword>void</keyword> Main()
+        <kwd>static void</kwd> Main()
         {
             _Test();
         }

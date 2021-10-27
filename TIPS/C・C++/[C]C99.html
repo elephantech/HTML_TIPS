@@ -195,7 +195,7 @@ BCPLやC++と同じスタイルでコメントを記述できる。従来の/* �
     <kwd>int</kwd> y;
 } St_Point;
  
-St_Point center(<kwd>const</kwd> St_Point*p1, <kwd><kwd>const</kwd></kwd> St_Point*p2)
+St_Point center(<kwd>const</kwd> St_Point*p1, <kwd>const</kwd> St_Point*p2)
 {
     <cmt>// 戻り値を複合リテラルと指示初期化子を用いて生成</cmt>
     <kwd>return</kwd> (St_Point)
@@ -205,10 +205,10 @@ St_Point center(<kwd>const</kwd> St_Point*p1, <kwd><kwd>const</kwd></kwd> St_Poi
     };
 }
  
-<kwd>int</kwd> main(<kwd><kwd>int</kwd></kwd> argc, <kwd>char</kwd> **argv)
+<kwd>int</kwd> main(<kwd>int</kwd> argc, <kwd>char</kwd> **argv)
 {
     <cmt>// center() の引数を複合リテラルを用いて生成</cmt>
-    St_Point p = center(&amp;(St_Point){<ltr>1</ltr>, <ltr><ltr>2</ltr></ltr>}, &amp;(St_Point){<ltr><ltr>2</ltr></ltr>, <ltr>3</ltr>});
+    St_Point p = center(&amp;(St_Point){<ltr>1</ltr>, <ltr>2</ltr>}, &amp;(St_Point){<ltr>2</ltr>, <ltr>3</ltr>});
     printf(<ltr>"(%d, %d)¥n"</ltr>, p.x, p.y);
 }
 </p>
@@ -216,7 +216,7 @@ St_Point center(<kwd>const</kwd> St_Point*p1, <kwd><kwd>const</kwd></kwd> St_Poi
 
 上記の center() 関数は以下と等価である。<br>
 <p class="code">
-St_Point center(<kwd>const</kwd> St_Point*p1, <kwd><kwd>const</kwd></kwd> St_Point*p2)
+St_Point center(<kwd>const</kwd> St_Point*p1, <kwd>const</kwd> St_Point*p2)
 {
     <cmt>// 戻り値を構成するための一時変数</cmt>
     St_Point ret =
@@ -232,7 +232,7 @@ St_Point center(<kwd>const</kwd> St_Point*p1, <kwd><kwd>const</kwd></kwd> St_Poi
 
 即ち、暗黙の自動変数を生成している。(関数)スコープを抜けた時点でこの変数の寿命は終わってしまうため、以下のような記述は正常に動作しない。<br>
 <p class="code">
-St_Point* center(<kwd>const</kwd> St_Point*p1, <kwd><kwd>const</kwd></kwd> St_Point*p2)
+St_Point* center(<kwd>const</kwd> St_Point*p1, <kwd>const</kwd> St_Point*p2)
 {
     <cmt>// 暗黙の自動変数のアドレスを返す ⇒ 自動変数は関数を抜けると消滅するため参照できない</cmt>
     <kwd>return</kwd> &amp;(St_Point)

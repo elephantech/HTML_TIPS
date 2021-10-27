@@ -52,9 +52,9 @@ rem
 rem 管理者権限で起動されたかを確認、
 rem 管理者でなければ、管理者として当該バッチを開きなおす</cmt>
 cd /d %~dp0
-<keyword>for</keyword> /f <literal>"tokens=<literal>3</literal> delims=\ "</literal> %%i in (<literal>'whoami /groups^|find "Mandatory"'</literal>) <keyword>do</keyword> set LEVEL=%%i
-<keyword>if</keyword> NOT <literal>"%LEVEL%"</literal>==<literal>"High"</literal> (
-@powershell -NoProfile -ExecutionPolicy unrestricted -Command <literal>"Start-Process %~f0 -Verb runas"</literal>
+<kwd>for</kwd> /f <ltr>"tokens=<ltr>3</ltr> delims=\ "</ltr> %%i in (<ltr>'whoami /groups^|find "Mandatory"'</ltr>) <kwd>do</kwd> set LEVEL=%%i
+<kwd>if</kwd> NOT <ltr>"%LEVEL%"</ltr>==<ltr>"High"</ltr> (
+@powershell -NoProfile -ExecutionPolicy unrestricted -Command <ltr>"Start-Process %~f0 -Verb runas"</ltr>
 exit
 )
 <cmt>

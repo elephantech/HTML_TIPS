@@ -52,10 +52,10 @@ body
 
 <h2>連想配列とは</h2>
 検索に使用するキーと、対応する値のペアを保持するコンテナのこと。<br>
-要素の格納順を意識する必要が無く、また <strong>キーによる要素の検索が高速</strong> である。<br>
+要素の格納順を意識する必要が無く、また <b>キーによる要素の検索が高速</b> である。<br>
 C#、PythonのDictionary、Perl、Rubyのハッシュテーブルと共通の概念。<br>
- <strong>std::map</strong>  はすべてのキーがユニークである必要があるが、キーの重複が許される  <strong>std::multimap</strong> も存在。<br>
-また、より高速でメモリ効率の良い <strong>std::unordered_map / std::unordered_multimap</strong> も存在する(C++11以降で使用可能)。<br>
+ <b>std::map</b>  はすべてのキーがユニークである必要があるが、キーの重複が許される  <b>std::multimap</b> も存在。<br>
+また、より高速でメモリ効率の良い <b>std::unordered_map / std::unordered_multimap</b> も存在する(C++11以降で使用可能)。<br>
 <h2>各クラスの比較</h2>
 <table>
 <tr class="row1"><td>クラス</td><td>キーの重複</td><td>要素のソート</td><td>必要なヘッダ</td><td>備考</td></tr>
@@ -68,7 +68,7 @@ C#、PythonのDictionary、Perl、Rubyのハッシュテーブルと共通の概
 "{キー, 値}"の順に記述。<br>
 <p class="code">
 <cmt>// エラーコード対エラーメッセージ</cmt>
-std::map&lt;<kwd>const</kwd> <kwd>long</kwd>, <kwd><kwd>const</kwd></kwd> <kwd>wchar_t</kwd>*&gt; cErrorInfo =
+std::map&lt;<kwd>const</kwd> <kwd>long</kwd>, <kwd>const</kwd> <kwd>wchar_t</kwd>*&gt; cErrorInfo =
 {
     <cmt>//キー                , 値</cmt>
     { OPOS_E_CLOSED,        _T(<ltr>"クローズ中"</ltr>)                          },  <cmt>//&lt; オープン未済</cmt>
@@ -82,28 +82,28 @@ std::map&lt;<kwd>const</kwd> <kwd>long</kwd>, <kwd><kwd>const</kwd></kwd> <kwd>w
 at() 関数、または添え字演算子([])を使用。<br>
 (VC++では [] が使用できない？要調査)<br>
 <p class="code">
-<comment>// キー OPOS_E_CLOSED に紐づく値 "クローズ中" が出力される</comment>
+<cmt>// キー OPOS_E_CLOSED に紐づく値 "クローズ中" が出力される</cmt>
 std::cout &lt;&lt; cErrorInfo.at(OPOS_E_CLOSED);
 
-<comment>// OPOS_E_NOTCLAIMED に紐づく値が "Claim中ではない" から "ごにょごにょ" に変わる</comment>
-cErrorInfo[OPOS_E_NOTCLAIMED] = <literal>"ごにょごにょ"</literal>;
+<cmt>// OPOS_E_NOTCLAIMED に紐づく値が "Claim中ではない" から "ごにょごにょ" に変わる</cmt>
+cErrorInfo[OPOS_E_NOTCLAIMED] = <ltr>"ごにょごにょ"</ltr>;
 </p>
 <h2>要素の追加</h2>
 insert() 関数を使用。<br>
 <p class="code">
-<comment>// キー : OPOS_E_UNKNOWN 、値 : "未知のエラー" のレコードを追加</comment>
-cErrorInfo.insert(OPOS_E_UNKNOWN, <literal>"未知のエラー"</literal>);
+<cmt>// キー : OPOS_E_UNKNOWN 、値 : "未知のエラー" のレコードを追加</cmt>
+cErrorInfo.insert(OPOS_E_UNKNOWN, <ltr>"未知のエラー"</ltr>);
 </p>
 <h2>要素の削除</h2>
 elase() 関数を使用。<br>
 <p class="code">
-<comment>// キー : OPOS_E_UNKNOWNのレコード(値 : "未知のエラー" )を削除</comment>
+<cmt>// キー : OPOS_E_UNKNOWNのレコード(値 : "未知のエラー" )を削除</cmt>
 cErrorInfo.elase(OPOS_E_UNKNOWN);
 </p>
 <h2>要素数を取得</h2>
 size() 関数を使用。<br>
 <p class="code">
- <comment>// レコードの総数( 5 )が出力される</comment>
+ <cmt>// レコードの総数( 5 )が出力される</cmt>
 std::cout &lt;&lt; cErrorInfo.size();
 </p>
 </body>

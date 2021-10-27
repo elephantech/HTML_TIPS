@@ -83,11 +83,11 @@ JavaやC#ではクラスの多重継承が認められていないが、イン�
 <h4>インタフェースの定義</h4>
 (Cashier.java)
 <p class="code">
-<comment>// 「レジ」インタフェース</comment>
-<keyword>public</keyword> <keyword>interface</keyword> Cashier
+<cmt>// 「レジ」インタフェース</cmt>
+<kwd>public</kwd> <kwd>interface</kwd> Cashier
 {
-    <comment>// 「会計」メソッド</comment>
-    <keyword>public</keyword> <keyword>void</keyword> bill();
+    <cmt>// 「会計」メソッド</cmt>
+    <kwd>public</kwd> <kwd>void</kwd> bill();
 }
 </p>
 class ではなく <b>interface</b> キーワードを用いる点に注意。
@@ -95,30 +95,30 @@ class ではなく <b>interface</b> キーワードを用いる点に注意。
 <h4>インタフェースの実装</h4>
 (CreditCard.java)
 <p class="code">
-<comment>// 「クレジットカード」</comment>
-<comment>// インタフェース Cashier を実装</comment>
-<keyword>public</keyword> <keyword>class</keyword> CreditCard <keyword>implements</keyword> Cashier
+<cmt>// 「クレジットカード」</cmt>
+<cmt>// インタフェース Cashier を実装</cmt>
+<kwd>public</kwd> <kwd>class</kwd> CreditCard <kwd>implements</kwd> Cashier
 {
-    <comment>// 「会計」メソッドのオーバーライド</comment>
+    <cmt>// 「会計」メソッドのオーバーライド</cmt>
     @Override
-    <keyword>public</keyword> <keyword>void</keyword> bill()
+    <kwd>public</kwd> <kwd>void</kwd> bill()
     {
-        System<literal>.</literal>literal>.</literal<literal>.</literal>out<literal>.</literal>literal>.</literal<literal>.</literal>println(<literal>"クレジットカードでお会計をいたします。"</literal>);
+        System<ltr>.</ltr>literal>.</literal<ltr>.</ltr>out<ltr>.</ltr>literal>.</literal<ltr>.</ltr>println(<ltr>"クレジットカードでお会計をいたします。"</ltr>);
     }
 }
 </p>
 
 (Cash.java)
 <p class="code">
-<comment>// 「現金」</comment>
-<comment>// インタフェース Cashier を実装</comment>
-<keyword>public</keyword> <keyword>class</keyword> Cash <keyword>implements</keyword> Cashier
+<cmt>// 「現金」</cmt>
+<cmt>// インタフェース Cashier を実装</cmt>
+<kwd>public</kwd> <kwd>class</kwd> Cash <kwd>implements</kwd> Cashier
 {
-    <comment>// 「会計」メソッドのオーバーライド</comment>
+    <cmt>// 「会計」メソッドのオーバーライド</cmt>
     @Override
-    <keyword>public</keyword> <keyword>void</keyword> bill()
+    <kwd>public</kwd> <kwd>void</kwd> bill()
     {
-        System<literal>.</literal>literal>.</literal<literal>.</literal>out<literal>.</literal>literal>.</literal<literal>.</literal>println(<literal>"現金でお会計をいたします。"</literal>);
+        System<ltr>.</ltr>literal>.</literal<ltr>.</ltr>out<ltr>.</ltr>literal>.</literal<ltr>.</ltr>println(<ltr>"現金でお会計をいたします。"</ltr>);
     }
 }
 </p>
@@ -127,16 +127,16 @@ class ではなく <b>interface</b> キーワードを用いる点に注意。
 <h4>実装されたインタフェースの呼び出し</h4>
 (Staff.java)
 <p class="code">
-<comment>// 「スタッフ」</comment>
-<keyword>public</keyword> <keyword>class</keyword> Staff
+<cmt>// 「スタッフ」</cmt>
+<kwd>public</kwd> <kwd>class</kwd> Staff
 {
-    <keyword>public</keyword> <keyword>static</keyword> <keyword>void</keyword> main(<keyword>string</keyword>[] arg)
+    <kwd>public</kwd> <kwd>static</kwd> <kwd>void</kwd> main(<kwd>string</kwd>[] arg)
     {
-        Cashier cashier[] = <keyword>new</keyword> cashier[<literal>2</literal>];
-        cashier[<literal>0</literal>] = <keyword>new</keyword> CreditCard();
-        cashier[<literal>1</literal>] = <keyword>new</keyword> Cash();
+        Cashier cashier[] = <kwd>new</kwd> cashier[<ltr>2</ltr>];
+        cashier[<ltr>0</ltr>] = <kwd>new</kwd> CreditCard();
+        cashier[<ltr>1</ltr>] = <kwd>new</kwd> Cash();
         
-        <keyword>int</keyword> i = GetPaymentMethod();
+        <kwd>int</kwd> i = GetPaymentMethod();
         
         cashier[i].bill();
     }

@@ -85,22 +85,22 @@ C++では std 名前空間に、<b>auto_ptr&lt;T&gt;</b> 、<b>unique_ptr&lt;T&g
 <h3>auto_ptr&lt;T&gt; (C++11以降は非推奨)</h3>
 C++03以前でも使用できる基本的なスマートポインタ。<br>
 <p class="code">
-<keyword>#include</keyword>&lt;iostream&gt;
-<keyword>#include</keyword>&lt;memory&gt;
-<keyword>int</keyword> main()
+<kwd>#include</kwd>&lt;iostream&gt;
+<kwd>#include</kwd>&lt;memory&gt;
+<kwd>int</kwd> main()
 {
-    <comment>// int型のメモリを動的に確保し、その所有権をauto_ptrに委ねる</comment>
-    std::auto_ptr&lt;<keyword>int</keyword>&gt; ptr(<keyword>new</keyword> <keyword>int</keyword>(<literal>10</literal>));
+    <cmt>// int型のメモリを動的に確保し、その所有権をauto_ptrに委ねる</cmt>
+    std::auto_ptr&lt;<kwd>int</kwd>&gt; ptr(<kwd>new</kwd> <kwd>int</kwd>(<ltr>10</ltr>));
 
-    <comment>// * 演算子で生ポインタのようにアクセスできる</comment>
-    <keyword>for</keyword>(<keyword>int</keyword> i=<literal>0</literal>;i&lt;<literal>10</literal>;++i)
+    <cmt>// * 演算子で生ポインタのようにアクセスできる</cmt>
+    <kwd>for</kwd>(<kwd>int</kwd> i=<ltr>0</ltr>;i&lt;<ltr>10</ltr>;++i)
     {
         *ptr+=i;
     }
-    std::cout&lt;&lt;<literal>"ptr="</literal>&lt;&lt;*ptr&lt;&lt;std::endl;
+    std::cout&lt;&lt;<ltr>"ptr="</ltr>&lt;&lt;*ptr&lt;&lt;std::endl;
 
-    <keyword>return</keyword> <literal>0</literal>;
-}   <comment>//&lt; スコープを抜ける際にメモリを解放</comment>
+    <kwd>return</kwd> <ltr>0</ltr>;
+}   <cmt>//&lt; スコープを抜ける際にメモリを解放</cmt>
 </p>
 auto_ptr&lt;T&gt; には以下のような<b>深刻な問題点が存在するため、C++11以降では非推奨となっている</b>。
 <ul>
@@ -124,32 +124,32 @@ auto_ptr&lt;T&gt; には以下のような<b>深刻な問題点が存在する�
 
 <h4>初期化・ムーブ</h4>
 <p class="code">
-<comment>// コンストラクタの引数として、動的確保したメモリのアドレスを指定</comment>
-std::unique_ptr&lt;<keyword>int</keyword>&gt; ptr(<keyword>new</keyword> <keyword>int</keyword>(<literal>10</literal>));
+<cmt>// コンストラクタの引数として、動的確保したメモリのアドレスを指定</cmt>
+std::unique_ptr&lt;<kwd>int</kwd>&gt; ptr(<kwd>new</kwd> <kwd>int</kwd>(<ltr>10</ltr>));
 
-<comment>// reset() 関数を使って、後から代入することもできる</comment>
-std::unique_ptr&lt;<keyword>int</keyword>&gt; ptr2;
-ptr2.reset(<keyword>new</keyword> <keyword>int</keyword>(<literal>10</literal>));
+<cmt>// reset() 関数を使って、後から代入することもできる</cmt>
+std::unique_ptr&lt;<kwd>int</kwd>&gt; ptr2;
+ptr2.reset(<kwd>new</kwd> <kwd>int</kwd>(<ltr>10</ltr>));
 
-<comment>// make_unique()関数を使用した初期化(C++14以降)</comment>
-std::unique_ptr&lt;<keyword>int</keyword>&gt; ptr3 = std::make_unique&lt;<keyword>int</keyword>&gt;(<literal>10</literal>);
+<cmt>// make_unique()関数を使用した初期化(C++14以降)</cmt>
+std::unique_ptr&lt;<kwd>int</kwd>&gt; ptr3 = std::make_unique&lt;<kwd>int</kwd>&gt;(<ltr>10</ltr>);
 
-<comment>// コピーは不可</comment>
-std::unique_ptr&lt;<keyword>int</keyword>&gt; ptr2(ptr);   <comment>//&lt; コピーコンストラクタによるコピー ⇒ ERROR</comment>
-std::unique_ptr&lt;<keyword>int</keyword>&gt; ptr3;
-ptr3 = ptr;                       <comment>//&lt; コピー代入演算子によるコピー     ⇒ ERROR</comment>
+<cmt>// コピーは不可</cmt>
+std::unique_ptr&lt;<kwd>int</kwd>&gt; ptr2(ptr);   <cmt>//&lt; コピーコンストラクタによるコピー ⇒ ERROR</cmt>
+std::unique_ptr&lt;<kwd>int</kwd>&gt; ptr3;
+ptr3 = ptr;                       <cmt>//&lt; コピー代入演算子によるコピー     ⇒ ERROR</cmt>
 
-<comment>// ムーブは可能(所有権が移動する)</comment>
-std::unique_ptr&lt;<keyword>int</keyword>&gt; ptr4(std::move(ptr));    <comment>//&lt; ムーブコンストラクタによるムーブ ⇒ ptr  が保持していた所有権が ptr4 に移動</comment>
-std::unique_ptr&lt;<keyword>int</keyword>&gt; ptr5;
-ptr5 = std::move(ptr4);                       <comment>//&lt; ムーブ代入演算子によるムーブ     ⇒ ptr4 が保持していた所有権が ptr5 に移動</comment>
+<cmt>// ムーブは可能(所有権が移動する)</cmt>
+std::unique_ptr&lt;<kwd>int</kwd>&gt; ptr4(std::move(ptr));    <cmt>//&lt; ムーブコンストラクタによるムーブ ⇒ ptr  が保持していた所有権が ptr4 に移動</cmt>
+std::unique_ptr&lt;<kwd>int</kwd>&gt; ptr5;
+ptr5 = std::move(ptr4);                       <cmt>//&lt; ムーブ代入演算子によるムーブ     ⇒ ptr4 が保持していた所有権が ptr5 に移動</cmt>
 </p>
 
 <h4>明示的なメモリの解放</h4>
 通常はデストラクタでメモリが解放されるが、明示的に開放したい場合は reset() を用いる。
 <p class="code">
-std::unique_ptr&lt;<keyword>int</keyword>&gt; ptr2(<keyword>new</keyword> <keyword>int</keyword>(<literal>10</literal>));
-<comment>// 引数なし、または nullptr 引数での reset() ⇒ メモリ解放</comment>
+std::unique_ptr&lt;<kwd>int</kwd>&gt; ptr2(<kwd>new</kwd> <kwd>int</kwd>(<ltr>10</ltr>));
+<cmt>// 引数なし、または nullptr 引数での reset() ⇒ メモリ解放</cmt>
 ptr2.reset();
 ptr2.reset(nullptr);
 </p>
@@ -157,16 +157,16 @@ ptr2.reset(nullptr);
 <h4>所有権の有無を確認</h4>
 operator bool() を用いる。所有権を持つ場合には true 、持たない場合には false が返る。
 <p class="code">
-std::unique_ptr&lt;<keyword>int</keyword>&gt; ptr;
+std::unique_ptr&lt;<kwd>int</kwd>&gt; ptr;
 
-<keyword>if</keyword>(ptr)
+<kwd>if</kwd>(ptr)
 {
-    <comment>// (ptr == true)</comment>
-    <comment>// 所有しているときの処理</comment>
+    <cmt>// (ptr == true)</cmt>
+    <cmt>// 所有しているときの処理</cmt>
 }
 
-<comment>// bool変数への代入でも、所有権の有無を取得可能</comment>
-<keyword>bool</keyword> CanAccess=ptr;
+<cmt>// bool変数への代入でも、所有権の有無を取得可能</cmt>
+<kwd>bool</kwd> CanAccess=ptr;
 </p>
 
 <h4>生ポインタへの変換</h4>
@@ -175,37 +175,37 @@ std::unique_ptr&lt;<keyword>int</keyword>&gt; ptr;
 <li>release() : 生ポインタを得る。所有権を std::unique_ptr&lt;T&gt; から奪う ⇒ 自身で解放する必要あり</li>
 </ul>
 <p class="code">
-<comment>// get() : ポインタの所有権は unique_ptr が保持し続ける</comment>
-<keyword>int</keyword>* pint;
-pint = ptr<literal>.</literal>get();
+<cmt>// get() : ポインタの所有権は unique_ptr が保持し続ける</cmt>
+<kwd>int</kwd>* pint;
+pint = ptr<ltr>.</ltr>get();
 
-<comment>// release() : ポインタの所有権を unique_ptr から奪う</comment>
-pint = ptr<literal>.</literal>release();
-<keyword>delete</keyword> pint;
+<cmt>// release() : ポインタの所有権を unique_ptr から奪う</cmt>
+pint = ptr<ltr>.</ltr>release();
+<kwd>delete</kwd> pint;
 </p>
 
 <h4>配列の保持</h4>
 unique_ptr&lt;T[]&gt; で配列を保持できる。配列型の場合、 operator[](size_t) を使用できる(通常の配列と同様にアクセスできる)。
 <p class="code">
 {
-    std::unique_ptr&lt;<keyword>int</keyword>[]&gt; ptrArray(<keyword>new</keyword> <keyword>int</keyword>[<literal>10</literal>]);
+    std::unique_ptr&lt;<kwd>int</kwd>[]&gt; ptrArray(<kwd>new</kwd> <kwd>int</kwd>[<ltr>10</ltr>]);
 
-    <keyword>for</keyword>(<keyword>int</keyword> i = <literal>0</literal>; i &lt; <literal>10</literal>; ++i)
+    <kwd>for</kwd>(<kwd>int</kwd> i = <ltr>0</ltr>; i &lt; <ltr>10</ltr>; ++i)
     {
         ptrArray[i]=i;
     }
 
-}     <comment>//&lt; 配列型の場合、自動的に delete[] が呼ばれる</comment>
+}     <cmt>//&lt; 配列型の場合、自動的に delete[] が呼ばれる</cmt>
 </p>
 
 <h4>deleterの指定</h4>
 メモリを解放する際に、delete (または delete[] )以外を用いる必要がある場合に、解放処理を関数オブジェクトにより指定できる。<br>
 <p class="code">
-<comment>// 関数オブジェクト</comment>
-<comment>// free_int_from_storage() でメモリを解放</comment>
-<keyword>struct</keyword> deleter_for_storage
+<cmt>// 関数オブジェクト</cmt>
+<cmt>// free_int_from_storage() でメモリを解放</cmt>
+<kwd>struct</kwd> deleter_for_storage
 {
-    <keyword>void</keyword> operator()(<keyword>int</keyword>* ptr_)
+    <kwd>void</kwd> operator()(<kwd>int</kwd>* ptr_)
     {
         free_int_from_sotrage(ptr_);
     }

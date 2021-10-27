@@ -100,26 +100,26 @@ typedef では、<b>未知の型をテンプレート引数に含む汎用型</b
 <b>using では可能であり、typedef に対する利点となっている。</b><br>
 
 <p class="code">
-<comment>// 汎用クラス SomeType1 , SomeType2 宣言</comment>
-<keyword>template</keyword> &lt;<keyword>typename</keyword> First, <keyword>typename</keyword> Second, <keyword>int</keyword> Third&gt;
-<keyword>class</keyword> SomeType1;
+<cmt>// 汎用クラス SomeType1 , SomeType2 宣言</cmt>
+<kwd>template</kwd> &lt;<kwd>typename</kwd> First, <kwd>typename</kwd> Second, <kwd>int</kwd> Third&gt;
+<kwd>class</kwd> SomeType1;
 
-<keyword>template</keyword> &lt;<keyword>typename</keyword> Another&gt;
-<keyword>class</keyword> SomeType2;
+<kwd>template</kwd> &lt;<kwd>typename</kwd> Another&gt;
+<kwd>class</kwd> SomeType2;
 
-<comment>// すべてのテンプレート引数を明示した SomeType に別名付与 (すべて既知の型)</comment>
-<keyword>typedef</keyword> SomeType1&lt;KnownType1, KnownType2, <literal>5</literal>&gt; TypeAlias;  <comment>//&lt; typedef による別名付与 ⇒ OK</comment>
-<keyword>using</keyword> TypeAlias = SomeType1&lt;KnownType1, KnownType2, <literal>5</literal>&gt;;  <comment>//&lt; using   による別名付与 ⇒ OK</comment>
+<cmt>// すべてのテンプレート引数を明示した SomeType に別名付与 (すべて既知の型)</cmt>
+<kwd>typedef</kwd> SomeType1&lt;KnownType1, KnownType2, <ltr>5</ltr>&gt; TypeAlias;  <cmt>//&lt; typedef による別名付与 ⇒ OK</cmt>
+<kwd>using</kwd> TypeAlias = SomeType1&lt;KnownType1, KnownType2, <ltr>5</ltr>&gt;;  <cmt>//&lt; using   による別名付与 ⇒ OK</cmt>
 
-<comment>// テンプレートに別名付与 (Second は未知の型)</comment>
-<keyword>tenplate</keyword> &lt;<keyword>typename</keyword> Second&gt;
-<keyword>typedef</keyword> SomeType1&lt;KnownType1, Second, <literal>5</literal>&gt; TypeAlias;      <comment>//&lt; typedef による別名付与 ⇒ NG</comment>
-<keyword>using</keyword> TypeAlias = SomeType1&lt;KnownType1, Second, <literal>5</literal>&gt;;      <comment>//&lt; using   による別名付与 ⇒ OK</comment>
+<cmt>// テンプレートに別名付与 (Second は未知の型)</cmt>
+<kwd>tenplate</kwd> &lt;<kwd>typename</kwd> Second&gt;
+<kwd>typedef</kwd> SomeType1&lt;KnownType1, Second, <ltr>5</ltr>&gt; TypeAlias;      <cmt>//&lt; typedef による別名付与 ⇒ NG</cmt>
+<kwd>using</kwd> TypeAlias = SomeType1&lt;KnownType1, Second, <ltr>5</ltr>&gt;;      <cmt>//&lt; using   による別名付与 ⇒ OK</cmt>
 
-<comment>// テンプレートに別名付与 (Another は未知の型)</comment>
-<keyword>tenplate</keyword> &lt;<keyword>typename</keyword> Another&gt;
-<keyword>typedef</keyword> SomeType2&lt;Another&gt; TypeAlias;                    <comment>//&lt; typedef による別名付与 ⇒ NG</comment>
-<keyword>using</keyword> TypeAlias = SomeType2&lt;Another&gt;;                    <comment>//&lt; using   による別名付与 ⇒ OK</comment>
+<cmt>// テンプレートに別名付与 (Another は未知の型)</cmt>
+<kwd>tenplate</kwd> &lt;<kwd>typename</kwd> Another&gt;
+<kwd>typedef</kwd> SomeType2&lt;Another&gt; TypeAlias;                    <cmt>//&lt; typedef による別名付与 ⇒ NG</cmt>
+<kwd>using</kwd> TypeAlias = SomeType2&lt;Another&gt;;                    <cmt>//&lt; using   による別名付与 ⇒ OK</cmt>
 </p>
 
 </body>

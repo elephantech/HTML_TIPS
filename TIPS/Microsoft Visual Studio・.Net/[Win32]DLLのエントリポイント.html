@@ -45,8 +45,8 @@ body
 
 
 <h2>DLLのエントリポイント</h2>
-一般的なWin32 DLLは  <strong>DllMain()</strong>  をエントリポイントに持つ。<br>
-(Win32アプリケーション(EXE)のエントリポイントは  <strong>WinMain()</strong>  。)<br>
+一般的なWin32 DLLは  <b>DllMain()</b>  をエントリポイントに持つ。<br>
+(Win32アプリケーション(EXE)のエントリポイントは  <b>WinMain()</b>  。)<br>
 DllMain() の一般形(スケルトン)は以下の通り。<br>
 <p class="code">
 BOOL WINAPI DllMain(HINSTANCE hinstDll, DWORD dwReason, LPVOID lpReserved)
@@ -79,77 +79,77 @@ DLLを(動的に)リンクした場合、DllMain() は以下のタイミング�
 </ul>
 
 <h2>DLL内の静的オブジェクトの生成タイミング</h2>
-DLL内に静的オブジェクトが存在する場合、 <strong>DLLロード時 DllMain() のコールより前に生成され、DLLアンロード時 DllMain() のコール後に破棄される</strong> 。<br>
+DLL内に静的オブジェクトが存在する場合、 <b>DLLロード時 DllMain() のコールより前に生成され、DLLアンロード時 DllMain() のコール後に破棄される</b> 。<br>
 以下のコードを参照。<br>
 テスト用EXE<br>
 <p class="code">
-<keyword>int</keyword> _tmain(<keyword><keyword>int</keyword></keyword> argc, _TCHAR* argv[])
+<kwd>int</kwd> _tmain(<kwd>int</kwd> argc, _TCHAR* argv[])
 {
-    wprintf(<literal>L"Main   , entered\n"</literal>);
+    wprintf(<ltr>L"Main   , entered\n"</ltr>);
 
-    <comment>// DLLロード</comment>
-    wprintf(<literal>L"Main   , loading library\n"</literal>);
-    HMODULE h = LoadLibrary(<literal>L"Test.dll"</literal>);
+    <cmt>// DLLロード</cmt>
+    wprintf(<ltr>L"Main   , loading library\n"</ltr>);
+    HMODULE h = LoadLibrary(<ltr>L"Test.dll"</ltr>);
 
-    <keyword>if</keyword> (h)
+    <kwd>if</kwd> (h)
     {
-        <comment>// DLLアンロード</comment>
-        wprintf(<literal>L"Main   , freeing library\n"</literal>);
+        <cmt>// DLLアンロード</cmt>
+        wprintf(<ltr>L"Main   , freeing library\n"</ltr>);
         FreeLibrary(h);
     }
 
-    wprintf(<literal>L"Main   , exiting\n"</literal>);
-    <keyword>return</keyword> <literal>0</literal>;
+    wprintf(<ltr>L"Main   , exiting\n"</ltr>);
+    <kwd>return</kwd> <ltr>0</ltr>;
 }
 </p>
 DLL<br>
 <p class="code">
-<comment>// 構造体 Moo 型</comment>
-<keyword>struct</keyword> Moo
+<cmt>// 構造体 Moo 型</cmt>
+<kwd>struct</kwd> Moo
 {
-    Moo() { wprintf(<literal>L"Moo    , constructor\n"</literal>); }    <comment>//&lt; コンストラクタ</comment>
-    ~Moo() { wprintf(<literal>L"Moo    , destructor\n"</literal>); }    <comment>//&lt; デストラクタ</comment>
+    Moo() { wprintf(<ltr>L"Moo    , constructor\n"</ltr>); }    <cmt>//&lt; コンストラクタ</cmt>
+    ~Moo() { wprintf(<ltr>L"Moo    , destructor\n"</ltr>); }    <cmt>//&lt; デストラクタ</cmt>
 };
 
-Moo m;  <comment>//&lt; 静的な Moo インスタンス</comment>
+Moo m;  <cmt>//&lt; 静的な Moo インスタンス</cmt>
 
-<comment>// DllMain() 関数</comment>
+<cmt>// DllMain() 関数</cmt>
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved)
 {
-    <keyword>switch</keyword> (ul_reason_for_call)
+    <kwd>switch</kwd> (ul_reason_for_call)
     {
-    <keyword>case</keyword> DLL_PROCESS_ATTACH:
-        wprintf(<literal>L"DllMain, DLL_PROCESS_ATTACH\n"</literal>);
-        <keyword>break</keyword>;
-    <keyword>case</keyword> DLL_THREAD_ATTACH:
-        wprintf(<literal>L"DllMain, DLL_THREAD_ATTACH\n"</literal>);
-        <keyword>break</keyword>;
-    <keyword>case</keyword> DLL_THREAD_DETACH:
-        wprintf(<literal>L"DllMain, DLL_THREAD_DETACH\n"</literal>);
-        <keyword>break</keyword>;
-    <keyword>case</keyword> DLL_PROCESS_DETACH:
-        wprintf(<literal>L"DllMain, DLL_PROCESS_DETACH\n"</literal>);
-        <keyword>break</keyword>;
-    <keyword>default</keyword>:
-        wprintf(<literal>L"DllMain, ????\n"</literal>);
-        <keyword>break</keyword>;
+    <kwd>case</kwd> DLL_PROCESS_ATTACH:
+        wprintf(<ltr>L"DllMain, DLL_PROCESS_ATTACH\n"</ltr>);
+        <kwd>break</kwd>;
+    <kwd>case</kwd> DLL_THREAD_ATTACH:
+        wprintf(<ltr>L"DllMain, DLL_THREAD_ATTACH\n"</ltr>);
+        <kwd>break</kwd>;
+    <kwd>case</kwd> DLL_THREAD_DETACH:
+        wprintf(<ltr>L"DllMain, DLL_THREAD_DETACH\n"</ltr>);
+        <kwd>break</kwd>;
+    <kwd>case</kwd> DLL_PROCESS_DETACH:
+        wprintf(<ltr>L"DllMain, DLL_PROCESS_DETACH\n"</ltr>);
+        <kwd>break</kwd>;
+    <kwd>default</kwd>:
+        wprintf(<ltr>L"DllMain, ????\n"</ltr>);
+        <kwd>break</kwd>;
     }
-    <keyword>return</keyword> TRUE;
+    <kwd>return</kwd> TRUE;
 }
 </p>
 出力結果 (解説のために改行、コメントを追加)<br>
 <p class="code">
 Main   , entered
 
-Main   , loading library        <comment>//&lt; EXEからDLLをロード</comment>
-Moo    , constructor            <comment>//&lt; 静的 Moo インスタンス生成</comment>
-DllMain, DLL_PROCESS_ATTACH     <comment>//&lt; DllMain() : dwReason = DLL_PROCESS_ATTACH</comment>
+Main   , loading library        <cmt>//&lt; EXEからDLLをロード</cmt>
+Moo    , constructor            <cmt>//&lt; 静的 Moo インスタンス生成</cmt>
+DllMain, DLL_PROCESS_ATTACH     <cmt>//&lt; DllMain() : dwReason = DLL_PROCESS_ATTACH</cmt>
 
-Main   , freeing library        <comment>//&lt; EXEからDLLをアンロード</comment>
-DllMain, DLL_PROCESS_DETACH     <comment>//&lt; DllMain() : dwReason = DLL_PROCESS_DETACH</comment>
-Moo    , destructor             <comment>//&lt; 静的 Moo インスタンス破棄</comment>
+Main   , freeing library        <cmt>//&lt; EXEからDLLをアンロード</cmt>
+DllMain, DLL_PROCESS_DETACH     <cmt>//&lt; DllMain() : dwReason = DLL_PROCESS_DETACH</cmt>
+Moo    , destructor             <cmt>//&lt; 静的 Moo インスタンス破棄</cmt>
 
 Main   , exiting
 </p>

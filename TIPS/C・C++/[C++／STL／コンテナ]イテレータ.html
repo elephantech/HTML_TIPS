@@ -61,12 +61,12 @@ for() 文はC++11以降であれば、
 <a href="TIPS/C%E3%83%BBC++/[C++]%E5%9E%8B%E6%8E%A8%E8%AB%96.html">auto(型推論)</a>
 を用いて以下のように書ける。<br>
 <p class="code">
-<keyword>for</keyword>( <keyword>auto</keyword> it = aVector.begin(); it != aVector.end(); ++it )
+<kwd>for</kwd>( <kwd>auto</kwd> it = aVector.begin(); it != aVector.end(); ++it )
 </p>
 また、end() が周回ごとに呼ばれるのを避ける( end() に重い処理を含む場合など)には、以下のようにする。<br>
 <p class="code">
-<keyword>auto</keyword> end = aVector.end();
-<keyword>for</keyword>( <keyword>auto</keyword> it = aVector.begin(); it != end ; ++it )
+<kwd>auto</kwd> end = aVector.end();
+<kwd>for</kwd>( <kwd>auto</kwd> it = aVector.begin(); it != end ; ++it )
 </p>
 <h2>イテレータとポインタの違い</h2>
 vector 、array 、およびC互換の配列は各要素が添字順にメモリに格納されるため、先頭要素へのポインタを加算することで要素を順に走査できる。<br>

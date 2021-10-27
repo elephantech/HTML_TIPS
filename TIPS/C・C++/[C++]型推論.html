@@ -70,15 +70,15 @@ auto はコードの簡略化(冗長性の排除)にも有効である。<br>
 <p class="code">
 <cmt>// std::vector&lt;int&gt; myvec (ベクトル)を走査する場合</cmt>
 
-<comment>// auto を使用しない for ループ</comment>
-<keyword>for</keyword> (std::vector&lt;<keyword>int</keyword>&gt;::const_iterator itr = myvec.begin(); itr != myvec.end(); ++itr)
+<cmt>// auto を使用しない for ループ</cmt>
+<kwd>for</kwd> (std::vector&lt;<kwd>int</kwd>&gt;::const_iterator itr = myvec.begin(); itr != myvec.end(); ++itr)
 {
     :
 }
 
-<comment>// auto を使用した for ループ</comment>
-<comment>// myvec.begin() がイテレータを返すことから、itr がイテレータであることは明白</comment>
-<keyword>for</keyword> (<keyword>auto</keyword> itr = myvec.begin(); itr != myvec.end(); ++itr)
+<cmt>// auto を使用した for ループ</cmt>
+<cmt>// myvec.begin() がイテレータを返すことから、itr がイテレータであることは明白</cmt>
+<kwd>for</kwd> (<kwd>auto</kwd> itr = myvec.begin(); itr != myvec.end(); ++itr)
 {
     :
 }
