@@ -69,7 +69,7 @@ body
 
 <h3>メンバ変数がクラスの場合</h3>
 <p class="code">
-<cmt>// 引数付きコンストラクタをもつHogeクラス</cmt>
+<cmt>// 引数付きコンストラクタをもつCHogeクラス</cmt>
 <kwd>class</kwd> CHoge
 {
 <kwd>public</kwd>:
@@ -77,21 +77,21 @@ body
     CHoge(<kwd>int</kwd> x) { (略) }
 }
 
-<cmt>// HogeクラスをメンバにもつFugaクラス</cmt>
+<cmt>// CHogeクラスをメンバにもつCFugaクラス</cmt>
 <kwd>class</kwd> CFuga
 {
 <kwd>private</kwd>:
-    CHoge m_cl_Hoge;  <cmt>//&lt; Hogeクラスのインスタンス</cmt>
+    CHoge m_cl_Hoge;  <cmt>//&lt; CHogeクラスのインスタンス</cmt>
 <kwd>public</kwd>:
     CFuga(<kwd>int</kwd> x)
     {
-        m_cl_Hoge(x);  <cmt>//&lt; Hogeクラスのインスタンスを初期化しようとしているが…</cmt>
+        m_cl_Hoge(x);  <cmt>//&lt; CHogeクラスのインスタンスを初期化しようとしているが…</cmt>
     }
 }
 </p>
 
 <b>上記のコードはエラーとなる</b> 。<br>
-前節で説明した通り、CFuga クラスのインスタンス生成時にメンバ変数 m_cl_Hoge が <b>「デフォルトコンストラクタ(引数なし)」で初期化される</b> が、 <br>
+前節で説明した通り、CFuga クラスのインスタンス生成時にはメンバ変数 m_cl_Hoge が <b>「デフォルトコンストラクタ(引数なしのコンストラクタ)」で初期化される</b> が、 <br>
 <b>CHoge クラスには「引数なしのコンストラクタ」が存在しない</b> ためである。 <br>
 このように、 <b>メンバ変数がクラス(または構造体)インスタンスかつ、デフォルトコンストラクタが存在しない場合は、初期化リストを用いる以外に初期化の手段は無い</b> 。<br>
 <br>

@@ -46,28 +46,29 @@ body
 
 <!-- 本文ここから -->
 
-
 <h2>まえがき</h2>
-クラスにおける、静的( static 修飾)でないメンバ関数は暗黙の引数 this をとる都合上、<br>
-C互換の通常関数(非メンバ関数および静的メンバ関数)とは(見かけ上)関数の型が等しくても呼び出しに互換性が無い。<br>
+クラスの非静的( static 修飾されていない)メンバ関数は暗黙の引数 this をとる都合上、<br>
+C互換の関数(非メンバ関数および静的メンバ関数)とは、関数の型が見かけ上等しくても、呼び出しに互換性が無い。<br>
 ⇒ 非静的メンバ関数をクラス外から関数ポインタ経由で呼び出す場合は、 <b>メンバ関数ポインタを</b> 用いるとともに、<br>
 this に相当するクラスインスタンスのアドレスを解決する必要がある。<br>
 <img src="_Img/CPP/memberfunc_ptr/memberfunctionpointer_01.png" alt="画像"><br>
 
 <h2>ケース1 : 既知のクラスのメンバとして呼び出す</h2>
 上記「まえがき」の修正。<br>
-コールバックの登録先をメンバ関数ポインタとするとともに、 <b>「クラスの関数として」</b> 登録する。コールバックを呼び出す際にインスタンスに紐づける。<br>
+コールバックの登録先( m_pfnCallbackFunc )を<b>「( CReceiver クラスの)メンバ関数ポインタ」</b>とするとともに、<br>
+コールバックを<b>「( CReceiver )クラスの関数として」</b>登録し、<br>
+コールバックを<b>「呼び出す際に」</b>特定のインスタンスに紐づける。<br>
 <img src="_Img/CPP/memberfunc_ptr/memberfunctionpointer_02.png" alt="画像"><br>
 
 <h2>ケース2 : 静的関数化・クラス情報を隠蔽</h2>
-コールバックを静的関数(クラスメソッド)とすることで、通常の関数ポインタに代入可能となる。<br>
-静的関数からはそのままでは( this が無いため)非静的メンバにアクセスできないので、this に相当するインスタンスポインタを渡す。<br>
-ここで、CSender は CReceiver について知る必要が無いため、より汎用的に実装できる。<br>
+コールバックを<b>静的関数(クラスメソッド)とすることで、通常の関数ポインタに代入可能となる(クラス関数ポインタを必要としない)</b>。<br>
+静的関数からはクラスの非静的メンバにアクセスできない( this が無いため)ので、this に相当するインスタンスポインタを渡す。<br>
+ケース1と異なり、CSender は CReceiver について知る必要が無いため、より汎用的に実装できる。<br>
 <img src="_Img/CPP/memberfunc_ptr/memberfunctionpointer_03.png" alt="画像"><br>
 
 <h2>注意が必要な点</h2>
-<b class="red">::*</b>、<b class="red">.*</b>、<b class="red">-&gt;*</b>の各演算子は関数呼び出しの<b class="dgreen">()</b>よりも優先順位が低いので、関数名全体を<b class="blue">()</b>で囲む必要がある。<br>
-誤 : mReceiver <b class="red">-&gt;*</b>CallbackFunc<b class="dgreen">(</b>0, true<b class="dgreen">)</b>;<br>
-正 : <b class="blue">(</b>mReceiver<b class="red">-&gt;*</b>CallbackFunc<b class="blue">)</b><b class="dgreen">(</b>0, true<b class="dgreen">)</b>;<br>
+<b class="red">::*</b>、<b class="red">.*</b>、<b class="red">-&gt;*</b>の各演算子は関数呼び出しの<b class="dgreen">()</b>よりも優先順位が低いので、関数名全体を<b class="blue">()</b>で囲まなければ正常に呼び出されない。<br>
+誤 : m_pReceiver <b class="red">-&gt;*</b>CallbackFunc<b class="dgreen">(</b>0, true<b class="dgreen">)</b>;<br>
+正 : <b class="blue">(</b>m_pReceiver<b class="red">-&gt;*</b>CallbackFunc<b class="blue">)</b><b class="dgreen">(</b>0, true<b class="dgreen">)</b>;<br>
 </body>
 </html>

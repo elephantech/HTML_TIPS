@@ -34,8 +34,6 @@ body
 <h5>出典 :</h5>
 <a href="https://qiita.com/pink_bangbi/items/e25302df7f4ba7fa0db4">C++ における class と struct の違い - Qiita</a><br>
 
-
-
 <!-- 目次 -->
 <h5>目次 :</h5>
 <div id="toc"></div>
@@ -44,89 +42,98 @@ body
 
 <!-- 本文ここから -->
 
-
 <h2>クラス(class)と構造体(struct)の差異</h2>
 C++がCのスーパーセット(現在は厳密には異なる)であることから、C++における構造体がCと同様に「変数のみを定義できる」という誤解も多いが、<br>実際は <b>構造体にもメンバ関数(メソッド)を定義できる</b> 。<br>つまりC++においては、 <b>デフォルトのアクセス指定を除き、クラスと構造体の実装は変わらない</b> 。<br>
 <ul>
 <li>クラス : デフォルトのアクセス指定が <b>private</b></li>
 <li>構造体 : デフォルトのアクセス指定が <b>public</b></li>
 </ul>
+
 <h2>CとC++での構造体の差異</h2>
-C++においては、前述のように構造体とクラスの実装は変わらず、構造体の定義もクラスと同様に書ける。<br>
-即ち、 <b>構造体定義における「タグ名」が「正式な型名」となるため、型定義に typedef を必要としない</b> 。<br>
+反面、CとC++では構造体の実装に微妙な差異がある。
 
 <h3>C</h3>
+構造体定義の際には struct キーワードに続いて「タグ」を指定できる(型定義を同時に行う場合は省略可能)。<br>
+「型名」を定義する際は typedef が必要。<br>
 
 <h4>構造体定義#1</h4>
 構造体定義と型定義を分離する場合。<br>
 <p class="code">
-<kwd>struct</kwd> tagSt_Hoge1  <cmt>//&lt; tagSt_Hoge1 はタグ名であり、型名ではない</cmt>
+<kwd>struct</kwd> tagSt_Hoge1                    <cmt>//&lt; tagSt_Hoge1 はタグであり、型名ではない</cmt>
 {
     U1 m_u1_Val;
 };
-<kwd>typedef</kwd> <kwd>struct</kwd> tagSt_Hoge1 St_Hoge1;  <cmt>//&lt; タグ名から型名を定義</cmt>
+<kwd>typedef</kwd> <kwd>struct</kwd> tagSt_Hoge1 St_Hoge1;  <cmt>//&lt; タグから型名を定義</cmt>
 </p>
 
 <h4>構造体定義#2</h4>
 構造体定義と型定義を同時に行う場合。<br>
 <p class="code">
-<kwd>typedef</kwd> <kwd>struct</kwd> tagSt_Hoge2  <cmt>//&lt; タグ tagSt_Hoge2 は省略可能</cmt>
+<kwd>typedef</kwd> <kwd>struct</kwd> tagSt_Hoge2             <cmt>//&lt; タグ tagSt_Hoge2 は省略可能</cmt>
 {
     U1 m_u1_Val;
 } St_Hoge2;
 </p>
+
 <h4>変数宣言</h4>
 <p class="code">
-<cmt>// タグ名を用いる場合</cmt>
+<cmt>// タグを用いる場合 (struct キーワードが必要)</cmt>
 <kwd>struct</kwd> tagSt_Hoge1 g_st_Hoge1_1;
 <kwd>struct</kwd> tagSt_Hoge2 g_st_Hoge2_1;
 <cmt>// (typedef で定義した)型名を用いる場合</cmt>
 St_Hoge1 g_st_Hoge1_2;
 St_Hoge2 g_st_Hoge2_2;
 </p>
+
 <h3>C++</h3>
+C++においては、前述のように構造体とクラスの実装は変わらず、構造体の定義もクラス定義と同様に書ける。<br>
+即ち、<b>「構造体定義」は「構造体型定義」を兼ねる(「タグ」が「正式な型名」となる)ため、型定義に typedef を必要としない</b> 。<br>
 
 <h4>クラス定義</h4>
 <p class="code">
-<kwd>class</kwd> C_Hoge0
+<kwd>class</kwd> C_Hoge0                          <cmt>//&lt; クラス型 C_Hoge0</cmt>
 {
-    U1 m_u1_Val;    <cmt>//&lt; デフォルトは private</cmt>
+    U1 m_u1_Val;                       <cmt>//&lt; デフォルトは private</cmt>
 <kwd>public</kwd>:
     C_Hoge0() {}
     GetVal() <kwd>const</kwd> { <kwd>return</kwd> m_u1_Val; }
 };
 </p>
+
 <h4>構造体定義#1</h4>
 定義はアクセス指定を除き、class と同様。<br>
 <p class="code">
-<kwd>struct</kwd> St_Hoge1
+<kwd>struct</kwd> St_Hoge1                          <cmt>//&lt; St_Hoge1 は正規の構造体型名(タグではない)</cmt>
 {
-    St_Hoge1() {}                        <cmt>//&lt;デフォルトは public</cmt>
+    St_Hoge1() {}                        <cmt>//&lt; デフォルトは public</cmt>
     GetVal() <kwd>const</kwd> { <kwd>return</kwd> m_u1_Val; }  <cmt>//&lt; ↑</cmt>
 <kwd>private</kwd>:
     U1 m_u1_Val;
 };
 </p>
+
 <h4>構造体定義#2</h4>
 C同様、定義した構造体型に typedef (または using )で別名を充てることもできるが、単に冗長であるだけでなく、二重管理となり混乱を生じる可能性がある。<br>
 class も同様。<br>
 <p class="code">
-<kwd>typedef</kwd> <kwd>struct</kwd> tagSt_Hoge2
+<kwd>typedef</kwd> <kwd>struct</kwd> tagSt_Hoge2               <cmt>//&lt; tagSt_Hoge2 は正規の構造体型名(タグではない)</cmt>
 {
-    St_Hoge2() {}                        <cmt>//&lt;デフォルトは public</cmt>
+    St_Hoge2() {}                        <cmt>//&lt; デフォルトは public</cmt>
     GetVal() <kwd>const</kwd> { <kwd>return</kwd> m_u1_Val; }  <cmt>//&lt; ↑</cmt>
 <kwd>private</kwd>:
     U1 m_u1_Val;
-} St_Hoge2;
+} St_Hoge2;                              <cmt>//&lt; tagSt_Hoge2 の別名</cmt>
 </p>
+
 <h4>変数宣言</h4>
 St_Hoge1 、tagSt_Hoge2 はタグ名ではなく正規の型名であるため、struct キーワードは不要。( class キーワードも同様に不要)<br>
 <p class="code">
-C_Hoge0 g_cl_Hoge0;
-St_Hoge1 g_st_Hoge1;
-tagSt_Hoge2 g_st_Hoge2_1;
-St_Hoge2 g_st_Hoge2_2;
+C_Hoge0 g_cl_Hoge0;            <cmt>//&lt; クラス変数宣言</cmt>
+St_Hoge1 g_st_Hoge1;           <cmt>//&lt; 構造体変数宣言#1</cmt>
+tagSt_Hoge2 g_st_Hoge2_1;      <cmt>//&lt; 構造体変数宣言#2</cmt>
+St_Hoge2 g_st_Hoge2_2;         <cmt>//&lt; (別名を用いた)構造体変数宣言</cmt>
 </p>
+
 <h2>どちらを用いるべきか</h2>
 クラスと構造体では前述したとおり、(デフォルトの)アクセス指定以外の差異は存在しないため、どちらを用いても機能的には問題は無い。<br>
 しかし、<br>
@@ -136,12 +143,14 @@ St_Hoge2 g_st_Hoge2_2;
 </ul>
 という認識が一般的であり、構造体にメソッドを設けることに違和感を覚える人も少なくない。<br>
 このため、メソッドを含む場合はクラスを、変数のみの場合は構造体を用いるのがどうやら自然と言える。<br>
-但しデータと、それを取り扱うメソッドは本来不可分であるため、極力ひとまとめにしてクラス化するのが望ましい。<br>
-(すなわち、構造体を用いる意義は薄く、クラスを積極的に用いるべきである。)
+但し、データとそれを取り扱うメソッドは本来不可分であるため、極力ひとまとめにしてクラス化(カプセル化)するのが望ましい。<br>
+(すなわち構造体を用いる意義自体が薄く、構造体ではなくクラスを用いるべきである。)<br>
 尚、アクセス指定はデフォルトを用いず、明示的に指定するのが良い。<br>
+
 <h2>余談</h2>
-構造体と同様、共用体にもコンストラクタ・デストラクタを定義できる。<br>
-C#においては、クラスはデフォルトで参照渡し、構造体は値渡しとなる。詳細は割愛。<br>
+C++では構造体と同様、共用体にもコンストラクタ・デストラクタを定義できる。<br>
+C#においてはC++と異なり、クラスはデフォルトで参照渡し、構造体は値渡しとなる。詳細は割愛。<br>
+
 </body>
 </html>
 
