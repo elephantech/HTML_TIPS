@@ -50,13 +50,21 @@ Slackbotから、送信された「のうはう」に対応する応答が返る
 
 <h2>カスタムレスポンスの設定</h2>
 <ol>
-	<li><a href="https://elephantech.slack.com/customize/slackbot">Slackbotの設定ページ</a>を開く。</li>
-	<li>「新しいレスポンスを追加する」を押す。<br>
+	<li><a href="https://elephantech.slack.com/customize/slackbot">Slackbotの設定ページ</a>を開き、「新しいレスポンスを追加する」を押す。<br>
 		<img src="_Img/Slack/custom_response/03.png"></li>
-	<li>応答先のフレーズと、返信内容を記述して「保存する」を押す。<br>
+	<li>応答先のフレーズ(「メンバーがこう言ったら…」)と、返信内容(「Slackbotの返信」)を記述して「保存する」を押す。<br>
 		返信中に改行を埋め込む場合は \n を記述する。<br>
 		<img src="_Img/Slack/custom_response/04.png"></li>
 </ol>
 
+<h2>注意が必要な点</h2>
+返答内容が設定された語句<b>のみ</b>が送信された場合(余分な語が無い)にしかカスタムレスポンスは返らない。<br>
+例) 「<blue><b>のうはう</b></blue>」に対する応答が設定されている場合
+<ul>
+	<li>「<blue><b>のうはう</b></blue>」 ⇒ 返る</li>
+	<li>「<blue><b>のうはう</b></blue>教えて」 ⇒ 返らない</li>
+	<li>「何か<blue><b>のうはう</b></blue>」 ⇒ 返らない</li>
+</ul>
+
 </body>
-</text/html>
+</html>

@@ -43,19 +43,28 @@ body
 
 <!-- 本文ここから -->
 
-
 <h2>PowerShellにおける比較演算子</h2>
 <table>
 <tr><th class="col1" rowspan="2">演算子</th><th colspan="2" rowspan="2">概要</th><th class="border_b_normal" colspan="2">他言語の<br>相当する演算子</th> <th rowspan="2">例（条件式の部分のみ）</th> </tr>       
 <tr class="row1">    <td class="border_t_normal">C系</td> <td class="border_t_normal">VB</td>  </tr>       
-<tr> <td class="col1 red">-eq</td> <td class="border_r_dotted">等しい (＝)</td> <td class="border_l_dotted"><b class="red">eq</b>ual to</td> <td class="center">==</td> <td class="center">=</td> <td>$_Name <b class="red">-eq</b> wgalog"</td> </tr>       
-<tr> <td class="col1 red">-ne</td> <td class="border_r_dotted">等しくない (≠)</td> <td class="border_l_dotted"><b class="red">n</b>ot <b class="red">e</b>qual to</td> <td class="center">!=</td> <td class="center"><></td> <td>$_Name <b class="red">-ne</b> wgalog"</td> </tr>       
+<tr> <td class="col1 red">-eq</td> <td class="border_r_dotted">等しい (＝)</td> <td class="border_l_dotted"><b class="red">eq</b>ual to</td> <td class="center">==</td> <td class="center">=</td> <td>$_Name <b class="red">-eq</b> "wgalog"</td> </tr>       
+<tr> <td class="col1 red">-ne</td> <td class="border_r_dotted">等しくない (≠)</td> <td class="border_l_dotted"><b class="red">n</b>ot <b class="red">e</b>qual to</td> <td class="center">!=</td> <td class="center"><></td> <td>$_Name <b class="red">-ne</b> "wgalog"</td> </tr>       
 <tr> <td class="col1 red">-gt</td> <td class="border_r_dotted">より大きい (＞)</td> <td class="border_l_dotted"><b class="red">g</b>reater <b class="red">t</b>han</td> <td class="center" colspan="2">></td>  <td>$_Length <b class="red">-gt</b> 1MB</td> </tr>       
 <tr> <td class="col1 red">-ge</td> <td class="border_r_dotted">以上 (≧)</td> <td class="border_l_dotted"><b class="red">g</b>reater than or <b class="red">e</b>qual to</td> <td class="center" colspan="2">>=</td>  <td>$_Length <b class="red">-ge</b> 1MB</td> </tr>       
 <tr> <td class="col1 red">-lt</td> <td class="border_r_dotted">未満 (＜)</td> <td class="border_l_dotted"><b class="red">l</b>ess <b class="red">t</b>han</td> <td class="center" colspan="2"></td>  <td>$_Length <b class="red">-lt</b> 1MB</td> </tr>       
 <tr> <td class="col1 red">-le</td> <td class="border_r_dotted">以下 (≦)</td> <td class="border_l_dotted"><b class="red">l</b>ess than or <b class="red">e</b>qual to</td> <td class="center" colspan="2"><=</td>  <td>$_Length <b class="red">-le</b> 1MB</td> </tr>       
 <tr> <td class="col1 red">-like</td> <td colspan="2">あいまい検索 (ワイルドカード)</td>  <td class="center" colspan="2"></td>  <td>$_Name <b class="red">-like</b> "*.log"</td> </tr>       
 <tr> <td class="col1 red">-match</td> <td colspan="2">正規表現検索</td>  <td class="center" colspan="2"></td>  <td>$_Name <b class="red">-match</b> "[a-z]{1,}\.log"</td> </tr>       
+</table>
+
+<h2>PowerShellにおける論理演算子</h2>
+<table>
+<tr><th class="col1" rowspan="2">演算子</th><th rowspan="2">概要</th><th class="border_b_normal" colspan="2">他言語の<br>相当する演算子</th> <th rowspan="2">例</th> </tr>       
+<tr class="row1">    <td class="border_t_normal">C系</td> <td class="border_t_normal">VB</td>  </tr>       
+<tr> <td class="col1 red">-and</td>      <td>論理積(AND)</td>       <td class="center">&&</td> <td class="center">AND</td> <td>(1 -eq 1) <b class="red">-and</b> (1 -eq 2)</td> </tr>       
+<tr> <td class="col1 red">-or</td>       <td>論理和(OR)</td>        <td class="center">||</td> <td class="center">OR</td>  <td>(1 -eq 1) <b class="red">-or</b> (1 -eq 2)</td> </tr>       
+<tr> <td class="col1 red">-xor</td>      <td>排他的論理和(XOR)</td> <td class="center" colspan="2"></td>                   <td>(1 -eq 1) <b class="red">-xor</b> (1 -eq 2)</td> </tr>
+<tr> <td class="col1 red">-not<br>!</td> <td>否定(NOT)</td>         <td class="center">!</td><td class="center">NOT</td>   <td><b class="red">-not</b> (1 -eq 2)<br><b class="red">!</b>(1 -eq 2)</td> </tr>
 </table>
 
 <h2>単純分岐(if - elseif - else 節)</h2>
@@ -163,8 +172,9 @@ $ary = <ltr>@(100, 120, 300)</ltr>
 520
 </p>
 
-<h3>foreach 節(範囲ベース for)</h3>
-C#などの foreach 節と同様。コレクション(集合)の要素を一つずつ処理できる。
+<h3>範囲ベース for</h3>
+C#などの foreach 節と同様。コレクション(集合)の全要素を順に走査して処理できる。
+<h4>foreach文を使用する場合</h4>
 <p class="code">
 <cmt># 配列 $ary を初期化</cmt>
 $ary = <ltr>@(100, 120, 300)</ltr>
@@ -185,10 +195,27 @@ $ary = <ltr>@(100, 120, 300)</ltr>
 520
 </p>
 
-よりリソース消費が少ない ForEach-Object コマンドレットも存在する。<br>
-詳細は
-<a href="https://www.atmarkit.co.jp/ait/articles/0709/20/news125.html">出典元</a>
-を参照。
+<h4>ForEach-Object コマンドレットを使用する場合</h4>
+foreach文を使用するよりもリソース消費が少ない。
+<p class="code">
+  <cmt># 配列 $ary を初期化</cmt>
+  $ary = <ltr>@(100, 120, 300)</ltr>
+  
+  <cmt># ForEach-Object 節</cmt>
+  <cmt># $ary[] の値は順に $_ (自動変数)に格納される</cmt>
+  $ary | <kwd>ForEach-Object</kwd>
+  {
+    <cmt># 変数 $sum に自動変数の値を加算</cmt>
+    $sum += $_;
+  }
+  
+  <cmt># 変数 $sum の値を出力</cmt>
+  <kwd>Write-Output</kwd> $sum
+</p>
+実行結果
+<p class="code">
+520
+</p>
 
 <h3>while / do ～ while 節</h3>
 C系言語の while / do ～ while 節と同様。継続条件を満たしている間、ループを繰り返す。<br>

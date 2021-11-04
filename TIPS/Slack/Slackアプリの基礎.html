@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+<head>
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+</head>
+
+<!-- --------------------------------------
+<body>
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://reffect.co.jp/html/slack">基礎からはじめる入門者向けSlackアプリ開発(Express, Bolt) | アールエフェクト</a><br>
+<a href="https://a-records.info/slack-app-send-message-curl/">Slackアプリ制作超入門：最初のBotメッセージを送信するまで | Akashic Records</a><br>
+<a href="https://qiita.com/horihiro/items/8c601c24492d87ddb742">Slash Commandを外部から実行する - Qiita</a>
+<a href="https://ja.wikipedia.org/wiki/CURL">cURL - Wikipedia</a>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+※この記事は書きかけです。
+
+<h2>Slackアプリでできること</h2>
+外部のアプリケーションからSlackへのメッセージ送信や、サーバを介したインタラクティブな通信が可能となる。
+
+<h2>アプリの作成手順</h2>
+「アプリの作成(Create an app)」と表記されてはいるが、ここで紹介する手順は「外部アプリケーションへの窓口(インタフェース)を用意する」のに近い。<br>
+
+<h3>アプリの設定</h3>
+<ol>
+	<li>
+		<a href="https://api.slack.com/">Slack API のページ</a>に移動し、"Create an app"を押す。<br>
+		<img src="_Img/Slack/App_Basics/02.png">
+	</li>
+	<li>
+		"Your Apps"のページに移動するので、"Create an app"を押す。<br>
+		<img src="_Img/Slack/App_Basics/03.png">
+	</li>
+	<li>
+		ダイアログが開くので、"From scratch"を押す。<br>
+		<img src="_Img/Slack/App_Basics/04.png">
+	</li>
+	<li>
+		アプリ名を入力、登録先ワークスペースを選択し、"Create App"を押す。<br>
+		<img src="_Img/Slack/App_Basics/05.png">
+	</li>
+	<li>
+		"Basic Information" > "Add features and functionality" > "Permissions"を押す。<br>
+		<img src="_Img/Slack/App_Basics/06.png">
+	</li>
+	<li>
+		"OAuth & Permissions"のページに移動するので、下方向にスクロールし、<br>
+		"Scopes"下の"Bot Token Scopes" > "Add an OAuth Scope"(外部からの投稿をBotとして行う場合)<br>
+		または"User Token Scopes" > "Add an OAuth Scope"(外部からの投稿をユーザ(例 : Takahata Shinji)として行う場合)を押し、<br>
+		"chat:write"を選択する。<br>
+		(通常の投稿であれば上記で対応可能。その他のスコープについては割愛。)<br>
+		<img src="_Img/Slack/App_Basics/07.png"><br>
+		<img src="_Img/Slack/App_Basics/08.png"><br>
+	</li>
+	<li>
+		上方向にスクロールし、"OAuth Tokens for Your Workspace" > "Request to Install"を押す。<br>
+		<img src="_Img/Slack/App_Basics/09.png"><br>
+	</li>
+	<li>
+		ダイアログが開くので、"Submit Request"を押す。<br>
+		リクエストが届けば、Slackbotからメッセージが届く。<br>
+		<img src="_Img/Slack/App_Basics/10.png"><br>
+	</li>
+</ol>
+
+<h3>アプリのインストール</h3>
+<ol>
+	<li>
+		"Your App"ページ左側メニューの"Basic Information"を押す。<br>
+		<img src="_Img/Slack/App_Basics/11.png"><br>
+	</li>
+	<li>
+		"Basic Information" > "Add features and functionality"にチェックがついていることを確認し、<br>
+		"Install your app" > "Install to Workspace"を押す。<br>
+		<img src="_Img/Slack/App_Basics/12.png"><br>
+	</li>
+	<li>
+		"許可する"を押す。<br>
+		インストールに成功すれば"Basic Information" > "Install your App"にチェックがつく。<br>
+		<img src="_Img/Slack/App_Basics/13.png"><br>
+		<img src="_Img/Slack/App_Basics/14.png"><br>
+	</li>
+</ol>
+
+<h3>トークンの取得</h3>
+トークンとは、外部アプリケーションからSlack Appを介して投稿を行う際に、用いるAppを特定する鍵のことを指す。<br>
+ユーザとして投稿する場合と、Botとして投稿を行う場合とで異なるトークンを用いる点に注意。<br>
+<ol>
+	<li>
+		"Your App"ページ左側メニューの"OAuth & Permissions"を押す。<br>
+		ユーザ、Bot投稿用のトークンが表示される。"Copy"を押すとクリップボードにコピーされる。<br>
+		<img src="_Img/Slack/App_Basics/15.png"><br>
+	</li>
+</ol>
+
+<h3>チャンネルへのAppの追加(チャンネルへの投稿の許可)</h3>
+投稿先となるチャンネルにAppを追加することで、Appを介したチャンネルへの投稿が可能となる。<br>
+<ol>
+	<li>
+		Slackを開き、登録先のチャンネルを右クリック、「チャンネル詳細を開く」を選択する。<br>
+		<img src="_Img/Slack/App_Basics/16.png"><br>
+	</li>
+	<li>
+		「インテグレーション」タブを選択し、「App」>「アプリを追加する」を押す。<br>
+		<img src="_Img/Slack/App_Basics/17.png"><br>
+	</li>
+	<li>
+		検索欄に追加したいApp名を入力し、表示されたAppが正しければ「追加」を押す。<br>
+		<img src="_Img/Slack/App_Basics/18.png"><br>
+	</li>
+</ol>
+
+<h3>cURLを用いたSlackへの投稿</h3>
+cURLとは、様々なプロトコルを用いたデータ転送を可能とするライブラリと、コマンドラインインタフェースの組である。<br>
+cURLを用いることで、HTTPリクエストの形式でSlackへのメッセージ送信が可能となる。<br>
+UNIX / Linuxだけでなく、Windowsでも利用可能。<br>
+以下、Windows + PowerShellでの例。<br>
+<img src="_Img/Slack/App_Basics/01.png"><br>
+
+<h4>メッセージの形式</h4>
+解説のために改行を挿入。実際には空白で連結する。
+<p class="code">
+curl -X POST -H 'Authorization: Bearer <blue>xoxb-$$$$$</blue>' <cmt>//< 青字はトークン</cmt>
+-H 'Content-type: application/json;charset=UTF-8'
+<dmagenta>--data '{<dcyan>"channel":"@username"</dcyan>,<dyellow>"text":"Test"</dyellow>}'</dmagenta>     <cmt>//< {}内に送信先チャンネル、メッセージを記述</cmt>
+<red>https://slack.com/api/chat.postMessage</red>             <cmt>//< SlackのURL (WebHook)</cmt>
+</p>
+
+<table>
+	<tr class="row1">
+		<td colspan="3">項目</td>
+		<td>記述例</td>
+		<td>備考</td>
+	</tr>
+	<tr>
+		<td colspan="2"><b><blue>トークン</blue></b></td>
+		<td>「トークンの取得」で<br>取得したトークン</td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td rowspan="3"><b><dmagenta>送信データ</dmagenta></b></td>
+		<td rowspan="2"><b><dcyan>送信先チャンネル /<br>ユーザ名</dcyan></b></td>
+		<td>チャンネルに送信する場合 :<br>チャンネル名</td>
+		<td><b><dcyan>\"channel\":\"report-takahata\"</dcyan></b><br>(チャンネル"report-takahata"に送信)</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>ユーザに送信する場合 :<br>"@" + ユーザ名</td>
+		<td><b><dcyan>\"channel\":\"@Takahata.Shinji\"</dcyan></b><br>(ユーザ"Takahata Shinji"に送信)</td>
+		<td>ユーザ名の空白" "はドット"."で置換する</td>
+	</tr>
+	<tr>
+		<td><b><dyellow>送信メッセージ</dyellow></b></td>
+		<td>送信するメッセージ</td>
+		<td><b><dyellow>\"text\":\"Test\"</dyellow></b><br>(メッセージとして"Test"を送信)</td>
+		<td></td>
+	</tr>
+</table>
+
+<h4>注意が必要な点</h4>
+Windows版cURLに限り、<b><dmagenta>送信データ</dmagenta></b>中の二重引用符(")は、<b>バックスラッシュ(\)を付与する必要がある</b>。<br>
+<ul>
+	<li>誤 : バックスラッシュなし<br>
+	<dmagenta>--data '{<dcyan>"channel":"@username"</dcyan>,<dyellow>"text":"Test"</dyellow>}'</dmagenta>
+	</li>
+	<li>正 :<br>
+	<dmagenta>--data '{<dcyan><b>\</b>"channel<b>\</b>":<b>\</b>"@username<b>\</b>"</dcyan>,<dyellow><b>\</b>"text<b>\</b>":<b>\</b>"Test<b>\</b>"</dyellow>}'</dmagenta>
+	</li>
+</ul>
+
+
+
+</body>
+</html>
