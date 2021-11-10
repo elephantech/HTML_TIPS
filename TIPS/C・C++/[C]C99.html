@@ -60,7 +60,7 @@ ANSIによる標準化(C89)以後、言語仕様の進化が遅れていたCに�
 <a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FC99]%E3%82%A4%E3%83%B3%E3%83%A9%E3%82%A4%E3%83%B3%E9%96%A2%E6%95%B0%20(Inline%20Function).html">[C++／C99]インライン関数 (Inline Function)</a>を参照。<br>
 
 <h3>明示的なブーリアン型 (bool)</h3>
-C++同様、ブーリアン値を格納するための <b>bool</b> 型および、真・偽を表す <b>true 、false</b> を使用可能。<br>
+C++同様、ブーリアン値を格納するための <b>bool</b> 型および、真・偽を表す値 <b>true 、false</b> を使用可能。<br>
 使用するためには <b>stdbool.h</b> のインクルードが必要。<br>
 <p class="code">
 <kwd>#include</kwd> &lt;stdbool.h&gt;
@@ -73,16 +73,17 @@ b = <kwd>true</kwd>;
 64ビットの幅を持つ <b>(signed) long long (int) 、unsigned long long (int)</b> を使用可能。<br>
 リテラルの接尾辞はそれぞれ LL 、ULL。<br>
 <p class="code">
-<kwd>#define</kwd> S8_MAX (  <kwd>signed long long</kwd>)<ltr>0x7FFFFFFFFFFFFFFFLL</ltr>     <cmt>//&lt;   signed long long int 最大値 (接尾辞LL)</cmt>
 <kwd>#define</kwd> S8_MIN (  <kwd>signed long long</kwd>)<ltr>0x8000000000000000LL</ltr>     <cmt>//&lt;   signed long long int 最小値 (接尾辞LL)</cmt>
+<kwd>#define</kwd> S8_MAX (  <kwd>signed long long</kwd>)<ltr>0x7FFFFFFFFFFFFFFFLL</ltr>     <cmt>//&lt;   signed long long int 最大値 (接尾辞LL)</cmt>
 <kwd>#define</kwd> U8_MAX (<kwd>unsigned long long</kwd>)<ltr>0xFFFFFFFFFFFFFFFFULL</ltr>    <cmt>//&lt; unsigned long long int 最大値 (接尾辞ULL)</cmt>
 </p>
 
 <h3>ローカル変数の宣言位置制約の撤廃</h3>
-C89では、ローカル変数はコードブロック(関数など、{} (ブレース)で囲まれた区間)の先頭で宣言する必要があったが、<b>C++同様、コードブロックの途中でも変数を宣言できる</b> 。<br>
+C89ではローカル変数はコードブロック(関数など、{} (ブレース)で囲まれた区間)の先頭で宣言する必要があったが、<br>
+C99では<b>C++同様、コードブロックの途中でも変数を宣言できる</b> 。<br>
 <br>
 
-C89:<br>
+<h4>C89</h4>
 <p class="code">
 <kwd>int</kwd> func(<kwd>void</kwd>)
 {
@@ -101,7 +102,7 @@ C89:<br>
 </p>
 <br>
 
-C99:<br>
+<h4>C99</h4>
 <p class="code">
 <kwd>int</kwd> func(<kwd>void</kwd>)
 {
@@ -125,8 +126,8 @@ C99:<br>
 }
 </p>
 
-<h3>//から始まる一行コメント</h3>
-BCPLやC++と同じスタイルでコメントを記述できる。従来の/* ～ */スタイルも使用可能。<br>
+<h3><dgreen>//</dgreen>から始まる一行コメント</h3>
+BCPLやC++と同じスタイルでコメントを記述できる。従来の <dgreen>/*</dgreen> ～ <dgreen>*/</dgreen> スタイルも使用可能。<br>
 
 <h3>__func__ マクロ</h3>
 現在実行中の関数名を取得できる。<br>
@@ -246,7 +247,7 @@ St_Point* center(<kwd>const</kwd> St_Point*p1, <kwd>const</kwd> St_Point*p2)
 <h2>注意すべき点( C89との相違 )</h2>
 宣言時に型を省略した場合、C89では暗黙的に int と見なしていたが、C99ではコンパイルエラーとなる。<br>
 同様に、プロトタイプの無い関数はC89では戻り値の型は int 、引数の数、型は任意と解釈されるが、C99では文法違反となる。<br>
-即ち、 <b>プロトタイプ宣言(前方宣言)、または前方定義が必須</b> で、これらはいずれもC++と同様である。<br>
+即ち、<b>プロトタイプ宣言(前方宣言)または前方定義が必須</b>で、これらはいずれもC++と同様である。<br>
 
 <h2>コンパイラのバージョン判別</h2>
 コンパイラがサポートしているCのバージョンは、標準マクロとして定義される <b>__STDC_VERSION__</b> (標準Cバージョン)の値から判別できる。<br>

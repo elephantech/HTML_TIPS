@@ -50,11 +50,12 @@ body
 <h2>ジェネリック(汎用)プログラミングとは</h2>
 特定のデータ型に依存しない、抽象的・汎用的な処理を実装すること。共通のロジックを複数のデータ型に適用でき、データ型に縛られない本質的な処理を実装できる。<br>
 このように定義された関数を <b>汎用関数</b> (Generic Function)と呼ぶ。C++、Java、C#(.Net)などのモダン言語で用いることができる。<br>
-<br>
-(ジェネリックプログラミングを用いない場合)<br>
+(言語によって「テンプレート」、「ジェネリクス」と呼称が異なるが、本質的には同等である。)<br>
+
+<h3>ジェネリックプログラミングを用いない場合の例</h3>
 <img src="_Img/Software Development/OOP/genelic_programming/oop-genelic-programming_01.png" alt="画像"><br>
-<br>
-(ジェネリックプログラミングを用いた場合)<br>
+
+<h3>ジェネリックプログラミングを用いた場合の例</h3>
 <img src="_Img/Software Development/OOP/genelic_programming/oop-genelic-programming_02.png" alt="画像"><br>
 
 <h2>汎用関数の定義</h2>
@@ -75,37 +76,37 @@ C#で定義した汎用関数はC++(CLI)でも用いることができる。但�
 
 <p class="code">
 <cmt>// 汎用リスト(単方向)</cmt>
-<cmt>// 操作対象(保持する値)は data_t 型</cmt>
-<kwd>template</kwd> &lt;<kwd>class</kwd> data_t&gt; <kwd>class</kwd> list
+<cmt>// 操作対象(保持する値)は Data_t 型</cmt>
+<kwd>template</kwd> &lt;<kwd>class</kwd> Data_t&gt; <kwd>class</kwd> List_t
 {
 <kwd>private</kwd>:
-    data_t data;    <cmt>//&lt; データ</cmt>
-    list* <kwd>next</kwd>;     <cmt>//&lt; 次の要素</cmt>
+    Data_t  data;     <cmt>//&lt; データ</cmt>
+    List_t* next;     <cmt>//&lt; 次の要素</cmt>
 <kwd>public</kwd>:
     <cmt>// メンバ関数宣言 (この時点では template キーワードは不要)</cmt>
-    list(data_t d);                                            <cmt>//&lt; コンストラクタ</cmt>
-    <kwd>void</kwd>   add(list* node) { node-&gt;<kwd>next</kwd> = this; <kwd>next</kwd> = <ltr>0</ltr>; }    <cmt>//&lt; 自身の前に要素を挿入</cmt>
-    list*  getnext()       { <kwd>return</kwd> <kwd>next</kwd>; }                    <cmt>//&lt; 次の要素へのポインタを取得</cmt>
-    data_t getdata()       { <kwd>return</kwd> data; }                    <cmt>//&lt; 値を取得</cmt>
+    List_t(Data_t d);                                              <cmt>//&lt; コンストラクタ(ここでは宣言のみ)</cmt>
+    <kwd>void</kwd>     add(List_t* node) { node-&gt;next = this; next = <ltr>0</ltr>; }    <cmt>//&lt; 自身の前に要素を挿入</cmt>
+    List_t*  getnext()         { <kwd>return</kwd> next; }                    <cmt>//&lt; 次の要素へのポインタを取得</cmt>
+    Data_t   getdata()         { <kwd>return</kwd> data; }                    <cmt>//&lt; 値を取得</cmt>
 }
 
-<cmt>// コンストラクタ</cmt>
+<cmt>// List_t のコンストラクタ定義</cmt>
 <cmt>// クラス定義の外なので、template キーワードを付与</cmt>
-<kwd>template</kwd> &lt;<kwd>class</kwd> data_t&gt;
-list&lt;data_t&gt;::list(data_t d)
+<kwd>template</kwd> &lt;<kwd>class</kwd> Data_t&gt;
+List_t&lt;Data_t&gt;::List_t(Data_t d)
 {
     data = d;
-    <kwd>next</kwd> = <ltr>0</ltr>;
+    next = <ltr>0</ltr>;
 }
 
 :
 
-<cmt>// list 型 変数 start を生成</cmt>
-<cmt>// (操作対象として char 型を指定)</cmt>
-list&lt;<kwd>char</kwd>&gt; start(<ltr>'a'</ltr>);
+<cmt>// List_t 型変数 start を生成</cmt>
+<cmt>// (保持対象として char 型を指定)</cmt>
+List_t&lt;<kwd>char</kwd>&gt; start(<ltr>'a'</ltr>);
 </p>
 
-C++の bSTL(標準テンプレートライブラリ)</b> はその名の通り汎用クラスとして定義されており、多様な型のデータを共通の手法で管理できる。<br>
+C++の<b>STL(標準テンプレートライブラリ)</b>はその名の通り汎用クラスとして定義されており、多様な型のデータを共通の手法で管理できる。<br>
 コンテナが代表的。<a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A.html">[C++／STL／コンテナ]コンテナ</a>を参照。<br>
 
 </body>
