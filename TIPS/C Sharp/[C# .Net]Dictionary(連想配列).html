@@ -66,6 +66,27 @@ TKey 、TValue ともに <b>任意の型を指定できる</b>(「文字列を�
 いずれもC#における例。<br>
 <img src="_Img/MSVS_DotNet_CSharp/DotNet_Dictionary/dictionary_02.png" alt="画像"><br>
 
+<h2>キーのみ / 値のみの集合を抽出</h2>
+Dictionary のキー(Keys)、値(Values)のみを抽出できる。
+<p class="code">
+<cmt>// Dictionary を初期化</cmt>
+Dictionary &lt;<kwd>int</kwd>, <kwd>string</kwd>&gt; dic = <kwd>new</kwd> Dictionary &lt;<kwd>int</kwd>, <kwd>string</kwd>&gt;
+{
+    { <ltr>0</ltr>, <ltr>"りんご"</ltr> },
+    { <ltr>1</ltr>, <ltr>"みかん"</ltr> },
+    { <ltr>2</ltr>, <ltr>"いちご"</ltr> },
+};
+
+<cmt>// キーのみ、値のみを抽出</cmt>
+<kwd>var</kwd> keys   = dic.Keys;
+<kwd>var</kwd> values = dic.Values;
+
+<cmt>// List 化可能</cmt>
+<cmt>// コンストラクタに KeyCollection / ValueCollection を渡す</cmt>
+List&lt;<kwd>int</kwd>&gt;    list_keys   = <kwd>new</kwd> List&lt;<kwd>int</kwd>&gt(keys);
+List&lt;<kwd>string</kwd>&gt; list_values = <kwd>new</kwd> List&lt;<kwd>string</kwd>&gt(values);
+</p>
+    
 <h2>Dictionaryの逆引き (値からキーを得る)</h2>
 <b>System.Linq</b> に依存。First() 関数とラムダ式を用いて以下のように書ける。<br>
 (ラムダ式については<a href="TIPS/ソフトウェア開発一般/無名関数とラムダ式.html">無名関数とラムダ式</a>を参照)<br>

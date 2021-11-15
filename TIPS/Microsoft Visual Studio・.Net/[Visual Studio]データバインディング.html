@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+(この記事は書きかけです)
+
+<h2>データバインディングとは</h2>
+コントロール(リストボックス、データグリッドビューなど)で管理するデータ(データソース)を特定のデータに紐づけること。<br>
+バインドされたデータが変更された場合、自動的にコントロールに反映される。<br>
+
+
+<h2>バインドするデータソースの類型</h2>
+<h3>データベース</h3>
+(書きかけ)
+
+<h3>オブジェクト</h3>
+オブジェクトをデータソースとして指定することができる。指定できる型はコントロールによって異なる。
+
+<h4>コンボボックス (ComboBox)</h4>
+System.Collections.IList インターフェイスを実装するオブジェクト(List など)、または Array をデータソースに使用可能。
+
+<h5>C#</h5>
+<p class="code">
+<cmt>// List 型オブジェクトをデータソース(DataSource)に指定</cmt>
+comboBox_Attendance.DataSource = <kwd>new</kwd> List&lt;<kwd>string</kwd>&gt;(dic_Attendance.Keys);
+</p>
+
+<h4>注意が必要な点</h4>
+複数のコントロールでデータソースに共通のオブジェクトを用いると、コントロール間で値が連動してしまう。<br>
+このためドメイン(値の定義域)が共通でも、それぞれを独立して動作させるなら個別にオブジェクトを作成する必要がある。<br>
+(逆に、複数のコントロールで値を連動させたい場合は、共通のオブジェクトをデータソースに設定するとよい。)
+
+<p class="code">
+<cmt>// List 型オブジェクトを生成</cmt>
+<kwd>var</kwd> ds = <kwd>new</kwd> List&lt;<kwd>string</kwd>&gt; { <ltr>"rrr"</ltr>, <ltr>"sss"</ltr>, <ltr>"ttt"</ltr> };
+
+<cmt>// 一つのオブジェクトを複数のコンボボックスのデータソースに指定</cmt>
+<cmt>// ⇒ すべてのコンボボックスで値が連動してしまう</cmt>
+<cmt>// ( comboBox_01 の値(Text)を "rrr" に変更すると、comboBox_02 、comboBox_03 の値も "rrr" となる)</cmt>
+comboBox_01.DataSource = ds;
+comboBox_02.DataSource = ds;
+comboBox_03.DataSource = ds;
+</p>
+
+<p class="code">
+<cmt>// (初期化子としての)List 型オブジェクトを生成</cmt>
+<kwd>var</kwd> ds = <kwd>new</kwd> List&lt;<kwd>string</kwd>&gt; { <ltr>"rrr"</ltr>, <ltr>"sss"</ltr>, <ltr>"ttt"</ltr> };
+
+<cmt>// List 型オブジェクトをコントロールごとに生成</cmt>
+<cmt>// ⇒ オブジェクトが異なるため、値は連動しない</cmt>
+comboBox_01.DataSource = <kwd>new</kwd> List&lt;<kwd>string</kwd>&gt;(ds);
+comboBox_02.DataSource = <kwd>new</kwd> List&lt;<kwd>string</kwd>&gt;(ds);
+comboBox_03.DataSource = <kwd>new</kwd> List&lt;<kwd>string</kwd>&gt;(ds);
+</p>
+    
+    
+
+</body>
+</html>
+
