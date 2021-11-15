@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://yaspage.com/prog/csharp/cs-tuple/">[C# 入門] タプル（tuple）の使い方まとめ</a><br>
+<a href="https://www.fenet.jp/dotnet/column/language/2282/">【C#入門】C#のタプル(tuple)を使ってできることとは | .NETコラム</a>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>タプル(tuple)とは</h2>
+複数の値を組にしたデータ構造のこと。C#7.0より新たに導入された。
+
+<h3>構造体(struct)との違い</h3>
+複数の値を組にできる点は構造体と同様であるが、タプルの場合は要素名を必要としないなど、構造体よりも簡便に用いることができる。<br>
+構造体と異なり事前に型定義を必要としないため、特に関数の戻り値として用いる場合に有用である。
+
+<h4>構造体を用いた場合</h4>
+関数の戻り値として用いる場合、事前に型定義が必要となる。
+<p class="code">
+<cmt>// 構造体型 Hoge 定義</cmt>
+<kwd>struct</kwd> Hoge
+{
+    <kwd>public int</kwd>    no;
+    <kwd>public string</kwd> name;
+}
+
+:
+
+<cmt>// Hoge 型を返すメソッド Func()</cmt>
+<kwd>public</kwd> Hoge Func()
+{
+    Hoge retval;
+    retval.no = <ltr>20</ltr>;
+    retval.name <ltr>"ttt"</ltr>;
+
+    <kwd>return</kwd> retval;
+}
+</p>
+	
+<h4>タプルを用いた場合</h4>
+<p class="code">
+<cmt>// タプルを返すメソッド Func()</cmt>
+<kwd>public</kwd> (<kwd>int</kwd> no, <kwd>string</kwd> name) Func()
+{
+    <kwd>return</kwd> (<ltr>20</ltr>, <ltr>"ttt"</ltr>);
+}
+</p>
+	
+<h3>使用例</h3>
+<h4>タプルの宣言と代入</h4>
+宣言、代入のいずれのタイミングでも名前を指定(変更)できる。また、すべての要素に名前をつける必要はない(有名・無名フィールドが混在してもよい)。
+<p class="code">
+(<kwd>int</kwd>, <kwd>string</kwd>, <kwd>bool</kwd>, <kwd>double</kwd>) unnamed_tuple = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr>true</ltr>, <ltr>1.25</ltr>);                                    <cmt>//< 名前なしタプル</cmt>
+(<kwd>int</kwd> value1, <kwd>string</kwd> value2, <kwd>bool</kwd> value3, <kwd>double</kwd> value4) named_tuple1 = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr>true</ltr>, <ltr>1.25</ltr>);         <cmt>//< 宣言時に名前を指定</cmt>
+(<kwd>int</kwd>, <kwd>string</kwd>, <kwd>bool</kwd>, <kwd>double</kwd>) named_tuple2 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr>true</ltr>, value4: <ltr>1.25</ltr>);     <cmt>//< 代入時に名前を指定</cmt>
+<kwd>var</kwd> named_tuple3 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr>true</ltr>, value4: <ltr>1.25</ltr>);                             <cmt>//< 型推論を使用可能</cmt>
+</p>
+    
+<h4>タプルの参照</h4>
+<p class="code">
+<cmt>// 名前なしタプルの参照(Item#)</cmt>
+System.Console.WriteLine(unnamed_tuple.Item1);      <cmt>//< 要素1 ⇒ 100</cmt>
+System.Console.WriteLine(unnamed_tuple.Item2);      <cmt>//< 要素2 ⇒ "abcde"</cmt>
+System.Console.WriteLine(unnamed_tuple.Item3);      <cmt>//< 要素3 ⇒ true</cmt>
+System.Console.WriteLine(unnamed_tuple.Item4);      <cmt>//< 要素4 ⇒ 1.25</cmt>
+
+<cmt>// 名前つきタプルの参照</cmt>
+System.Console.WriteLine(named_tuple1.value1);      <cmt>//< 要素1 ⇒ 100</cmt>
+System.Console.WriteLine(named_tuple1.value2);      <cmt>//< 要素2 ⇒ "abcde"</cmt>
+System.Console.WriteLine(named_tuple1.value3);      <cmt>//< 要素3 ⇒ true</cmt>
+System.Console.WriteLine(named_tuple1.value4);      <cmt>//< 要素4 ⇒ 1.25</cmt>
+</p>
+
+<h4>タプルの分解(要素の抽出)</h4>
+<p class="code">
+<cmt>// 個別に型推論</cmt>
+(<kwd>var</kwd> value1, <kwd>var</kwd> value2, <kwd>var</kwd> value3, <kwd>var</kwd> value4) = unnamed_tuple;
+
+<cmt>// まとめて型推論</cmt>
+<cmt>// var <b>()</b>内に変数を宣言</cmt>
+<kwd>var</kwd> <b>(</b>value1, value2, value3, value4<b>)</b> = unnamed_tuple;
+
+<cmt>// 要素1、要素3のみを取得(他を読み飛ばす)</cmt>
+<kwd>var</kwd> (valueM,      _, valueN,      _) = unnamed_tuple;
+
+<cmt>// 既存の変数をタプル化</cmt>
+<kwd>int</kwd>    field1;
+<kwd>string</kwd> field2;
+<kwd>bool</kwd>   field3;
+<kwd>double</kwd> field4;
+var (field1, field2, field3, field4) = unnamed_tuple;
+</p>
+
+<h4>タプルの比較</h4>
+すべてのフィールドの値が等しい場合、ふたつのタプルは等しいとみなされる。<br>
+フィールド名は比較に関与しない(フィールド名が異なっていても問題とはならない)。<br>
+但し、両者の要素数が異なる場合は比較できず、例外が発生する。
+<p class="code">
+<kwd>var</kwd> t1 = (        <ltr>100</ltr>,         <ltr>"abcde"</ltr>,         <ltr>true</ltr>,         <ltr>1.25</ltr>);  <cmt>//< 名前なし</cmt>
+<kwd>var</kwd> t2 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr>true</ltr>, value4: <ltr>1.25</ltr>);  <cmt>//< 名前つき</cmt>
+System.Console.WriteLine(t1 == t2);  <cmt>//< true</cmt>
+
+<kwd>var</kwd> t3 = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr>true</ltr>, <ltr>1.25</ltr>);
+<kwd>var</kwd> t4 = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr>true</ltr>);
+System.Console.WriteLine(t3 == t4);  <cmt>//< 要素数が異なるため例外発生</cmt>
+</p>
+
+<h4>タプルを返すメソッド</h4>
+
+<p class="code">
+<kwd>class</kwd> Program
+{
+    <cmt>// 名前なしタプルを返すメソッド</cmt>
+    <kwd>public static</kwd> (<kwd>int</kwd>, <kwd>int</kwd>) TestMethod_unnamed()
+    {
+        <kwd>return</kwd> (<ltr>10</ltr>, <ltr>20</ltr>);
+    }
+
+    <cmt>// 名前つきタプルを返すメソッド</cmt>
+    <kwd>public static</kwd> (<kwd>int</kwd> value1, <kwd>int</kwd> value2) TestMethod_named()
+    {
+        <kwd>return</kwd> (<ltr>100</ltr>, <ltr>200</ltr>);
+    }
+
+    <kwd>public static void</kwd> Main()
+    {
+        <cmt>// 名前なしタプルの受け取り</cmt>
+        <kwd>var</kwd> a = TestMethod_unnamed();
+        System.Console.WriteLine(a.Item1);
+        System.Console.WriteLine(a.Item2);
+
+        <cmt>// 名前なしタプルを名前つきタプルで受け取り</cmt>
+        (<kwd>var</kwd> val1, <kwd>var</kwd> val2) = TestMethod_unnamed();
+        System.Console.WriteLine(val1);
+        System.Console.WriteLine(val2);
+
+        <cmt>// 名前つきタプルの受け取り</cmt>
+        <kwd>var</kwd> b = TestMethod_named();
+        System.Console.WriteLine(b.value1);
+        System.Console.WriteLine(b.value2);
+    }
+}
+</p>
+
+
+
+</body>
+</html>
