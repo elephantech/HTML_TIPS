@@ -32,6 +32,10 @@ body
 
 <!-- 出典・関連ページ -->
 
+<h5>関連 :</h5>
+<a href="TIPS/Microsoft%20Visual%20Studio・.Net/[Visual Studio]日付・時刻入力(DateTimePicker).html">[Visual Studio]日付・時刻入力(DateTimePicker)</a>
+
+
 <!-- 目次 -->
 <h5>目次 :</h5>
 <div id="toc"></div>
@@ -41,7 +45,7 @@ body
 <!-- 本文ここから -->
 
 
-<h2>DateTime  TimeSpan 型とは</h2>
+<h2>DateTime / TimeSpan 型とは</h2>
 <b>DateTime</b> : 時刻(日付を含む)を取り扱うクラス。<br>
 <b>TimeSpan</b> : 時間(間隔)を取り扱うクラス。<br>
 両者には相関がある。
@@ -145,14 +149,18 @@ TimeSpan ts3 = dt2 - dt1;                                          <cmt>//< 差�
 DateTime dt4 = dt1 + ts3;                                          <cmt>//<   2020年 6月 20日 18時   45分  3秒 </cmt>
                                                                    <cmt>//< +            58日 20時間 35分 56秒 </cmt>
                                                                    <cmt>//< = 2020年 8月 18日 15時   20分 59秒 </cmt>
+
+<cmt>// 日付部分のみを取り出す</cmt>
+DateTime dt5 = dt4.Date;                                           <cmt>//<   2020年 6月 20日 18時   45分  3秒 </cmt>
+                                                                   <cmt>//< ⇒2020年 6月 20日( 0時    0分  0秒)</cmt>
+<cmt>// 時刻部分のみを取り出す (TimeSpan 型となる点に注意)</cmt>
+TimeSpan ts4 = dt4.TimeOfDay;                                      <cmt>//<   2020年 6月 20日 18時   45分  3秒 </cmt>
+                                                                   <cmt>//<                   18時   45分  3秒 </cmt>
 </p>
 
 <h2>フォーム上で日時を入力する(DateTimePicker)</h2>
 DateTimePicker コントロールを使用することで、カレンダーから日時を選択、入力することができる。<br>
-Value プロパティにフォームの入力値(DateTime型)が反映される。<br>
-その際、デフォルトでは日付のみ入力可能(時刻が入力できない)となっているため、<br>
-Format プロパティを Custom 、<br>
-CustomFormat プロパティを yyyy/MM/dd HH:mm:ss に変更することで時刻が入力可能となる。<br>
+詳細は<a href="TIPS/Microsoft%20Visual%20Studio・.Net/[Visual Studio]日付・時刻入力(DateTimePicker).html">リンク先</a>を参照。<br>
 <img src="_Img/MSVS_DotNet_CSharp/DotNet_Datetime_Timespan/dotnet_datetime_and_timespan_01.png"><br>
 
 

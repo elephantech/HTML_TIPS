@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+
+<h5>関連 :</h5>
+<a href="TIPS/C%20Sharp/[C%23%20.Net]コレクション.html">[C# .Net]コレクション</a>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>コレクションのソート</h2>
+固定長配列を含むコレクションにソート関数を適用することで、要素を並べ替えることができる。<br>
+特に指定が無ければ昇順で並べられる。
+
+<h3>固定長配列(Array)</h3>
+Array.Sort() を用いる。
+<p class="code">
+<cmt>// 配列の宣言・初期化</cmt>
+<kwd>int</kwd>[] arrSample = {<ltr>3</ltr>, <ltr>5</ltr>, <ltr>2</ltr>, <ltr>1</ltr>, <ltr>4</ltr>};
+
+<cmt>// 配列のソート( Array.Sort() )</cmt>
+<b>Array.Sort</b>(arrSample);    <cmt>//< { 3, 5, 2, 1, 4 } ⇒ { 1, 2, 3, 4, 5 }</cmt>
+</p>
+
+<h3>List<T></T></h3>
+<p class="code">
+<cmt>// 配列の宣言・初期化</cmt>
+<kwd>List</kwd>&lt;<kwd>int</kwd>&gt; listSample =
+    <kwd>new List</kwd>&lt;<kwd>int</kwd>&gt; {<ltr>3</ltr>, <ltr>5</ltr>, <ltr>2</ltr>, <ltr>1</ltr>, <ltr>4</ltr>};
+
+<cmt>// Listのソート( Sort() )</cmt>
+listSample.<b>Sort</b>();    <cmt>//< { 3, 5, 2, 1, 4 } ⇒ { 1, 2, 3, 4, 5 }</cmt>
+</p>
+
+<h2>構造を持つデータのソート</h2>
+数値や文字列と異なり、クラスや構造体、タプルの場合は値を単純に比較できないので、<br>
+比較基準を関数として規定し、Sort() 関数に渡す必要がある。<br>
+比較関数は同型の引数二つをとり、両者の序列(昇順)を戻り値として返す。<br>
+
+<table>
+    <tr class="row1">
+        <td class="col1">序列</td><td>戻り値</td>
+    </tr>
+    <tr>
+        <td class="col1">引数1が引数2よりも前<br>(引数1 &lt; 引数2)</tb></td><td class="center">負</td>
+    </tr>
+    <tr>
+        <td class="col1">引数1と引数2が同等</td><td class="center">0</td>
+    </tr>
+    <tr>
+        <td class="col1">引数1が引数2よりも後<br>(引数1 &gt; 引数2)</td><td class="center">正</td>
+    </tr>
+</table>
+
+<p class="code">
+<kwd>private void</kwd> Hoge()
+{
+    <cmt>// string, DateTime, DateTime のタプル</cmt>
+    <kwd>List</kwd>&lt;(<kwd>string</kwd> reason, DateTime begin, DateTime end)&gt; sorted = 
+        <kwd>new List</kwd>&lt;(<kwd>string</kwd> reason, DateTime begin, DateTime end)&gt;();
+    <kwd>foreach</kwd> (<kwd>var</kwd> item <kwd>in</kwd> plans)
+    {
+        sorted.Add(item.cb_Reason.Text, item.dtp_Begin.Value.Date, item.dtp_End.Value.Date);
+    }
+
+    <cmt>// 比較関数を渡してソート</cmt>
+    sorted.Sort(<b>Compare</b>);
+
+    :
+
+}
+
+<cmt>// コレクションソート用比較関数</cmt>
+<kwd>private int</kwd> <b>Compare</b>((<kwd>string</kwd> reason, DateTime begin, DateTime end) row1, 
+                    (<kwd>string</kwd> reason, DateTime begin, DateTime end) row2)
+{
+    <cmt>// reason を比較に用いる</cmt>
+    <cmt>// 空文字列であれば序列が後</cmt>
+    <kwd>var</kwd> r1r = row1.reason;
+    <kwd>var</kwd> r2r = row2.reason;
+    <kwd>if</kwd> (r1r == "" && r2r == "") { <kwd>return</kwd> 0;  }
+    <kwd>if</kwd> (r1r == "")              { <kwd>return</kwd> 1;  }
+    <kwd>if</kwd> (r2r == "")              { <kwd>return</kwd> -1; }
+
+    :
+
+}
+</p>
+
+</body>
+</html>
