@@ -33,7 +33,9 @@ body
 <!-- 出典・関連ページ -->
 <h5>出典 :</h5>
 <a href="https://yaspage.com/prog/csharp/cs-tuple/">[C# 入門] タプル（tuple）の使い方まとめ</a><br>
-<a href="https://www.fenet.jp/dotnet/column/language/2282/">【C#入門】C#のタプル(tuple)を使ってできることとは | .NETコラム</a>
+<a href="https://www.fenet.jp/dotnet/column/language/2282/">【C#入門】C#のタプル(tuple)を使ってできることとは | .NETコラム</a><br>
+<a href="https://qiita.com/dyoneda/items/e45fcd9a379922e8484a">ValueTupleをTuple・匿名型と比較してみる - Qiita</a><br>
+<a href="https://ufcpp.net/study/csharp/datatype/tuples/?p=2">タプル - C# によるプログラミング入門 | ++C++; // 未確認飛行 C</a><br>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -44,10 +46,13 @@ body
 <!-- 本文ここから -->
 
 <h2>タプル(tuple)とは</h2>
-複数の値を組にしたデータ構造のこと。C#7.0より新たに導入された。
+複数の値を組にしたデータ構造のこと。<br>
+C#ではTuple型、匿名型を用いることができたが、C#7.0よりValueTuple型が追加された。<br>
+以下、特記なき限りはValueTuple型について論じるものとする。
 
 <h3>構造体(struct)との違い</h3>
-複数の値を組にできる点は構造体と同様であるが、タプルの場合は要素名を必要としないなど、構造体よりも簡便に用いることができる。<br>
+複数の値を組にできる点は構造体と同様であるが、タプル(ValueTuple)の場合は要素名を必要としないなど、構造体よりも簡便に用いることができる。<br>
+(逆に、Tuple 型では要素名を割り当てることができない。)<br>
 構造体と異なり事前に型定義を必要としないため、特に関数の戻り値として用いる場合に有用である。
 
 <h4>構造体を用いた場合</h4>
@@ -73,7 +78,7 @@ body
 }
 </p>
 	
-<h4>タプルを用いた場合</h4>
+<h4>タプル(ValueTuple)を用いた場合</h4>
 <p class="code">
 <cmt>// タプルを返すメソッド Func()</cmt>
 <kwd>public</kwd> (<kwd>int</kwd> no, <kwd>string</kwd> name) Func()
@@ -178,7 +183,81 @@ System.Console.WriteLine(t3 == t4);  <cmt>//< 要素数が異なるため例外�
 }
 </p>
 
+<h2>ValueTuple 、Tuple 、匿名型の比較</h2>
+<table>
+    <tr class="row1">
+        <td class="col1"></td>
+        <td width="20%">ValueTuple</td>
+        <td width="20%">Tuple</td>
+        <td width="20%">匿名型</td>
+    </tr>
+    <tr>
+        <td class="col1">メンバの名前付け</td>
+        <td class="bg_lg center">可</td>
+        <td class="bg_lr center">不可</td>
+        <td class="bg_lg center">可</td>
+    </tr>
+    <tr>
+        <td class="col1">引数・戻り値としての使用</td>
+        <td class="bg_lg center">可</td>
+        <td class="bg_lg center">可</td>
+        <td class="bg_lr center">不可</td>
+    </tr>
+    <tr>
+        <td class="col1">型の種類</td>
+        <td class="bg_lg center">構造体</td>
+        <td class="bg_lr center">クラス</td>
+        <td class="bg_lr center">クラス</td>
+    </tr>
+    <tr>
+        <td class="col1">メンバの種類</td>
+        <td class="bg_lg center">フィールド</td>
+        <td class="bg_lr center">プロパティ</td>
+        <td class="bg_lr center">プロパティ</td>
+    </tr>
+    <tr>
+        <td class="col1">可変・不変</td>
+        <td class="bg_lg center">ミュータブル</td>
+        <td class="bg_lr center">イミュータブル</td>
+        <td class="bg_lr center">イミュータブル</td>
+    </tr>
+</table>
 
+<p class="code">
+<cmt>// ValueTupleの宣言・初期化</cmt>
+<cmt>// 明示的に名前を付与しない限り、メンバに名前はつかない</cmt>
+          (<kwd>int</kwd>,   <kwd>string</kwd>  ) vt1 = (   <ltr>1</ltr>,    <ltr>"vt"</ltr>);        <cmt>//< 名前なし</cmt>
+          <kwd>var</kwd>               vt2 = (   <ltr>1</ltr>,    <ltr>"vt"</ltr>);        <cmt>//< 名前なし</cmt>
+ValueTuple&lt;<kwd>int</kwd>,   <kwd>string</kwd>  &gt; vt3 = (   <ltr>1</ltr>,    <ltr>"vt"</ltr>);        <cmt>//< 名前なし</cmt>
+          (<kwd>int</kwd> x, <kwd>string</kwd> y) vt4 = (   <ltr>1</ltr>,    <ltr>"vt"</ltr>);        <cmt>//< 名前つき(宣言時に名前付与)</cmt>
+          <kwd>var</kwd>               vt5 = (x: <ltr>1</ltr>, y: <ltr>"vt"</ltr>);        <cmt>//< 名前つき(初期化時に名前付与)</cmt>
+
+<cmt>// 匿名型の宣言・初期化</cmt>
+<cmt>// クラス型のため new を用いる</cmt>
+<kwd>var</kwd> at1 = <kwd>new</kwd> { x = <ltr>1</ltr>, y = <ltr>"a"</ltr> };               <cmt>//< 初期化時に名前付与</cmt>
+<kwd>var</kwd> m = <ltr>1</ltr>;
+<kwd>var</kwd> n = <ltr>"yy"</ltr>;
+<kwd>var</kwd> at2 = <kwd>new</kwd> { <b>m</b>, <b>n</b> };                         <cmt>//< 名前を明示しない場合、
+                                                //< 初期化に使用した変数名がメンバ名となる
+                                                //< (at2.<b>m</b> == 1 , at2.<b>n</b> == "yy")</cmt>
+
+<cmt>// ValueTuple は値型のため、nullを格納できない</cmt>
+<cmt>// nullを格納したい場合はnull許容型とする必要がある </cmt>
+(<kwd>int</kwd>, <kwd>string</kwd>) vt6     = <kwd>null</kwd>;        <cmt>//< エラー</cmt>
+
+<cmt>// Tuple はクラスのため、nullで初期化できる</cmt>
+Tuple&lt;<kwd>int</kwd>, <kwd>string</kwd>&gt; t1 = <kwd>null</kwd>;        <cmt>//< 正常</cmt>
+
+<cmt>// ValueTuple は再割り当て可能(mutable)</cmt>
+<kwd>var</kwd> vt7 = (<ltr>1</ltr>, <ltr>"vt"</ltr>);
+vt6.Item1 = <ltr>2</ltr>;        <cmt>//< 正常</cmt>
+
+<cmt>// Tuple 、匿名型は再割り当て不可(immutable)</cmt>
+<kwd>var</kwd> t2 = Tuple.Create(<ltr>1</ltr>, <ltr>"vt"</ltr>);
+<kwd>var</kwd> at3 = <kwd>new</kwd> { Item1 = <ltr>1</ltr>, Item2 = <ltr>"vt"</ltr> };
+t2.Item1 = <ltr>2</ltr>;         <cmt>//< エラー</cmt>
+at3.Item1 = <ltr>2</ltr>;        <cmt>//< エラー</cmt>
+</p>
 
 </body>
 </html>

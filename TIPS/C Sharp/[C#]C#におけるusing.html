@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://qiita.com/4_mio_11/items/145c658078a7fe5f36a7">【C#】usingの色々な使い方 - Qiita</a><br>
+<a href="https://atmarkit.itmedia.co.jp/ait/articles/1606/15/news028.html">構文：クラス名を書かずに静的メソッドを呼び出すには？［C# 6.0］：.NET TIPS - ＠IT</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C・C++/[C++]typedefとusing.html">[C++]typedefとusing</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>C#における using の類型</h2>
+<h3>using ディレクティブ</h3>
+異なる名前空間に定義されているクラスを使用する際、ファイルの冒頭に using ディレクティブを記述することで、<br>
+ファイル中で当該名前空間の記述を省略できる。<a href="TIPS/C・C++/[C++]typedefとusing.html">C++と同様</a>。
+<p class="code">
+<cmt>// using ディレクティブ</cmt>
+<kwd>using</kwd> System.Collections.Generic;
+
+<kwd>namespace</kwd> Test
+{
+    <kwd>class</kwd> TestProgram
+    {
+        <kwd>static void</kwd> Main(string[] args)
+        {
+            <cmt>// List クラスは System.Collections.Generic に属するため</cmt>
+            <cmt>// 正式には System.Collections.Generic.List と記述する</cmt>
+            <cmt>// ⇒ using ディレクティブにより System.Collections.Generic を省略できる</cmt>
+            List&lt;<kwd>int</kwd>&gt; index;
+        }
+    }   
+}
+</p>
+
+<h3>using エイリアスディレクティブ</h3>
+型に別名を付与することができる。<a href="TIPS/C・C++/[C++]typedefとusing.html">C++と同様</a>。
+<p class="code">
+<cmt>// using エイリアスディレクティブ</cmt>
+<kwd>using</kwd> Ints = System.Collections.Generic.List&lt;<kwd>int</kwd>&gt;;
+
+<kwd>namespace</kwd> Test
+{
+    <kwd>class</kwd> TestProgram
+    {
+        <kwd>static void</kwd> Main(string[] args)
+        {
+            <cmt>// 付与した別名で変数を宣言</cmt>
+            <cmt>// ⇒ System.Collections.Generic.List&lt;int&gt; Ints と等価</cmt>
+            Ints index;
+        }
+    }   
+}
+</p>
+
+<h3>using 静的ディレクティブ</h3>
+C#6.0以降で使用可能。<br>
+静的メソッドや列挙型の列挙値は、通常の using ディレクティブでは名前空間を省略することができないが、<br>
+using static ディレクティブを用いることで省略可能となる。
+<p class="code">
+<kwd>using</kwd> System;
+<cmt>// 以下、using 静的ディレクティブ</cmt>
+<kwd>using static</kwd> System.Enum;
+<kwd>using static</kwd> Colors;
+
+<kwd>enum</kwd> Colors
+{
+    Red,
+    Yellow,
+    Blue,
+    White,
+    Black,
+}
+
+<kwd>namespace</kwd> Test
+{
+    <kwd>class</kwd> TestProgram
+    {
+        <kwd>static void</kwd> Main(string[] args)
+        {
+            <cmt>// using static System.Enum がない場合、Enum.GetValues と書く必要がある</cmt>
+            <kwd>foreach</kwd> (<kwd>int</kwd> color <kwd>in</kwd> GetValues(<kwd>typeof</kwd>(Colors)))
+            {
+                Console.WriteLine(color);
+            }
+    
+            <cmt>// using static Colors がない場合、Colors.Blue と書く必要がある</cmt>
+            <kwd>var</kwd> myFavoriteColor = Blue;
+        }
+    }   
+}
+</p>
+
+<h3>using ステートメント</h3>
+ファイルストリームなどのアンマネージドリソースを用いる場合、以下の手順が必要となる。
+<ol>
+    <li>リソースの使用権を獲得 (例 : ファイルを開く)</li>
+    <li>リソースを操作</li>
+    <li>リソースの使用権を破棄 (例 : ファイルを閉じる)</li>
+</ol>
+使用権の破棄が行われないと使用権を握ったままとなり、他の処理からのアクセスができないなどの不都合が生じる。<br>
+しかし、using ステートメントを用いると、<b>スコープを抜ける際に自動的にリソースの破棄が行われる</b>。<br>
+但し、使用できるのは IDisposable インタフェースを実装するクラスに限定される。
+<p class="code">
+<cmt>// using ディレクティブ</cmt>
+<kwd>namespace</kwd> Test
+{
+    <kwd>class</kwd> TestProgram
+    {
+        <kwd>static void</kwd> Main(string[] args)
+        {
+            <cmt>// using ステートメントにより、ストリームの寿命を設定</cmt>
+            <cmt>// ⇒ スコープを抜ける際に、ストリームが破棄される</cmt>
+            <kwd>using</kwd> (FileStream fs = <kwd>new</kwd> FileStream(<ltr>"hoge.txt"</ltr>, FileMode.Open, FileAccess.Read, FileShare.None))
+            {   <cmt>//< fs の寿命ここから</cmt>
+
+                Console.WriteLine(fs.Length);
+
+            }   <cmt>//< fs の寿命ここまで</cmt>
+        }
+    }   
+}
+</p>
+
+C#8.0からは変数宣言時に using をつけることでさらに簡略化できる。<br>
+(マネージドリソースと同様に扱うことができる。)
+<p class="code">
+<cmt>// using ディレクティブ</cmt>
+<kwd>namespace</kwd> Test
+{
+    <kwd>class</kwd> TestProgram
+    {
+        <kwd>static void</kwd> Main(string[] args)
+        {
+            <cmt>// using が付与されているため、スコープを抜ける際にストリームが破棄される</cmt>
+            <kwd>using</kwd> FileStream fs = <kwd>new</kwd> FileStream(<ltr>"hoge.txt"</ltr>, FileMode.Open, FileAccess.Read, FileShare.None);
+            Console.WriteLine(fs.Length);
+        }   <cmt>//< fs の寿命ここまで</cmt>
+    }   
+}
+</p>
+
+</body>
+</html>
