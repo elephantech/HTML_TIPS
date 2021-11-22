@@ -31,6 +31,8 @@ body
 <span id="title"></span>
 
 <!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://dobon.net/vb/dotnet/form/okcancelbutton.html">フォームにOKボタン、キャンセルボタンを付ける - .NET Tips (VB.NET,C#...)</a><br>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -100,7 +102,7 @@ body
 </p>
 
 <h2>フォームの処理結果(DialogResult)</h2>
-フォームの処理結果を <b>DialogResult</b> プロパティ(DialogResult 型)から参照することができる。
+フォームの処理結果を <b>DialogResult</b> プロパティ( DialogResult 型)から参照することができる。
 
 <h3>DialogResult の確定</h3>
 <p class="code">
@@ -134,7 +136,8 @@ body
 }
 </p>
 DialogResult プロパティの初期値は DialogResult.None 。<br>
-DialogResult プロパティの値を更新すると自動的にフォームが閉じられるため、Close() を明示的にコールする必要は無い。<br>
+フォームがモーダルの場合、<b>DialogResult プロパティの値を更新すると自動的にフォームが閉じられる</b>ため、<br>
+Close() を明示的にコールする必要は無い。<br>
 
 <h3>DialogResult を元アプリケーションから参照</h3>
 <p class="code">
@@ -172,6 +175,15 @@ if 文では DialogResult の初期値( DialogResult.None )を参考すること
 モードレスダイアログの DialogResult を参照するには、元アプリからのポーリングや、<br>
 フォームからイベントを発行する(フォームが閉じられたことを通知する)などの機構を用意する必要があるが、ここでは詳細は割愛する。<br>
 (余談ながら、Show() の戻り値は void 型である。)
+
+<h2>DialogResult 型の取りうる値(一例)</h2>
+<table>
+<tr><td>DialogResult.None</td><td>結果が設定されていない状態(デフォルト)</td></tr>
+<tr><td>DialogResult.Cancel</td><td>主に「キャンセル」ボタン押下時</td></tr>
+<tr><td>DialogResult.OK</td><td>主に「OK」ボタン押下時</td></tr>
+<tr><td>DialogResult.Yes</td><td>主に「はい」ボタン押下時</td></tr>
+<tr><td>DialogResult.No</td><td>主に「いいえ」ボタン押下時</td></tr>
+</table>
 
 </body>
 </html>
