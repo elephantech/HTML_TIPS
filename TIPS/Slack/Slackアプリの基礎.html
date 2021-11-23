@@ -32,6 +32,7 @@
 <h5>出典 :</h5>
 <a href="https://reffect.co.jp/html/slack">基礎からはじめる入門者向けSlackアプリ開発(Express, Bolt) | アールエフェクト</a><br>
 <a href="https://a-records.info/slack-app-send-message-curl/">Slackアプリ制作超入門：最初のBotメッセージを送信するまで | Akashic Records</a><br>
+<a href="https://7iro.net/slack-api-csharp-incoming-webhook/">【Slack API】C#からSlackにメッセージを送信する【Incoming Webhook】｜なないろ</a><br>
 <a href="https://qiita.com/horihiro/items/8c601c24492d87ddb742">Slash Commandを外部から実行する - Qiita</a>
 <a href="https://ja.wikipedia.org/wiki/CURL">cURL - Wikipedia</a>
 
@@ -146,14 +147,15 @@ cURLを用いることで、HTTPリクエストの形式でSlackへのメッセ�
 UNIX / Linuxだけでなく、Windowsでも利用可能。<br>
 以下、Windows + PowerShellでの例。<br>
 <img src="_Img/Slack/App_Basics/01.png"><br>
+( "--data" は "-d" と同義)
 
 <h4>メッセージの形式</h4>
 解説のために改行を挿入。実際には空白で連結する。
 <p class="code">
 curl -X POST -H 'Authorization: Bearer <blue>xoxb-$$$$$</blue>' <cmt>//< 青字はトークン</cmt>
 -H 'Content-type: application/json;charset=UTF-8'
-<dmagenta>--data '{<dcyan>"channel":"@username"</dcyan>,<dyellow>"text":"Test"</dyellow>}'</dmagenta>     <cmt>//< {}内に送信先チャンネル、メッセージを記述</cmt>
-<red>https://slack.com/api/chat.postMessage</red>             <cmt>//< SlackのURL (WebHook)</cmt>
+<dmagenta>-d '{<dcyan>"channel":"@username"</dcyan>,<dyellow>"text":"Test"</dyellow>}'</dmagenta>        <cmt>//< {}内に送信先チャンネル、メッセージを記述</cmt>
+<red>https://slack.com/api/chat.postMessage</red>             <cmt>//< SlackのURL</cmt>
 </p>
 
 <table>
@@ -199,6 +201,63 @@ Windows版cURLに限り、<b><dmagenta>送信データ</dmagenta></b>中の二�
 	</li>
 </ul>
 
+<h3>Webhookを用いたSlackへの投稿</h3>
+投稿先のチャンネル(またはユーザ)に紐づいたURL(Webhook)を用いることで、より簡便にメッセージを送信できる。<br>
+
+<h4>準備(Webhook URLの作成)</h4>
+<ol>
+	<li>
+		"Your App"ページ左側メニューの"Incoming Webhooks"を押す。<br>
+		<img src="_Img/Slack/App_Basics/19.png"><br>
+	</li>
+	<li>
+		"Activate Incoming Webhooks"トグルボタンをオンにし、<br>
+        "Add New Webhook to Workspace" を押す。<br>
+		<img src="_Img/Slack/App_Basics/20.png"><br>
+	</li>
+	<li>
+		コンボボックスに投稿先のチャンネルを入力し、「許可する」を押す。<br>
+		<img src="_Img/Slack/App_Basics/21.png"><br>
+	</li>
+	<li>
+		許可されると、Webhook URLが作成される。<br>
+		"Incoming Webhooks"で確認可能。<br>
+		<img src="_Img/Slack/App_Basics/22.png"><br>
+	</li>
+</ol>
+
+<h4>cURLを用いた投稿</h4>
+<img src="_Img/Slack/App_Basics/23.png"><br>
+解説のために改行を挿入。実際には空白で連結する。
+( "--data" は "-d" と同義)
+
+<p class="code">
+curl -X POST -H 'Content-type: application/json;charset=UTF-8'
+<dmagenta>-d '{<dyellow>"text":"Test"</dyellow>}'</dmagenta>                                                             <cmt>//< {}内にメッセージを記述</cmt>
+<red>https://hooks.slack.com/services/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</red>  <cmt>//< Webhook URL</cmt>
+</p>
+
+
+<table>
+	<tr class="row1">
+		<td colspan="3">項目</td>
+		<td>記述例</td>
+		<td>備考</td>
+	</tr>
+	<tr>
+		<td><b><dmagenta>送信データ</dmagenta></b></td>
+		<td><b><dyellow>送信メッセージ</dyellow></b></td>
+		<td>送信するメッセージ</td>
+		<td><b><dyellow>\"text\":\"Test\"</dyellow></b><br>(メッセージとして"Test"を送信)</td>
+		<td></td>
+	</tr>
+</table>
+
+<h2>課題</h2>
+<ul>
+    <li>外部からコマンドは実行できない？</li>
+    <li>日本語が文字化けする？<br>⇒ JSONを一旦UTF-8で保存しておいて、ファイルを送信すると良い？</li>
+</ul>
 
 
 </body>
