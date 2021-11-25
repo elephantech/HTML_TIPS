@@ -110,10 +110,10 @@ C/C++同様に二重引用符で括ることで文字列を記述できる。<br
     <td>
 コード<br>
 <p class="code">
-string name = <ltr>"Mark"</ltr>;
-var date = DateTimeNow;
+<kwd>string</kwd> name = <ltr>"Mark"</ltr>;
+<kwd>var</kwd> date = <knw>DateTime</knw>.Now;
 
-Console.WriteLine(<ltr>"Hello, <b class="dgreen">{0}</b>! Today is <b class="dgreen">{1}</b>, it's <b class="dgreen">{2:HH:mm}</b> now."</ltr>, name, date.DayOfWeek, date);
+<knw>Console</knw>.WriteLine(<ltr>"Hello, <b class="dgreen">{0}</b>! Today is <b class="dgreen">{1}</b>, it's <b class="dgreen">{2:HH:mm}</b> now."</ltr>, name, date.DayOfWeek, date);
 <cmt>//                         ↑            ↑        ↑              │    │              │</cmt>
 <cmt>//                         └──────│────│───────┘    │              │</cmt>
 <cmt>//                                       └────│──────────┘              │</cmt>
@@ -138,10 +138,10 @@ Hello, Mark! Today is Wednesday, it's 19:40 now.
     <td>
 コード<br>
 <p class="code">
-string name = <ltr>"Mark"</ltr>;
-var date = DateTime.Now;
+<kwd>string</kwd> name = <ltr>"Mark"</ltr>;
+<kwd>var</kwd> date = <knw>DateTime</knw>.Now;
 
-Console.WriteLine(<ltr><b class="blue">$</b>"Hello, <b class="dgreen">{name}</b>! Today is <b class="dgreen">{date.DayOfWeek}</b>, it's <b class="dgreen">{date:HH:mm}</b> now."</ltr>);
+<knw>Console</knw>.WriteLine(<b class="blue">$</b><ltr>"Hello, <b class="dgreen">{name}</b>! Today is <b class="dgreen">{date.DayOfWeek}</b>, it's <b class="dgreen">{date:HH:mm}</b> now."</ltr>);
 </p>
 出力結果<br>
 <p class="code">
@@ -156,9 +156,9 @@ Hello, Mark! Today is Wednesday, it's 19:40 now.
 (C#8.0以降は、<b class="red">@</b><b class="blue">$</b>でも可。)
 
 <p class="code">
-string str01 = <ltr><b class="blue">$</b><b class="red">@</b>"Mark <b class="dgreen">{</b>"Down"<b class="dgreen">}</b>"</ltr>; <cmt>//< 文字列にリテラルを埋め込む ⇒ Mark Down</cmt>
-int i = 100;
-string str02 = <ltr><b class="blue">$</b><b class="red">@</b>"<b class="dgreen">{</b>i<b class="dgreen">}</b> %"</ltr>;         <cmt>//< 文字列に変数値を埋め込む   ⇒ 100 %</cmt>
+<kwd>string</kwd> str01 = <b class="blue">$</b><b class="red">@</b><ltr>"Mark <b class="dgreen">{</b>"Down"<b class="dgreen">}</b>"</ltr>; <cmt>//< 文字列にリテラルを埋め込む ⇒ Mark Down</cmt>
+<kwd>int</kwd> i = <ltr>100</ltr>;
+<kwd>string</kwd> str02 = <b class="blue">$</b><b class="red">@</b><ltr>"<b class="dgreen">{</b>i<b class="dgreen">}</b> %"</ltr>;         <cmt>//< 文字列に変数値を埋め込む   ⇒ 100 %</cmt>
 </p>
 
 <h3>アラインメントの指定</h3>
@@ -170,8 +170,8 @@ string str02 = <ltr><b class="blue">$</b><b class="red">@</b>"<b class="dgreen">
 <li>正値 : 右詰め</li>
 </ul>
 <p class="code">
-string str01 = <ltr>$"|{"Mark", <b class="red">-7</b>}|"</ltr>;  <cmt>//< 7文字・左詰め ⇒ |Mark   |</cmt>
-string str02 = <ltr>$"|{"Mark", <b class="red"> 7</b>}|"</ltr>;  <cmt>//< 7文字・右詰め ⇒ |   Mark|</cmt>
+<kwd>string</kwd> str01 = <ltr>$"|</ltr>{"Mark", <b class="red">-7</b>}</ltr>|"</ltr>;  <cmt>//< 7文字・左詰め ⇒ |Mark   |</cmt>
+<kwd>string</kwd> str02 = <ltr>$"|</ltr>{"Mark", <b class="red"> 7</b>}</ltr>|"</ltr>;  <cmt>//< 7文字・右詰め ⇒ |   Mark|</cmt>
 </p>
 
 <h3>書式指定文字列</h3>
@@ -179,19 +179,46 @@ string str02 = <ltr>$"|{"Mark", <b class="red"> 7</b>}|"</ltr>;  <cmt>//< 7文�
 <b>書式指定文字列は二重引用符で囲んではならない</b>。
 
 <p class="code">
-var date = DateTime.Now;                         <cmt>//< 現在日時を取得</cmt>
-string str01 = <ltr>$"It's {date, <b class="red">-7</b>, <b class="dgreen">:HH:MM</b>} now."</ltr>;  <cmt>//< 7文字・左詰め / <b class="dgreen">HH:MM</b>形式 ⇒ It's 17:35 now.</cmt>
+<kwd>var</kwd> date = <knw>DateTime</knw>.Now;                         <cmt>//< 現在日時を取得</cmt>
+<kwd>string</kwd> str01 = <ltr>$"It's </ltr>{date, <b class="red">-7</b>, <b class="dgreen">:HH:MM</b>}<ltr> now."</ltr>;  <cmt>//< 7文字・左詰め / <b class="dgreen">HH:MM</b>形式 ⇒ It's 17:35 now.</cmt>
 </p>
 
 コロンはそのままでは書式指定文字列の始点とみなされるため、コロンが特別な意味を持つ場合(三項演算子)は、条件式自体を丸括弧で囲む。
 <p class="code">
-int age = 34;
-string str01 = <ltr>$"Johnny is {age} year{<b class="blue">(</b>age == 1 ? "" <b class="blue">:</b> "s"<b class="blue">)</b>} old."</ltr>;  <cmt>//< 補完式中で(三項)条件演算子を用いる場合 ⇒ Johnny is 34 years old.</cmt>
+<kwd>int</kwd> age = <ltr>34</ltr>;
+<kwd>string</kwd> str01 = <ltr>$"Johnny is {age} year</ltr>{<b class="blue">(</b>age == 1 ? "" <b class="blue">:</b> "s"<b class="blue">)</b>}<ltr> old."</ltr>;  <cmt>//< 補完式中で(三項)条件演算子を用いる場合 ⇒ Johnny is 34 years old.</cmt>
 
-age = 1;
-string str02 = <ltr>$"May is {age} year{<b class="blue">(</b>age == 1 ? "" <b class="blue">:</b> "s"<b class="blue">)</b>} old."</ltr>;     <cmt>//< 同上                                   ⇒ May is 1 year old.</cmt>
+age = <ltr>1</ltr>;
+<kwd>string</kwd> str02 = <ltr>$"May is {age} year</ltr>{<b class="blue">(</b>age == 1 ? "" <b class="blue">:</b> "s"<b class="blue">)</b>}<ltr> old."</ltr>;     <cmt>//< 同上                                   ⇒ May is 1 year old.</cmt>
 </p>
 
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

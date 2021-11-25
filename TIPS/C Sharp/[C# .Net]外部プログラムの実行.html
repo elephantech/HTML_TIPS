@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>関連 :</h5>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>外部プログラムの呼び出し</h2>
+<h3>コード例(同期呼び出し)</h3>
+<p class="code">
+<cmt>// プロセス起動情報( ProcessStartInfo )生成</cmt>
+<kwd>var</kwd> sInfo = <kwd>new</kwd> <knw>ProcessStartInfo</knw>
+{
+    CreateNoWindow = <kwd>true</kwd>,                      <cmt>//< コンソールウィンドウ       : 開かない</cmt>
+    RedirectStandardOutput = <kwd>true</kwd>,              <cmt>//< 標準出力のリダイレクト     : 行う</cmt>
+    UseShellExecute = <kwd>false</kwd>,                    <cmt>//< シェル機能                 : 使用しない</cmt>
+    StandardOutputEncoding = <knw>Encoding</knw>.UTF8,     <cmt>//< 標準出力のエンコーディング : UTF-8</cmt>
+    FileName = <ltr>"git.exe"</ltr>,                       <cmt>//< 実行するプログラム名</cmt>
+    Arguments = <ltr>"hogehoge"</ltr>,                     <cmt>//< 実行するプログラムに渡す引数(文字列)</cmt>
+};
+
+<cmt>// プロセス開始( Process.Start() )</cmt>
+<kwd>using</kwd> (<kwd>var</kwd> p = <knw>Process</knw>.Start(sInfo))
+{
+    <cmt>// 標準出力を読み取る</cmt>
+    <kwd>string</kwd> output = p.StandardOutput.ReadToEnd();
+    
+    <cmt>// プロセスの終了まで待機する</cmt>
+    p.WaitForExit();
+    p.Close();
+}
+</p>
+
+上記の例では、"git.exe"に引数"hogehoge"を渡して起動し、実行結果を標準出力から取得している。
+
+<h3>注意が必要な点</h3>
+標準出力から結果を取得する際、日本語などのマルチバイト文字を含んでいると文字化けを起こすことがある。<br>
+これは、<b>標準出力のエンコーディング( ProcessStartInfo.StandardOutputEncoding )のデフォルトがシフトJISとなっているため</b>で、<br>
+<b>エンコーディングをUTF-8( Encoding.UTF8 )に設定することで回避できる</b>。
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

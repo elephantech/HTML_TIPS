@@ -745,17 +745,22 @@ p.code {
   padding:              0 1em 1.3em 1em;
 }
 
-/* キーワード (<#### class="keyword">、<keyword>、<kwd>) */
-p.code .keyword, p.code keyword, p.code kwd {
+/* キーワード (<keyword>、<kwd>) */
+p.code keyword, p.code kwd {
   color:                #0000FF;
 }
+  
+/* 既知のクラス (<known>、<knw>) */
+p.code known, p.code knw {
+  color:                #20C0E0;
+}
 
-/* コメント (<#### class="comment">、<comment>、<cmt>) */
-p.code .comment, p.code comment, p.code cmt {
+/* コメント (<comment>、<cmt>) */
+p.code comment, p.code cmt {
   color:                #009000;
 }
 
-/* リテラル (<#### class="literal">、<literal>、<ltr>) */
-p.code .literal, p.code literal, p.code ltr {
+/* リテラル (<literal>、<ltr>) */
+p.code literal, p.code ltr {
   color:                #990000;
 }
