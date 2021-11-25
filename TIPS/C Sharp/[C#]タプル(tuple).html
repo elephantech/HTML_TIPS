@@ -71,8 +71,8 @@ C#ではTuple型、匿名型を用いることができたが、C#7.0よりValue
 <kwd>public</kwd> Hoge Func()
 {
     Hoge retval;
-    retval.no = 20;
-    retval.name "ttt";
+    retval.no = <ltr>20</ltr>;
+    retval.name <ltr>"ttt"</ltr>;
 
     <kwd>return</kwd> retval;
 }
@@ -83,7 +83,7 @@ C#ではTuple型、匿名型を用いることができたが、C#7.0よりValue
 <cmt>// タプルを返すメソッド Func()</cmt>
 <kwd>public</kwd> (<kwd>int</kwd> no, <kwd>string</kwd> name) Func()
 {
-    <kwd>return</kwd> (20, "ttt");
+    <kwd>return</kwd> (<ltr>20</ltr>, <ltr>"ttt"</ltr>);
 }
 </p>
 	
@@ -91,31 +91,31 @@ C#ではTuple型、匿名型を用いることができたが、C#7.0よりValue
 <h4>タプルの宣言と代入</h4>
 宣言、代入のいずれのタイミングでも名前を指定(変更)できる。また、すべての要素に名前をつける必要はない(有名・無名フィールドが混在してもよい)。
 <p class="code">
-(<kwd>int</kwd>, <kwd>string</kwd>, <kwd>bool</kwd>, <kwd>double</kwd>) unnamed_tuple = (100, "abcde", <kwd>true</kwd>, 1.25);                                    <cmt>//< 名前なしタプル</cmt>
-(<kwd>int</kwd> value1, <kwd>string</kwd> value2, <kwd>bool</kwd> value3, <kwd>double</kwd> value4) named_tuple1 = (100, "abcde", <kwd>true</kwd>, 1.25);         <cmt>//< 宣言時に名前を指定</cmt>
-(<kwd>int</kwd>, <kwd>string</kwd>, <kwd>bool</kwd>, <kwd>double</kwd>) named_tuple2 = (value1: 100, value2: "abcde", value3: <kwd>true</kwd>, value4: 1.25);     <cmt>//< 代入時に名前を指定</cmt>
-<kwd>var</kwd> named_tuple3 = (value1: 100, value2: "abcde", value3: <kwd>true</kwd>, value4: 1.25);                             <cmt>//< 型推論を使用可能</cmt>
+(<kwd>int</kwd>, <kwd>string</kwd>, <kwd>bool</kwd>, <kwd>double</kwd>) unnamed_tuple = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr>true</ltr>, <ltr>1.25</ltr>);                                    <cmt>//< 名前なしタプル</cmt>
+(<kwd>int</kwd> value1, <kwd>string</kwd> value2, <kwd>bool</kwd> value3, <kwd>double</kwd> value4) named_tuple1 = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr>true</ltr>, <ltr>1.25</ltr>);         <cmt>//< 宣言時に名前を指定</cmt>
+(<kwd>int</kwd>, <kwd>string</kwd>, <kwd>bool</kwd>, <kwd>double</kwd>) named_tuple2 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr>true</ltr>, value4: <ltr>1.25</ltr>);     <cmt>//< 代入時に名前を指定</cmt>
+<kwd>var</kwd> named_tuple3 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr>true</ltr>, value4: <ltr>1.25</ltr>);                             <cmt>//< 型推論を使用可能</cmt>
 </p>
     
 <h4>タプルの参照</h4>
 <p class="code">
 <cmt>// 名前なしタプルの参照(Item#)</cmt>
-System.<knw>Console</knw>.WriteLine(unnamed_tuple.Item1);      <cmt>//< 要素1 ⇒ 100</cmt>
-System.<knw>Console</knw>.WriteLine(unnamed_tuple.Item2);      <cmt>//< 要素2 ⇒ "abcde"</cmt>
-System.<knw>Console</knw>.WriteLine(unnamed_tuple.Item3);      <cmt>//< 要素3 ⇒ true</cmt>
-System.<knw>Console</knw>.WriteLine(unnamed_tuple.Item4);      <cmt>//< 要素4 ⇒ 1.25</cmt>
+System.Console.WriteLine(unnamed_tuple.Item1);      <cmt>//< 要素1 ⇒ 100</cmt>
+System.Console.WriteLine(unnamed_tuple.Item2);      <cmt>//< 要素2 ⇒ "abcde"</cmt>
+System.Console.WriteLine(unnamed_tuple.Item3);      <cmt>//< 要素3 ⇒ true</cmt>
+System.Console.WriteLine(unnamed_tuple.Item4);      <cmt>//< 要素4 ⇒ 1.25</cmt>
 
 <cmt>// 名前つきタプルの参照</cmt>
-System.<knw>Console</knw>.WriteLine(named_tuple1.value1);      <cmt>//< 要素1 ⇒ 100</cmt>
-System.<knw>Console</knw>.WriteLine(named_tuple1.value2);      <cmt>//< 要素2 ⇒ "abcde"</cmt>
-System.<knw>Console</knw>.WriteLine(named_tuple1.value3);      <cmt>//< 要素3 ⇒ true</cmt>
-System.<knw>Console</knw>.WriteLine(named_tuple1.value4);      <cmt>//< 要素4 ⇒ 1.25</cmt>
+System.Console.WriteLine(named_tuple1.value1);      <cmt>//< 要素1 ⇒ 100</cmt>
+System.Console.WriteLine(named_tuple1.value2);      <cmt>//< 要素2 ⇒ "abcde"</cmt>
+System.Console.WriteLine(named_tuple1.value3);      <cmt>//< 要素3 ⇒ true</cmt>
+System.Console.WriteLine(named_tuple1.value4);      <cmt>//< 要素4 ⇒ 1.25</cmt>
 </p>
 
 <h4>タプルの分解(要素の抽出)</h4>
 <p class="code">
 <cmt>// 個別に型推論</cmt>
-(<kwd><kwd><kwd><kwd>var</kwd></kwd></kwd></kwd> value1, <kwd><kwd><kwd><kwd>var</kwd></kwd></kwd></kwd> value2, <kwd><kwd><kwd><kwd>var</kwd></kwd></kwd></kwd> value3, <kwd><kwd><kwd><kwd>var</kwd></kwd></kwd></kwd> value4) = unnamed_tuple;
+(<kwd>var</kwd> value1, <kwd>var</kwd> value2, <kwd>var</kwd> value3, <kwd>var</kwd> value4) = unnamed_tuple;
 
 <cmt>// まとめて型推論</cmt>
 <cmt>// var <b>()</b>内に変数を宣言</cmt>
@@ -129,7 +129,7 @@ System.<knw>Console</knw>.WriteLine(named_tuple1.value4);      <cmt>//< 要素4 
 <kwd>string</kwd> field2;
 <kwd>bool</kwd>   field3;
 <kwd>double</kwd> field4;
-<kwd>var</kwd> (field1, field2, field3, field4) = unnamed_tuple;
+var (field1, field2, field3, field4) = unnamed_tuple;
 </p>
 
 <h4>タプルの比較</h4>
@@ -137,13 +137,13 @@ System.<knw>Console</knw>.WriteLine(named_tuple1.value4);      <cmt>//< 要素4 
 フィールド名は比較に関与しない(フィールド名が異なっていても問題とはならない)。<br>
 但し、両者の要素数が異なる場合は比較できず、例外が発生する。
 <p class="code">
-<kwd>var</kwd> t1 = (        100,         "abcde",         <kwd>true</kwd>,         1.25);  <cmt>//< 名前なし</cmt>
-<kwd>var</kwd> t2 = (value1: 100, value2: "abcde", value3: <kwd>true</kwd>, value4: 1.25);  <cmt>//< 名前つき</cmt>
-System.<knw>Console</knw>.WriteLine(t1 == t2);  <cmt>//< true</cmt>
+<kwd>var</kwd> t1 = (        <ltr>100</ltr>,         <ltr>"abcde"</ltr>,         <ltr>true</ltr>,         <ltr>1.25</ltr>);  <cmt>//< 名前なし</cmt>
+<kwd>var</kwd> t2 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr>true</ltr>, value4: <ltr>1.25</ltr>);  <cmt>//< 名前つき</cmt>
+System.Console.WriteLine(t1 == t2);  <cmt>//< true</cmt>
 
-<kwd>var</kwd> t3 = (100, "abcde", <kwd>true</kwd>, 1.25);
-<kwd>var</kwd> t4 = (100, "abcde", <kwd>true</kwd>);
-System.<knw>Console</knw>.WriteLine(t3 == t4);  <cmt>//< 要素数が異なるため例外発生</cmt>
+<kwd>var</kwd> t3 = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr>true</ltr>, <ltr>1.25</ltr>);
+<kwd>var</kwd> t4 = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr>true</ltr>);
+System.Console.WriteLine(t3 == t4);  <cmt>//< 要素数が異なるため例外発生</cmt>
 </p>
 
 <h4>タプルを返すメソッド</h4>
@@ -152,33 +152,33 @@ System.<knw>Console</knw>.WriteLine(t3 == t4);  <cmt>//< 要素数が異なる�
 <kwd>class</kwd> Program
 {
     <cmt>// 名前なしタプルを返すメソッド</cmt>
-    <kwd>public static</kwd> (<kwd><kwd>int</kwd></kwd>, <kwd><kwd>int</kwd></kwd>) TestMethod_unnamed()
+    <kwd>public static</kwd> (<kwd>int</kwd>, <kwd>int</kwd>) TestMethod_unnamed()
     {
-        <kwd>return</kwd> (10, 20);
+        <kwd>return</kwd> (<ltr>10</ltr>, <ltr>20</ltr>);
     }
 
     <cmt>// 名前つきタプルを返すメソッド</cmt>
-    <kwd>public static</kwd> (<kwd><kwd>int</kwd></kwd> value1, <kwd><kwd>int</kwd></kwd> value2) TestMethod_named()
+    <kwd>public static</kwd> (<kwd>int</kwd> value1, <kwd>int</kwd> value2) TestMethod_named()
     {
-        <kwd>return</kwd> (100, 200);
+        <kwd>return</kwd> (<ltr>100</ltr>, <ltr>200</ltr>);
     }
 
     <kwd>public static void</kwd> Main()
     {
         <cmt>// 名前なしタプルの受け取り</cmt>
         <kwd>var</kwd> a = TestMethod_unnamed();
-        System.<knw>Console</knw>.WriteLine(a.Item1);
-        System.<knw>Console</knw>.WriteLine(a.Item2);
+        System.Console.WriteLine(a.Item1);
+        System.Console.WriteLine(a.Item2);
 
         <cmt>// 名前なしタプルを名前つきタプルで受け取り</cmt>
-        (<kwd><kwd>var</kwd></kwd> val1, <kwd><kwd>var</kwd></kwd> val2) = TestMethod_unnamed();
-        System.<knw>Console</knw>.WriteLine(val1);
-        System.<knw>Console</knw>.WriteLine(val2);
+        (<kwd>var</kwd> val1, <kwd>var</kwd> val2) = TestMethod_unnamed();
+        System.Console.WriteLine(val1);
+        System.Console.WriteLine(val2);
 
         <cmt>// 名前つきタプルの受け取り</cmt>
         <kwd>var</kwd> b = TestMethod_named();
-        System.<knw>Console</knw>.WriteLine(b.value1);
-        System.<knw>Console</knw>.WriteLine(b.value2);
+        System.Console.WriteLine(b.value1);
+        System.Console.WriteLine(b.value2);
     }
 }
 </p>
@@ -226,20 +226,20 @@ System.<knw>Console</knw>.WriteLine(t3 == t4);  <cmt>//< 要素数が異なる�
 <p class="code">
 <cmt>// ValueTupleの宣言・初期化</cmt>
 <cmt>// 明示的に名前を付与しない限り、メンバに名前はつかない</cmt>
-          (<kwd>int</kwd>,   <kwd>string</kwd>  ) vt1 = (   1,    "vt");        <cmt>//< 名前なし</cmt>
-          <kwd>var</kwd>               vt2 = (   1,    "vt");        <cmt>//< 名前なし</cmt>
-ValueTuple&lt;<kwd>int</kwd>,   <kwd>string</kwd>  &gt; vt3 = (   1,    "vt");        <cmt>//< 名前なし</cmt>
-          (<kwd>int</kwd> x, <kwd>string</kwd> y) vt4 = (   1,    "vt");        <cmt>//< 名前つき(宣言時に名前付与)</cmt>
-          <kwd>var</kwd>               vt5 = (x: 1, y: "vt");        <cmt>//< 名前つき(初期化時に名前付与)</cmt>
+          (<kwd>int</kwd>,   <kwd>string</kwd>  ) vt1 = (   <ltr>1</ltr>,    <ltr>"vt"</ltr>);        <cmt>//< 名前なし</cmt>
+          <kwd>var</kwd>               vt2 = (   <ltr>1</ltr>,    <ltr>"vt"</ltr>);        <cmt>//< 名前なし</cmt>
+ValueTuple&lt;<kwd>int</kwd>,   <kwd>string</kwd>  &gt; vt3 = (   <ltr>1</ltr>,    <ltr>"vt"</ltr>);        <cmt>//< 名前なし</cmt>
+          (<kwd>int</kwd> x, <kwd>string</kwd> y) vt4 = (   <ltr>1</ltr>,    <ltr>"vt"</ltr>);        <cmt>//< 名前つき(宣言時に名前付与)</cmt>
+          <kwd>var</kwd>               vt5 = (x: <ltr>1</ltr>, y: <ltr>"vt"</ltr>);        <cmt>//< 名前つき(初期化時に名前付与)</cmt>
 
 <cmt>// 匿名型の宣言・初期化</cmt>
 <cmt>// クラス型のため new を用いる</cmt>
-<kwd>var</kwd> at1 = <kwd>new</kwd> { x = 1, y = "a" };               <cmt>//< 初期化時に名前付与</cmt>
-<kwd>var</kwd> m = 1;
-<kwd>var</kwd> n = "yy";
-<kwd>var</kwd> at2 = <kwd>new</kwd> { <b>m</b>, <b>n</b> };                         <cmt>//< 名前を明示しない場合、</cmt>
-                                                <cmt>//< 初期化に使用した変数名がメンバ名となる</cmt>
-                                                <cmt>//< (at2.<b>m</b> == 1 , at2.<b>n</b> == "yy")</cmt>
+<kwd>var</kwd> at1 = <kwd>new</kwd> { x = <ltr>1</ltr>, y = <ltr>"a"</ltr> };               <cmt>//< 初期化時に名前付与</cmt>
+<kwd>var</kwd> m = <ltr>1</ltr>;
+<kwd>var</kwd> n = <ltr>"yy"</ltr>;
+<kwd>var</kwd> at2 = <kwd>new</kwd> { <b>m</b>, <b>n</b> };                         <cmt>//< 名前を明示しない場合、
+                                                //< 初期化に使用した変数名がメンバ名となる
+                                                //< (at2.<b>m</b> == 1 , at2.<b>n</b> == "yy")</cmt>
 
 <cmt>// ValueTuple は値型のため、nullを格納できない</cmt>
 <cmt>// nullを格納したい場合はnull許容型とする必要がある </cmt>
@@ -249,20 +249,15 @@ ValueTuple&lt;<kwd>int</kwd>,   <kwd>string</kwd>  &gt; vt3 = (   1,    "vt");  
 Tuple&lt;<kwd>int</kwd>, <kwd>string</kwd>&gt; t1 = <kwd>null</kwd>;        <cmt>//< 正常</cmt>
 
 <cmt>// ValueTuple は再割り当て可能(mutable)</cmt>
-<kwd>var</kwd> vt7 = (1, "vt");
-vt6.Item1 = 2;        <cmt>//< 正常</cmt>
+<kwd>var</kwd> vt7 = (<ltr>1</ltr>, <ltr>"vt"</ltr>);
+vt6.Item1 = <ltr>2</ltr>;        <cmt>//< 正常</cmt>
 
 <cmt>// Tuple 、匿名型は再割り当て不可(immutable)</cmt>
-<kwd>var</kwd> t2 = Tuple.Create(1, "vt");
-<kwd>var</kwd> at3 = <kwd>new</kwd> { Item1 = 1, Item2 = "vt" };
-t2.Item1 = 2;         <cmt>//< エラー</cmt>
-at3.Item1 = 2;        <cmt>//< エラー</cmt>
+<kwd>var</kwd> t2 = Tuple.Create(<ltr>1</ltr>, <ltr>"vt"</ltr>);
+<kwd>var</kwd> at3 = <kwd>new</kwd> { Item1 = <ltr>1</ltr>, Item2 = <ltr>"vt"</ltr> };
+t2.Item1 = <ltr>2</ltr>;         <cmt>//< エラー</cmt>
+at3.Item1 = <ltr>2</ltr>;        <cmt>//< エラー</cmt>
 </p>
 
 </body>
 </html>
-
-
-
-
-
