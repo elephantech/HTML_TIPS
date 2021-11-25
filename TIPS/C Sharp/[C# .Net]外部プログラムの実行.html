@@ -69,8 +69,9 @@ body
 
 <h3>注意が必要な点</h3>
 標準出力から結果を取得する際、日本語などのマルチバイト文字を含んでいると文字化けを起こすことがある。<br>
-これは、<b>標準出力のエンコーディング( ProcessStartInfo.StandardOutputEncoding )のデフォルトがシフトJISとなっているため</b>で、<br>
-<b>エンコーディングをUTF-8( Encoding.UTF8 )に設定することで回避できる</b>。
+これは、<b>標準出力のエンコーディングのデフォルトがシフトJISとなっているため</b>で、<br>
+上記コードのように<b>エンコーディングをUTF-8に設定することで回避できる</b>。<br>
+( ProcessStartInfo.StandardOutputEncoding = Encoding.UTF8 )
 
 </body>
 </html>

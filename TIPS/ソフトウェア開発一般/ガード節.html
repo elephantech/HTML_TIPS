@@ -60,7 +60,6 @@ if-then-elseを使うかガード節を使うかの判断基準 - MogLog</a><br>
 関数(サブルーチン)において、処理を継続することが不可能(または無意味)となった場合に、関数の途中で脱出する記法。<br>
 プログラムの可読性が向上する。
 
-<h2>ガード節の例</h2>
 <h3>ガード節を使用しない場合</h3>
 <p class="code">
 <kwd>bool</kwd> Func()
@@ -285,6 +284,7 @@ Class C_SemaphoreManager
     <kwd>if</kwd> ( !DoSomething01() )
     {
         <cmt>// ここで抜けてもデストラクタが走る</cmt>
+        <cmt>// ⇒ セマフォ解放</cmt>
         <kwd>return</kwd> <kwd>false</kwd>;
     }
 
@@ -292,11 +292,13 @@ Class C_SemaphoreManager
     <kwd>if</kwd> ( !DoSomething02() )
     {
         <cmt>// ここで抜けてもデストラクタが走る</cmt>
+        <cmt>// ⇒ セマフォ解放</cmt>
         <kwd>return</kwd> <kwd>false</kwd>;
     }
 
     <cmt>// すべて正常</cmt>
     <cmt>// ここで抜けてもデストラクタが走る</cmt>
+    <cmt>// ⇒ セマフォ解放</cmt>
     <kwd>return</kwd> <kwd>true</kwd>;
 }
 </p>
@@ -304,11 +306,8 @@ Class C_SemaphoreManager
 C_SemaphoreManager はコンストラクタでセマフォを獲得、デストラクタで解放を行うクラスである。<br>
 semStature の生成時にセマフォを獲得。Func() をどの時点で抜けたとしてもスコープを抜けた際にデストラクタが走るため、確実にセマフォを解放できる。<br>
 (<b>例外が発生した場合でも同様にデストラクタが走るため確実性が高い。</b>)<br>
-コードが簡潔に記述できる点も特徴である。
-詳細は
-<a href="TIPS/C%E3%83%BBC++/[C++]%E5%9C%B0%E8%94%B5%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9.html">
-[C++]地蔵インスタンス</a>
-を参照。
+コードが簡潔に記述できる点も特徴である。<br>
+詳細は<a href="TIPS/C%E3%83%BBC++/[C++]%E5%9C%B0%E8%94%B5%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9.html">[C++]地蔵インスタンス</a>を参照。
 
 </body>
 </html>

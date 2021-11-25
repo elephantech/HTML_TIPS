@@ -752,7 +752,7 @@ p.code keyword, p.code kwd {
   
 /* 既知のクラス (<known>、<knw>) */
 p.code known, p.code knw {
-  color:                #20C0E0;
+  color:                #20B0D0;
 }
 
 /* コメント (<comment>、<cmt>) */
