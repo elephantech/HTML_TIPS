@@ -29,7 +29,8 @@ body
 <span id="title"></span>
 
 <!-- 出典・関連ページ -->
-<h5>関連 :</h5>
+<h5>出典 :</h5>
+<a href="https://dobon.net/vb/dotnet/process/shell.html">外部アプリケーションを起動する、ファイルを関連付けられたソフトで開く - .NET Tips (VB.NET,C#...)</a>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -40,12 +41,16 @@ body
 <!-- 本文ここから -->
 
 <h2>外部プログラムの呼び出し</h2>
-<h3>コード例(同期呼び出し)</h3>
+Process.Start() メソッドを用いることで、外部プログラムを起動できる。
+
+<h2>コード例(同期呼び出し)</h2>
 <p class="code">
+using System.Diagnostics;
+
 <cmt>// プロセス起動情報( ProcessStartInfo )生成</cmt>
 <kwd>var</kwd> sInfo = <kwd>new</kwd> <knw>ProcessStartInfo</knw>
 {
-    CreateNoWindow = <kwd>true</kwd>,                      <cmt>//< コンソールウィンドウ       : 開かない</cmt>
+    CreateNoWindow = <kwd>true</kwd>,                      <cmt>//< 新しいウィンドウを開かない : Yes</cmt>
     RedirectStandardOutput = <kwd>true</kwd>,              <cmt>//< 標準出力のリダイレクト     : 行う</cmt>
     UseShellExecute = <kwd>false</kwd>,                    <cmt>//< シェル機能                 : 使用しない</cmt>
     StandardOutputEncoding = <knw>Encoding</knw>.UTF8,     <cmt>//< 標準出力のエンコーディング : UTF-8</cmt>
@@ -73,31 +78,85 @@ body
 上記コードのように<b>エンコーディングをUTF-8に設定することで回避できる</b>。<br>
 ( ProcessStartInfo.StandardOutputEncoding = Encoding.UTF8 )
 
+<h2>Processクラスのメンバ(抜粋)</h2>
+
+<table>
+    <tr class="row1">
+        <th class="col1">種別</th>
+        <th>メンバ</th>
+        <th>型</th>
+        <th>解説</th>
+        <th>付記</th>
+    </tr>
+    <tr>
+        <td class="col1" rowspan="4">メソッド</td>
+        <td>Start()</td>
+        <td></td>
+        <td>プロセスを起動する</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>WaitForExit()</td>
+        <td></td>
+        <td>プロセスの終了まで待機する</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Close()</td>
+        <td></td>
+        <td>プロセスに関連付けられたすべてのリソースを解放する</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>BeginOutputReadLine()</td>
+        <td></td>
+        <td>非同期で出力の読み取りを開始する</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td class="col1" rowspan="7">プロパティ</td>
+        <td>EnableRaisingEvents</td>
+        <td>bool</td>
+        <td>プロセス終了時に Exit イベントを発行するか</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>StartInfo.FileName</td>
+        <td>string</td>
+        <td>起動するプログラムファイル名</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>StartInfo.Arguments</td>
+        <td>string</td>
+        <td>プログラムに与える引数</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>StartInfo.RedirectStandardOutput</td>
+        <td>bool</td>
+        <td>プログラムの出力を標準出力にリダイレクトするか</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>StartInfo.RedirectStandardInput</td>
+        <td>bool</td>
+        <td>プログラムの入力を標準入力にリダイレクトするか</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>StartInfo.UseShellExecute</td>
+        <td>bool</td>
+        <td>プロセスの起動にオペレーティングシステムのシェルを使用するか</td>
+        <td>標準入出力リダイレクト時は必ず false に設定する必要がある)</td>
+    </tr>
+    <tr>
+        <td>StartInfo.CreateNoWindow</td>
+        <td>bool</td>
+        <td>プロセスの起動時にウィンドウを生成しないか</td>
+        <td></td>
+    </tr>
+</table>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
