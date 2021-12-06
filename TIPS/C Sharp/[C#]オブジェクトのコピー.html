@@ -32,12 +32,10 @@ body
 
 <!-- 出典・関連ページ -->
 <h5>出典 :</h5>
-<a href="
-https://programming.pc-note.net/csharp/copy.html
-">シャローコピーとディープコピー(C#) - 超初心者向けプログラミング入門</a><br>
-<a href="
-https://cyzennt.co.jp/blog/2020/05/01/c%EF%BC%9A%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AE%E4%B8%AD%E8%BA%AB%E3%82%92%E3%82%B3%E3%83%94%E3%83%BC%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95%EF%BC%88memberwiseclone%E3%83%A1/
-">C#：オブジェクトの中身をコピーする方法（MemberwiseCloneメソッド実装） – サイゼントの技術ブログ</a><br>
+<a href="https://programming.pc-note.net/csharp/copy.html">シャローコピーとディープコピー(C#) - 超初心者向けプログラミング入門</a><br>
+<a href="https://cyzennt.co.jp/blog/2020/05/01/c%EF%BC%9A%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AE%E4%B8%AD%E8%BA%AB%E3%82%92%E3%82%B3%E3%83%94%E3%83%BC%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95%EF%BC%88memberwiseclone%E3%83%A1/">C#：オブジェクトの中身をコピーする方法（MemberwiseCloneメソッド実装） – サイゼントの技術ブログ</a><br>
+<a href="https://www.atmarkit.co.jp/ait/articles/1705/24/news040.html">オブジェクトや配列などの複製を作るには？（ディープコピー編）［C#／VB］：.NET TIPS - ＠IT</a><br>
+<a href="https://www.atmarkit.co.jp/ait/articles/1705/17/news017.html">配列の複製を作るには？（シャローコピー編）［C#／VB］：.NET TIPS - ＠IT</a><br>
 
 <h5>関連 :</h5>
 <a href="TIPS/C%20Sharp/[C%23]参照渡し.html">[C#]参照渡し</a><br>
@@ -52,10 +50,9 @@ https://cyzennt.co.jp/blog/2020/05/01/c%EF%BC%9A%E3%82%AA%E3%83%96%E3%82%B8%E3%8
 
 
 <h2>C#におけるオブジェクトのコピー</h2>
-C#において、クラスオブジェクトの「代入」を行った場合、<b>代入先には代入元への参照が保持される(シャローコピー)</b>。<br>
-これは<b>クラスオブジェクトが「参照渡し」となっている</b>ためで、コピー後に一方を更新すると、他方まで変更されてしまう。<br>
+C#において、(クラス)オブジェクトの「代入」を行った場合、<b>代入先には代入元への参照が保持される(シャローコピー)</b>。<br>
+これは<b>オブジェクトが「参照渡し」となっている</b>ためで、コピー後に一方を更新すると、他方まで影響が及ぶ。<br>
 メソッド(関数)の引数としてクラスオブジェクトを渡した場合も同様である。<br>
-(このため、オブジェクト引数をとるメソッドでは ref などの参照渡しを表すキーワードは必須ではない)<br>
 ちなみに、C/C++ではオブジェクトは「値渡し」であり、ビット単位での厳密なコピーが作成される(ディープコピー)。<br>
 また、C#においても構造体(struct)オブジェクトや、クラスオブジェクトでない組み込み型(intなど)は「値渡し」である。<br>
 
@@ -81,21 +78,21 @@ C#において、クラスオブジェクトの「代入」を行った場合、
         cMyClass ob2 = ob1;
 
         <cmt>// ob1 、ob2 の内容を出力</cmt>
-        Console.WriteLine("編集前の値");
-        Console.WriteLine("ob1.valA = " + ob1.valA);
-        Console.WriteLine("ob1.valB = " + ob1.valB);
-        Console.WriteLine("ob2.valA = " + ob2.valA);
-        Console.WriteLine("ob2.valB = " + ob2.valB);
+        <knw>Console</knw>.WriteLine("編集前の値");
+        <knw>Console</knw>.WriteLine("ob1.valA = " + ob1.valA);
+        <knw>Console</knw>.WriteLine("ob1.valB = " + ob1.valB);
+        <knw>Console</knw>.WriteLine("ob2.valA = " + ob2.valA);
+        <knw>Console</knw>.WriteLine("ob2.valB = " + ob2.valB);
 
         <cmt>// ob2 のメンバを編集</cmt>
         ob2.valB = 6;
 
         <cmt>// ob1 、ob2 の内容を出力</cmt>
-        Console.WriteLine("編集後の値");
-        Console.WriteLine("ob1.valA = " + ob1.valA);
-        Console.WriteLine("ob1.valB = " + ob1.valB);
-        Console.WriteLine("ob2.valA = " + ob2.valA);
-        Console.WriteLine("ob2.valB = " + ob2.valB);
+        <knw>Console</knw>.WriteLine("編集後の値");
+        <knw>Console</knw>.WriteLine("ob1.valA = " + ob1.valA);
+        <knw>Console</knw>.WriteLine("ob1.valB = " + ob1.valB);
+        <knw>Console</knw>.WriteLine("ob2.valA = " + ob2.valA);
+        <knw>Console</knw>.WriteLine("ob2.valB = " + ob2.valB);
     }
 }
 </p>
@@ -118,14 +115,13 @@ ob2.valB = 6    <cmt>//< 直接編集した ob2.valB</cmt>
 C#の Object 型には、ディープコピーを行うための MemberwiseClone() メソッドが定義されている。<br>
 (C#において、すべての型は Object 型から派生するため、ユーザ定義のすべての型で MemberwiseClone() を用いることができる。)<br>
 但し、MemberwiseClone() の戻り値は Object 型のため、元の型として用いるにはキャストが必要。<br>
-当然、= 演算子を用いた場合はシャローコピーとなる。<br>
 
 <p class="code">
-<kwd>using</kwd> System;
-<kwd>using</kwd> System.Collections.Generic;
-<kwd>using</kwd> System.Linq;
-<kwd>using</kwd> System.Text;
-<kwd>using</kwd> System.Threading.Tasks;
+<kwd>using</kwd> <knw>System</knw>;
+<kwd>using</kwd> <knw>System</knw>.Collections.Generic;
+<kwd>using</kwd> <knw>System</knw>.Linq;
+<kwd>using</kwd> <knw>System</knw>.<knw>Text</knw>;
+<kwd>using</kwd> <knw>System</knw>.Threading.Tasks;
 
 <kwd>namespace</kwd> CloneTest
 {
@@ -154,8 +150,8 @@ C#の Object 型には、ディープコピーを行うための MemberwiseClone
             <cmt>// シャローコピーの例</cmt>
             <cmt>// - = - = - = - = - = - = - = - = - = -</cmt>
 
-            Console.WriteLine("～～～～～～～～～");
-            Console.WriteLine("○シャローコピー○");
+            <knw>Console</knw>.WriteLine("～～～～～～～～～");
+            <knw>Console</knw>.WriteLine("○シャローコピー○");
 
             <cmt>// コピー元オブジェクト生成、値設定</cmt>
             CloneableItem ob1 = <kwd>new</kwd> CloneableItem();
@@ -166,24 +162,24 @@ C#の Object 型には、ディープコピーを行うための MemberwiseClone
             CloneableItem ob2 = ob1;
 
             <cmt>// 編集前の状態を出力</cmt>
-            Console.WriteLine("編集前の値");
-            Console.WriteLine("コピー元 : " + ob1.ItemId + " / " + ob1.ItemName);
-            Console.WriteLine("コピー先 : " + ob2.ItemId + " / " + ob2.ItemName);
+            <knw>Console</knw>.WriteLine("編集前の値");
+            <knw>Console</knw>.WriteLine("コピー元 : " + ob1.ItemId + " / " + ob1.ItemName);
+            <knw>Console</knw>.WriteLine("コピー先 : " + ob2.ItemId + " / " + ob2.ItemName);
 
             <cmt>// 値を編集</cmt>
             ob1.ItemName = "knife";
 
             <cmt>// 編集後の状態を出力</cmt>
-            Console.WriteLine("編集後の値");
-            Console.WriteLine("コピー元 : " + ob1.ItemId + " / " + ob1.ItemName);
-            Console.WriteLine("コピー先 : " + ob2.ItemId + " / " + ob2.ItemName);
+            <knw>Console</knw>.WriteLine("編集後の値");
+            <knw>Console</knw>.WriteLine("コピー元 : " + ob1.ItemId + " / " + ob1.ItemName);
+            <knw>Console</knw>.WriteLine("コピー先 : " + ob2.ItemId + " / " + ob2.ItemName);
 
             <cmt>// - = - = - = - = - = - = - = - = - = -</cmt>
             <cmt>// ディープコピーの例</cmt>
             <cmt>// - = - = - = - = - = - = - = - = - = -</cmt>
 
-            Console.WriteLine("～～～～～～～～～");
-            Console.WriteLine("●ディープコピー●");
+            <knw>Console</knw>.WriteLine("～～～～～～～～～");
+            <knw>Console</knw>.WriteLine("●ディープコピー●");
 
             <cmt>// コピー元オブジェクト生成、値設定</cmt>
             CloneableItem ob3 = <kwd>new</kwd> CloneableItem();
@@ -194,17 +190,17 @@ C#の Object 型には、ディープコピーを行うための MemberwiseClone
             CloneableItem ob4 = ob3.Clone();
 
             <cmt>// 編集前の状態を出力</cmt>
-            Console.WriteLine("編集前の値");
-            Console.WriteLine("コピー元 : " + ob3.ItemId + " / " + ob3.ItemName);
-            Console.WriteLine("コピー先 : " + ob4.ItemId + " / " + ob4.ItemName);
+            <knw>Console</knw>.WriteLine("編集前の値");
+            <knw>Console</knw>.WriteLine("コピー元 : " + ob3.ItemId + " / " + ob3.ItemName);
+            <knw>Console</knw>.WriteLine("コピー先 : " + ob4.ItemId + " / " + ob4.ItemName);
 
             <cmt>// 値を編集</cmt>
             ob3.ItemName = "cannon";
 
             <cmt>// 編集後の状態を出力</cmt>
-            Console.WriteLine("編集後の値");
-            Console.WriteLine("コピー元 : " + ob3.ItemId + " / " + ob3.ItemName);
-            Console.WriteLine("コピー先 : " + ob4.ItemId + " / " + ob4.ItemName);
+            <knw>Console</knw>.WriteLine("編集後の値");
+            <knw>Console</knw>.WriteLine("コピー元 : " + ob3.ItemId + " / " + ob3.ItemName);
+            <knw>Console</knw>.WriteLine("コピー先 : " + ob4.ItemId + " / " + ob4.ItemName);
         }
     }
 }
@@ -219,7 +215,7 @@ C#の Object 型には、ディープコピーを行うための MemberwiseClone
 コピー先 : 1 / sword
 編集後の値
 コピー元 : 1 / knife    <cmt>// コピー元を編集すると</cmt>
-コピー先 : 1 / kinfe    <cmt>// コピー先にまで波及する</cmt>
+コピー先 : 1 / knife    <cmt>// コピー先にまで波及する</cmt>
 ～～～～～～～～～
 ●ディープコピー●
 編集前の値
@@ -230,11 +226,43 @@ C#の Object 型には、ディープコピーを行うための MemberwiseClone
 コピー先 : 3 / rifle    <cmt>// コピー先はそのまま</cmt>
 </p>
 
+<h3>シリアライズ・デシリアライズを使用したディープコピー</h3>
+MemoryStream と BinaryFormatter を用いることで、オブジェクトのシリアライズ、デシリアライズを行うことができる。<br>
+元のオブジェクトをシリアライズ(と同時に複製)し、デシリアライズで復元すればディープコピーとなる。<br>
+但し、この方法が使用できるのはシリアライズが可能なオブジェクトに限定される(詳細要調査)。
+
+<p class="code">
+<kwd>class</kwd> Sample
+{
+    :
+
+    <cmt>// ディープコピー取得用メソッド</cmt>
+    <kwd>public</kwd> Sample GetCopy()
+    {
+        <cmt>// シリアライズ用 MemoryStream 、BinaryFormatter</cmt>
+        <kwd>var</kwd> ms = <kwd>new</kwd> MemoryStream();
+        <kwd>var</kwd> bf = <kwd>new</kwd> BinaryFormatter();
+    
+        <cmt>// シリアライズ</cmt>
+        bf.Serialize(ms, <kwd>this</kwd>);
+    
+        ms.Seek(0, SeekOrigin.Begin);
+    
+        <cmt>// デシリアライズ ⇒ 複製を返す</cmt>
+        <cmt>// ( Deserialize() の戻り値は Object 型のためキャストが必要)</cmt>
+        <kwd>return</kwd> (Sample)bf.Deserialize(ms);
+    }
+
+    :
+}
+</p>
+
 <h3>その他の手法</h3>
-ほかにも、クラスオブジェクトをシリアライズ・デシリアライズしたり、コピーコンストラクタを定義するなどの方法で、<br>
-ディープコピーを実現できるがここでは割愛する。<br>
+他にもコピーコンストラクタを定義するなどの方法でディープコピーを実現できるが、ここでは割愛する。
 
 </body>
 </html>
+
+
 
 
