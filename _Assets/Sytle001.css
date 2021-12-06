@@ -382,7 +382,7 @@ table, tr, td, th {
 }
 
 /* ヘッダ行・列 */
-th, .row1, .col1 {
+th, .row1, .col1, .row0, .col0 {
   font-weight:          bold;
   text-align:           center;
   background-color:     #E0CCCC;
@@ -393,7 +393,7 @@ th, .row1, .col1 {
   border-bottom-style:  double;
   border-bottom-width:  4px;
 }
-
+  
 .col1 {
   border-right-style:   double;
   border-right-width:   4px;

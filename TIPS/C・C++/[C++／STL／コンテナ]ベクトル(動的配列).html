@@ -56,44 +56,44 @@ body
 
 <h2>宣言・初期化</h2>
 <p class="code">
-std::vector&lt;<kwd>int</kwd>&gt; v1;                                <cmt>//&lt; 空のベクトルを宣言</cmt>
-std::vector&lt;<kwd>int</kwd>&gt; v2(<ltr>123</ltr>);                           <cmt>//&lt; 要素数 123 のベクトルを宣言</cmt>
+<kwd>std</kwd>::vector&lt;<kwd>int</kwd>&gt; v1;                                <cmt>//&lt; 空のベクトルを宣言</cmt>
+<kwd>std</kwd>::vector&lt;<kwd>int</kwd>&gt; v2(<ltr>123</ltr>);                           <cmt>//&lt; 要素数 123 のベクトルを宣言</cmt>
 
-std::vector&lt;<kwd>int</kwd>&gt; v3(<ltr>10</ltr>, <ltr>5</ltr>);                         <cmt>//&lt; 要素数 10 の全要素を 5 で初期化</cmt>
+<kwd>std</kwd>::vector&lt;<kwd>int</kwd>&gt; v3(<ltr>10</ltr>, <ltr>5</ltr>);                         <cmt>//&lt; 要素数 10 の全要素を 5 で初期化</cmt>
 
-std::vector&lt;<kwd>int</kwd>&gt; v4 = {<ltr>6</ltr>, <ltr>8</ltr>, <ltr>5</ltr>};                    <cmt>//&lt; データ列を指定して初期化</cmt>
-std::vector&lt;<kwd>int</kwd>&gt; v4{<ltr>6</ltr>, <ltr>8</ltr>, <ltr>5</ltr>};                       <cmt>//&lt; 上記の = は省略できる</cmt>
+<kwd>std</kwd>::vector&lt;<kwd>int</kwd>&gt; v4 = {<ltr>6</ltr>, <ltr>8</ltr>, <ltr>5</ltr>};                    <cmt>//&lt; データ列を指定して初期化</cmt>
+<kwd>std</kwd>::vector&lt;<kwd>int</kwd>&gt; v4{<ltr>6</ltr>, <ltr>8</ltr>, <ltr>5</ltr>};                       <cmt>//&lt; 上記の = は省略できる</cmt>
 
 <kwd>int</kwd> org_data[] = {<ltr>7</ltr>, <ltr>4</ltr>, <ltr>3</ltr>, <ltr>1</ltr>};
-std::vector&lt;<kwd>int</kwd>&gt; v5(org_data, std::end(org_data));  <cmt>//&lt; 既存の配列を基に初期化</cmt>
+<kwd><kwd>std</kwd></kwd>::vector&lt;<kwd>int</kwd>&gt; v5(org_data, <kwd><kwd>std</kwd></kwd>::end(org_data));  <cmt>//&lt; 既存の配列を基に初期化</cmt>
 
-std::vector&lt;<kwd>int</kwd>&gt; v6 = {<ltr>2</ltr>, <ltr>9</ltr>, <ltr>6</ltr>, <ltr>4</ltr>};
-std::vector&lt;<kwd>int</kwd>&gt; v7(v6);                            <cmt>//&lt; 既存のベクトルを用いて初期化(コピー)</cmt>
+<kwd>std</kwd>::vector&lt;<kwd>int</kwd>&gt; v6 = {<ltr>2</ltr>, <ltr>9</ltr>, <ltr>6</ltr>, <ltr>4</ltr>};
+<kwd>std</kwd>::vector&lt;<kwd>int</kwd>&gt; v7(v6);                            <cmt>//&lt; 既存のベクトルを用いて初期化(コピー)</cmt>
 </p>
 
 <h2>多次元配列(入れ子)</h2>
 ベクトルの要素をベクトルとすることで、多次元配列を構成できる。<br>
 <p class="code">
-std::vector&lt;std::vector&lt;<kwd>int</kwd>&gt;&gt; vv{{<ltr>1</ltr>, <ltr>2</ltr>, <ltr>3</ltr>}, {<ltr>4</ltr>, <ltr>5</ltr>, <ltr>6</ltr>, <ltr>7</ltr>}};
+<kwd><kwd>std</kwd></kwd>::vector&lt;<kwd><kwd>std</kwd></kwd>::vector&lt;<kwd>int</kwd>&gt;&gt; vv{{<ltr>1</ltr>, <ltr>2</ltr>, <ltr>3</ltr>}, {<ltr>4</ltr>, <ltr>5</ltr>, <ltr>6</ltr>, <ltr>7</ltr>}};
 </p>
 
 <h2>要素の参照・更新</h2>
 <ul>
-<li>at() ・添字演算子([]) : 指定した位置の要素 <b>への参照</b> を取得 (VC++では [] が使用できない？要調査)</li>
+<li>at() ・添字演算子([]) : 指定した位置の要素 <b>への参照</b> を取得 (VC++では [] が使用できない？要調査)
+<p class="code">
+<kwd>std</kwd>::vector&lt;<kwd>int</kwd>&gt; sampleVec{<ltr>3</ltr>, <ltr>1</ltr>, <ltr>4</ltr>, <ltr>1</ltr>, <ltr>5</ltr>, <ltr>9</ltr>, <ltr>2</ltr>, <ltr>6</ltr>, <ltr>5</ltr>, <ltr>3</ltr>};
+<kwd>for</kwd> (<kwd>int</kwd> i = <ltr>0</ltr>; i &lt; <ltr>10</ltr>; ++i)
+{
+    <kwd>std</kwd>::cout &lt;&lt; sampleVec.at(i);      <cmt>//&lt; sampleVec の i 番目の要素を表示</cmt>
+    sampleVec.at(i) = i;               <cmt>//&lt; at() は要素への参照を返すため、代入も可能</cmt>
+}
+</p>
+</li>
 <li>front() : 先頭要素 <b>への参照</b> を取得</li>
 <li>back() : 末尾要素 <b>への参照</b> を取得</li>
 <li>data() : 先頭要素 <b>へのポインタ</b> を取得</li>
 </ul>
 ベクトルはC互換の固定長配列と同様、データが連続したアドレスに配置される。このため data() に対するポインタ演算によって全要素を走査できる。<br>
-
-<p class="code">
-std::vector&lt;<kwd>int</kwd>&gt; sampleVec{<ltr>3</ltr>, <ltr>1</ltr>, <ltr>4</ltr>, <ltr>1</ltr>, <ltr>5</ltr>, <ltr>9</ltr>, <ltr>2</ltr>, <ltr>6</ltr>, <ltr>5</ltr>, <ltr>3</ltr>};
-<kwd>for</kwd> (<kwd>int</kwd> i = <ltr>0</ltr>; i &lt; <ltr>10</ltr>; ++i)
-{
-    std::cout &lt;&lt; sampleVecat(i);      <cmt>//&lt; sampleVec の i 番目の要素を表示</cmt>
-    sampleVecat(i) = i;               <cmt>//&lt; at() は要素への参照を返すため、代入も可能</cmt>
-}
-</p>
 
 <h2>イテレータ</h2>
 <a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%A4%E3%83%86%E3%83%AC%E3%83%BC%E3%82%BF.html">[C++／STL／コンテナ]イテレータ</a>
@@ -120,21 +120,21 @@ d = c = b;    <cmt>//&lt; 連続代入も可能</cmt>
 C++11 で追加された emplace_back() は、テンポラリコピーを生成しないため、コピーコンストラクタ、デストラクタが呼ばれることは無い。<br>
 insert() は<b>第1引数にイテレータを取る</b>。 <b>begin() + 添字</b> で添字位置要素へのイテレータを取得できる。<br>
 <p class="code">
-std::vector&lt;<kwd>int</kwd>&gt; v;		<cmt>//&lt; 空の動的配列を生成</cmt>
+<kwd>std</kwd>::vector&lt;<kwd>int</kwd>&gt; v;		<cmt>//&lt; 空の動的配列を生成</cmt>
 v.push_back(<ltr>123</ltr>);		<cmt>//&lt; 末尾に 123 を追加</cmt>
 </p>
 <p class="code">
 <kwd>class</kwd> Hoge {
 <kwd>public</kwd>:
-    Hoge(std::<kwd>string</kwd>&amp;, <kwd>int</kwd>);       <cmt>//&lt; コンストラクタ</cmt>
+    Hoge(<kwd>std</kwd>::<kwd>string</kwd>&amp;, <kwd>int</kwd>);       <cmt>//&lt; コンストラクタ</cmt>
     .....
 };
     .....
-    std::vector&lt;Hoge&gt; v;
+    <kwd>std</kwd>::vector&lt;Hoge&gt; v;
     v.emplace_back(<ltr>"abc"</ltr>, <ltr>123</ltr>);   <cmt>//&lt; emplace_back(Hoge("abc", 123)) と同意</cmt>
 </p>
 <p class="code">
-std::vector&lt;<kwd>int</kwd>&gt; v(<ltr>10</ltr>, <ltr>3</ltr>);        <cmt>//&lt; 要素数 10 、値はすべて 3</cmt>
+<kwd>std</kwd>::vector&lt;<kwd>int</kwd>&gt; v(<ltr>10</ltr>, <ltr>3</ltr>);        <cmt>//&lt; 要素数 10 、値はすべて 3</cmt>
 v.insert(v.begin() + <ltr>4</ltr>, <ltr>7</ltr>);       <cmt>//&lt;  [4] の位置( begin() + 4 )に 7 を挿入</cmt>
 <cmt>// 結果は {3, 3, 3, 3, 7, 3, 3, 3, 3, 3, 3} となる</cmt>
 </p>
@@ -146,11 +146,11 @@ v.insert(v.begin() + <ltr>4</ltr>, <ltr>7</ltr>);       <cmt>//&lt;  [4] の位�
 </ul>
 elase() は insert() 同様、第1引数にイテレータを取る。<br>
 <p class="code">
-std::vector&lt;<kwd>int</kwd>&gt; v{<ltr>3</ltr>, <ltr>1</ltr>, <ltr>4</ltr>, <ltr>1</ltr>, <ltr>5</ltr>};
+<kwd>std</kwd>::vector&lt;<kwd>int</kwd>&gt; v{<ltr>3</ltr>, <ltr>1</ltr>, <ltr>4</ltr>, <ltr>1</ltr>, <ltr>5</ltr>};
 v.pop_back();            <cmt>//&lt; 末尾データ（この場合は 5）を削除</cmt>
 </p>
 <p class="code">
-std::vector&lt;<kwd>int</kwd>&gt; v{<ltr>3</ltr>, <ltr>1</ltr>, <ltr>9</ltr>, <ltr>4</ltr>};
+<kwd>std</kwd>::vector&lt;<kwd>int</kwd>&gt; v{<ltr>3</ltr>, <ltr>1</ltr>, <ltr>9</ltr>, <ltr>4</ltr>};
 v.erase(v.begin() + <ltr>2</ltr>);       <cmt>//&lt; [2]の位置（9）を削除</cmt>
 </p>
 
@@ -162,4 +162,6 @@ v.erase(v.begin() + <ltr>2</ltr>);       <cmt>//&lt; [2]の位置（9）を削�
 
 </body>
 </html>
+
+
 

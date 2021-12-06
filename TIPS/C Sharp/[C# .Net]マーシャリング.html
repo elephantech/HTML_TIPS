@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="ja">
 <!-- --------------------------------------
@@ -18,8 +18,6 @@ head
 <script src="_Assets/MakeTitle.js" type="text/javascript"></script>
 <!-- 目次表示 -->
 <script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
-
-
 
 </head>
 
@@ -50,7 +48,22 @@ body
 C++とC#では型に互換性が無く、データをそのままの形式で渡すことができない場合が存在する。<br>
 (例 : C++の string とC#の string は互換性が無い)<br>
 このためデータの授受に当たっては、互換性のある形式に変換(マーシャリング)する必要がある。<br>
-<br>
+
+<h3>変換が必要な型</h3>
+<table>
+    <tr>  <th colspan="2" rowspan="2"></th><th colspan="2">C++</th><th rowspan="2">C#型</th><th rowspan="2">.Net型</th></tr>
+    <tr class="row1">  <th>標準<br>(C互換)</th><th>std<br>(C++11以降)</th>
+    <tr>  <th rowspan="2">8bit整数</td> <td class="col1">符号つき</td><td>signed char</td>   <td>std::int8_t</td><td>sbyte</td><td>System.SByte</td>   </tr>
+    <tr>                                <td class="col1">符号なし</td><td>unsigned char</td> <td>std::uint8_t</td><td>byte</td><td>System.Byte</td>   </tr>
+    <tr>  <th rowspan="2">16bit整数</td><td class="col1">符号つき</td><td>signed short</td>  <td>std::int16_t</td><td>short</td><td>System.Int16</td>   </tr>
+    <tr>                                <td class="col1">符号なし</td><td>unsigned short</td><td>std::uint16_t</td><td>ushort</td><td>System.UInt16</td>   </tr>
+    <tr>  <th rowspan="2">32bit整数</td><td class="col1">符号つき</td><td>signed int<br>signed long</td><td>std::int32_t</td><td>int</td><td>System.Int32</td>   </tr>
+    <tr>                                <td class="col1">符号なし</td><td>unsigned int<br>unsigned long</td><td>std::uint32_t</td><td>uint</td><td>System.UInt32</td>   </tr>
+    <tr>  <th rowspan="2">64bit整数</td><td class="col1">符号つき</td><td>signed long long</td><td>std::int64_t</td><td>short</td><td>System.Int64</td>   </tr>
+    <tr>                                <td class="col1">符号なし</td><td>unsigned long long</td><td>std::uint64_t</td><td>ushort</td><td>System.UInt64</td>   </tr>
+    <tr>  <td class="col1" colspan="2">文字列</td><td>char*</td><td>std::string</td><td>string</td><td>System.String</td>   </tr>
+    </table>
+C++における int のサイズは本来処理系依存だが、<b>Win32 / Win64では32bitに統一されている</b>。
 
 <h2>実装例</h2>
 いずれも CPlusDLL.dll をロードするものとする。<br>
@@ -73,7 +86,7 @@ DLLEXPORT <kwd>int</kwd> __stdcall Mul(<kwd>int</kwd> x, <kwd>int</kwd> y)
 
 <cmt>// 参照渡し(int*)</cmt>
 <cmt>// ( result に結果を格納して返す)</cmt>
-DLLEXPORT <kwd>void</kwd> __stdcall MulUsePointer(<kwd>int</kwd> *x, <kwd>int</kwd> *y, <kwd>int</kwd> *result)
+DLLEXPORT <kwd>void</kwd> __stdcall MulUsePointer(<kwd>int</kwd>* x, <kwd>int</kwd>* y, <kwd>int</kwd>* result)
 {
     *result = (*x) * (*y);
 }
@@ -82,33 +95,33 @@ DLLEXPORT <kwd>void</kwd> __stdcall MulUsePointer(<kwd>int</kwd> *x, <kwd>int</k
 アプリケーション(C#)<br>
 
 <p class="code">
-using System;
-using System.Runtime.InteropServices;
+<kwd>using</kwd> <knw>System</knw>;
+<kwd>using</kwd> <knw>System</knw>.Runtime.InteropServices;
 
-namespace ConsoleApp1
+<kwd>namespace</kwd> ConsoleApp1
 {
     <kwd>class</kwd> Program
     {
         <cmt>// 値渡し</cmt>
         [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"Mul"</ltr>)]
-        <kwd>static</kwd> <kwd>extern</kwd> <kwd>int</kwd> _Mul(<kwd>int</kwd> x, <kwd>int</kwd> y);
+        <kwd>static extern int</kwd> _Mul(<kwd>int</kwd> x, <kwd>int</kwd> y);
 
         <cmt>// 参照渡し</cmt>
         <cmt>// DLLへの入力は ref 、DLLからの出力は out (または ref )で修飾</cmt>
         [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"MulUsePointer"</ltr>)]
-        <kwd>static</kwd> <kwd>extern</kwd> <kwd>void</kwd> _MulUsePointer(ref <kwd>int</kwd> x, ref <kwd>int</kwd> y, out <kwd>int</kwd> result);
+        <kwd>static extern void</kwd> _MulUsePointer(<kwd>ref int</kwd> x, <kwd>ref int</kwd> y, <kwd>out int</kwd> result);
 
         <cmt>// 実処理部</cmt>
-        <kwd>static</kwd> <kwd>void</kwd> Main(<kwd>string</kwd>[] args)
+        <kwd>static void</kwd> Main(<kwd>string</kwd>[] args)
         {
             <kwd>int</kwd> x = <ltr>10</ltr>;
             <kwd>int</kwd> y = <ltr>20</ltr>;
 
             <kwd>int</kwd> resultMul = _Mul(x, y);
-            Console.WriteLine(<ltr>"Mul = "</ltr> + resultMul);
+            <knw>Console</knw>.WriteLine(<ltr>"Mul = "</ltr> + resultMul);
 
-            _MulUsePointer(ref x, ref y, out <kwd>int</kwd> resultMulUsePointer);
-            Console.WriteLine(<ltr>"MulUsePointer = "</ltr> + resultMulUsePointer);
+            _MulUsePointer(<kwd>ref</kwd> x, <kwd>ref</kwd> y, <kwd>out int</kwd> resultMulUsePointer);
+            <knw>Console</knw>.WriteLine(<ltr>"MulUsePointer = "</ltr> + resultMulUsePointer);
         }
      }
 }
@@ -127,31 +140,31 @@ C++の string / wstring とC#の string には互換性が無いため、マー�
 <kwd>#define</kwd> DLLEXPORT __declspec(dllexport)
 <kwd>#endif</kwd>
 
-<kwd>static</kwd> std::<kwd>string</kwd> _str = <ltr>""</ltr>;
-<kwd>static</kwd> std::<kwd>wstring</kwd> _wstr = <ltr>L""</ltr>;
+<kwd>static std</kwd>::<kwd>string</kwd> _str = <ltr>""</ltr>;
+<kwd>static std</kwd>::<kwd>wstring</kwd> _wstr = <ltr>L""</ltr>;
 
 <cmt>// マルチバイト文字列型</cmt>
 <cmt>// (char* ⇒ string)</cmt>
-DLLEXPORT <kwd>void</kwd> __stdcall SetNameStr(<kwd>const</kwd> <kwd>char</kwd> *t)
+DLLEXPORT <kwd>void</kwd> __stdcall SetNameStr(<kwd>const char</kwd>* t)
 {
-    _str = std::<kwd>string</kwd>(t);
+    _str = <kwd>std</kwd>::<kwd>string</kwd>(t);
 }
 
 <cmt>// (string ⇒ char*)</cmt>
-DLLEXPORT <kwd>const</kwd> <kwd>char</kwd> * __stdcall GetNameStr()
+DLLEXPORT <kwd>const char</kwd>* __stdcall GetNameStr()
 {
     <kwd>return</kwd> _str.c_str();
 }
 
 <cmt>// ワイド文字列型</cmt>
 <cmt>// (wchar_t* ⇒ wstring)</cmt>
-DLLEXPORT <kwd>void</kwd> __stdcall SetNameWStr(<kwd>const</kwd> <kwd>wchar_t</kwd> *t)
+DLLEXPORT <kwd>void</kwd> __stdcall SetNameWStr(<kwd>const wchar_t</kwd>* t)
 {
-    _wstr = std::<kwd>wstring</kwd>(t);
+    _wstr = <kwd>std</kwd>::<kwd>wstring</kwd>(t);
 }
 
 <cmt>// (wstring ⇒ wchar_t*)</cmt>
-DLLEXPORT <kwd>const</kwd> <kwd>wchar_t</kwd> * __stdcall GetNameWStr()
+DLLEXPORT <kwd>const wchar_t</kwd>* __stdcall GetNameWStr()
 {
     <kwd>return</kwd> _wstr.c_str();
 }
@@ -160,37 +173,37 @@ DLLEXPORT <kwd>const</kwd> <kwd>wchar_t</kwd> * __stdcall GetNameWStr()
 アプリケーション(C#)<br>
 
 <p class="code">
-using System;
-using System.Runtime.InteropServices;
+<kwd>using</kwd> <knw>System</knw>;
+<kwd>using</kwd> <knw>System</knw>.Runtime.InteropServices;
 
-namespace ConsoleApp1
+<kwd>namespace</kwd> ConsoleApp1
 {
     <kwd>class</kwd> Program
     {
         <cmt>// マルチバイト文字列型</cmt>
         <cmt>// CharSet = CharSet.Ansi</cmt>
         [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"SetNameStr"</ltr>, CharSet = CharSet.Ansi)]
-        <kwd>static</kwd> <kwd>extern</kwd> <kwd>void</kwd> _SetNameStr(<kwd>string</kwd> t);
+        <kwd>static extern void</kwd> _SetNameStr(<kwd>string</kwd> t);
 
         [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"GetNameStr"</ltr>, CharSet = CharSet.Ansi)]
-        <kwd>static</kwd> <kwd>extern</kwd> IntPtr _GetNameStr();
+        <kwd>static extern</kwd> <knw>IntPtr</knw> _GetNameStr();
 
         <cmt>// ワイド文字列型</cmt>
         <cmt>// CharSet = CharSet.Unicode</cmt>
         [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"SetNameWStr"</ltr>, CharSet = CharSet.Unicode)]
-        <kwd>static</kwd> <kwd>extern</kwd> <kwd>void</kwd> _SetNameWStr(<kwd>string</kwd> t);
+        <kwd>static extern void</kwd> _SetNameWStr(<kwd>string</kwd> t);
 
         [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"GetNameWStr"</ltr>, CharSet = CharSet.Unicode)]
-        <kwd>static</kwd> <kwd>extern</kwd> IntPtr _GetNameWStr();
+        <kwd>static extern</kwd> <knw>IntPtr</knw> _GetNameWStr();
 
-        <kwd>static</kwd> <kwd>void</kwd> Main(<kwd>string</kwd>[] args)
+        <kwd>static void</kwd> Main(<kwd>string</kwd>[] args)
         {
             <kwd>string</kwd> testString = <ltr>"東京都新宿 <ltr>1</ltr>-<ltr>1</ltr>"</ltr>;
             _SetNameStr(testString);
-            Console.WriteLine(<ltr>"GetNameStr = "</ltr> + Marshal.PtrToStringAnsi(_GetNameStr()));
+            <knw>Console</knw>.WriteLine(<ltr>"GetNameStr = "</ltr> + <knw>Marshal</knw>.PtrToStringAnsi(_GetNameStr()));
 
             _SetNameWStr(testString);
-            Console.WriteLine(<ltr>"GetNameWStr = "</ltr> + Marshal.PtrToStringUni(_GetNameWStr()));
+            <knw>Console</knw>.WriteLine(<ltr>"GetNameWStr = "</ltr> + <knw>Marshal</knw>.PtrToStringUni(_GetNameWStr()));
         }
      }
 }
@@ -207,26 +220,26 @@ namespace ConsoleApp1
 <kwd>#define</kwd> DLLEXPORT __declspec(dllexport)
 <kwd>#endif</kwd>
 
-DLLEXPORT <kwd>void</kwd> __stdcall SetArray(<kwd>const</kwd> <kwd>int</kwd>* arr)
+DLLEXPORT <kwd>void</kwd> __stdcall SetArray(<kwd>const int</kwd>* arr)
 {
     (略)
 }
 </p>
 アプリケーション(C#)<br>
 <p class="code">
-using System;
-using System.Runtime.InteropServices;
+<kwd>using</kwd> <knw>System</knw>;
+<kwd>using</kwd> <knw>System</knw>.Runtime.InteropServices;
 
-namespace ConsoleApp1
+<kwd>namespace</kwd> ConsoleApp1
 {
     <kwd>class</kwd> Program
     {
          [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"SetArray"</ltr>)]
-        <kwd>static</kwd> <kwd>extern</kwd> <kwd>void</kwd> _SetArray(IntPtr arr);
+        <kwd>static extern void</kwd> _SetArray(<knw>IntPtr</knw> arr);
 
-        <kwd>static</kwd> <kwd>void</kwd> Main(<kwd>string</kwd>[] args)
+        <kwd>static void</kwd> Main(<kwd>string</kwd>[] args)
         {
-            <kwd>int</kwd>[,] matrix = new <kwd>int</kwd>[<ltr>3</ltr>, <ltr>3</ltr>]
+            <kwd>int</kwd>[,] matrix = <kwd>new int</kwd>[<ltr>3</ltr>, <ltr>3</ltr>]
             {
                 {<ltr>0</ltr>, <ltr>1</ltr>, <ltr>2</ltr>},
                 {<ltr>3</ltr>, <ltr>4</ltr>, <ltr>5</ltr>},
@@ -234,7 +247,7 @@ namespace ConsoleApp1
             };
 
             <cmt>// matrix をシリアライズ</cmt>
-            <kwd>int</kwd> arr[] = new <kwd>int</kwd>[<ltr>3</ltr>*<ltr>3</ltr>];
+            <kwd>int</kwd> arr[] = <kwd>new int</kwd>[<ltr>3</ltr>*<ltr>3</ltr>];
             <kwd>int</kwd> i = <ltr>0</ltr>;
             <kwd>for</kwd> (<kwd>int</kwd> y = <ltr>0</ltr>; y &lt; <ltr>3</ltr>; ++y)
             {
@@ -246,19 +259,19 @@ namespace ConsoleApp1
             }
 
             <cmt>// データ授受用の IntPtr 生成( arr (matrix) の内容を格納する領域を確保</cmt>
-            IntPtr ptr =  Marshal.AllocHGlobal(Marshal.SizeOf(typeof(<kwd>int</kwd>)) * <ltr>3</ltr> * <ltr>3</ltr>)
+            <knw>IntPtr</knw> ptr =  <knw>Marshal</knw>.AllocHGlobal(<knw>Marshal</knw>.SizeOf(<kwd>typeof</kwd>(<kwd>int</kwd>)) * <ltr>3</ltr> * <ltr>3</ltr>)
  
             <cmt>// arr の内容を ptr にコピー</cmt>
-            Marshal.Copy(arr, <ltr>0</ltr>, ptr, <ltr>3</ltr>*<ltr>3</ltr>);
+            <knw>Marshal</knw>.Copy(arr, <ltr>0</ltr>, ptr, <ltr>3</ltr>*<ltr>3</ltr>);
  
             <cmt>// DLL APIコール</cmt>
             _SetArray(ptr);
  
             <cmt>// ptr の内容を arr にコピー</cmt>
-            Marshal.Copy(ptr, arr, <ltr>0</ltr>, <ltr>3</ltr>*<ltr>3</ltr>);
+            <knw>Marshal</knw>.Copy(ptr, arr, <ltr>0</ltr>, <ltr>3</ltr>*<ltr>3</ltr>);
  
             <cmt>// 領域解放</cmt>
-            Marshal.FreeHGlobal(ptr);
+            <knw>Marshal</knw>.FreeHGlobal(ptr);
         }
      }
 }
@@ -297,10 +310,10 @@ DLLEXPORT <kwd>void</kwd> __stdcall GetStruct(stSample* st)
 </p>
 アプリケーション(C#)<br>
 <p class="code">
-using System;
-using System.Runtime.InteropServices;
+<kwd>using</kwd> <knw>System</knw>;
+<kwd>using</kwd> <knw>System</knw>.Runtime.InteropServices;
 
-namespace ConsoleApp1
+<kwd>namespace</kwd> ConsoleApp1
 {
     <cmt>// 構造体定義</cmt>
     <cmt>// class として定義する点に注意(参照渡しとするため)</cmt>
@@ -315,13 +328,13 @@ namespace ConsoleApp1
     {
         <cmt>// DLLに構造体を渡す</cmt>
          [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"_SetStruct"</ltr>)]
-        <kwd>static</kwd> <kwd>extern</kwd> <kwd>void</kwd> _SetStruct([In] stSample st);
+        <kwd>static extern void</kwd> _SetStruct([In] stSample st);
 
         <cmt>// DLLから構造体を受け取る</cmt>
          [DllImport(<ltr>"CPlusDLL"</ltr>, EntryPoint = <ltr>"_GetStruct"</ltr>)]
-        <kwd>static</kwd> <kwd>extern</kwd> <kwd>void</kwd> _GetStruct([Out] stSample st);
+        <kwd>static extern void</kwd> _GetStruct([Out] stSample st);
 
-        <kwd>static</kwd> <kwd>void</kwd> Main(<kwd>string</kwd>[] args)
+        <kwd>static void</kwd> Main(<kwd>string</kwd>[] args)
         {
             stSample st;
 
@@ -332,6 +345,6 @@ namespace ConsoleApp1
      }
 }
 </p>
+
 </body>
 </html>
-
