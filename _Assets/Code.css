@@ -1,0 +1,37 @@
+@charset "utf-8";
+
+/* ---------------------------------- */
+/* コード (<p class="code">)          */
+/* ---------------------------------- */
+p.code {
+  white-space:          pre;
+  font-family:          monospace;
+  line-height:          1.3;
+  border-style:         solid;
+  border-width:         1px;
+  border-color:         #996666;
+  background-color:     #E7D7D7;
+  margin-top:           6px;
+  margin-bottom:        6px;
+  padding:              0 1em 1.3em 1em;
+}
+
+/* キーワード (<keyword>、<kwd>) */
+p.code keyword, p.code kwd {
+  color:                #0000FF;
+}
+  
+/* 既知のクラス (<known>、<knw>) */
+p.code known, p.code knw {
+  color:                #20B0D0;
+}
+
+/* コメント (<comment>、<cmt>) */
+p.code comment, p.code cmt {
+  color:                #009000;
+}
+
+/* リテラル (<literal>、<ltr>) */
+p.code literal, p.code ltr {
+  color:                #990000;
+}

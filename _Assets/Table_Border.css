@@ -1,0 +1,231 @@
+@charset "utf-8";
+
+/* ---------------------------------- */
+/* 表組み                             */
+/* ---------------------------------- */
+table {
+  border-style:         solid;
+  border-width:         3px;
+  border-collapse:      collapse;
+  margin:               6px 0;
+}
+
+td, th {
+  border-style:         solid;
+  border-width:         1px;
+}
+
+td {
+  padding:              4px 8px;
+}
+
+table, tr, td, th {
+  border-color:         #996666;
+}
+
+/* ヘッダ行・列 */
+th, .row1, .col1, .row0, .col0 {
+  font-weight:          bold;
+  text-align:           center;
+  background-color:     #E0CCCC;
+  padding:              6px 12px;
+}
+
+.row1 {
+  border-bottom-style:  double;
+  border-bottom-width:  4px;
+}
+  
+.col1 {
+  border-right-style:   double;
+  border-right-width:   4px;
+}
+
+/* ---------------------------------- */
+/* 罫線                               */
+/* ---------------------------------- */
+/* 通常(細線) */
+/* (全周) (<#### class="border_normal">、<#### class="border_thin">) */
+.border_normal, .border_thin {
+  border-style:         solid;
+  border-width:         1px;
+}
+
+/* (上) (<#### class="border_t_normal">、<#### class="border_t_thin">) */
+.border_t_normal, .border_t_thin {
+  border-top-style:     solid;
+  border-top-width:     1px;
+}
+
+/* (下) (<#### class="border_b_normal">、<#### class="border_b_thin">) */
+.border_b_normal, .border_b_thin {
+  border-bottom-style:  solid;
+  border-bottom-width:  1px;
+}
+
+/* (左) (<#### class="border_l_normal">、<#### class="border_l_thin">) */
+.border_l_normal, .border_l_thin {
+  border-left-style:    solid;
+  border-left-width:    1px;
+}
+
+/* (右) (<#### class="border_r_normal">、<#### class="border_r_thin">) */
+.border_r_normal, .border_r_thin {
+  border-right-style:   solid;
+  border-right-width:   1px;
+}
+
+/* 太線 */
+/* (全周) (<#### class="border_thick"> */
+.border_thick {
+  border-style:         solid;
+  border-width:         3px;
+}
+
+/* (上) (<#### class="border_t_thick"> */
+.border_t_thick {
+  border-top-style:     solid;
+  border-top-width:     3px;
+}
+
+/* (下) (<#### class="border_b_thick"> */
+.border_b_thick {
+  border-bottom-style:  solid;
+  border-bottom-width:  3px;
+}
+
+/* (左) (<#### class="border_l_thick"> */
+.border_l_thick {
+  border-left-style:    solid;
+  border-left-width:    3px;
+}
+
+/* (右) (<#### class="border_r_thick"> */
+.border_r_thick {
+  border-right-style:   solid;
+  border-right-width:   3px;
+}
+
+/* 極太線 */
+/* (全周) (<#### class="border_thickest"> */
+.border_thickest {
+  border-style:         solid;
+  border-width:         5px;
+}
+
+/* (上) (<#### class="border_t_thickest"> */
+.border_t_thickest {
+  border-top-style:     solid;
+  border-top-width:     5px;
+}
+
+/* (下) (<#### class="border_b_thickest"> */
+.border_b_thickest {
+  border-bottom-style:  solid;
+  border-bottom-width:  5px;
+}
+
+/* (左) (<#### class="border_l_thickest"> */
+.border_l_thickest {
+  border-left-style:    solid;
+  border-left-width:    5px;
+}
+
+/* (右) (<#### class="border_r_thickest"> */
+.border_r_thickest {
+  border-right-style:   solid;
+  border-right-width:   5px;
+}
+
+/* 二重線 */
+/* (全周) (<#### class="border_double"> */
+.border_double {
+  border-style:         double;
+  border-width:         4px;
+}
+
+/* (上) (<#### class="border_t_double"> */
+.border_t_double {
+  border-top-style:     double;
+  border-top-width:     4px;
+}
+
+/* (下) (<#### class="border_b_double"> */
+.border_b_double {
+  border-bottom-style:  double;
+  border-bottom-width:  4px;
+}
+
+/* (左) (<#### class="border_l_double"> */
+.border_l_double {
+  border-left-style:    double;
+  border-left-width:    4px;
+}
+
+/* (右) (<#### class="border_r_double"> */
+.border_r_double {
+  border-right-style:   double;
+  border-right-width:   4px;
+}
+
+/* 破線 */
+/* (全周) (<#### class="border_dashed"> */
+.border_dashed {
+  border-style:         dashed;
+  border-width:         1px;
+}
+
+/* (上) (<#### class="border_t_dashed"> */
+.border_t_dashed {
+  border-top-style:     dashed;
+  border-top-width:     1px;
+}
+
+/* (下) (<#### class="border_b_dashed"> */
+.border_b_dashed {
+  border-bottom-style:  dashed;
+  border-bottom-width:  1px;
+}
+
+/* (左) (<#### class="border_l_dashed"> */
+.border_l_dashed {
+  border-left-style:    dashed;
+  border-left-width:    1px;
+}
+
+/* (右) (<#### class="border_r_dashed"> */
+.border_r_dashed {
+  border-right-style:   dashed;
+  border-right-width:   1px;
+}
+
+/* 点線 */
+/* (全周) (<#### class="border_dotted"> */
+.border_dotted {
+  border-style:         dotted;
+  border-width:         1px;
+}
+
+/* (上) (<#### class="border_t_dotted"> */
+.border_t_dotted {
+  border-top-style:     dotted;
+  border-top-width:     1px;
+}
+
+/* (下) (<#### class="border_b_dotted"> */
+.border_b_dotted {
+  border-bottom-style:  dotted;
+  border-bottom-width:  1px;
+}
+
+/* (左) (<#### class="border_l_dotted"> */
+.border_l_dotted {
+  border-left-style:    dotted;
+  border-left-width:    1px;
+}
+
+/* (右) (<#### class="border_r_dotted"> */
+.border_r_dotted {
+  border-right-style:   dotted;
+  border-right-width:   1px;
+}

@@ -1,0 +1,89 @@
+@charset "utf-8";
+
+/* ---------------------------------- */
+/* 背景色                             */
+/* ---------------------------------- */
+/* 背景色 : 赤 (<#### class="bg_r">, (<bg_r>) */
+.bg_r,  bg_r {
+  background-color:     #FF0000;
+}
+
+/* 背景色 : 薄赤 (<#### class="bg_lr">, (<bg_lr>) */
+.bg_lr,  bg_lr {
+  background-color:     #FFC0C0;
+}
+
+/* 背景色 : 緑 (<#### class="bg_g">, (<bg_g>) */
+.bg_g,  bg_g {
+  background-color:     #00FF00;
+}
+
+/* 背景色 : 薄緑 (<#### class="bg_lg">, (<bg_lg>) */
+.bg_lg,  bg_lg {
+  background-color:     #C0FFC0;
+}
+
+/* 背景色 : 青 (<#### class="bg_b">, (<bg_b>) */
+.bg_b,  bg_b {
+  background-color:     #0000FF;
+}
+
+/* 背景色 : 薄青 (<#### class="bg_lb">, (<bg_lb>) */
+.bg_lb,  bg_lb {
+  background-color:     #C0C0FF;
+}
+
+/* 背景色 : シアン (<#### class="bg_c">, (<bg_c>) */
+.bg_c,  bg_c {
+  background-color:     #00FFFF;
+}
+
+/* 背景色 : ライトシアン (<#### class="bg_lc">, (<bg_lc>) */
+.bg_lc,  bg_lc {
+  background-color:     #C0FFFF;
+}
+
+/* 背景色 : マゼンタ (<#### class="bg_m">, (<bg_m>) */
+.bg_m,  bg_m {
+  background-color:     #FF00FF;
+}
+
+/* 背景色 : ライトマゼンタ (<#### class="bg_lm">, (<bg_lm>) */
+.bg_lm,  bg_lm {
+  background-color:     #FFC0FF;
+}
+
+/* 背景色 : イエロー (<#### class="bg_y">, (<bg_y>) */
+.bg_y,  bg_y {
+  background-color:     #FFFF00;
+}
+
+/* 背景色 : ライトイエロー (<#### class="bg_ly">, (<bg_ly>) */
+.bg_ly,  bg_ly {
+  background-color:     #FFFFC0;
+}
+
+/* 背景色 : 白 (<#### class="bg_w">, (<bg_w>) */
+.bg_w,  bg_w {
+  background-color:     #FFFFFF;
+}
+
+/* 背景色 : 薄灰 (<#### class="bg_lh">, (<bg_lh>) */
+.bg_lh,  bg_lh {
+  background-color:     #C0C0C0;
+}
+
+/* 背景色 : 灰 (<#### class="bg_h">, (<bg_h>) */
+.bg_h,  bg_h {
+  background-color:     #808080;
+}
+
+/* 背景色 : 濃灰 (<#### class="bg_dh">, (<bg_dh>) */
+.bg_dh,  bg_dh {
+  background-color:     #404040;
+}
+
+/* 背景色 : 黒 (<#### class="bg_k">, (<bg_k>) */
+.bg_k,  bg_k {
+  background-color:     #000000;
+}

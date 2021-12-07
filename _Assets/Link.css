@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+/* ---------------------------------- */
+/* リンク                             */
+/* ---------------------------------- */
+a {
+  padding:              3px;
+  font-weight:          bold;
+}
+
+a:link {
+  color:                #330099;
+}
+
+a:visited {
+  color:                #990033;
+}
+
+a:hover {
+  color:                #5577FF;
+}
+
+a:active {
+  color:                #2244CC;
+}

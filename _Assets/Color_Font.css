@@ -1,0 +1,74 @@
+@charset "utf-8";
+
+/* ---------------------------------- */
+/* 文字色                             */
+/* ---------------------------------- */
+/* 文字色 : 赤 (<#### class="red">, (<red>) */
+.red,  red {
+  color:                #FF0000;
+}
+
+/* 文字色 : 暗赤 (<#### class="dred">, (<dred>) */
+.dred,  dred {
+  color:                #9F0000;
+}
+
+/* 文字色 : 緑 (<#### class="green">, (<green>) */
+.green, green {
+  color:                #00FF00;
+}
+
+/* 文字色 : 暗緑 (<#### class="dgreen">, (<dgreen>) */
+.dgreen,  dgreen {
+  color:                #009F00;
+}
+
+/* 文字色 : 青 (<#### class="blue">, (<blue>) */
+.blue, blue {
+  color:                #0000FF;
+}
+
+/* 文字色 : 暗青 (<#### class="dblue">, (<dblue>) */
+.dblue,  dblue {
+  color:                #00009F;
+}
+
+/* 文字色 : シアン (<#### class="cyan">, (<cyan>) */
+.cyan,  cyan {
+  color:                #00FFFF;
+}
+
+/* 文字色 : 暗シアン (<#### class="dcyan">, (<dcyan>) */
+.dcyan,  dcyan {
+  color:                #009F9F;
+}
+
+/* 文字色 : マゼンタ (<#### class="magenta">, (<magenta>) */
+.magenta, magenta {
+  color:                #FF00FF;
+}
+
+/* 文字色 : 暗マゼンタ (<#### class="dmagenta">, (<dmagenta>) */
+.dmagenta, dmagenta {
+  color:                #9F009F;
+}
+
+/* 文字色 : 黄 (<#### class="yellow">, (<yellow>) */
+.yellow, yellow {
+  color:                #FFFF00;
+}
+
+/* 文字色 : 暗黄 (<#### class="dyellow">, (<dyellow>) */
+.dyellow, dyellow {
+  color:                #9F9F00;
+}
+
+/* 文字色 : 白 (<#### class="white">, (<white>) */
+.white, white {
+  color:                #FFFFFF;
+}
+
+/* 文字色 : 黒 (<#### class="black">, (<black>) */
+.black, black {
+  color:                #000000;
+}

@@ -1,0 +1,83 @@
+@charset "utf-8";
+
+/* ---------------------------------- */
+/* 番号付きリスト(<ol>)               */
+/* 箇条書き(<ul>)                     */
+/* ---------------------------------- */
+/* 1段目 */
+ol, ul {
+  margin-top:           10px;
+  margin-bottom:        10px;
+  list-style-type:      none;
+  padding-left:         0;
+}
+
+ol {
+  counter-reset:        cnt;
+}
+
+/* 2段目以降 */
+ol ol, ul ul, ol ul, ul ol {
+  margin-top:           0px;
+  margin-bottom:        0px;
+  padding-left:         1em;
+}
+
+/* 表中 */
+td ol, td ul {
+  margin-top:           0px;
+  margin-bottom:        0px;
+}
+
+/* 項目(<li>) */
+ol li {
+  text-indent:          -1.3em;
+  padding-left:         1.3em;
+}
+
+/* (行頭文字) */
+ol li:before {
+  counter-increment:    cnt;
+  content:              counters(cnt, ".")". ";
+  /* 以下、行頭文字の装飾 */
+  font-weight:          bold;
+  color:                #996666;
+}
+
+/* 項目(<li>) */
+ul li {
+  text-indent:          -1em;
+  padding-left:         1em;
+}
+
+/* (行頭文字) */
+ul li:before {
+  content:              '';
+  display:              inline-block;
+  height:               1em;
+  width:                1em;
+  background-size:      contain;
+}
+
+ul li:before {
+  background-image:     url(disc.png);
+}
+
+ul ul li:before {
+  background-image:     url(circle.png);
+}
+
+ul ul ul li:before {
+  background-image:     url(disc.png);
+}
+
+ul ul ul ul li:before {
+  background-image:     url(circle.png);
+}
+
+/* 目次(<div id="toc">) */
+div#toc ul
+{
+  margin-top:           0px;
+  margin-bottom:        0px;
+}
