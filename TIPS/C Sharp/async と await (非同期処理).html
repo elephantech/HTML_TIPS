@@ -52,47 +52,47 @@ body
         <cmt>// 重い処理</cmt>
         <kwd>private static double</kwd> HeavyWork(<kwd>int</kwd> n)
         {
-            <kwd>return</kwd> Enumerable.Range(<ltr>1</ltr>, n).Sum(i => <ltr>1</ltr> / (<kwd>double</kwd>)i) - Math.Log(n);
+            <kwd>return</kwd> <knw>Enumerable</knw>.Range(<ltr>1</ltr>, n).Sum(i => <ltr>1</ltr> / (<kwd>double</kwd>)i) - <knw>Math</knw>.Log(n);
         }
 
         <cmt>// 重い処理を非同期実行</cmt>
         <cmt>// (関数内で await を使用するため async 修飾、戻り値は Task)</cmt>
-        <kwd>private</kwd> async <kwd>static</kwd> Task ExecuteAsync()
+        <kwd>private async static</kwd> <knw>Task</knw> ExecuteAsync()
         {
-            text += <ltr>"計算開始"</ltr> + Environment.NewLine;
+            text += <ltr>"計算開始"</ltr> + <knw>Environment</knw>.NewLine;
 
-            <cmt>// 重い処理を別タスクで実行開始(Task.Run())
-            // await 修飾により、呼び元に処理を戻すとともに
-            // 次行以降はタスクの完了を待機した後に実行する</cmt>
-            <kwd>double</kwd> result = await Task.Run(() =>  HeavyWork(<ltr>2000000000</ltr>));
+            <cmt>// 重い処理を別タスクで実行開始(Task.Run())</cmt>
+            <cmt>// await 修飾により、(ExecuteAsync() の)呼び元に処理を戻すとともに</cmt>
+            <cmt>// 次行以降はタスクの完了を待機した後に実行する</cmt>
+            <kwd>double</kwd> result = <kwd>await</kwd> <knw>Task</knw>.Run(() =>  HeavyWork(<ltr>2000000000</ltr>));
 
             <cmt>// 結果表示</cmt>
             <cmt>// 別タスク実行された HeavyWork() の完了後に実行される</cmt>
-            text += result.ToString() + Environment.NewLine;
+            text += result.ToString() + <knw>Environment</knw>.NewLine;
         }
 
         <cmt>// メイン関数</cmt>
         <kwd>static void</kwd> Main(<kwd>string</kwd>[] args)
         {
             <cmt>// 重い処理を非同期実行</cmt>
-            Task task = ExecuteAsync();
+            <knw>Task</knw> task = ExecuteAsync();
 
             <cmt>// タスクが完了するまで経過を表示</cmt>
             <kwd>while</kwd> (!task.IsCompleted)
             {
-                Task.Delay(<ltr>1000</ltr>).Wait();
+                <knw>Task</knw>.Delay(<ltr>1000</ltr>).Wait();
 
-                Console.SetCursorPosition(<ltr>0</ltr>, <ltr>0</ltr>);
+                <knw>Console</knw>.SetCursorPosition(<ltr>0</ltr>, <ltr>0</ltr>);
 
                 <kwd>if</kwd> (!task.IsCompleted)
                 {
-                    text += <ltr>"..."</ltr> + Environment.NewLine;
+                    text += <ltr>"..."</ltr> + <knw>Environment</knw>.NewLine;
                 }
 
-                Console.WriteLine(text);
+                <knw>Console</knw>.WriteLine(text);
             }
 
-            Console.ReadKey();
+            <knw>Console</knw>.ReadKey();
         }
     }
 </p>
@@ -100,7 +100,7 @@ body
 <h3>await</h3>
 <b>await</b> は、<b>「続く Task を非同期的に実行(開始)し、終了を待機する」</b>ことを表す。<br>
 これにより、await 修飾された行の後続行は、Task の完了後に実行される。<br>
-さらに、<b>await キーワードに到達した時点で、呼び出し元に処理を戻す</b>点が task.Wait() とは異なる。<br>
+さらに、<b>await キーワードに到達した時点で、呼び出し元に処理を戻す</b>点が Task.Wait() とは異なる。<br>
 
 <h3>async</h3>
 <b>async</b> は、<b>「その関数中で await を使用する (= 非同期処理を開始する)」</b>ことを表す。<br>
@@ -116,20 +116,20 @@ Task を明示的に return する必要は無い。<br>
 <h2>例外処理について</h2>
 <p class="code">
 <cmt>// イベントハンドラ</cmt>
-<kwd>private</kwd> async <kwd>void</kwd> button_Click(object sender, EventArgs e)
+<kwd>private async void</kwd> button_Click(<kwd>object</kwd> sender, <knw>EventArgs</knw> e)
 {
     <kwd>try</kwd>
     {
         <cmt>// スレッドを起動し、終了を待機</cmt>
-        Task[] allTasks = <kwd>new</kwd> Task[NUM_TASKS];
+        <knw>Task</knw>[] allTasks = <kwd>new</kwd> <knw>Task</knw>[NUM_TASKS];
         <kwd>for</kwd> (<kwd>int</kwd> i = <ltr>0</ltr>; i &lt; NUM_TASKS; i++)
         {
-            allTasks [i] = Task.Run(() =&gt; SubThread());
+            allTasks [i] = <knw>Task</knw>.Run(() =&gt; SubThread());
         }
-        await Task.WhenAll(allTasks );
+        <kwd>await</kwd> <knw>Task</knw>.WhenAll(allTasks );
     }
     <cmt>// 例外発生時はメッセージを表示</cmt>
-    <kwd>catch</kwd>(Exception ex)
+    <kwd>catch</kwd>(<knw>Exception</knw> ex)
     {
         MsgBoxFunc.ShowErrMsgBox(ex.Message);
     }
@@ -138,12 +138,14 @@ Task を明示的に return する必要は無い。<br>
 <cmt>// サブスレッド</cmt>
 <kwd>private void</kwd> SubThread()
 {
-    <kwd>throw new</kwd> Exception(<ltr>"例外発生！"</ltr>);
+    <kwd>throw new</kwd> <knw>Exception</knw>(<ltr>"例外発生！"</ltr>);
 }
 </p>
 サブスレッドでの例外を捕捉するには、上記のように起動～終了待ちを try 節で囲むとよい。<br>
 但し、<b>デバッグ実行を行った場合は例外を正常に捕捉できない点に注意</b>。<br>
 </body>
 </html>
+
+
 
 
