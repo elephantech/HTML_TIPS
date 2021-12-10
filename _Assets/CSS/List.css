@@ -60,19 +60,19 @@ ul li:before {
 }
 
 ul li:before {
-  background-image:     url(disc.png);
+  background-image:     url(../disc.png);
 }
 
 ul ul li:before {
-  background-image:     url(circle.png);
+  background-image:     url(../circle.png);
 }
 
 ul ul ul li:before {
-  background-image:     url(disc.png);
+  background-image:     url(../disc.png);
 }
 
 ul ul ul ul li:before {
-  background-image:     url(circle.png);
+  background-image:     url(../circle.png);
 }
 
 /* 目次(<div id="toc">) */
