@@ -62,11 +62,10 @@ body
 
 <h2>(オブジェクト指向言語における)インタフェースとは</h2>
 実装を持たない抽象型のこと。即ち、引数と戻り値のみを定めた<b>純粋仮想関数のみを有する</b>クラスを指す。<br>
-複数のクラスが任意のインタフェースを実装(implement)することができ、共通のインタフェースを実装した複数のクラスを多態性(ポリモーフィズム)によって統一的に扱うことができるようになる。<br>
-見方を変えると、インタフェースはそれを実装する具象クラスに対して、自身が宣言する純粋仮想関数をオーバライドすることを強制するため、<br>
-各具象クラスの在り方を規定するものであると言える。<br><br>
-入出力やAPIを表す広義の「インタフェース」との混同に注意。<br>
-(いずれもソフトウェア開発では一般的に用いられる。)<br>
+共通のインタフェースを実装(implement)した複数のクラスを、多態性(ポリモーフィズム)によって統一的に扱うことができるようになる。<br>
+逆に言えば、インタフェースはそれを実装する具象クラスに対して自身が宣言する純粋仮想関数をオーバライドすることを強制することで、各具象クラスの在り方を規定する。<br>
+<br>
+入出力やAPIを表す広義の「インタフェース」との混同に注意。(いずれもソフトウェア開発では一般的に用いられる。)<br>
 
 <h3>抽象クラスとの違い</h3>
 インタフェースは純粋仮想関数を含んでいるため、(広義の)抽象クラスである。<br>
@@ -76,36 +75,47 @@ body
 <li>インタフェース : 実装クラスとの関係は <b class="dgreen">part-of</b><br>「インタフェース(車輪)は実装クラス(クルマ、バイク)の一部(部品)である」</li>
 </ul>
 多重継承が認められているC++では、インタフェースと(狭義の)抽象クラスとの間に明確な区分は無い。<br>
-(そもそもインタフェースの概念自体が存在しない。)<br>
 JavaやC#ではクラスの多重継承が認められていないが、インタフェースの多重実装は認められており、<br>
 「クラスの定義・継承」と「インタフェースの定義・実装」は明確に区別される。<br>
 
 <h2>インタフェースの例</h2>
-<h3>Java</h3>
-<h4>インタフェースの定義</h4>
+<h3>インタフェースの定義</h3>
+<h4>Java</h4>
 (Cashier.java)
 <p class="code">
 <cmt>// 「レジ」インタフェース</cmt>
-<kwd>public</kwd> <kwd>interface</kwd> Cashier
+<kwd>public interface</kwd> ICashier
 {
     <cmt>// 「会計」メソッド</cmt>
-    <kwd>public</kwd> <kwd>void</kwd> bill();
+    <kwd>public void</kwd> bill();
 }
 </p>
 class ではなく <b>interface</b> キーワードを用いる点に注意。
 
-<h4>インタフェースの実装</h4>
+<h4>C#</h4>
+(Cashier.cs)
+<p class="code">
+<cmt>// 「レジ」インタフェース</cmt>
+<kwd>public interface</kwd> ICashier
+{
+    <cmt>// 「会計」メソッド</cmt>
+    <kwd>void</kwd> bill();
+}
+</p>
+
+<h3>インタフェースの実装</h3>
+<h4>Java</h4>
 (CreditCard.java)
 <p class="code">
 <cmt>// 「クレジットカード」</cmt>
-<cmt>// インタフェース Cashier を実装</cmt>
-<kwd>public</kwd> <kwd>class</kwd> CreditCard <kwd>implements</kwd> Cashier
+<cmt>// インタフェース ICashier を実装</cmt>
+<kwd>public class</kwd> CreditCard <kwd>implements</kwd> ICashier
 {
     <cmt>// 「会計」メソッドのオーバーライド</cmt>
-    @Override
-    <kwd>public</kwd> <kwd>void</kwd> bill()
+    <kwd>@Override</kwd>
+    <kwd>public void</kwd> bill()
     {
-        System<ltr>.</ltr>literal>.</literal<ltr>.</ltr>out<ltr>.</ltr>literal>.</literal<ltr>.</ltr>println(<ltr>"クレジットカードでお会計をいたします。"</ltr>);
+        <knw>System</knw>.<kwd>out</kwd>.println(<ltr>"クレジットカードでお会計をいたします。"</ltr>);
     }
 }
 </p>
@@ -113,31 +123,65 @@ class ではなく <b>interface</b> キーワードを用いる点に注意。
 (Cash.java)
 <p class="code">
 <cmt>// 「現金」</cmt>
-<cmt>// インタフェース Cashier を実装</cmt>
-<kwd>public</kwd> <kwd>class</kwd> Cash <kwd>implements</kwd> Cashier
+<cmt>// インタフェース ICashier を実装</cmt>
+<kwd>public class</kwd> Cash : ICashier
 {
     <cmt>// 「会計」メソッドのオーバーライド</cmt>
-    @Override
-    <kwd>public</kwd> <kwd>void</kwd> bill()
+    <kwd>@Override</kwd>
+    <kwd>public void</kwd> bill()
     {
-        System<ltr>.</ltr>literal>.</literal<ltr>.</ltr>out<ltr>.</ltr>literal>.</literal<ltr>.</ltr>println(<ltr>"現金でお会計をいたします。"</ltr>);
+        <knw>System</knw>.<kwd>out</kwd>.println(<ltr>"現金でお会計をいたします。"</ltr>);
     }
 }
 </p>
 <b>implements</b> キーワードにより、インタフェースを実装することを宣言。bill() をオーバーライド( <b>@Override</b> )する。<br>
 
-<h4>実装されたインタフェースの呼び出し</h4>
+<h4>C#</h4>
+(CreditCard.cs)
+<p class="code">
+<cmt>// 「クレジットカード」</cmt>
+<cmt>// インタフェース ICashier を実装</cmt>
+<kwd>public class</kwd> CreditCard : ICashier
+{
+    <cmt>// 「会計」メソッドのオーバーライド</cmt>
+    <kwd>public void</kwd> bill()
+    {
+        <knw>Console</knw>.WriteLine(<ltr>"クレジットカードでお会計をいたします。"</ltr>);
+    }
+}
+</p>
+
+(Cash.cs)
+<p class="code">
+<cmt>// 「現金」</cmt>
+<cmt>// インタフェース ICashier を実装</cmt>
+<kwd>public class</kwd> Cash : ICashier
+{
+    <cmt>// 「会計」メソッドのオーバーライド</cmt>
+    <kwd>public void</kwd> bill()
+    {
+        <knw>Console</knw>.WriteLine(<ltr>"現金でお会計をいたします。"</ltr>);
+    }
+}
+</p>
+書式はC++における継承と同様。<br>
+
+
+<h3>インタフェースの具現化</h3>
+<h4>Java</h4>
 (Staff.java)
 <p class="code">
 <cmt>// 「スタッフ」</cmt>
-<kwd>public</kwd> <kwd>class</kwd> Staff
+<kwd>public class</kwd> Staff
 {
-    <kwd>public</kwd> <kwd>static</kwd> <kwd>void</kwd> main(<kwd>string</kwd>[] arg)
+    <kwd>public static void</kwd> main(<kwd>string</kwd>[] arg)
     {
-        Cashier cashier[] = <kwd>new</kwd> cashier[<ltr>2</ltr>];
+        <cmt>// インタフェース ICashier 変数の宣言</cmt>
+        ICashier cashier[] = <kwd>new</kwd> ICashier[<ltr>2</ltr>];
         cashier[<ltr>0</ltr>] = <kwd>new</kwd> CreditCard();
         cashier[<ltr>1</ltr>] = <kwd>new</kwd> Cash();
         
+        <cmt>// 支払い方法(クレジットカード / 現金)を取得</cmt>
         <kwd>int</kwd> i = GetPaymentMethod();
         
         cashier[i].bill();
@@ -145,11 +189,33 @@ class ではなく <b>interface</b> キーワードを用いる点に注意。
 }
 </p>
 
-CreditCard 、Cash ともに Cashier を実装しているため、Staff では CreditCard 、Cash のいずれであるかを意識することなく、共通の手法で呼び出すことができる。
+CreditCard 、Cash ともに ICashier を実装しているため、Staff では CreditCard 、Cash のいずれであるかを意識することなく、共通の手法で呼び出すことができる。
 
+<h4>C#</h4>
+(Staff.cs)
+<p class="code">
+<cmt>// 「スタッフ」</cmt>
+<kwd>public class</kwd> Staff
+{
+    <kwd>public static void</kwd> main(<kwd>string</kwd>[] arg)
+    {
+        <cmt>// インタフェース ICashier 変数の宣言</cmt>
+        ICashier cashier[] = <kwd>new</kwd> ICashier[<ltr>2</ltr>];
+        cashier[<ltr>0</ltr>] = <kwd>new</kwd> CreditCard();
+        cashier[<ltr>1</ltr>] = <kwd>new</kwd> Cash();
+        
+        <cmt>// 支払い方法(クレジットカード / 現金)を取得</cmt>
+        <kwd>int</kwd> i = GetPaymentMethod();
+        
+        cashier[i].bill();
+    }
+}
+</p>
 
 </body>
 </html>
+
+
 
 
 
