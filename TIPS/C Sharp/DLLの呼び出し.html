@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://qiita.com/tera1707/items/62616974e70f31e357ae">【C#】C#で作成したDLLをC#で呼ぶ(静的/動的) - Qiita</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C Sharp/C#からC++の関数をコールする.html">C#からC++の関数をコールする.html</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>C#によるライブラリ(DLL)の作成と結合</h2>
+C#ではDLLを動的にも静的にも結合することができ、C++と比較してその手順は簡便である。
+
+<h3>呼ばれる側(DLL)の作成</h3>
+<ol>
+    <li>
+        新しいプロジェクトとして、「クラス ライブラリ」を作成する。<br>
+        <img src="_Img/CSharp/Dll_Create_and_Link/01.png">
+    </li>
+    <li>
+        空のクラスが作成される。<br>
+        <img src="_Img/CSharp/Dll_Create_and_Link/02.png">
+    </li>
+    <li>
+        任意の処理を実装し、ビルドを行う。<br>
+        以下実装例。
+        <p class="code">
+<kwd>namespace</kwd> ClassLibrary1
+{
+    <kwd>public class</kwd> Class1
+    {
+        <cmt>// - = - = - = - = - = - = - = - = - = -</cmt>
+        <cmt>// private メンバ</cmt>
+        <cmt>// - = - = - = - = - = - = - = - = - = -</cmt>
+
+        <cmt>// データリスト</cmt>
+        <kwd>private</kwd> <knw>List</knw><MyData> list_Data = <kwd>new</kwd> <knw>List</knw><MyData>();
+
+        <cmt>// - = - = - = - = - = - = - = - = - = -</cmt>
+        <cmt>// public メソッド</cmt>
+        <cmt>// - = - = - = - = - = - = - = - = - = -</cmt>
+
+        <cmt>// [static]足し算を行う</cmt>
+        <kwd>public static int</kwd> Add(<kwd>int</kwd> a, <kwd>int</kwd> b) => a + b;
+
+        <cmt>// データリストにデータを追加する</cmt>
+        <kwd>public int</kwd> AddMyData(MyData data)
+        {
+            <kwd>if</kwd> (data != <kwd>null</kwd>)
+            {
+                list_Data.Add(data);
+            }
+
+            <kwd>return</kwd> list_Data.Count;
+        }
+
+        <cmt>// 指定されたインデクスのデータを返す</cmt>
+        <kwd>public</kwd> MyData DataSearch(<kwd>int</kwd> serachIndex) => 
+            list_Data.FirstOrDefault(x => x.index == serachIndex);
+    }
+
+    <cmt>// 試験用データ</cmt>
+    <kwd>public class</kwd> MyData
+    {
+        <kwd>public int</kwd> index;
+        <kwd>public double</kwd> data;
+    }
+}            
+</p>
+    </li>
+</ol>
+
+<h3>呼ぶ側 - 静的結合</h3>
+以下の手順により、アセンブリ(DLLまたはEXE)の内容を参照することができる。
+<ol>
+    <li>
+        プロジェクトを開き、ソリューション エクスプローラ上でプロジェクトを右クリック、<br>
+        「追加」>「プロジェクト参照」を選択する。<br>
+        <img src="_Img/CSharp/Dll_Create_and_Link/03.png">
+    </li>
+    <li>
+        左ペインで「参照」を選択し、ボタン「参照」を押す。<br>
+        <img src="_Img/CSharp/Dll_Create_and_Link/04.png">
+    </li>
+    <li>
+        呼び出すアセンブリを選択する。
+    </li>
+    <li>
+        3. で選択したアセンブリ(の名前空間)が「依存関係」>「アセンブリ」下に追加されれば成功。
+        <img src="_Img/CSharp/Dll_Create_and_Link/05.png">
+    </li>
+</ol>
+
+<h3>呼ぶ側 - 動的結合</h3>
+動的に結合することも可能。
+
+<p class="code">
+<kwd>using</kwd> <knw>System</knw>;
+<kwd>using</kwd> <knw>System</knw>.Collections.Generic;
+<kwd>using</kwd> <knw>System</knw>.Linq;
+<kwd>using</kwd> <knw>System</knw>.Reflection;
+<kwd>using</kwd> <knw>System</knw>.<knw>Text</knw>;
+<kwd>using</kwd> <knw>System</knw>.Threading.Tasks;
+
+<kwd>namespace</kwd> CSharpConsole
+{
+    <kwd>class</kwd> Program
+    {
+        <kwd>static void</kwd> Main(<kwd>string</kwd>[] args)
+        {
+            <kwd>var</kwd> asm = Assembly.LoadFrom("CSharpDll.dll");       <cmt>//< アセンブリ(CSharpDll.dll)の読み込み</cmt>
+            <kwd>var</kwd> module = asm.GetModule("CSharpDll.dll");        <cmt>//< アセンブリ(CSharpDll.dll)からモジュールを取得</cmt>
+            <kwd>var</kwd> Person = module.GetType("CSharpDll.Person");    <cmt>//< モジュール中の利用するクラス(or 構造体)を取得</cmt>
+            <cmt>//                           ^^^^^^^^^ ^^^^^^</cmt>
+            <cmt>//                              ↑       ↑</cmt>
+            <cmt>//                           名前空間    │</cmt>
+            <cmt>//                                     クラス</cmt>
+
+            <kwd>if</kwd> (Person != <kwd>null</kwd>)
+            {
+                <cmt>// CSharpDll.Personクラスをインスタンス化</cmt>
+                <cmt>// コンストラクタへ引数を渡すことも可能</cmt>
+                <kwd>dynamic</kwd> p1 = Activator.CreateInstance(Person, <ltr>"Aiueo"</ltr>, <ltr>29</ltr>);
+                <cmt>//                                    ^^^^^^^  ^^^^^^^^^^</cmt>
+                <cmt>//                                       ↑       ↑</cmt>
+                <cmt>//                                     クラス     │</cmt>
+                <cmt>//                                        コンストラクタ引数</cmt>
+    
+                <cmt>// dynamicで受けているので, 面倒なプロパティ取得やメソッド取得を省略できる</cmt>
+                <knw>Console</knw>.WriteLine($"name= {p1.Name}");
+                <knw>Console</knw>.WriteLine($"age= {p1.Age}");
+                <knw>Console</knw>.WriteLine(p1.ToString());
+            }
+
+            <knw>Console</knw>.ReadKey();
+        }
+    }
+}
+</p>
+
+</body>
+</html>
+
+
