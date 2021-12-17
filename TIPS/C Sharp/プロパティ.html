@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://ufcpp.net/study/csharp/oo_property.html">プロパティ - C# によるプログラミング入門 | ++C++; // 未確認飛行 C</a>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>プロパティ(property)とは</h2>
+クラス外部から見るとメンバ(変数)のように振舞い、クラス内部から見るとメソッドのように振舞うもの。<br>
+オブジェクト指向言語においては、メンバに対する外部からの不用意なアクセスと、それによる改変を防ぐためにメンバの実体を隠蔽し、<br>
+参照や更新の際には公開メソッドを用いることを強制(カプセル化)することが推奨されているが、<br>
+C++やJavaではメンバ変数と参照(get)・更新(set)メソッド(アクセサ)を体系的に管理することができなかった。<br>
+C#ではプロパティが導入され、クラス外にはメンバ変数に直接アクセスするような簡便なインタフェースを提供できるとともに、<br>
+メンバとアクセサを包括的に管理できるようになっている。
+
+<h3>プロパティがサポートされない言語(C++)の例</h3>
+<p class="code">
+<kwd>class</kwd> C_TestClass
+{
+<kwd>private</kwd>:
+    <kwd>int</kwd> hp;                             <cmt>//< メンバ変数 hp</cmt>
+
+<kwd>public</kwd>:
+    <kwd>int</kwd>  getHp()      { <kwd>return</kwd> hp; }    <cmt>//< 変数 hp の get アクセサ(getter)</cmt>
+    <kwd>void</kwd> setHp(<kwd>int</kwd> x) { hp = x; }       <cmt>//< 変数 hp の set アクセサ(setter)</cmt>
+}
+</p>
+メンバ変数 hp を取得・更新する場合は getHp() 、setHp() を関数として呼ぶ必要がある。
+
+<h3>C#でプロパティを用いた場合の例</h3>
+<p class="code">
+<kwd>class</kwd> C_TestClass
+{
+    <kwd>private int</kwd> hp;                     <cmt>//< メンバ hp</cmt>
+
+    <cmt>// hp にアクセスするためのプロパティ</cmt>
+    <kwd>public int</kwd> Hp
+    {
+        get { <kwd>return</kwd> hp; }              <cmt>//< getter</cmt>
+        set { hp = value; }             <cmt>//< setter ( value には代入される値が格納される)</cmt>
+    }
+}
+</p>
+プロパティ Hp はメンバ(変数)のようにアクセスすることができる。<br>
+プロパティに対する代入が行われた( setter が呼ばれた)場合、右辺値は value に格納される。<br>
+get / set いずれかのみの定義も可能(読み取り / 更新専用プロパティ)。<br>
+
+<h2>自動プロパティ</h2>
+C# 3.0からは、プロパティの get / set の記述を省略できるようになった。<br>
+<p class="code">
+<kwd>class</kwd> C_TestClass
+{
+    <cmt>// 自動プロパティ Hp</cmt>
+    <kwd>public int</kwd> Hp { get; set; }
+}
+</p>
+前節の例と意味的には等価である。ここでも同様に、get / set いずれかのみの定義も可能。<br>
+読み取り専用に設定した場合は readonly と等価であり、コンストラクタ以外で値を書き換えることは不可能となる。
+
+<h2>プロパティの get / set それぞれに異なるアクセス制限を設定</h2>
+C# 2.0以降、get と set で異なるアクセスレベルを設定できるようになった。<br>
+注意が必要な点として、<b>プロパティ全体に設定されたアクセスレベルよりも、アクセサ個別のアクセスレベルのほうが厳しくないとエラーとなる</b>。<br>
+(「アクセサのレベル」を「プロパティのレベル」よりも緩めることはできない。)
+
+<p class="code">
+<cmt>// プロパティ Sample01 のアクセスレベル : public</cmt>
+<cmt>// setter のアクセスレベル : private</cmt>
+<kwd>public string</kwd> Sample01 { get; <b><kwd>private</kwd></b> set; }
+
+<cmt>// プロパティ Sample02 のアクセスレベル : private</cmt>
+<cmt>// getter のアクセスレベル : protected</cmt>
+<cmt>// ⇒ レベルを緩めようとしているためエラー</cmt>
+<kwd>private string</kwd> Sample02 { <b><kwd>protected</kwd></b> get; set; }
+</p>
+
+</body>
+</html>
+
+

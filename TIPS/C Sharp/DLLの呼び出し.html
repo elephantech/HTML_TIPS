@@ -71,7 +71,7 @@ C#ではDLLを動的にも静的にも結合することができ、C++と比較
         <cmt>// - = - = - = - = - = - = - = - = - = -</cmt>
 
         <cmt>// データリスト</cmt>
-        <kwd>private</kwd> <knw>List</knw><MyData> list_Data = <kwd>new</kwd> <knw>List</knw><MyData>();
+        <kwd>private</kwd> <knw>List</knw>&lt;MyData&gt; list_Data = <kwd>new</kwd> <knw>List</knw>&lt;MyData&gt;();
 
         <cmt>// - = - = - = - = - = - = - = - = - = -</cmt>
         <cmt>// public メソッド</cmt>
@@ -130,7 +130,6 @@ C#ではDLLを動的にも静的にも結合することができ、C++と比較
 
 <h3>呼ぶ側 - 動的結合</h3>
 動的に結合することも可能。
-
 <p class="code">
 <kwd>using</kwd> <knw>System</knw>;
 <kwd>using</kwd> <knw>System</knw>.Collections.Generic;
@@ -145,9 +144,9 @@ C#ではDLLを動的にも静的にも結合することができ、C++と比較
     {
         <kwd>static void</kwd> Main(<kwd>string</kwd>[] args)
         {
-            <kwd>var</kwd> asm = Assembly.LoadFrom("CSharpDll.dll");       <cmt>//< アセンブリ(CSharpDll.dll)の読み込み</cmt>
-            <kwd>var</kwd> module = asm.GetModule("CSharpDll.dll");        <cmt>//< アセンブリ(CSharpDll.dll)からモジュールを取得</cmt>
-            <kwd>var</kwd> Person = module.GetType("CSharpDll.Person");    <cmt>//< モジュール中の利用するクラス(or 構造体)を取得</cmt>
+            <kwd>var</kwd> asm    = Assembly.LoadFrom(<ltr>"CSharpDll.dll"</ltr>);       <cmt>//< アセンブリ(CSharpDll.dll)の読み込み</cmt>
+            <kwd>var</kwd> module = asm.GetModule(<ltr>"CSharpDll.dll"</ltr>);           <cmt>//< アセンブリ(CSharpDll.dll)からモジュールを取得</cmt>
+            <kwd>var</kwd> Person = module.GetType(<ltr>"CSharpDll.Person"</ltr>);       <cmt>//< モジュール中の利用するクラス(or 構造体)を取得</cmt>
             <cmt>//                           ^^^^^^^^^ ^^^^^^</cmt>
             <cmt>//                              ↑       ↑</cmt>
             <cmt>//                           名前空間    │</cmt>
@@ -156,16 +155,15 @@ C#ではDLLを動的にも静的にも結合することができ、C++と比較
             <kwd>if</kwd> (Person != <kwd>null</kwd>)
             {
                 <cmt>// CSharpDll.Personクラスをインスタンス化</cmt>
-                <cmt>// コンストラクタへ引数を渡すことも可能</cmt>
+                <cmt>// (コンストラクタへ引数を渡すことも可能)</cmt>
                 <kwd>dynamic</kwd> p1 = Activator.CreateInstance(Person, <ltr>"Aiueo"</ltr>, <ltr>29</ltr>);
-                <cmt>//                                    ^^^^^^^  ^^^^^^^^^^</cmt>
-                <cmt>//                                       ↑       ↑</cmt>
-                <cmt>//                                     クラス     │</cmt>
+                <cmt>//                                   ^^^^^^^  ^^^^^^^^^^</cmt>
+                <cmt>//                                      ↑        ↑</cmt>
+                <cmt>//                                    クラス      │</cmt>
                 <cmt>//                                        コンストラクタ引数</cmt>
     
-                <cmt>// dynamicで受けているので, 面倒なプロパティ取得やメソッド取得を省略できる</cmt>
-                <knw>Console</knw>.WriteLine($"name= {p1.Name}");
-                <knw>Console</knw>.WriteLine($"age= {p1.Age}");
+                <knw>Console</knw>.WriteLine(<ltr>$"name= {p1.Name}"</ltr>);
+                <knw>Console</knw>.WriteLine(<ltr>$"age= {p1.Age}"</ltr>);
                 <knw>Console</knw>.WriteLine(p1.ToString());
             }
 
@@ -177,5 +175,7 @@ C#ではDLLを動的にも静的にも結合することができ、C++と比較
 
 </body>
 </html>
+
+
 
 

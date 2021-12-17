@@ -91,13 +91,21 @@ C#ではTuple型、匿名型を用いることができたが、C#7.0よりValue
 <h4>タプルの宣言と代入</h4>
 宣言、代入のいずれのタイミングでも名前を指定(変更)できる。また、すべての要素に名前をつける必要はない(有名・無名フィールドが混在してもよい)。
 <p class="code">
-(<kwd>int</kwd>, <kwd>string</kwd>, <kwd>bool</kwd>, <kwd>double</kwd>) unnamed_tuple = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr>true</ltr>, <ltr>1.25</ltr>);                                    <cmt>//< 名前なしタプル</cmt>
-(<kwd>int</kwd> value1, <kwd>string</kwd> value2, <kwd>bool</kwd> value3, <kwd>double</kwd> value4) named_tuple1 = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr>true</ltr>, <ltr>1.25</ltr>);         <cmt>//< 宣言時に名前を指定</cmt>
-(<kwd>int</kwd>, <kwd>string</kwd>, <kwd>bool</kwd>, <kwd>double</kwd>) named_tuple2 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr>true</ltr>, value4: <ltr>1.25</ltr>);     <cmt>//< 代入時に名前を指定</cmt>
-<kwd>var</kwd> named_tuple3 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr>true</ltr>, value4: <ltr>1.25</ltr>);                             <cmt>//< 型推論を使用可能</cmt>
+<cmt>// 名前なしタプル</cmt>
+(<kwd>int</kwd>, <kwd>string</kwd>, <kwd>bool</kwd>, <kwd>double</kwd>) unnamed_tuple = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr><kwd>true</kwd></ltr>, <ltr>1.25</ltr>);
+
+<cmt>// 宣言時に名前を指定</cmt>
+(<kwd>int</kwd> value1, <kwd>string</kwd> value2, <kwd>bool</kwd> value3, <kwd>double</kwd> value4) named_tuple1 = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr><kwd>true</kwd></ltr>, <ltr>1</ltr>.25</ltr>);
+
+<cmt>// 代入時に名前を指定</cmt>
+(<kwd>int</kwd>, <kwd>string</kwd>, <kwd>bool</kwd>, <kwd>double</kwd>) named_tuple2 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr><kwd>true</kwd></ltr>, value4: <ltr>1</ltr>.25</ltr>);
+
+<cmt>// 型推論を使用可能</cmt>
+<kwd>var</kwd> named_tuple3 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr><kwd>true</kwd></ltr>, value4: <ltr>1</ltr>.25</ltr>);
 </p>
     
 <h4>タプルの参照</h4>
+要素(フィールド)名を設定しない場合、先頭要素から順に Item1 、Item2 、…でアクセスが可能。0 起算ではない点に注意。
 <p class="code">
 <cmt>// 名前なしタプルの参照(Item#)</cmt>
 <knw>System</knw>.<knw>Console</knw>.WriteLine(unnamed_tuple.Item1);      <cmt>//< 要素1 ⇒ 100</cmt>
@@ -109,7 +117,7 @@ C#ではTuple型、匿名型を用いることができたが、C#7.0よりValue
 <knw>System</knw>.<knw>Console</knw>.WriteLine(named_tuple1.value1);      <cmt>//< 要素1 ⇒ 100</cmt>
 <knw>System</knw>.<knw>Console</knw>.WriteLine(named_tuple1.value2);      <cmt>//< 要素2 ⇒ "abcde"</cmt>
 <knw>System</knw>.<knw>Console</knw>.WriteLine(named_tuple1.value3);      <cmt>//< 要素3 ⇒ true</cmt>
-<knw>System</knw>.<knw>Console</knw>.WriteLine(named_tuple1.value4);      <cmt>//< 要素4 ⇒ 1.25</cmt>
+<knw>System</knw>.<knw>Console</knw>.WriteLine(named_tuple1.value4);      <cmt>//< 要素4 ⇒ <ltr>1</ltr>.25</cmt>
 </p>
 
 <h4>タプルの分解(要素の抽出)</h4>
@@ -137,12 +145,12 @@ C#ではTuple型、匿名型を用いることができたが、C#7.0よりValue
 フィールド名は比較に関与しない(フィールド名が異なっていても問題とはならない)。<br>
 但し、両者の要素数が異なる場合は比較できず、例外が発生する。
 <p class="code">
-<kwd>var</kwd> t1 = (        <ltr>100</ltr>,         <ltr>"abcde"</ltr>,         <ltr>true</ltr>,         <ltr>1.25</ltr>);  <cmt>//< 名前なし</cmt>
-<kwd>var</kwd> t2 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr>true</ltr>, value4: <ltr>1.25</ltr>);  <cmt>//< 名前つき</cmt>
+<kwd>var</kwd> t1 = (        <ltr>100</ltr>,         <ltr>"abcde"</ltr>,         <ltr><kwd>true</kwd></ltr>,         <ltr>1</ltr>.25</ltr>);  <cmt>//< 名前なし</cmt>
+<kwd>var</kwd> t2 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr><kwd>true</kwd></ltr>, value4: <ltr>1</ltr>.25</ltr>);  <cmt>//< 名前つき</cmt>
 <knw>System</knw>.<knw>Console</knw>.WriteLine(t1 == t2);  <cmt>//< true</cmt>
 
-<kwd>var</kwd> t3 = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr>true</ltr>, <ltr>1.25</ltr>);
-<kwd>var</kwd> t4 = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr>true</ltr>);
+<kwd>var</kwd> t3 = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr><kwd>true</kwd></ltr>, <ltr>1.25</ltr>);
+<kwd>var</kwd> t4 = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr><kwd>true</kwd></ltr>);
 <knw>System</knw>.<knw>Console</knw>.WriteLine(t3 == t4);  <cmt>//< 要素数が異なるため例外発生</cmt>
 </p>
 
@@ -237,9 +245,9 @@ C#ではTuple型、匿名型を用いることができたが、C#7.0よりValue
 <kwd>var</kwd> at1 = <kwd>new</kwd> { x = <ltr>1</ltr>, y = <ltr>"a"</ltr> };               <cmt>//< 初期化時に名前付与</cmt>
 <kwd>var</kwd> m = <ltr>1</ltr>;
 <kwd>var</kwd> n = <ltr>"yy"</ltr>;
-<kwd>var</kwd> at2 = <kwd>new</kwd> { <b>m</b>, <b>n</b> };                         <cmt>//< 名前を明示しない場合、
-                                                //< 初期化に使用した変数名がメンバ名となる
-                                                //< (at2.<b>m</b> == 1 , at2.<b>n</b> == "yy")</cmt>
+<kwd>var</kwd> at2 = <kwd>new</kwd> { <b>m</b>, <b>n</b> };                         <cmt>//< 名前を明示しない場合、</cmt>
+                                                <cmt>//< 初期化に使用した変数名がメンバ名となる</cmt>
+                                                <cmt>//< (at2.<b>m</b> == 1 , at2.<b>n</b> == "yy")</cmt>
 
 <cmt>// ValueTuple は値型のため、nullを格納できない</cmt>
 <cmt>// nullを格納したい場合はnull許容型とする必要がある </cmt>
@@ -261,3 +269,5 @@ at3.Item1 = <ltr>2</ltr>;        <cmt>//< エラー</cmt>
 
 </body>
 </html>
+
+
