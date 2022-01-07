@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://atmarkit.itmedia.co.jp/ait/articles/1711/22/news030.html">拡張メソッドを作成するには？［C#／VB］：.NET TIPS - ＠IT</a>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>拡張メソッドとは</h2>
+既存のクラス定義に手を加えることなく、インスタンスメソッドを疑似的に追加できる機構のこと。<br>
+
+<h2>拡張メソッドに関する留意事項</h2>
+<ul>
+    <li>拡張メソッドは静的クラス中に作成する必要がある</li>
+    <li>拡張メソッドは静的メソッドとして作成する必要がある</li>
+    <li>拡張メソッドが実行されるインスタンス(自分自身)を第１引数として受け取る<br>
+    (呼び出す際に渡す必要は無い)</li>
+</ul>
+
+<h2>実装例</h2>
+<h3>メソッドの定義</h3>
+<div class="code">
+<cmt>// 拡張メソッド実装用の静的クラス</cmt>
+<kwd>static class</kwd> ExtensionMethods
+{
+    <cmt>// 拡張メソッド(静的)</cmt>
+    <cmt>// 実装先 : CheckedListBox (this 修飾の第１引数)</cmt>
+    <kwd>public static void</kwd> CheckAllCheckBoxes(<kwd>this</kwd> CheckedListBox source, <kwd>bool</kwd> value)
+    {
+        <kwd>for</kwd> (<kwd>int</kwd> i = <ltr>0</ltr>; i < source.Items.Count; i++)
+        {
+            source.SetItemChecked(i, value);
+        }
+    }
+}
+</div>
+
+<h3>メソッドの呼び出し</h3>
+<div class="code">
+checkedListBox1.CheckAllCheckBoxes(<kwd>true</kwd>);
+</div>
+
+<h2>余談</h2>
+拡張メソッドは.NETの機能であるため、Visual Basicでも使用できる。詳細は出典元を参照。
+
+</body>
+</html>
+
+
