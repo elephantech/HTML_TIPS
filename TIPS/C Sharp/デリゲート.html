@@ -55,7 +55,7 @@ body
 
 <cmt>// デリゲート型 SomeDelegate の定義</cmt>
 <cmt>// (引数 : int a / 戻り値 : void)</cmt>
-delegate <kwd>void</kwd> SomeDelegate(<kwd>int</kwd> a);
+<kwd>delegate void</kwd> SomeDelegate(<kwd>int</kwd> a);
 
 <kwd>class</kwd> DelegateTest
 {
@@ -82,32 +82,32 @@ C++の関数ポインタと異なり、デリゲートにはクラスメソッ�
 (<a href="HTML_TIPS/TIPS/C・C++/[C++]メンバ関数ポインタ.html">C++でもインスタンスメソッド(メンバ関数)の関数ポインタを作成することはできるが、手順が煩雑で制約がある</a>。)
 
 <div class="code">
-using System;
+<kwd>using</kwd> <knw>System</knw>;
 
-// メッセージを表示するデリゲート
-delegate void ShowMessage();
+<cmt>// メッセージを表示するデリゲート</cmt>
+<kwd>delegate void</kwd> ShowMessage();
 
-// Person クラスの定義
-class Person
+<cmt>// Person クラスの定義</cmt>
+<kwd>class</kwd> Person
 {
-    string name;
-    public Person(string name){this.name = name;}
-    public void ShowName()
+    <kwd>string</kwd> name;
+    <kwd>public</kwd> Person(<kwd>string</kwd> name){<kwd>this</kwd>.name = name;}
+    <kwd>public void</kwd> ShowName()
     {
-        Console.WriteLine("名前: {name}");
+        <knw>Console</knw>.WriteLine("名前: {name}");
     }
 };
 
-class DelegateTest
+<kwd>class</kwd> DelegateTest
 {
-    static void Main()
+    <kwd>static void</kwd> Main()
     {
-        Person p = new Person("John Doe");
+        Person p = <kwd>new</kwd> Person("John Doe");
 
-        // デリゲート変数にインスタンスメソッドを代入
+        <cmt>// デリゲート変数にインスタンスメソッドを代入</cmt>
         ShowMessage show = p.ShowName;
 
-        // デリゲートを介してメソッドが呼ばれる
+        <cmt>// デリゲートを介してメソッドが呼ばれる</cmt>
         show();
     }
 }
@@ -119,28 +119,28 @@ class DelegateTest
 また、一つのデリゲート変数にクラスメソッドとインスタンスメソッドを混在させることも可能である。
 
 <div class="code">
-using System;
+<kwd>using</kwd> <knw>System</knw>;
 
-// メッセージを表示するデリゲート
-delegate void ShowMessage();
+<cmt>// メッセージを表示するデリゲート</cmt>
+<kwd>delegate void</kwd> ShowMessage();
 
-class DelegateTest
+<kwd>class</kwd> DelegateTest
 {
-    static void Main()
+    <kwd>static void</kwd> Main()
     {
-        // デリゲート変数へのメソッド代入
+        <cmt>// デリゲート変数へのメソッド代入</cmt>
         ShowMessage a = A;
-        a += B;             //< 追加代入
-        a += C;             //< 追加代入
+        a += B;             <cmt>//< 追加代入</cmt>
+        a += C;             <cmt>//< 追加代入</cmt>
 
-        // デリゲートを介してメソッドが呼ばれる
-        // ここでは登録順( A() ⇒ B() ⇒ C() )に呼ばれる
+        <cmt>// デリゲートを介してメソッドが呼ばれる</cmt>
+        <cmt>// ここでは登録順( A() ⇒ B() ⇒ C() )に呼ばれる</cmt>
         a();
     }
 
-    static void A(){ Console.WriteLine("A が呼ばれました。"); }
-    static void B(){ Console.WriteLine("B が呼ばれました。"); }
-    static void C(){ Console.WriteLine("C が呼ばれました。"); }
+    <kwd>static void</kwd> A(){ <knw>Console</knw>.WriteLine("A が呼ばれました。"); }
+    <kwd>static void</kwd> B(){ <knw>Console</knw>.WriteLine("B が呼ばれました。"); }
+    <kwd>static void</kwd> C(){ <knw>Console</knw>.WriteLine("C が呼ばれました。"); }
 }
 </div>
 
