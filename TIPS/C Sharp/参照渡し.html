@@ -39,7 +39,7 @@ in／out／refパラメーター修飾子の違いとは？［C#］：.NET TIPS 
 </a><br>
 
 <h5>関連 :</h5>
-<a href="TIPS/C%20Sharp/オブジェクトのコピーに関する留意事項.html">オブジェクトのコピーに関する留意事項</a><br>
+<a href="TIPS/C%20Sharp/オブジェクトの代入とコピー.html">オブジェクトの代入とコピー</a><br>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -66,7 +66,7 @@ C#において変数の参照をメソッドに渡す場合は、<b>in / ref / o
 ちなみに、<b>オブジェクト型引数はデフォルトで参照渡しとなる</b>ため、キーワードは必須ではないが、<br>
 付与することで参照渡しであることをプログラマが判別しやすくなる。<br>
 (なお、「オブジェクト型」はクラスにのみ該当し、構造体は含まれない点に注意。)<br>
-<a href="TIPS/C%20Sharp/オブジェクトのコピーに関する留意事項.html">変数のコピーを行う際には注意が必要となる</a>。
+<a href="TIPS/C%20Sharp/オブジェクトの代入とコピー.html">変数のコピーを行う際には注意が必要となる</a>。
 
 <h2>in / ref / out の使い分け</h2>
 それぞれ、参照として受け取った引数(の参照先)を、メソッド内でどのように処理するかで異なる。<br>
@@ -95,10 +95,10 @@ ref 修飾は最も汎用的で、C/C++のポインタ・参照と同様の感�
 
 <kwd>public void</kwd> DoSomething()
 {
-    <kwd>int</kwd> val = 3;
+    <kwd>int</kwd> val = <ltr>3</ltr>;
     
     <cmt>// InTest() の呼び出し</cmt>
-    <cmt>// (この場合、<kwd>in</kwd> キーワードは省略できる)</cmt>
+    <cmt>// (この場合、in キーワードは省略できる)</cmt>
     InTest(<kwd>in</kwd> val);
 }
 </p>
@@ -106,7 +106,7 @@ ref 修飾は最も汎用的で、C/C++のポインタ・参照と同様の感�
 <h4>オプション引数を指定した場合</h4>
 <p class="code">
 <cmt>// 参照渡しメソッドの定義</cmt>
-<kwd>public void</kwd> InTest(<kwd>in int</kwd> arg1 = 0)
+<kwd>public void</kwd> InTest(<kwd>in int</kwd> arg1 = <ltr>0</ltr>)
 {
     <kwd>int</kwd> localVal = arg1;
 }
@@ -124,8 +124,8 @@ ref 修飾は最も汎用的で、C/C++のポインタ・参照と同様の感�
 <cmt>// 参照渡しメソッドの定義</cmt>
 <kwd>public void</kwd> InTest(<kwd>in int</kwd> arg1)
 {
-    <cmt>// メソッド内で <kwd>in</kwd> 修飾された引数を更新 ⇒ コンパイルエラー</cmt>
-    arg1 = 4;
+    <cmt>// メソッド内で in 修飾された引数を更新 ⇒ コンパイルエラー</cmt>
+    arg1 = <ltr>4</ltr>;
 }
 
 <kwd>public void</kwd> DoSomething()
@@ -145,15 +145,15 @@ ref 修飾は最も汎用的で、C/C++のポインタ・参照と同様の感�
     <kwd>int</kwd> localVal = arg1;
     
     <cmt>// メソッド内で引数(の参照先)を更新可能</cmt>
-    arg1 = 4;
+    arg1 = <ltr>4</ltr>;
 }
 
 <kwd>public void</kwd> DoSomething()
 {
-    <kwd>int</kwd> val = 3;
+    <kwd>int</kwd> val = <ltr>3</ltr>;
     
     <cmt>// RefTest() の呼び出し</cmt>
-    <cmt>// (<kwd>ref</kwd> キーワードは省略できない)</cmt>
+    <cmt>// (ref キーワードは省略できない)</cmt>
     RefTest(<kwd>ref</kwd> val);
 }
 </p>
@@ -165,7 +165,7 @@ ref 修飾は最も汎用的で、C/C++のポインタ・参照と同様の感�
 {
     <kwd>int</kwd> localVal = arg1;
     
-    arg1 = 4;
+    arg1 = <ltr>4</ltr>;
 }
 
 <kwd>public void</kwd> DoSomething1()
@@ -177,10 +177,10 @@ ref 修飾は最も汎用的で、C/C++のポインタ・参照と同様の感�
 
 <kwd>public void</kwd> DoSomething2()
 {
-    <kwd>int</kwd> val = 3;
+    <kwd>int</kwd> val = <ltr>3</ltr>;
 
     <cmt>// RefTest() の呼び出し</cmt>
-    <cmt>// <kwd>ref</kwd> キーワードが無い ⇒ コンパイルエラー</cmt>
+    <cmt>// ref キーワードが無い ⇒ コンパイルエラー</cmt>
     RefTest(val);
 }
 </p>
@@ -192,15 +192,15 @@ ref 修飾は最も汎用的で、C/C++のポインタ・参照と同様の感�
 <kwd>public void</kwd> OutTest(<kwd>out int</kwd> arg1)
 {
     <cmt>// メソッド内で引数(の参照先)に値を割り当てる(必須)</cmt>
-    arg1 = 4;
+    arg1 = <ltr>4</ltr>;
 }
 
 <kwd>public void</kwd> DoSomething()
 {
-    <kwd>int</kwd> val = 3;
+    <kwd>int</kwd> val = <ltr>3</ltr>;
     
     <cmt>// OutTest() の呼び出し</cmt>
-    <cmt>// (<kwd>out</kwd> キーワードは省略できない)</cmt>
+    <cmt>// (out キーワードは省略できない)</cmt>
     OutTest(<kwd>out</kwd> val);
 }
 </p>
@@ -239,7 +239,7 @@ ref 修飾は最も汎用的で、C/C++のポインタ・参照と同様の感�
     <cmt>// 引数を参照している ⇒ コンパイルエラー</cmt>
     <kwd>int</kwd> localVal = arg1;
     
-    arg1 = 4;
+    arg1 = <ltr>4</ltr>;
 }
 </p>
 
@@ -279,3 +279,5 @@ in / ref / out の各キーワードは、バイナリ上での差異は存在�
 
 </body>
 </html>
+
+

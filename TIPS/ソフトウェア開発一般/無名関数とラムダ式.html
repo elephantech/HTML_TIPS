@@ -36,8 +36,9 @@ body
 <a href="https://qiita.com/Maerig/items/b5760c8ec63c10fbce93">無名関数 - Qiita</a><br>
 
 <h5>関連 :</h5>
+<a href="TIPS/C%20Sharp/デリゲート.html">デリゲート.html</a><br>
 <a href="TIPS/C%20Sharp/Dictionary(連想配列).html">Dictionary(連想配列)</a><br>
-<a href="TIPS/C%20Sharp/LINQ%20-%20条件に合致した要素を抽出する.html">LINQ - 条件に合致した要素を抽出する</a><br>
+<a href="TIPS/C%20Sharp/LINQ%20-%20条件に合致した要素を抽出する.html">LINQ - 条件に合致した要素を抽出する</a>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -53,20 +54,35 @@ body
 名前を付けずに定義された関数のこと。匿名関数とも呼ばれる。<br>
 一度しか用いない関数であれば、名前を付けないことで名前の衝突を回避でき、また <b>無名関数(式)を関数の引数として直接渡すことができる</b> (むしろこれが主用途である)。<br>
 比較的新しい概念で、C++(C++11以降)、C#、Java、JavaScript、Python、Rubyなどのモダン言語で用いることができる。後述の <b>ラムダ式を用いた表現が一般的</b> 。<br>
-<h2>ラムダ式(Lambda Expression)とは</h2>
-無名関数の表現法のひとつ。引数リストと式を対にして表記する。C#ではC#3.0以降で使用可能。<br>
-<h3>C++(C++11以降)の例</h3>
+無名関数を用いることで、高階関数(関数を引数または戻り値とする関数)の記述がより容易となる。
+
+<h2>無名関数の記述例</h2>
+引数リストと式を対にした<b>「ラムダ式(Lambda Expression)」</b>が現在では主流となっている。<br>
+C# 2.0では「匿名メソッド式」がサポートされていたが、C# 3.0でより簡便かつ多用途なラムダ式が導入された。<br>
+
+<h3>C++(C++11以降) : ラムダ式</h3>
 通常の関数定義における関数名を "[]" に置き換える。<br>
-<img src="_Img/Software Development/Nameless_Function/development-nameless-function_01.png" alt="画像"><br>
-<h3>C#の例</h3>
-引数と式を "=&gt;" で連結する。<br>
-<img src="_Img/Software Development/Nameless_Function/development-nameless-function_02.png" alt="画像"><br>
+<img src="_Img/Software Development/Nameless_Function/01.png" alt="画像"><br>
+
+<h3>C#(C# 2.0) : 匿名メソッド式</h3>
+delegate キーワードが必要。C++のラムダ式と似た記述となる。<br>
+<img src="_Img/Software Development/Nameless_Function/03.png" alt="画像"><br>
+
+<h3>C#(C# 3.0) : ラムダ式</h3>
+引数と式を<span class="code">=&gt;</span>で結ぶ。<br>
+<img src="_Img/Software Development/Nameless_Function/04.png" alt="画像"><br>
+
+変数の型が(代入式の)左辺値などから推論できる場合はさらに簡略化できる。<br>
+<img src="_Img/Software Development/Nameless_Function/02.png" alt="画像"><br>
+    
+ラムダ式が return 文1行のみの場合は、{} や return も簡略化できる。<br>
+<img src="_Img/Software Development/Nameless_Function/05.png" alt="画像"><br>
+    
 <h3>実際の用途</h3>
-上記はあくまでも概念の解説であり、用途や効果を実感するのは難しい。実用的な使用法は以下のページを参照。<br>
+関数(メソッド)自体を引数として、他の関数に渡すのが主な用途。以下を参照。<br>
+<a href="TIPS/C%20Sharp/デリゲート.html">デリゲート.html</a><br>
 <a href="TIPS/C%20Sharp/Dictionary(連想配列).html">Dictionary(連想配列)</a><br>
 <a href="TIPS/C%20Sharp/LINQ%20-%20条件に合致した要素を抽出する.html">LINQ - 条件に合致した要素を抽出する</a><br>
-<h2>余談</h2>
-C#にはラムダ式のほかに、C#2.0で導入された「匿名メソッド」も存在する。<br>
-C++のラムダ式とよく似た表記で関数を記述できるが、簡便であることからC#3.0以降はラムダ式が用いられることが多い。詳細は出典元を参照。<br>
+
 </body>
 </html>

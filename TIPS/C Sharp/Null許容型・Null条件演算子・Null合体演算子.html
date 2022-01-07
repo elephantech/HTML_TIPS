@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://www.wareko.jp/blog/nullable-type-null-condition-operator-null-coalescing-operator-three-nulls-brothers">
+【ワレコC#】int?はNull許容型･ナンチャラ?.はNull条件演算子･??はNull合体演算子【ヌル三兄弟】</a><br>
+<a href="https://www.ipentec.com/document/csharp-null-conditional-operators">
+変数名の後ろに"?" がある - Null条件演算子の利用 - iPentec</a><br>
+<a href="https://johobase.com/csharp-null-operator/">
+null合体演算子とnull条件演算子でショートコードプログラミング [C#] | JOHOBASE</a><br>
+    
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>Null許容型</h2>
+型名を <b class="red">?</b> で修飾することで、 <b class="red">Null許容型</b>となる。 <br>
+無修飾(本来)の値の型に加え、nullを格納できるようになる。<br><br>
+<b>通常の型(int)</b>
+<p class="code">
+<kwd>int</kwd> value;
+
+<cmt>// value は int 型であるため、null を格納できない ⇒ コンパイルエラー</cmt>
+value = <kwd>null</kwd>;
+</p>
+
+<b>Null許容型(int<blue>?</blue>)</b>
+<p class="code">
+<cmt>// int を <b class="red">?</b> で修飾 ⇒ Null許容型</cmt>
+<kwd>int</kwd><b class=<ltr>"red"</ltr>>?</b> value;
+
+<cmt>// value は int 型の値に加え、null を格納できる ⇒ 正常</cmt>
+value = <kwd>null</kwd>;
+</p>
+
+<h2>Null条件演算子</h2>
+検査対象がnullでない場合はメンバにアクセスし、対象がnullの場合は<b>式全体の評価値がnullとなる</b>。<br>
+(Null条件演算子は代入式の左辺に用いることはできない？要調査。)
+
+<h3>オブジェクト</h3>
+<table>
+    <tr>
+        <th class="col1" colspan="1" rowspan="2">式<br>(検査対象 : object)</th><th colspan="2">評価値</th>
+    </tr>
+    <tr class="row1">
+        <th>object != null</th><th>object == null</th>
+    </tr>
+    <tr>
+        <td class="col1" width="160">object.member<br>(通常の書式)</td>
+        <td rowspan="2" width="160">object.member</td>
+        <td width="160"><b>評価不能(ヌルポインタ例外)</b></td>
+    </tr>
+    <tr>
+        <td class="col1">object<b><red>?</red></b>.member<br>(null条件演算子を使用)</td>
+        <td><b>null</b></td>
+    </tr>
+</table>
+
+<h3>配列</h3>
+<table>
+    <tr>
+        <th class="col1" colspan="1" rowspan="2">式<br>(検査対象 : array)</th><th colspan="2">評価値</th>
+    </tr>
+    <tr class="row1">
+        <th>array != null</th><th>array == null</th>
+    </tr>
+    <tr>
+        <td class="col1" width="160">array[m]<br>(通常の書式)</td>
+        <td rowspan="2" width="160">array[m]</td>
+        <td width="160"><b>評価不能(ヌルポインタ例外)</b></td>
+    </tr>
+    <tr>
+        <td class="col1">array<b><red>?</red></b>[m]<br>(null条件演算子を使用)</td>
+        <td><b>null</b></td>
+    </tr>
+</table>
+
+
+<h2>Null合体演算子</h2>
+<b class="red">?? (Null合体演算子)</b> の左辺がnullでなければ左辺値をそのまま、nullの場合は右辺値を返すようにできる。
+<p class="code">
+<knw>List</knw>&lt;<kwd>string</kwd>&gt; arr = <kwd>null</kwd>;
+:
+
+<cmt>// len の値 :</cmt>
+<cmt>// arr?.Count != null ⇒ arr?.Count</cmt>
+<cmt>// arr?.Count == null ⇒ 0</cmt>
+<kwd>int</kwd> len = arr?.Count <b class=<ltr>"red"</ltr>>??</b> <ltr>0</ltr>;
+
+<cmt>// 以下のコードと等価</cmt>
+<kwd>int</kwd> len = (arr?.Count != <kwd>null</kwd>) ? arr?.Count : <ltr>0</ltr>;
+</p>
+
+</body>
+</html>
+
+
