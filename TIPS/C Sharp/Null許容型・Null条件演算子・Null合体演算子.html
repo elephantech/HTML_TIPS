@@ -61,7 +61,7 @@ value = <kwd>null</kwd>;
 <b>Null許容型(int<blue>?</blue>)</b>
 <p class="code">
 <cmt>// int を <b class="red">?</b> で修飾 ⇒ Null許容型</cmt>
-<kwd>int</kwd><b class=<ltr>"red"</ltr>>?</b> value;
+<kwd>int</kwd><b class="red">?</b> value;
 
 <cmt>// value は int 型の値に加え、null を格納できる ⇒ 正常</cmt>
 value = <kwd>null</kwd>;
@@ -119,7 +119,7 @@ value = <kwd>null</kwd>;
 <cmt>// len の値 :</cmt>
 <cmt>// arr?.Count != null ⇒ arr?.Count</cmt>
 <cmt>// arr?.Count == null ⇒ 0</cmt>
-<kwd>int</kwd> len = arr?.Count <b class=<ltr>"red"</ltr>>??</b> <ltr>0</ltr>;
+<kwd>int</kwd> len = arr?.Count <b class="red">??</b> <ltr>0</ltr>;
 
 <cmt>// 以下のコードと等価</cmt>
 <kwd>int</kwd> len = (arr?.Count != <kwd>null</kwd>) ? arr?.Count : <ltr>0</ltr>;
