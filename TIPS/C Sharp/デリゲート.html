@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://ufcpp.net/study/csharp/sp_delegate.html">デリゲート - C# によるプログラミング入門 | ++C++; // 未確認飛行 C</a>
+
+<h5>関連 :</h5>
+<a href="TIPS/C・C++/[C++]メンバ関数ポインタ.html">[C++]メンバ関数ポインタ.html</a><br>
+<a href="TIPS/ソフトウェア開発一般/無名関数とラムダ式.html">無名関数とラムダ式.html</a>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>デリゲート(delegate)とは</h2>
+メソッドを参照するための型のこと。「他のメソッドに処理を委譲するためのオブジェクト」という意味を持つ。<br>
+用途はC/C++の関数ポインタとほぼ共通である。
+
+<p class="code">
+<kwd>using</kwd> <knw>System</knw>;
+
+<cmt>// デリゲート型 SomeDelegate の定義</cmt>
+<cmt>// (引数 : int a / 戻り値 : void)</cmt>
+delegate <kwd>void</kwd> SomeDelegate(<kwd>int</kwd> a);
+
+<kwd>class</kwd> DelegateTest
+{
+    <kwd>static void</kwd> Main()
+    {
+        <cmt>// SomeDelegate 型変数 a にメソッド A を代入</cmt>
+        SomeDelegate a = A;
+
+        a(<ltr>256</ltr>);     <cmt>// デリゲートを介してメソッドを呼び出す</cmt>
+                    <cmt>// (この例では A(256) が呼ばれる)</cmt>
+    }
+
+    <cmt>// デリゲート変数に代入されるメソッド A</cmt>
+    <kwd>static void</kwd> A(<kwd>int</kwd> n)
+    {
+        <knw>Console</knw>.WriteLine("A({n}) が呼ばれました。");
+    }
+}
+</p>
+
+<h2>デリゲートの特徴</h2>
+<h3>インスタンスメソッドの代入</h3>
+C++の関数ポインタと異なり、デリゲートにはクラスメソッド(static)だけでなく、インスタンスメソッド(non-static)を代入することができる。<br>
+(<a href="HTML_TIPS/TIPS/C・C++/[C++]メンバ関数ポインタ.html">C++でもインスタンスメソッド(メンバ関数)の関数ポインタを作成することはできるが、手順が煩雑で制約がある</a>。)
+
+<div class="code">
+using System;
+
+// メッセージを表示するデリゲート
+delegate void ShowMessage();
+
+// Person クラスの定義
+class Person
+{
+    string name;
+    public Person(string name){this.name = name;}
+    public void ShowName()
+    {
+        Console.WriteLine("名前: {name}");
+    }
+};
+
+class DelegateTest
+{
+    static void Main()
+    {
+        Person p = new Person("John Doe");
+
+        // デリゲート変数にインスタンスメソッドを代入
+        ShowMessage show = p.ShowName;
+
+        // デリゲートを介してメソッドが呼ばれる
+        show();
+    }
+}
+</div>
+
+<h3>複数のメソッドを代入(マルチキャストデリゲート)</h3>
+<span class="code">+=</span>演算子を用いることで、一つのデリゲート変数に複数のメソッドを代入できる。<br>
+この状態でデリゲート呼び出しを行うと、<b>代入されたすべてのメソッドが順次実行される</b>。<br>
+また、一つのデリゲート変数にクラスメソッドとインスタンスメソッドを混在させることも可能である。
+
+<div class="code">
+using System;
+
+// メッセージを表示するデリゲート
+delegate void ShowMessage();
+
+class DelegateTest
+{
+    static void Main()
+    {
+        // デリゲート変数へのメソッド代入
+        ShowMessage a = A;
+        a += B;             //< 追加代入
+        a += C;             //< 追加代入
+
+        // デリゲートを介してメソッドが呼ばれる
+        // ここでは登録順( A() ⇒ B() ⇒ C() )に呼ばれる
+        a();
+    }
+
+    static void A(){ Console.WriteLine("A が呼ばれました。"); }
+    static void B(){ Console.WriteLine("B が呼ばれました。"); }
+    static void C(){ Console.WriteLine("C が呼ばれました。"); }
+}
+</div>
+
+<h2>デリゲートと匿名関数</h2>
+旧い規格であるC#1.1でデリゲートを使う際は、上述したような手法で別途定義したメソッドを変数に格納する必要があった。<br>
+C#2.0以降では、デリゲートを渡すことが期待される個所に直接、名前の無いメソッド(匿名メソッド式)を記述することができるため、<br>
+一度きりしか使われないメソッドに名前を付与して定義する必要がなくなった。<br>
+C#3.0ではより柔軟な「ラムダ式」が使用可能となっており、匿名メソッド式と併せて「匿名関数(または無名関数)」と総称される。
+<a href="HTML_TIPS/TIPS/ソフトウェア開発一般/無名関数とラムダ式.html">ここ</a>も併せて参照されたし。
+
+</body>
+</html>
+
+
