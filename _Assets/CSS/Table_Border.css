@@ -229,3 +229,45 @@ th, .row1, .col1, .row0, .col0 {
   border-right-style:   dotted;
   border-right-width:   1px;
 }
+  
+/* なし */
+/* (全周) (<#### class="border_none"> */
+.border_none {
+  border-style:         none;
+}
+
+/* (上) (<#### class="border_t_none"> */
+.border_t_none {
+  border-top-style:     none;
+}
+
+/* (下) (<#### class="border_b_none"> */
+.border_b_none {
+  border-bottom-style:  none;
+}
+
+/* (左) (<#### class="border_l_none"> */
+.border_l_none {
+  border-left-style:    none;
+}
+
+/* (右) (<#### class="border_r_none"> */
+.border_r_none {
+  border-right-style:   none;
+}
+
+/* 右下がり斜線(疑似) (<#### class="diag_tl_br">) */
+.diag_tl_br {
+    background-image: linear-gradient(to top right,
+                                      transparent, transparent 48%,
+                                      #996666 48%, #996666 52%,
+                                      transparent 52%, transparent);  
+  }
+  
+/* 右上がり斜線(疑似) (<#### class="diag_tr_bl">) */
+.diag_tr_bl {
+  background-image: linear-gradient(to top left,
+                                    transparent, transparent 48%,
+                                    #996666 48%, #996666 52%,
+                                    transparent 52%, transparent);  
+}

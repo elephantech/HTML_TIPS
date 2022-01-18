@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://qiita.com/rawr/items/6888778b53fc95c41f00">C#でシグナル処理 - Qiita</a><br>
+<a href="https://www.paveway.info/entry/2019/03/09/csharp_manualresetevent">C#でスレッドを待機させる。 - プログラムを書こう！</a><br>
+<a href="https://devlights.hatenablog.com/entry/20110323/p1">.NET クラスライブラリ探訪-042 (System.Threading.ManualResetEventSlim)(待機ハンドル, 軽量版, CancelaltionToken, .NET 4.0) - いろいろ備忘録日記</a><br>
+<a href="https://qiita.com/laughter/items/1e64ab8712e410a8f047">[.NET] Monitor.Wait/PulseよりもManualResetEventSlimを使う - Qiita</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/ソフトウェア開発一般/[並列処理]タスク(スレッド)間通信.html">[並列処理]タスク(スレッド)間通信</a><br>
+<a href="TIPS/ソフトウェア開発一般/イベント駆動型プログラミング.html">イベント駆動型プログラミング</a><br>
+<a href="TIPS/ソフトウェア開発一般/[並列処理]セマフォとミューテックス.html">[並列処理]セマフォとミューテックス</a><br>
+<a href="TIPS/ソフトウェア開発一般/有限状態機械(FSM).html">有限状態機械(FSM)</a><br>
+<a href="TIPS/C Sharp/コレクション.html">コレクション</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>C#におけるシグナル処理</h2>
+シグナル処理の概念に関しては<a href="TIPS/ソフトウェア開発一般/[並列処理]タスク(スレッド)間通信.html">ここ</a>を参照のこと。<br>
+あるタスクが別タスクからのシグナル(イベントフラグ)を待機し、シグナルを契機として処理を再開するような処理の場合、<br>
+シグナル(イベント)の待機には<b>「イベント待機ハンドラ」</b>を用いる。<br>
+(イベント待機ハンドラはセマフォやミューテックスと同様、「同期オブジェクト(シンクロナイザー)」に含まれる。「イベントハンドラ」との混同に注意。)<br>
+<img src="_Img/Software%20Development/InterTask_Communication/development-inter-task-communication_03.png"><br>
+
+<h2>実装例</h2>
+「コンテンツのダウンロードをいったん中断し、『OK』ボタン押下後に再開する」処理を行う。<br>
+使用するイベント待機ハンドラによって、コメント箇所の実装が変化する。
+
+<div class="code">
+<cmt>// ダウンロードタスク</cmt>
+<kwd>public async</kwd> <knw>Task</knw><<kwd>string</kwd>> DownloadAsync()
+{
+    <kwd>using</kwd> (<kwd>var</kwd> client = <kwd>new</kwd> HttpClient())
+    {
+        <kwd>var</kwd> response = <kwd>await</kwd> client.GetAsync(@"http:<cmt>//hoge.example.com/contents.dat");</cmt>
+        <kwd>using</kwd> (<kwd>var</kwd> stream = <kwd>new</kwd> <knw>StreamReader</knw>(<kwd>await</kwd> response.Content.ReadAsStreamAsync()))
+        {
+            <cmt>// コンテンツの1行目のみを読み込む</cmt>
+            <kwd>var</kwd> first = stream.ReadLine();
+        }
+
+        <cmt>// ----------------------------------------</cmt>
+        <cmt>// 「OK」ボタンが押されるまで処理を中断</cmt>
+        <cmt>// (シグナル待ち状態に移行)</cmt>
+        <cmt>// ----------------------------------------</cmt>
+
+        <cmt>// 処理を再開</cmt>
+        <kwd>return await</kwd> response.Content.ReadAsStringAsync();
+    }
+}
+
+<cmt>// ダウンロード継続承認</cmt>
+<cmt>// (「OK」ボタン押下時の処理)</cmt>
+<kwd>public void</kwd> DownloadAcceppted(<kwd>object</kwd> sender, <knw>EventArgs</knw> args)
+{
+    <cmt>// ----------------------------------------</cmt>
+    <cmt>// シグナル送信 ⇒ シグナル状態に移行</cmt>
+    <cmt>// ----------------------------------------</cmt>
+}
+</div>
+
+<h3>System.Threading.CountdownEvent による実装</h3>
+CountdownEvent は、オブジェクト生成時に指定した回数だけシグナルを受けると、待ち状態を解除するハンドラである。<br>
+(例 : CountdownEvent(3) であれば、CountdownEvent.Signal() が3回コールされた時点でシグナル状態となる。)<br>
+
+<div class="code">
+<cmt>// イベント待機ハンドラ CountdownEvent の初期化</cmt>
+<kwd>private readonly</kwd> CountdownEvent condition = <kwd>new</kwd> CountdownEvent(<ltr>1</ltr>);
+
+<cmt>// ダウンロードタスク</cmt>
+<kwd>public async</kwd> <knw>Task</knw><<kwd>string</kwd>> DownloadAsync()
+{
+    <kwd>using</kwd> (<kwd>var</kwd> client = <kwd>new</kwd> HttpClient())
+    {
+        <kwd>var</kwd> response = <kwd>await</kwd> client.GetAsync(@"http:<cmt>//hoge.example.com/contents.dat");</cmt>
+        <kwd>using</kwd> (<kwd>var</kwd> stream = <kwd>new</kwd> <knw>StreamReader</knw>(<kwd>await</kwd> response.Content.ReadAsStreamAsync()))
+        {
+            <cmt>// コンテンツの1行目のみを読み込む</cmt>
+            <kwd>var</kwd> first = stream.ReadLine();
+        }
+
+        <cmt>// 「OK」ボタンが押されるまで処理を中断</cmt>
+        condition.Wait();
+
+        <cmt>// シグナル状態を解除</cmt>
+        condition.Reset();
+
+        <cmt>// 処理を再開</cmt>
+        <kwd>return await</kwd> response.Content.ReadAsStringAsync();
+    }
+}
+
+<cmt>// ダウンロード継続承認</cmt>
+<cmt>// (「OK」ボタン押下時の処理)</cmt>
+<kwd>public void</kwd> DownloadAcceppted(<kwd>object</kwd> sender, <knw>EventArgs</knw> args)
+{
+    <cmt>// シグナル送信 ⇒ シグナル状態に移行</cmt>
+    condition.Signal();
+}
+</div>
+
+ここでは、シグナル状態に移行(待ち状態の解除)後、待機ハンドラを再利用することを考慮してシグナル状態を解除( Reset() )している。<br>
+
+<h3>System.Threading.AutoResetEvent による実装</h3>
+
+<div class="code">
+<cmt>// イベント待機ハンドラ AutoResetEvent の初期化</cmt>
+<kwd>private readonly</kwd> AutoResetEvent condition = <kwd>new</kwd> AutoResetEvent();
+
+<cmt>// ダウンロードタスク</cmt>
+<kwd>public async</kwd> <knw>Task</knw><<kwd>string</kwd>> DownloadAsync()
+{
+    <kwd>using</kwd> (<kwd>var</kwd> client = <kwd>new</kwd> HttpClient())
+    {
+        <kwd>var</kwd> response = <kwd>await</kwd> client.GetAsync(@"http:<cmt>//hoge.example.com/contents.dat");</cmt>
+        <kwd>using</kwd> (<kwd>var</kwd> stream = <kwd>new</kwd> <knw>StreamReader</knw>(<kwd>await</kwd> response.Content.ReadAsStreamAsync()))
+        {
+            <cmt>// コンテンツの1行目のみを読み込む</cmt>
+            <kwd>var</kwd> first = stream.ReadLine();
+        }
+
+        <cmt>// 「OK」ボタンが押されるまで処理を中断</cmt>
+        condition.WaitOne();
+
+        <cmt>// タスクの待ちが解除されると自動的にシグナル解除</cmt>
+
+        <cmt>// 処理を再開</cmt>
+        <kwd>return await</kwd> response.Content.ReadAsStringAsync();
+    }
+}
+
+<cmt>// ダウンロード継続承認</cmt>
+<cmt>// (「OK」ボタン押下時の処理)</cmt>
+<kwd>public void</kwd> DownloadAcceppted(<kwd>object</kwd> sender, <knw>EventArgs</knw> args)
+{
+    <cmt>// シグナル送信 ⇒ シグナル状態に移行</cmt>
+    condition.Set();
+}
+</div>
+
+AutoResetEvent はシグナル状態に移行すると、シグナル待ちのタスクが再開された時点で自動的にシグナル状態が解除される。
+
+<h3>System.Threading.ManualResetEvent による実装</h3>
+CountdownEvent と同様、手動でシグナル状態を解除する必要がある。以下のメソッドを使用する。<br>
+<ul>
+    <li>シグナル待機 : ManualResetEvent.WaitOne()</li>
+    <li>シグナルセット : ManualResetEvent.Set()</li>
+    <li>シグナルリセット : ManualResetEvent.Reset()</li>
+</ul>
+シグナル状態が自動で解除されないため、複数のタスクを待たせるのに使用できる。
+
+<h3>どのように使い分けるか</h3>
+CountdownEvent は.NET 4.0から使用可能となった比較的新しいクラスで、AutoResetEvent や ManualResetEvent と比較してオーバーヘッドが小さい(1/20程度)。<br>
+このため.NET 4.0より前の旧い環境を用いるのでなければ、CountdownEvent の使用が推奨される。<br>
+また、同じく.NET 4.0から追加された ManualResetEventSlim は ManualResetEvent よりもオーバーヘッドが小さく、以下の機能が追加されている。
+<ul>
+    <li>ManualResetEventSlim.Wait() は即座にスレッドを中断させるのではなく、コンストラクタで指定された期間スピンウェイトを行う。<br>
+    (スピンウェイト期間中にシグナル状態となれば高い応答性が得られるが、スピンウェイト中はCPU資源の消費が増える。)</li>
+    <li>待ち状態のキャンセルが可能である。</li>
+</ul>
+詳細は出典元を参照。
+
+<table>
+    <tr class="row1">
+        <td class="col1" width="20%">クラス</td>
+        <td width="20%">ManualResetEvent</td>
+        <td width="20%">AutoResetEvent</td>
+        <td width="20%">CountdownEvent</td>
+        <td width="20%">ManualResetEventSlim</td>
+    </tr>
+    <tr>
+        <td class="col1">待機するシグナルの数</td>
+        <td class="center">1</td>
+        <td class="center">1</td>
+        <td class="center">可変</td>
+        <td class="center">1</td>
+    </tr>
+    <tr>
+        <td class="col1">シグナル状態の解除</td>
+        <td class="center">手動</td>
+        <td class="center">自動</td>
+        <td class="center">手動</td>
+        <td class="center">手動</td>
+    </tr>
+    <tr>
+        <td class="col1">備考</td>
+        <td></td>
+        <td></td>
+        <td>.NET 4.0以降<br>オーバーヘッドが小さい</td>
+        <td>.NET 4.0以降<br>オーバーヘッドが小さい<br>スピンウェイトあり<br>待ち状態キャンセル可</td>
+    </tr>
+</table>
+
+<h2>Producer-Consumer パターン</h2>
+データを生成する処理(Producer)とデータを使用する処理(Consumer)を異なるスレッドで非同期に実行するモデルのこと。イベント待機ハンドラの使用を前提としている。<br>
+Producerはデータをエンキューする際にシグナルをセットし、Consumerはシグナルを契機にタスクを起床してキューからデータを回収することで、効率的にコンピュータ資源を利用できる。<br>
+<a href="TIPS/ソフトウェア開発一般/有限状態機械(FSM).html">FSM(有限状態機械)</a>の実装にも適している。
+<ul>
+    <li>イベントトリガをバッファ(イベントキュー)に格納する : Producer</li>
+    <li>イベントトリガをイベントキューから取り出して実行する : Consumer</li>
+</ul>
+
+<h3>実装例</h3>
+<div class="code">
+<cmt>// Producer-Consumer テンプレートクラス </cmt>
+<kwd>class</kwd> BlockingQueue&lt;T&gt;
+{
+    <kwd>private readonly</kwd> Queue&lt;T&gt; _queue = <kwd>new</kwd> Queue&lt;T&gt;();                                  <cmt>//< データキュー</cmt>
+    <kwd>private readonly</kwd> ManualResetEventSlim _resetevent = <kwd>new</kwd> ManualResetEventSlim();     <cmt>//< イベント待ちハンドラ</cmt>
+    <kwd>private readonly object</kwd> _lock = <kwd>new object</kwd>();                                       <cmt>//< ロックオブジェクト</cmt>
+
+    <cmt>// デストラクタ</cmt>
+    ~BlockingQueue()
+    {
+        <cmt>// イベント待ちハンドラを破棄</cmt>
+        _resetevent.Dispose();
+    }
+
+    <cmt>// データを生成 (Producer)</cmt>
+    <kwd>public void</kwd> Put(T data)
+    {
+        lock (_lock)
+        {                     
+            <cmt>// データをエンキュー</cmt>
+            _queue.Enqueue(data);
+
+            <cmt>// シグナルをセット</cmt>
+            _resetevent.Set();
+        }
+    }
+
+    <cmt>// データを取得 (Consumer)</cmt>
+    <kwd>public</kwd> T Take(CancellationToken token)
+    {
+        <cmt>// 無限ループ</cmt>
+        <kwd>while</kwd> (<kwd>true</kwd>)
+        {
+            <cmt>// キャンセル要求があれば例外を投げる</cmt>
+            token.ThrowIfCancellationRequested();
+
+            lock (_lock)
+            {
+                <cmt>// キューにデータが入っていればデキューして返す</cmt>
+                <kwd>if</kwd> (_queue.Any())
+                {
+                    <kwd>var</kwd> val = _queue.Dequeue();
+                    <kwd>return</kwd> val;
+                }
+
+                <cmt>// シグナルをクリア</cmt>
+                _resetevent.Reset();
+            }
+
+            <cmt>// シグナル待ちに移行</cmt>
+            _resetevent.Wait(Timeout.Infinite, token);
+        }
+    }
+}
+</div>
+Take() メソッドでは、キューにデータが格納されていなければシグナル待ちに移行し、タスクを休眠させる。<br>
+シグナル状態となればタスクは起床し、キューにデータがあればデキューして返す。<br>
+連続で Take() をコールすることで、キューが空になるまでデータを回収できる。<br>
+ここでは Queue&lt;T&gt; を使用しているため、lock() による排他制御が必要となるが、<br>
+CoucurrentQueue&lt;T&gt; に置き換えると複数スレッドからの同時アクセスでも破綻せず、排他の必要が無い。<br>
+
+</body>
+</html>
+
+
+
+

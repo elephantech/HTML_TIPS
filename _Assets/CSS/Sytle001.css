@@ -27,17 +27,25 @@ body {
 /* 強調                               */
 /* ---------------------------------- */
 /* ボールド (<#### class="b">, <b>, <#### class="strong">, <strong>) */
-/* ボールド・イタリック (<#### class="bi">, <bi>) */
-.b, b, .strong, strong, .bi, bi {
+.b, b, .strong, strong {
   font-weight:          bold;
 }
 
 /* イタリック (<#### class="i">, <i>, <#### class="em">, <em>) */
-/* ボールド・イタリック (<#### class="bi">, <bi>) */
-.i, i, .em, em, .bi, bi {
+.i, i, .em, em {
   font-style:           italic;
   padding-left:         -1px;
   padding-right:        3px;
+}
+
+/* 下線 (<#### class="u">, <u>) */
+.u, u {
+  text-decoration-line: underline;
+}
+  
+/* 取り消し線 (<#### class="s">, <s>, <#### class="del">, <del>) */
+.s, s, .del, del {
+  text-decoration-line: line-through;
 }
 
 /* ---------------------------------- */

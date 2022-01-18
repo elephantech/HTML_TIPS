@@ -47,7 +47,7 @@ body
 <ol>
 <li>
 Visual Studioから新しいプロジェクトを作成する。その際、テンプレートには「フォーム アプリケーション」を指定する。<br>
-(図はC# Netの例)<br>
+(図はC# .NETの例)<br>
 <img src="_Img/MSVS_DotNet_CSharp/VS_Form_And_Console/01.png"><br>
 </li>
 
@@ -72,19 +72,21 @@ Visual Studioから新しいプロジェクトを作成する。その際、テ�
 (以下はC#におけるコード例)<br>
 <p class="code">
 <cmt>// ［閉じる］ボタンを無効化するための値</cmt>
-<kwd>const uint</kwd> SC_CLOSE = 0x0000F060;
-<kwd>const uint</kwd> MF_BYCOMMAND = 0x00000000;
+<kwd>const</kwd> uint SC_CLOSE = 0x0000F060;
+<kwd>const</kwd> uint MF_BYCOMMAND = 0x00000000;
 
-<kwd>IntPtr hWnd</kwd> = Process.GetCurrentProcess().MainWindowHandle;
+<knw>IntPtr</knw> hWnd = <knw>Process</knw>.GetCurrentProcess().MainWindowHandle;
 
-<kwd>if</kwd> (hWnd != IntPtr.Zero)
+<kwd>if</kwd> (hWnd != <knw>IntPtr</knw>.Zero)
 {
     <cmt>// ［閉じる］ボタンの無効化</cmt>
-    <kwd>IntPtr</kwd> hMenu = GetSystemMenu(hWnd, 0);
+    <knw>IntPtr</knw> hMenu = GetSystemMenu(hWnd, <ltr>0</ltr>);
     RemoveMenu(hMenu, SC_CLOSE, MF_BYCOMMAND);
 }
 </p>
 
 </body>
 </html>
+
+
 
