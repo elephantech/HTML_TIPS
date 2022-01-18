@@ -95,13 +95,13 @@ C#ではTuple型、匿名型を用いることができたが、C#7.0よりValue
 (<kwd>int</kwd>, <kwd>string</kwd>, <kwd>bool</kwd>, <kwd>double</kwd>) unnamed_tuple = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr><kwd>true</kwd></ltr>, <ltr>1.25</ltr>);
 
 <cmt>// 宣言時に名前を指定</cmt>
-(<kwd>int</kwd> value1, <kwd>string</kwd> value2, <kwd>bool</kwd> value3, <kwd>double</kwd> value4) named_tuple1 = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr><kwd>true</kwd></ltr>, <ltr>1</ltr>.25</ltr>);
+(<kwd>int</kwd> value1, <kwd>string</kwd> value2, <kwd>bool</kwd> value3, <kwd>double</kwd> value4) named_tuple1 = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr><kwd>true</kwd></ltr>, <ltr>1</ltr>.<ltr>25</ltr>);
 
 <cmt>// 代入時に名前を指定</cmt>
-(<kwd>int</kwd>, <kwd>string</kwd>, <kwd>bool</kwd>, <kwd>double</kwd>) named_tuple2 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr><kwd>true</kwd></ltr>, value4: <ltr>1</ltr>.25</ltr>);
+(<kwd>int</kwd>, <kwd>string</kwd>, <kwd>bool</kwd>, <kwd>double</kwd>) named_tuple2 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr><kwd>true</kwd></ltr>, value4: <ltr>1</ltr>.<ltr>25</ltr>);
 
 <cmt>// 型推論を使用可能</cmt>
-<kwd>var</kwd> named_tuple3 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr><kwd>true</kwd></ltr>, value4: <ltr>1</ltr>.25</ltr>);
+<kwd>var</kwd> named_tuple3 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr><kwd>true</kwd></ltr>, value4: <ltr>1</ltr>.<ltr>25</ltr>);
 </p>
     
 <h4>タプルの参照</h4>
@@ -145,8 +145,8 @@ C#ではTuple型、匿名型を用いることができたが、C#7.0よりValue
 フィールド名は比較に関与しない(フィールド名が異なっていても問題とはならない)。<br>
 但し、両者の要素数が異なる場合は比較できず、例外が発生する。
 <p class="code">
-<kwd>var</kwd> t1 = (        <ltr>100</ltr>,         <ltr>"abcde"</ltr>,         <ltr><kwd>true</kwd></ltr>,         <ltr>1</ltr>.25</ltr>);  <cmt>//< 名前なし</cmt>
-<kwd>var</kwd> t2 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr><kwd>true</kwd></ltr>, value4: <ltr>1</ltr>.25</ltr>);  <cmt>//< 名前つき</cmt>
+<kwd>var</kwd> t1 = (        <ltr>100</ltr>,         <ltr>"abcde"</ltr>,         <ltr><kwd>true</kwd></ltr>,         <ltr>1</ltr>.<ltr>25</ltr>);  <cmt>//< 名前なし</cmt>
+<kwd>var</kwd> t2 = (value1: <ltr>100</ltr>, value2: <ltr>"abcde"</ltr>, value3: <ltr><kwd>true</kwd></ltr>, value4: <ltr>1</ltr>.<ltr>25</ltr>);  <cmt>//< 名前つき</cmt>
 <knw>System</knw>.<knw>Console</knw>.WriteLine(t1 == t2);  <cmt>//< true</cmt>
 
 <kwd>var</kwd> t3 = (<ltr>100</ltr>, <ltr>"abcde"</ltr>, <ltr><kwd>true</kwd></ltr>, <ltr>1.25</ltr>);
@@ -269,5 +269,7 @@ at3.Item1 = <ltr>2</ltr>;        <cmt>//< エラー</cmt>
 
 </body>
 </html>
+
+
 
 

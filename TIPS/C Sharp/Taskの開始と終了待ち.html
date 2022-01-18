@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://qiita.com/takutoy/items/c384fcb439d345a9a0d3#%E9%9D%9E%E5%90%8C%E6%9C%9Ftask%E3%82%92%E4%B8%A6%E8%A1%8C%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B">C# 並行・並列プログラミング パターン集 - Qiita</a><br>
+<a href="https://qiita.com/takutoy/items/d45aa736ced25a8158b3">C# Taskの待ちかた集 - Qiita</a><br>
+<a href="https://qiita.com/4_mio_11/items/f9b19c04509328b1e5c1">非同期理解のためにasync/awaitとTaskの基礎を学んだ話 - Qiita</a><br>
+<a href="https://qiita.com/acple@github/items/8f63aacb13de9954c5da">Taskを極めろ！async/await完全攻略 - Qiita</a><br>
+<a href="https://qiita.com/rawr/items/5d49960a4e4d3823722f">C# 今更ですが、await / async - Qiita</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C Sharp/async と await (非同期処理).html">async と await (非同期処理)</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+<h2>非同期実行Taskの開始</h2>
+<h3>Task.Run()によるタスク開始</h3>
+<div class="code">
+<knw>Task</knw> task = <knw>Task</knw>.Run(() => HeavyWork());
+</div>
+もっとも基本的な非同期タスクの開始方法。CPU主体の処理に適するが、IO主体の処理ではスレッドプールを有効活用できないため、<br>
+TaskCompletionSource&lt;TResult&gt;などで代用するとよい。詳細は割愛。
+
+<h2>タスクの完了待ち</h2>
+<h3>async / await</h3>
+<div class="code">
+HttpClient hc = <kwd>new</kwd> HttpClient();
+<kwd>private async void</kwd> button_Click(<kwd>object</kwd> sender, RoutedEventArgs e)
+{
+    <cmt>// ダウンロード開始と同時にUIスレッドに処理を戻す</cmt>
+    <kwd>string</kwd> html = <kwd>await</kwd> hc.GetStringAsync("http:<cmt>//www.example.jp/");</cmt>
+
+    <cmt>// この行以降は GetStringAsync() の完了を待って実行される</cmt>
+    MessageBox.Show(<ltr>"HTMLの取得が完了しました"</ltr>);
+    textBox.<knw>Text</knw> = html;
+}
+</div>
+
+<b>await は「続くタスクを非同期的に実行(開始)し、終了を待機する」ことを表す</b>。<br>
+即ち、await キーワードに到達した時点で呼び出し元に処理を戻す。<br>
+上記のような例でもUIスレッドがブロックされないため、タスクの完了を待ちつつ別の操作を行うことができる。<br>
+<b>async は、「その関数中で await を使用する (= 非同期処理を開始し、終了を待機する)」ことを表す</b>。<br>
+原則、async 修飾を行う際の戻り値は Task&lt;TResult&gt; ( TResult は本来の戻り値の型)となるが、<br>
+UIから直接実行されるイベントハンドラは例外的に async void を用いる。<br>
+(本来の戻り値が void の場合は単に Task となる。以下で記すように、明示的に Task を戻すわけではない。)
+
+<div class="code">
+<cmt>// 関数内で await を用いるため async 修飾</cmt>
+<cmt>// 戻り値は void ⇒ Task</cmt>
+<kwd>private async</kwd> <knw>Task</knw> ExecuteAsync()
+{
+    text += <ltr>"計算開始"</ltr> + <knw>Environment</knw>.NewLine;
+
+    <cmt>// 重い処理を別タスクで実行開始(Task.Run())</cmt>
+    <kwd>double</kwd> result = <kwd>await</kwd> <knw>Task</knw>.Run(() =>  HeavyWork(<ltr>2000000000</ltr>));
+
+    text += result.ToString() + <knw>Environment</knw>.NewLine;
+}
+</div>
+
+<h4>応用</h4>
+<div class="code">
+HttpClient hc = <kwd>new</kwd> HttpClient();
+<kwd>private async void</kwd> button_Click(<kwd>object</kwd> sender, RoutedEventArgs e)
+{
+    <cmt>// ダウンロード開始</cmt>
+    <cmt>// ダウンロードタスクを Task オブジェクトに格納</cmt>
+    <knw>Task</knw>&lt;<kwd>string</kwd>&gt; gethtmltask = hc.GetStringAsync("http:<cmt>//www.example.jp/kussoosoi.php");</cmt>
+
+    <cmt>// この行は非同期タスクの終了を待たずに実行される</cmt>
+    MessageBox.Show(<ltr>"HTMLを取得しています"</ltr>);
+
+    <cmt>// 非同期タスクの完了を待機し、結果を取得する</cmt>
+    textBox.<knw>Text</knw> = <kwd>await</kwd> gethtmltask;
+}
+</div>
+開始した非同期タスクを変数に格納しておき、あとで await する手法。<br>
+メッセージボックス表示の裏でHTTP通信を行うので、体感的な待ち時間の短縮が期待できる。
+
+<h3>Wait() / Result() / WaitAll() / WaitAny()</h3>
+<div class="code">
+HttpClient hc = <kwd>new</kwd> HttpClient();
+
+<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t1 = hc.GetStringAsync("https:<cmt>//www.microsoft.com/");</cmt>
+<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t2 = hc.GetStringAsync("https:<cmt>//www.bing.com/");</cmt>
+
+<cmt>// t1 が終わるまでスレッドをブロックする</cmt>
+t1.Wait();
+
+<cmt>// t2 が終わるまでスレッドをブロックし、結果を取得する</cmt>
+<kwd>string</kwd> binghtml = t2.Result;
+
+<cmt>// いずれかの Task が終わるまでスレッドをブロックする</cmt>
+<kwd>int</kwd> completedTaskIndex = <knw>Task</knw>.WaitAny(t1, t2);
+<cmt>// ->  0 : t1 が先に終了</cmt>
+<cmt>//     1 : t2 が先に終了</cmt>
+
+<cmt>// いずれかの Task が終わるまでスレッドをブロックする(タイムアウト付き)</cmt>
+<kwd>int</kwd> completedTaskIndex2 = <knw>Task</knw>.WaitAny(<kwd>new</kwd>[] { t1, t2 }, <ltr>50</ltr>);
+<cmt>// ->  0 : t1 が先に終了</cmt>
+<cmt>//     1 : t2 が先に終了</cmt>
+<cmt>//    -1 : いずれも終了しないまま50ms経過</cmt>
+
+<cmt>// すべての Task が終わるまでスレッドをブロックする</cmt>
+<knw>Task</knw>.WaitAll(t1, t2);
+
+<cmt>// すべての Task が終わるまでスレッドをブロックする(タイムアウト付き)</cmt>
+<kwd>bool</kwd> allTasksCompleted = <knw>Task</knw>.WaitAll(<kwd>new</kwd>[] { t1, t2 }, <ltr>50</ltr>);
+<cmt>// ->   true : いずれも50ms以内に終了</cmt>
+<cmt>//     false : いずれかが終了しないまま50ms経過</cmt>
+</div>
+<b>await と異なり、呼び元に処理を戻さない</b>。UIスレッドから実行すると、待ちが終わるまで操作が受け付けられなくなるため注意が必要。<br>
+
+<h3>WhenAll() / WhenAny()</h3>
+複数のタスクを await する際に用いる。
+<div class="code">
+HttpClient hc = <kwd>new</kwd> HttpClient();
+
+<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t1 = hc.GetStringAsync("https:<cmt>//www.microsoft.com/");</cmt>
+<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t2 = hc.GetStringAsync("https:<cmt>//www.bing.com/");</cmt>
+
+<cmt>// スレッドをブロックせずにすべてのタスクの終了を待機</cmt>
+<kwd>string</kwd>[] htmls = <kwd>await</kwd> <knw>Task</knw>.WhenAll(t1, t2);
+<cmt>// -> htmls[0] : t1 の実行結果</cmt>
+<cmt>//    htmls[1] : t2 の実行結果</cmt>
+
+<cmt>// スレッドをブロックせずにいずれかのタスクの終了を待機</cmt>
+<knw>Task</knw>&lt;<kwd>string</kwd>&gt; completedTask = <kwd>await</kwd> <knw>Task</knw>.WhenAny(t1, t2);
+</div>
+
+<h3>IsCompleted / IsCompletedSuccessfully / IsFaulted / IsCanceled</h3>
+タスクが終了しているかを確認する際に用いる。
+<div class="code">
+HttpClient hc = <kwd>new</kwd> HttpClient();
+<knw>Task</knw>&lt;<kwd>string</kwd>&gt; task = hc.GetStringAsync("https:<cmt>//www.microsoft.com/");</cmt>
+
+<cmt>// タスクが完了していなければメッセージ表示</cmt>
+<kwd>if</kwd> (!task.IsCompleted)
+{
+    <knw>Console</knw>.WriteLine(<ltr>"ちょっとまってね"</ltr>);
+}
+
+<cmt>// タスクの完了を待機</cmt>
+<kwd>var</kwd> html = <kwd>await</kwd> task;
+<knw>Console</knw>.WriteLine(html);
+</div>
+IsCompleted プロパティは終了要因によらず、タスクが終了していれば true となる。<br>
+同様に
+<ul>
+    <li>IsCompletedSuccessfully : 成功時に true</li>
+    <li>IsFaulted : 失敗時に true</li>
+    <li>IsCanceled : キャンセル時に true</li>
+</ul>
+も存在する。
+
+</body>
+</html>
+
+
