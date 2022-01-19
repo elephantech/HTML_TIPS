@@ -44,23 +44,23 @@ body
 
 <h2>拡張メソッドとは</h2>
 既存のクラス定義に手を加えることなく、インスタンスメソッドを疑似的に追加できる機構のこと。<br>
+以下に留意する必要がある。
 
-<h2>拡張メソッドに関する留意事項</h2>
 <ul>
-    <li>拡張メソッドは静的クラス中に作成する必要がある</li>
-    <li>拡張メソッドは静的メソッドとして作成する必要がある</li>
-    <li>拡張メソッドが実行されるインスタンス(自分自身)を第１引数として受け取る<br>
-    (呼び出す際に渡す必要は無い)</li>
+    <li>拡張メソッドは静的クラス中に作成する</li>
+    <li>拡張メソッドは静的メソッドとして作成する</li>
+    <li>拡張メソッドが実行されるインスタンス(自分自身 : this)を第1引数として受け取る<br>
+    (呼び出す際に明示的に渡す必要は無い)</li>
 </ul>
 
-<h2>実装例</h2>
 <h3>メソッドの定義</h3>
+CheckedListBox に拡張メソッドを追加する場合を考える。<br>
 <div class="code">
 <cmt>// 拡張メソッド実装用の静的クラス</cmt>
 <kwd>static class</kwd> ExtensionMethods
 {
-    <cmt>// 拡張メソッド(静的)</cmt>
-    <cmt>// 実装先 : CheckedListBox (this 修飾の第１引数)</cmt>
+    <cmt>// 拡張メソッド</cmt>
+    <cmt>// CheckedListBox の全項目のチェック状態を切り替える</cmt>
     <kwd>public static void</kwd> CheckAllCheckBoxes(<kwd>this</kwd> CheckedListBox source, <kwd>bool</kwd> value)
     {
         <kwd>for</kwd> (<kwd>int</kwd> i = <ltr>0</ltr>; i < source.Items.Count; i++)
@@ -70,14 +70,17 @@ body
     }
 }
 </div>
+拡張メソッド CheckAllCheckBoxes() の第1引数 source は this 修飾された CheckedListBox であり、呼び出された際に暗黙的にメソッドに渡される。
 
 <h3>メソッドの呼び出し</h3>
 <div class="code">
 checkedListBox1.CheckAllCheckBoxes(<kwd>true</kwd>);
 </div>
+拡張メソッドは CheckedListBox のインスタンスメソッドとして呼び出すことができる。<br>
+第1引数にはインスタンス checkedListBox1 自身が自動的に渡されるため、実引数としては記述しない。
 
 <h2>余談</h2>
-拡張メソッドは.NETの機能であるため、Visual Basicでも使用できる。詳細は出典元を参照。
+拡張メソッドは.NETの機能であるため、Visual Basicでも使用できる。詳細は出典元を参照。<br>
 
 </body>
 </html>

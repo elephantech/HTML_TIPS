@@ -36,9 +36,6 @@ body
 <a href="https://qiita.com/acple@github/items/8f63aacb13de9954c5da">Taskを極めろ！async/await完全攻略 - Qiita</a><br>
 <a href="https://qiita.com/rawr/items/5d49960a4e4d3823722f">C# 今更ですが、await / async - Qiita</a><br>
 
-<h5>関連 :</h5>
-<a href="TIPS/C Sharp/async と await (非同期処理).html">async と await (非同期処理)</a><br>
-
 <!-- 目次 -->
 <h5>目次 :</h5>
 <div id="toc"></div>
@@ -61,7 +58,7 @@ HttpClient hc = <kwd>new</kwd> HttpClient();
 <kwd>private async void</kwd> button_Click(<kwd>object</kwd> sender, RoutedEventArgs e)
 {
     <cmt>// ダウンロード開始と同時にUIスレッドに処理を戻す</cmt>
-    <kwd>string</kwd> html = <kwd>await</kwd> hc.GetStringAsync("http:<cmt>//www.example.jp/");</cmt>
+    <kwd>string</kwd> html = <kwd>await</kwd> hc.GetStringAsync(<ltr>"http://www.example.jp/"</ltr>);
 
     <cmt>// この行以降は GetStringAsync() の完了を待って実行される</cmt>
     MessageBox.Show(<ltr>"HTMLの取得が完了しました"</ltr>);
@@ -98,7 +95,7 @@ HttpClient hc = <kwd>new</kwd> HttpClient();
 {
     <cmt>// ダウンロード開始</cmt>
     <cmt>// ダウンロードタスクを Task オブジェクトに格納</cmt>
-    <knw>Task</knw>&lt;<kwd>string</kwd>&gt; gethtmltask = hc.GetStringAsync("http:<cmt>//www.example.jp/kussoosoi.php");</cmt>
+    <knw>Task</knw>&lt;<kwd>string</kwd>&gt; gethtmltask = hc.GetStringAsync(<ltr>"http://www.example.jp/kussoosoi.php"</ltr>);
 
     <cmt>// この行は非同期タスクの終了を待たずに実行される</cmt>
     MessageBox.Show(<ltr>"HTMLを取得しています"</ltr>);
@@ -114,8 +111,8 @@ HttpClient hc = <kwd>new</kwd> HttpClient();
 <div class="code">
 HttpClient hc = <kwd>new</kwd> HttpClient();
 
-<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t1 = hc.GetStringAsync("https:<cmt>//www.microsoft.com/");</cmt>
-<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t2 = hc.GetStringAsync("https:<cmt>//www.bing.com/");</cmt>
+<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t1 = hc.GetStringAsync(<ltr>"https://www.microsoft.com/"</ltr>);
+<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t2 = hc.GetStringAsync(<ltr>"https://www.bing.com/"</ltr>);
 
 <cmt>// t1 が終わるまでスレッドをブロックする</cmt>
 t1.Wait();
@@ -124,23 +121,23 @@ t1.Wait();
 <kwd>string</kwd> binghtml = t2.Result;
 
 <cmt>// いずれかの Task が終わるまでスレッドをブロックする</cmt>
+<cmt>// 0 : t1 が先に終了</cmt>
+<cmt>// 1 : t2 が先に終了</cmt>
 <kwd>int</kwd> completedTaskIndex = <knw>Task</knw>.WaitAny(t1, t2);
-<cmt>// ->  0 : t1 が先に終了</cmt>
-<cmt>//     1 : t2 が先に終了</cmt>
 
 <cmt>// いずれかの Task が終わるまでスレッドをブロックする(タイムアウト付き)</cmt>
+<cmt>//  0 : t1 が先に終了</cmt>
+<cmt>//  1 : t2 が先に終了</cmt>
+<cmt>// -1 : いずれも終了しないまま50ms経過</cmt>
 <kwd>int</kwd> completedTaskIndex2 = <knw>Task</knw>.WaitAny(<kwd>new</kwd>[] { t1, t2 }, <ltr>50</ltr>);
-<cmt>// ->  0 : t1 が先に終了</cmt>
-<cmt>//     1 : t2 が先に終了</cmt>
-<cmt>//    -1 : いずれも終了しないまま50ms経過</cmt>
 
 <cmt>// すべての Task が終わるまでスレッドをブロックする</cmt>
 <knw>Task</knw>.WaitAll(t1, t2);
 
 <cmt>// すべての Task が終わるまでスレッドをブロックする(タイムアウト付き)</cmt>
+<cmt>//  true : いずれも50ms以内に終了</cmt>
+<cmt>// false : いずれかが終了しないまま50ms経過</cmt>
 <kwd>bool</kwd> allTasksCompleted = <knw>Task</knw>.WaitAll(<kwd>new</kwd>[] { t1, t2 }, <ltr>50</ltr>);
-<cmt>// ->   true : いずれも50ms以内に終了</cmt>
-<cmt>//     false : いずれかが終了しないまま50ms経過</cmt>
 </div>
 <b>await と異なり、呼び元に処理を戻さない</b>。UIスレッドから実行すると、待ちが終わるまで操作が受け付けられなくなるため注意が必要。<br>
 
@@ -149,8 +146,8 @@ t1.Wait();
 <div class="code">
 HttpClient hc = <kwd>new</kwd> HttpClient();
 
-<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t1 = hc.GetStringAsync("https:<cmt>//www.microsoft.com/");</cmt>
-<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t2 = hc.GetStringAsync("https:<cmt>//www.bing.com/");</cmt>
+<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t1 = hc.GetStringAsync(<ltr>"https://www.microsoft.com/"</ltr>);
+<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t2 = hc.GetStringAsync(<ltr>"https://www.bing.com/"</ltr>);
 
 <cmt>// スレッドをブロックせずにすべてのタスクの終了を待機</cmt>
 <kwd>string</kwd>[] htmls = <kwd>await</kwd> <knw>Task</knw>.WhenAll(t1, t2);
@@ -165,7 +162,7 @@ HttpClient hc = <kwd>new</kwd> HttpClient();
 タスクが終了しているかを確認する際に用いる。
 <div class="code">
 HttpClient hc = <kwd>new</kwd> HttpClient();
-<knw>Task</knw>&lt;<kwd>string</kwd>&gt; task = hc.GetStringAsync("https:<cmt>//www.microsoft.com/");</cmt>
+<knw>Task</knw>&lt;<kwd>string</kwd>&gt; task = hc.GetStringAsync(<ltr>"https://www.microsoft.com/"</ltr>);
 
 <cmt>// タスクが完了していなければメッセージ表示</cmt>
 <kwd>if</kwd> (!task.IsCompleted)

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://qiita.com/nskydiving/items/c9c47c1e48ea365f8995">はじめてのLINQ - Qiita</a><br>
+<a href="https://www.sejuku.net/blog/56519">【C#入門】LINQの使い方総まとめ - Samurai Blog</a><br>
+<a href="https://qiita.com/Marimoiro/items/0e119b47d65bf138789a">LINQチートシート的なもの - Qiita</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C Sharp/コレクション.html">[C#]コレクション</a><br>
+<a href="TIPS/ソフトウェア開発一般/無名関数とラムダ式.html">無名関数とラムダ式</a><br>
+<a href="TIPS/C Sharp/拡張メソッド.html">[C#]拡張メソッド</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>LINQ (Language Integrated Query)とは</h2>
+C# 3.0から導入された、オブジェクト、データベース、XMLなどのデータ集合に対して、クエリ(問い合わせ)を発行できる仕組みのこと。<br>
+集合に対する操作を、型によらない共通の手法で実現できる。<br>
+
+<h2>LINQ to Objects</h2>
+<b>IEnumerable&lt;T&gt;</b> インタフェースを実装するすべてのオブジェクトに対してLINQが使用できる。<br>
+配列やコレクションなどのデータ列が該当し、これらは「シーケンス」と総称される。<br>
+
+<h2>基本的な例( Where() メソッド)</h2>
+LINQを使用する際は、名前空間 <b>System.Linq</b> を参照する。
+<div class="code">
+<kwd>using</kwd> <knw>System</knw>;
+<kwd>using</kwd> <knw>System</knw>.Collections.Generic;
+<kwd>using</kwd> <knw>System</knw>.Linq;                  <cmt>//&lt; LINQを使用する際に必要</cmt>
+
+:
+
+    <cmt>// シーケンス(List)の定義</cmt>
+    <kwd>var</kwd> names = <kwd>new</kwd> <knw>List</knw>&lt;<kwd>string</kwd>&gt;
+        {
+            <ltr>"Tokyo"</ltr>,    "New Delhi",    <ltr>"Bangkok"</ltr>,  <ltr>"London"</ltr>,
+            <ltr>"Paris"</ltr>,    <ltr>"Berlin"</ltr>,       <ltr>"Canberra"</ltr>, "Hong Kong",
+        };
+
+    <cmt>// クエリ : Where() メソッド</cmt>
+    <cmt>// シーケンスから条件を満たす要素を抽出する</cmt>
+    IEnumerable&lt;<kwd>string</kwd>&gt; query = names.Where( s =&gt; s.Length &lt;= <ltr>5</ltr> );
+
+    <cmt>// クエリで抽出した部分集合に対する処理</cmt>
+    <kwd>foreach</kwd> (<kwd>var</kwd> s <kwd>in</kwd> query)
+    {
+        <knw>Console</knw>.WriteLine(s);
+    }
+</div>
+Where() メソッドの引数には、検索条件として<br>
+<b>「引数(s)にシーケンス(names)の要素を与えた場合に true を返す」</b><br>
+ラムダ式を指定する。<br>
+ここでは、「文字列の長さが5以下の要素」がヒットする。<br>
+(上記のラムダ式は<span class="code">(s) =&gt; { return s.Length &lt;= 5; }</span>の省略。)<br>
+Where() の実行結果もまた IEnumerable&lt;T&gt; であるため、さらにクエリを実行することも可能である。メソッドチェーンも有効。
+
+<h2>クエリ演算子</h2>
+LINQが提供する Where() などのメソッドを「クエリ演算子」と呼ぶ。<br>
+これらは IEnumerable&lt;T&gt; に対する拡張メソッドとして定義されている。<br>
+クエリ演算子は多数存在するが、代表的なものを下表に示す。
+<table>
+    <tr class="row1">
+        <td class="col1">クエリ演算子</td>
+        <td>機能</td>
+        <td>記述例</td>
+    </tr>
+    <tr>
+        <td class="col1">Where</td>
+        <td>条件に基づいてシーケンスをフィルタ処理する(条件に合致する要素を抽出する)</td>
+        <td>names.Where( s =&gt; s.Length &lt;= 5 )<br>
+        (Length が5以下の要素を抽出)</td>
+    </tr>
+    <tr>
+        <td class="col1">Select</td>
+        <td>シーケンスの各要素に指定された演算を施す(射影)</td>
+        <td>names.Select( s =&gt; s.ToLower() )<br>
+        (各要素を小文字に変換)</td>
+    </tr>
+    <tr>
+        <td class="col1">Count</td>
+        <td>シーケンスの要素数を返す</td>
+        <td>names.Count( s =&gt; s.Length &lt;= 5 )<br>
+        (Length が5以下の要素数を取得)</td>
+    </tr>
+</table>
+
+<h2>実用例 : 「グループボックス内のチェックされたラジオボタンを取得する」</h2>
+<img src="_Img/MSVS_DotNet_CSharp/Dotnet_linq/linq_01.png" alt="画像"><br>
+
+</body>
+</html>
+
+

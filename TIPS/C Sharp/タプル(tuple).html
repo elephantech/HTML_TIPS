@@ -117,7 +117,7 @@ C#ではTuple型、匿名型を用いることができたが、C#7.0よりValue
 <knw>System</knw>.<knw>Console</knw>.WriteLine(named_tuple1.value1);      <cmt>//< 要素1 ⇒ 100</cmt>
 <knw>System</knw>.<knw>Console</knw>.WriteLine(named_tuple1.value2);      <cmt>//< 要素2 ⇒ "abcde"</cmt>
 <knw>System</knw>.<knw>Console</knw>.WriteLine(named_tuple1.value3);      <cmt>//< 要素3 ⇒ true</cmt>
-<knw>System</knw>.<knw>Console</knw>.WriteLine(named_tuple1.value4);      <cmt>//< 要素4 ⇒ <ltr>1</ltr>.25</cmt>
+<knw>System</knw>.<knw>Console</knw>.WriteLine(named_tuple1.value4);      <cmt>//< 要素4 ⇒ 1.25</cmt>
 </p>
 
 <h4>タプルの分解(要素の抽出)</h4>
@@ -201,33 +201,39 @@ C#ではTuple型、匿名型を用いることができたが、C#7.0よりValue
     </tr>
     <tr>
         <td class="col1">メンバの名前付け</td>
-        <td class="bg_lg center">可</td>
-        <td class="bg_lr center">不可</td>
-        <td class="bg_lg center">可</td>
+        <td class="center">可</td>
+        <td class="center">不可</td>
+        <td class="center">可</td>
     </tr>
     <tr>
         <td class="col1">引数・戻り値としての使用</td>
-        <td class="bg_lg center">可</td>
-        <td class="bg_lg center">可</td>
-        <td class="bg_lr center">不可</td>
+        <td class="center">可</td>
+        <td class="center">可</td>
+        <td class="center">不可</td>
     </tr>
     <tr>
         <td class="col1">型の種類</td>
-        <td class="bg_lg center">構造体</td>
-        <td class="bg_lr center">クラス</td>
-        <td class="bg_lr center">クラス</td>
+        <td class="center">構造体</td>
+        <td class="center">クラス</td>
+        <td class="center">クラス</td>
     </tr>
     <tr>
         <td class="col1">メンバの種類</td>
-        <td class="bg_lg center">フィールド</td>
-        <td class="bg_lr center">プロパティ</td>
-        <td class="bg_lr center">プロパティ</td>
+        <td class="center">フィールド</td>
+        <td class="center">プロパティ</td>
+        <td class="center">プロパティ</td>
     </tr>
     <tr>
         <td class="col1">可変・不変</td>
-        <td class="bg_lg center">ミュータブル</td>
-        <td class="bg_lr center">イミュータブル</td>
-        <td class="bg_lr center">イミュータブル</td>
+        <td class="center">ミュータブル</td>
+        <td class="center">イミュータブル</td>
+        <td class="center">イミュータブル</td>
+    </tr>
+    <tr>
+        <td class="col1">null格納</td>
+        <td class="center">不可</td>
+        <td class="center">可</td>
+        <td class="center">不可</td>
     </tr>
 </table>
 

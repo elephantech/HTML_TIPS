@@ -36,9 +36,9 @@ body
 <a href="https://qiita.com/Maerig/items/b5760c8ec63c10fbce93">無名関数 - Qiita</a><br>
 
 <h5>関連 :</h5>
-<a href="TIPS/C%20Sharp/デリゲート.html">デリゲート.html</a><br>
-<a href="TIPS/C%20Sharp/Dictionary(連想配列).html">Dictionary(連想配列)</a><br>
-<a href="TIPS/C%20Sharp/LINQ%20-%20条件に合致した要素を抽出する.html">LINQ - 条件に合致した要素を抽出する</a>
+<a href="TIPS/C%20Sharp/デリゲート.html">[C#]デリゲート</a><br>
+<a href="TIPS/C%20Sharp/Dictionary(連想配列).html">[C#]Dictionary(連想配列)</a><br>
+<a href="TIPS/C%20Sharp/LINQ (Language Integrated Query).html">[C#]LINQ (Language Integrated Query)</a>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -72,17 +72,17 @@ delegate キーワードが必要。C++のラムダ式と似た記述となる�
 引数と式を<span class="code">=&gt;</span>で結ぶ。<br>
 <img src="_Img/Software Development/Nameless_Function/04.png" alt="画像"><br>
 
-変数の型が(代入式の)左辺値などから推論できる場合はさらに簡略化できる。<br>
+変数の型が推論できる場合はさらに簡略化できる。<br>
 <img src="_Img/Software Development/Nameless_Function/02.png" alt="画像"><br>
     
-ラムダ式が return 文1行のみの場合は、{} や return も簡略化できる。<br>
+ラムダ式が単文の場合は、{} 、return 、; が省略できる。<br>
 <img src="_Img/Software Development/Nameless_Function/05.png" alt="画像"><br>
-    
+
+さらに引数が一つだけの場合は引数リストの括弧 () も省略できる。<br>
+
 <h3>実際の用途</h3>
-関数(メソッド)自体を引数として、他の関数に渡すのが主な用途。以下を参照。<br>
-<a href="TIPS/C%20Sharp/デリゲート.html">デリゲート.html</a><br>
-<a href="TIPS/C%20Sharp/Dictionary(連想配列).html">Dictionary(連想配列)</a><br>
-<a href="TIPS/C%20Sharp/LINQ%20-%20条件に合致した要素を抽出する.html">LINQ - 条件に合致した要素を抽出する</a><br>
+無名関数(メソッド)自体を引数として、他の関数に渡すのが主な用途となる。<br>
+C#においては<a href="TIPS/C%20Sharp/LINQ (Language Integrated Query).html">LINQ</a>が代表的。
 
 </body>
 </html>
