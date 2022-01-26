@@ -40,15 +40,14 @@ body
 
 <!-- 本文ここから -->
 
-
 <h2>C#における仮想関数・オーバーライド関数の定義</h2>
 C#における仮想関数、およびオーバーライド関数の定義に当たっては、キーワードの付与が必須となる。<br>
 仮想関数の概念は <a href="TIPS/C・C++/[C++]仮想関数 (Virtual Function).html">ここ</a> を参照。
 
 <h3>実装例</h3>
 <p class="code">
-<cmt>// 基底クラスの定義
-// (抽象(純粋仮想)関数を含むため abstract キーワードを付与 ⇒ 抽象クラス)</cmt>
+<cmt>// 基底クラスの定義</cmt>
+<cmt>// (抽象(純粋仮想)関数を含むため abstract キーワードを付与 ⇒ 抽象クラス)</cmt>
 <kwd>public abstract class</kwd> Base
 {
     <cmt>// 仮想関数の定義 ⇒ virtual キーワードを付与</cmt>
@@ -61,8 +60,8 @@ C#における仮想関数、およびオーバーライド関数の定義に当
     <kwd>protected abstract void</kwd> AbstractFunction01();
 }
 
-<cmt>// 派生クラスの定義</cmt>
-<kwd>public class</kwd> Derived
+<cmt>// Base を継承した派生クラスの定義</cmt>
+<kwd>public class</kwd> Derived : Base
 {
     <cmt>// VirtualFunction01() のオーバーライド ⇒ override キーワードを付与</cmt>
     <kwd>protected override void</kwd> VirtualFunction01()
@@ -98,6 +97,46 @@ C#における仮想関数、およびオーバーライド関数の定義に当
 </tr>
 </table>
 
+<h2>シールクラス (Sealed class)</h2>
+仮想関数( virtual 修飾)を含むクラスの派生クラスの定義時に sealed 修飾を行うことで、<br>
+そのクラスからさらに派生するクラスでは仮想関数のオーバーロードが禁止される。<br>
+(C++にて、仮想関数を final 修飾した場合と同様。)
+
+<p class="code">
+    <cmt>// 基底クラス(親)の定義</cmt>
+    <kwd>public class</kwd> Base
+    {
+        <cmt>// 仮想関数の定義 ⇒ virtual キーワードを付与</cmt>
+        <kwd>protected virtual void</kwd> VirtualFunction01()
+        {
+            :
+        }
+    }
+    
+    <cmt>// Base の派生クラス(子)の定義</cmt>
+    <cmt>// sealed 修飾あり</cmt>
+    <kwd>public</kwd> sealed <kwd>class</kwd> Derived1 : Base
+    {
+        <cmt>// VirtualFunction01() のオーバーライド</cmt>
+        <kwd>protected override void</kwd> VirtualFunction01()
+        {
+            :
+        }
+    }
+
+    <cmt>// Derived1 の派生クラス(孫)の定義</cmt>
+    <kwd>public class</kwd> Derived2 : Derived1
+    {
+        <cmt>// Derived1 が sealed 修飾されているため、</cmt>
+        <cmt>// 下記はエラーとなる(オーバーライド不可)</cmt>
+        <kwd>protected override void</kwd> VirtualFunction01()
+        {
+            :
+        }
+    }
+</p>
+
 </body>
 </html>
+
 

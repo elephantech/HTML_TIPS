@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://qiita.com/IKD-Member/items/550ff4d3ecf1d53b42dc">[VisualStudio] よく書くコードはスニペットにまとめて爆速コーディング - Qiita</a>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+<h2>スニペット(コードスニペット)とは</h2>
+原義は「切れ端」や「断片」。プログラミングにおいては、再利用できるひとかたまりのコードを表す。<br>
+スニペットを作成しておくことで、よく使うコードを即座に呼び出すことができ、入力効率が向上する。ユーザ辞書と同様の機能。<br>
+Visual Studioには予め多数のスニペットが登録されている。
+
+<h2>どのように用いるか(C#での例)</h2>
+<img src="_Img/MSVS_DotNet_CSharp/VS_Snippets/01.png"><br>
+クラス定義時に付与するヘッダコメントを複数箇所で使いまわす場合、雛型をスニペットとして登録しておくと簡単に呼び出せる。<br>
+
+<h2>スニペットの作成</h2>
+スニペットはXML形式で作成する。<a href="http://tools.unitycoder.com/VisualStudioSnippetsGenerator/">Visual Studio Snippet Generator</a>で簡単にXMLを出力できる。<br>
+以下、このサイトを用いる場合の手順を記す。
+
+<h3>スニペットXMLの作成</h3>
+<ol>
+    <li>上記のリンクから、Visual Studio Snippet Generatorを開く。</li>
+    <li>各項目に入力し、"Generate"を押す。<br><img src="_Img/MSVS_DotNet_CSharp/VS_Snippets/02.png"></li>
+    <li>下の欄にスニペットが出力されていることを確認したら"Download"を押し、任意のフォルダにファイルをダウンロードする。<br><img src="_Img/MSVS_DotNet_CSharp/VS_Snippets/03.png"></li>
+</ol>
+
+<h3>スニペットのインポート</h3>
+
+
+
+</body>
+</html>

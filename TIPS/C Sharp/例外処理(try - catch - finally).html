@@ -35,7 +35,8 @@ body
 <a href="https://qiita.com/eijenson/items/7e9e112e69b37f72353c">try-catch-finally句内のreturnについて - Qiita</a>
 
 <h5>関連 :</h5>
-<a href="TIPS/C・C++/[C++]例外処理.html">[C++]例外処理</a>
+<a href="TIPS/C・C++/[C++]例外処理.html">[C++]例外処理</a><br>
+<a href="TIPS/C Sharp/C%23におけるusing.html">C#におけるusing</a><br>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -45,12 +46,12 @@ body
 
 <!-- 本文ここから -->
 
-
-<h2>try - catch - finally 句</h2>
-例外処理に伴い、例外の発生有無によらない共通の最終処理(ファイルのクローズ、セマフォの開放など)を行わせたい場合は、<br>
-<b>「共通の最終処理」を finally 節に記述する</b>。この最終処理は try 節、または catch 節を抜ける直前に実行される。<br>
-例外処理に関しては <a href="TIPS/C・C++/[C++]例外処理.html">ここ</a> を参照のこと。
-(C++には finally 句が存在しないが、try - catch による例外処理の文法はC#とC++でほぼ共通である。)
+<h2>C#における例外処理</h2>
+C#ではC++同様の try - catch 節に加え、finally 節が記述できる。<br>
+例外の発生有無によらない共通の最終処理を行わせたい場合は、この finally 節に記述する。<br>
+この最終処理は try 節、または catch 節を抜ける直前に実行される。<br>
+C#の旧い仕様では獲得した資源(ファイルストリーム、セマフォなど)の解放を finally 節で行うことが一般的であったが、<br>
+現在では<a href="TIPS/C Sharp/C%23におけるusing.html">usingステートメント</a>を用いたほうが簡潔に記述できる。
 
 <h2>基本形</h2>
 関数 DoSomething() で発生した例外を try 節で捕捉する場合の例。<br>
@@ -64,6 +65,38 @@ try 節、または catch 節に return を含む場合、<b>finally 節は retu
 このため、try / catch 節に return を含む場合、finally 節に return を記述すると、try / catch 節の return は到達できないコードとなる。<br>
 これにより例外を握りつぶす( catch 節が最後まで実行されない)可能性があるため、注意が必要。<br>
 <img src="_Img/MSVS_DotNet_CSharp/CS_TryCatchFinally/02.png"><br>
+
+<h2>例外の投げなおし</h2>
+例外をキャッチし、再度例外をスローしたい場合は、throw 句<b>のみ</b>を記述する。
+<div class="code">
+<kwd>try</kwd>
+{
+    :
+}
+<kwd>catch</kwd> (<knw>Exception</knw> ex)
+{
+    :
+
+    <cmt>// 例外を投げなおす</cmt>
+    <kwd>throw</kwd>;
+}
+</div>
+投げなおした時点のスタックトレース情報が残るため、どこで例外を投げ(なおし)たのかが追跡できる。<br>
+下記は誤り。投げなおした時点の情報が残らない。
+<div class="code">
+<kwd>try</kwd>
+{
+    :
+}
+<kwd>catch</kwd> (<knw>Exception</knw> ex)
+{
+    :
+
+    <cmt>// 例外を投げなおそうとしているが…</cmt>
+    <cmt>// try 節で例外が発生した時点までの情報しか残らない</cmt>
+    <kwd>throw</kwd> ex;
+}
+</div>
 
 </body>
 </html>

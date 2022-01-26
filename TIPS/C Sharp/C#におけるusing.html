@@ -37,6 +37,7 @@ body
 
 <h5>関連 :</h5>
 <a href="TIPS/C・C++/[C++]typedefとusing.html">[C++]typedefとusing</a><br>
+<a href="TIPS/C・C++/[C++]RAIIと地蔵インスタンス.html">[C++]RAIIと地蔵インスタンス</a><br>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -83,7 +84,7 @@ body
         <kwd>static void</kwd> Main(<kwd>string</kwd>[] args)
         {
             <cmt>// 付与した別名で変数を宣言</cmt>
-            <cmt>// ⇒ System.Collections.Generic.List&lt;int&gt; Ints と等価</cmt>
+            <cmt>// ⇒ System.Collections.Generic.List&lt;int&gt; index と等価</cmt>
             Ints index;
         }
     }   
@@ -92,7 +93,7 @@ body
 
 <h3>using 静的ディレクティブ</h3>
 C#6.0以降で使用可能。<br>
-静的メソッドや列挙型の列挙値は、通常の using ディレクティブでは名前空間を省略することができないが、<br>
+通常の using ディレクティブでは省略できない静的メソッドや列挙型の列挙値は、<br>
 using static ディレクティブを用いることで省略可能となる。
 <p class="code">
 <kwd>using</kwd> <knw>System</knw>;
@@ -136,8 +137,10 @@ using static ディレクティブを用いることで省略可能となる。
     <li>リソースの使用権を破棄 (例 : ファイルを閉じる)</li>
 </ol>
 明示的に使用権の破棄を行わないと使用権を握ったままとなり、他からのアクセスができないなどの不都合が生じる。<br>
-しかし、using ステートメントを用いると、<b>using 節を抜ける際に自動的にリソースの破棄が行われる</b>。<br>
-但し、使用できるのは IDisposable インタフェースを実装するクラスに限定される。
+しかし、using ステートメントを用いると、<b>using 節を抜ける際に自動的にリソースの破棄( Dispose() )が行われる</b>。<br>
+<b>使用できるのは IDisposable インタフェースを実装するクラスに限定される</b>。<br>
+C++における<a href="TIPS/C・C++/[C++]RAIIと地蔵インスタンス.html">RAII</a>と同様、例外発生時にも有効で、例外安全なコードとなる。
+
 <p class="code">
 <kwd>namespace</kwd> Test
 {
