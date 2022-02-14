@@ -42,7 +42,7 @@ body
 
 <!-- 本文ここから -->
 
-<h2>WPFアプリケーションにPDFを表示する</h2>
+<h2>WPFアプリケーションでPDFを表示する</h2>
 WPFにはPDFを直接表示できる標準のコントロールは存在しないため、Windows.Data.Pdf を用いて画像に変換して表示を行う。
 
 <h3>準備 : ランタイムAPIの有効化</h3>
@@ -77,25 +77,25 @@ WPFにはPDFを直接表示できる標準のコントロールは存在しな�
 
 <h4>XAMLの記述 (MainWindow.xaml)</h4>
 <div class="code">
-&lt;Window x:Class="ELP03_UI_Proto_ZZ.MainWindow"
-           xmlns="http:<cmt>//schemas.microsoft.com/winfx/2006/xaml/presentation"</cmt>
-           xmlns:x="http:<cmt>//schemas.microsoft.com/winfx/2006/xaml"</cmt>
-           xmlns:d="http:<cmt>//schemas.microsoft.com/expression/blend/2008"</cmt>
-           xmlns:mc="http:<cmt>//schemas.openxmlformats.org/markup-compatibility/2006"</cmt>
-           xmlns:local="clr-<kwd>namespace</kwd>:ELP03_UI_Proto_ZZ"
-           mc:Ignorable=<ltr>"d"</ltr>
-           Title="ELP03 UI Proto ZZ" Height=<ltr>"450"</ltr> Width=<ltr>"800"</ltr>&gt;
+&lt;Window x:Class=<ltr>"ELP03_UI_Proto_ZZ.MainWindow"</ltr>
+        xmlns=<ltr>"http://schemas.microsoft.com/winfx/2006/xaml/presentation"</ltr>
+        xmlns:x=<ltr>"http://schemas.microsoft.com/winfx/2006/xaml"</ltr>
+        xmlns:d=<ltr>"http://schemas.microsoft.com/expression/blend/2008"</ltr>
+        xmlns:mc=<ltr>"http://schemas.openxmlformats.org/markup-compatibility/2006"</ltr>
+        xmlns:local=<ltr>"clr-namespace:ELP03_UI_Proto_ZZ"</ltr>
+        mc:Ignorable=<ltr>"d"</ltr>
+        Title=<ltr>"ELP03 UI Proto ZZ"</ltr> Height=<ltr>"450"</ltr> Width=<ltr>"800"</ltr>&gt;
 &lt;Grid&gt;
     &lt;StackPanel&gt;
         &lt;Menu&gt;
             &lt;MenuItem Header=<ltr>"File"</ltr>&gt;
-                &lt;MenuItem Header=<ltr>"Open"</ltr> Name=<ltr>"menuOpen"</ltr> Click=<ltr>"menuOpen_Click"</ltr> /&gt;   &lt;!-- PDFを開く --&gt;
+                &lt;MenuItem Header=<ltr>"Open"</ltr> Name=<ltr>"menuOpen"</ltr> Click=<ltr>"menuOpen_Click"</ltr> /&gt;   <cmt>&lt;!-- PDFを開く --&gt;</cmt>
             &lt;/MenuItem&gt;
-            &lt;MenuItem Header=<ltr>"Prev"</ltr> Name=<ltr>"menuPrev"</ltr> Click=<ltr>"menuPrev_Click"</ltr> /&gt;       &lt;!-- ページ戻し --&gt;
-            &lt;MenuItem Header=<ltr>"Next"</ltr> Name=<ltr>"menuNext"</ltr> Click=<ltr>"menuNext_Click"</ltr> /&gt;       &lt;!-- ページ送り --&gt;
-            &lt;TextBlock Name=<ltr>"txtPage"</ltr> <knw>Text</knw>=<ltr>"Page"</ltr> /&gt;                                &lt;!-- 現在のページ数 --&gt;
+            &lt;MenuItem Header=<ltr>"Prev"</ltr> Name=<ltr>"menuPrev"</ltr> Click=<ltr>"menuPrev_Click"</ltr> /&gt;       <cmt>&lt;!-- ページ戻し --&gt;</cmt>
+            &lt;MenuItem Header=<ltr>"Next"</ltr> Name=<ltr>"menuNext"</ltr> Click=<ltr>"menuNext_Click"</ltr> /&gt;       <cmt>&lt;!-- ページ送り --&gt;</cmt>
+            &lt;TextBlock Name=<ltr>"txtPage"</ltr> Text=<ltr>"Page"</ltr> /&gt;                                <cmt>&lt;!-- 現在のページ数 --&gt;</cmt>
         &lt;/Menu&gt;
-        &lt;Image Name=<ltr>"imgMain"</ltr> /&gt;                                                    &lt;!-- 画像化したPDF --&gt;
+        &lt;Image Name=<ltr>"imgMain"</ltr> /&gt;                                                    <cmt>&lt;!-- 画像化したPDF --&gt;</cmt>
     &lt;/StackPanel&gt;
 &lt;/Grid&gt;
 &lt;/Window&gt;
@@ -153,7 +153,7 @@ WPFにはPDFを直接表示できる標準のコントロールは存在しな�
             DisplayPageNumber = <ltr>1</ltr>;
             <kwd>await</kwd> ReadPDFtoImage();
             ShowPage(DisplayPageNumber);
-            txtPage.<knw>Text</knw> = "Page " + DisplayPageNumber.ToString();
+            txtPage.<knw>Text</knw> = <ltr>"Page "</ltr> + DisplayPageNumber.ToString();
         }
 
         <cmt>/// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
@@ -172,7 +172,7 @@ WPFにはPDFを直接表示できる標準のコントロールは存在しな�
             <cmt>// ひとつ先のページを表示</cmt>
             DisplayPageNumber++;
             ShowPage(DisplayPageNumber);
-            txtPage.<knw>Text</knw> = "Page " + DisplayPageNumber.ToString();
+            txtPage.<knw>Text</knw> = <ltr>"Page "</ltr> + DisplayPageNumber.ToString();
         }
 
         <cmt>/// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
@@ -191,7 +191,7 @@ WPFにはPDFを直接表示できる標準のコントロールは存在しな�
             <cmt>// ひとつ前のページを表示</cmt>
             DisplayPageNumber--;
             ShowPage(DisplayPageNumber);
-            txtPage.<knw>Text</knw> = "Page " + DisplayPageNumber.ToString();
+            txtPage.<knw>Text</knw> = <ltr>"Page "</ltr> + DisplayPageNumber.ToString();
         }
 
         <cmt>/// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
@@ -222,7 +222,7 @@ WPFにはPDFを直接表示できる標準のコントロールは存在しな�
             <kwd>if</kwd> (pdfDocument != <kwd>null</kwd>)
             {
                 <cmt>// 各ページをビットマップ(BitmapSource)に変換する</cmt>
-                <kwd>for</kwd> (uint i = <ltr>0</ltr>; i &lt; pdfDocument.PageCount; i++)
+                <kwd>for</kwd> (<kwd>uint</kwd> i = <ltr>0</ltr>; i &lt; pdfDocument.PageCount; i++)
                 {
                     <kwd>using</kwd> <knw>Windows</knw>.Data.Pdf.PdfPage page = pdfDocument.GetPage(i);
                     <kwd>using var</kwd> stream = <kwd>new</kwd> <knw>Windows</knw>.Storage.Streams.InMemoryRandomAccessStream();
@@ -230,7 +230,7 @@ WPFにはPDFを直接表示できる標準のコントロールは存在しな�
                     <cmt>// 解像度変更 96dpi ⇒ 200dpi</cmt>
                     PdfPageRenderOptions renderOptions = <kwd>new</kwd> PdfPageRenderOptions();
                     renderOptions.DestinationWidth =
-                        (uint)<knw>Math</knw>.Round(page.Dimensions.ArtBox.Width / <ltr>96.0</ltr> * <ltr>200.0</ltr>);
+                        (<kwd>uint</kwd>)<knw>Math</knw>.Round(page.Dimensions.ArtBox.Width / <ltr>96.0</ltr> * <ltr>200.0</ltr>);
                     <kwd>await</kwd> page.RenderToStreamAsync(stream, renderOptions);
 
                     PngBitmapDecoder decoder =

@@ -1,8 +1,5 @@
 [hook "startcommit"]
-	show = true
-	cmdline = G:\\マイドライブ\\1.WS\\_Murasame Lab\\SiteMapMaker\\bin\\Release\\SiteMapMaker.exe
-	wait = true
+	cmdline = G:\\マイドライブ\\1.WS\\_Murasame Lab\\PreCommitProcessor\\bin\\Release\\net6.0-windows10.0.22000.0\\PreCommitProcessor.exe
+	wait = false
 [hook "precommit"]
 	show = true
-	cmdline = G:\\マイドライブ\\1.WS\\_Murasame Lab\\CordMarker\\bin\\Release\\net6.0-windows\\CordMarker.exe
-	wait = true
