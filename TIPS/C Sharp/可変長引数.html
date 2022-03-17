@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://ufcpp.net/study/csharp/sp_params.html">可変長引数 - C# によるプログラミング入門 | ++C++; // 未確認飛行 C</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>C#メソッドにおける可変長引数</h2>
+引数を可変長とする際は、<b>可変長部を配列とし、params キーワードを付与する</b>。
+
+<div class="code">
+<cmt>// 可変長引数 bytes をとるメソッド</cmt>
+<cmt>//                          paramsキーワード</cmt>
+<cmt>//                          │       可変長部を配列とする</cmt>
+<cmt>//                          ↓       ↓</cmt>
+<kwd>public static</kwd> <knw>UInt32</knw> Hoge(<kwd>params byte</kwd>[] bytes)
+{
+    <cmt>// 以後、bytes には配列としてアクセスする</cmt>
+}
+</div>
+
+<h2>留意事項</h2>
+
+<h3>配列を引数として渡すことが可能</h3>
+可変長引数は配列として取り扱われるため、事前に作成した配列を入力することもできる。<br>
+即ち、以下のコード例における Hoge() の呼び出しはいずれも有効。
+
+<div class="code">
+<cmt>// 可変長引数 bytes をとるメソッド</cmt>
+<kwd>public static</kwd> <knw>UInt32</knw> Hoge(<kwd>params byte</kwd>[] bytes)
+{
+
+}
+
+:
+
+<kwd>byte</kwd> a = 0x11, b = 0x22, c = 0x33, d = 0x44;
+
+<cmt>// 通常の呼び出し(引数を個別に指定する)</cmt>
+<knw>UInt32</knw> retA = Hoge(a, b, c, d);
+
+<cmt>// 事前に配列を作成して渡す</cmt>
+<kwd>byte</kwd>[] bytes = <kwd>new byte</kwd>{a, b, c, d};
+<knw>UInt32</knw> retB = Hoge(bytes);
+</div>
+
+<h3>引数なしでの呼び出しが可能</h3>
+引数なし(空括弧)で呼び出すことも可能である。この場合、メソッドには長さ 0 の空配列が渡される。
+
+<div class="code">
+<cmt>// 可変長引数 bytes をとるメソッド</cmt>
+<kwd>public static</kwd> <knw>UInt32</knw> Hoge(<kwd>params byte</kwd>[] bytes)
+{
+
+}
+
+<cmt>// 引数なしでの呼び出し</cmt>
+<knw>UInt32</knw> retA = Hoge();
+</div>
+
+このとき、空配列の作られ方は.NETのバージョンによって異なり、
+<ul>
+    <li>.NET Framework 4.5以前 : new T[0]</li>
+    <li>.NET Framework 4.6以降 / .NET Core : Array.Empty()</li>
+</ul>
+となる。
+new T[0]では関数呼び出しのたびにインスタンスが作成されるが、 <br>
+Array.Empty() ではプログラム中で最初に作成されたインスタンスを使いまわすため、前者に較べてパフォーマンスが良くなる。<br>
+
+</body>
+</html>
+
+

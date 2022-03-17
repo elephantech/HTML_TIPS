@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+※この記事は書きかけです。
+
+<h2>MCプロトコルとは</h2>
+三菱電機製PLC(商標名MELSEC)に対して、外部機器(PCなど)からシリアル接続、またはイーサネット接続でアクセスするための通信プロトコルを指す。<br>
+当記事ではPCからMCプロトコルを使用するための手順とプログラミング例を示す。
+
+<h2>準備</h2>
+<h3>ライブラリ(MX Component)のインストール</h3>
+MCプロトコルによる通信を行うためには、通信用ライブラリMX Componentのインストールが必要となる。
+
+<ol>
+    <li>
+        MX Componentのインストーラ(ここではバージョン4)を入手する。<br>
+        <a href="https://www.mitsubishielectric.co.jp/fa/download/software/detailsearch.do?mode=software&kisyu=/plcq&shiryoid=0000000164&lang=1&select=0&softid=2&infostatus=6_1_2&viewradio=0&viewstatus=000000_040_00000000_00001000000000_000000000000000000&viewpos=0_0">MX Component Ver.4 日本語体験版ダウンロードページ | 三菱電機 FA</a><br>
+    </li>
+    <li>
+        ダウンロードしたZIPファイルを展開し、setup.exe を起動する。
+    </li>
+</ol>
+
+<h3>アプリケーションへの組み込み</h3>
+デフォルトでは C:\MELSEC にライブラリがインストールされるので、以下それを前提とする。
+
+<h4>C# .NETで作成する場合 (Visual Studio 2022の例)</h4>
+<ol>
+    <li>ターゲットCPUの変更<br>
+        MX Component Ver.4 は64bit環境に対応していないため、ターゲットCPUを x86 に変更する必要がある。
+        <ol>
+            <li>
+                ソリューション エクスプローラー上でプロジェクトを右クリックし、「プロパティ」を選択する。<br>
+                <img src="_Img/FA/MELSEC_MC_Protocol_for_PC/04.png">
+            </li>
+            <li>
+                「ビルド」タブを選択、「全般」>「Platform target」に「x86」を選択する。<br>
+                <img src="_Img/FA/MELSEC_MC_Protocol_for_PC/05.png">
+            </li>
+        </ol>
+    </li>
+    <li>ライブラリ参照の追加
+        <ol>
+            <li>
+                ソリューション エクスプローラー上でプロジェクトを右クリックし、「追加」>「COM参照」を選択する。<br>
+                <img src="_Img/FA/MELSEC_MC_Protocol_for_PC/01.png">
+            </li>
+            <li>
+                「参照マネージャー」が開くので、「参照」タブを選択、「参照...」ボタンを押す。<br>
+                <img src="_Img/FA/MELSEC_MC_Protocol_for_PC/02.png">
+            </li>
+            <li>
+                C:\MELSEC\Act\Control フォルダを開き、<br>
+                ActUtlTypeLib.dll<br>
+                MITSUBISHI.Component.DotUtlType.dll<br>
+                MXLabelMemLib.dll<br>
+                を選択、「追加」ボタンを押す。
+            </li>
+            <li>
+                「参照マネージャー」に戻るので、「OK」ボタンを押す。
+            </li>
+            <li>
+                ソリューション エクスプローラー上でプロジェクトを右クリックし、「追加」>「既存の項目」を選択する。
+            </li>
+        </ol>
+    </li>
+    <li>シンボル定義ファイルの追加<br>
+        C:\MELSEC\Act\Include フォルダを開き、<br>
+        ActDefine.cs<br>
+        を選択、「追加」ボタンを押す。
+    </li>
+</ol>
+ActUtlTypeLib.dll<br>
+MITSUBISHI.Component.DotUtlType.dll<br>
+MXLabelMemLib.dll<br>
+ActDefine.cs<br>
+が追加されていれば完了。<br>
+<img src="_Img/FA/MELSEC_MC_Protocol_for_PC/03.png">
+
+</body>
+</html>
