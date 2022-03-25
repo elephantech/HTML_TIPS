@@ -82,7 +82,7 @@ try 節、または catch 節に return を含む場合、<b>finally 節は retu
 }
 </div>
 投げなおした時点のスタックトレース情報が残るため、どこで例外を投げ(なおし)たのかが追跡できる。<br>
-下記は誤り。投げなおした時点の情報が残らない。
+下記は誤り。投げなおした時点(最新)の情報が残らない。
 <div class="code">
 <kwd>try</kwd>
 {
@@ -98,6 +98,31 @@ try 節、または catch 節に return を含む場合、<b>finally 節は retu
 }
 </div>
 
+<h3>finally 節との組み合わせ</h3>
+※この単元は正確でない可能性があります。<br><br>
+catch 節で例外を投げなおす場合は、catch 節に return を既述した場合と同様、finally 節を実行後に throw 文を実行する。
+
+<div class="code">
+<cmt>// ミューテックスの解放待ち</cmt>
+m_Mutex.WaitOne();
+
+<kwd>try</kwd>
+{
+    Hoge();
+}
+<kwd>catch</kwd>
+{
+    <cmt>// 例外を投げなおす</cmt>
+    <kwd>throw</kwd>;
+}
+<kwd>finally</kwd>
+{
+    <cmt>// ミューテックスの解放</cmt>
+    m_Mutex.ReleaseMutex();
+}
+</div>
+
+上記の例では、例外を投げなおす直前にミューテックスを解放する。
+
 </body>
 </html>
-
