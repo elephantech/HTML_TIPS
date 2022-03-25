@@ -37,6 +37,7 @@ body
 <h5>関連 :</h5>
 <a href="TIPS/C%E3%83%BBC++/[C++]%E9%96%A2%E6%95%B0%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%AD%E3%83%BC%E3%83%89%E3%81%A8%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E5%BC%95%E6%95%B0.html">[C++]関数オーバーロードとデフォルト引数</a><br>
 <a href="TIPS/C%E3%83%BBC++/[C++%EF%BC%8FSTL%EF%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A]%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A.html">[C++／STL／コンテナ]コンテナ</a><br>
+<a href="TIPS/C・C++/[C++]型推論.html">[C++]型推論</a><br>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -70,6 +71,74 @@ C#で定義した汎用関数はC++(CLI)でも用いることができる。但�
 標準的な処理を汎用関数として定義しておき、特定の型に対してのみ異なる処理を行う場合は、必要に応じてオーバーロードを行うことができる。<br>
 特定の型に関してオーバーロードを行った場合、オーバーロード関数によって汎用関数が隠蔽(オーバーライド)される。<br>
 
+<h3>C#における汎用メソッドのオーバーロード</h3>
+※この単元は正確でない可能性があります。<br><br>
+汎用メソッドを特定の型向けにオーバーロードを行った場合、<b>C++とは異なり、汎用メソッドが優先して呼ばれる</b>模様(要追加調査)。<br>
+即ち、汎用メソッドがオーバーライドされない。このため、実引数の型を判別して個別メソッドに振り分ける作業が必要となる。<br>
+(回避手段が存在する可能性あり？)
+
+<div class="code">
+<cmt>// 汎用メソッド Hoge()</cmt>
+<kwd>private static byte</kwd>[] Hoge<T>(T[] args)
+{
+    <cmt>// T の型に応じた、個別のオーバーロードメソッドを呼びなおす</cmt>
+    <kwd>if</kwd> ( <kwd>typeof</kwd>(T) == <kwd>typeof</kwd>(<knw>UInt16</knw>) )
+    {
+        <kwd>return</kwd> Hoge((<knw>UInt16</knw>[])(<kwd>object</kwd>)args);
+    }
+    <kwd>if</kwd> ( <kwd>typeof</kwd>(T) == <kwd>typeof</kwd>(<knw>UInt32</knw>) )
+    {
+        <kwd>return</kwd> Hoge((<knw>UInt32</knw>[])(<kwd>object</kwd>)args);
+    }
+    <kwd>if</kwd> ( <kwd>typeof</kwd>(T) == <kwd>typeof</kwd>(<knw>UInt64</knw>) )
+    {
+        <kwd>return</kwd> Hoge((<knw>UInt64</knw>[])(<kwd>object</kwd>)args);
+    }
+    <kwd>if</kwd> ( <kwd>typeof</kwd>(T) == <kwd>typeof</kwd>((<knw>UInt64</knw>, <kwd>byte</kwd>)) )
+    {
+        <kwd>return</kwd> Hoge(((<knw>UInt64</knw>, <kwd>byte</kwd>)[])(<kwd>object</kwd>)args);
+    }
+
+    <cmt>// オーバーロードされていない型に対する処理</cmt>
+    :
+}
+
+<cmt>// 特定型向け Hoge() (オーバーロード)</cmt>
+<kwd>private static byte</kwd>[] Hoge(<knw>UInt16</knw>[] args)
+{
+    :
+}
+
+<kwd>private static byte</kwd>[] Hoge(<knw>UInt32</knw>[] args)
+{
+    :
+}
+
+<kwd>private static byte</kwd>[] Hoge(<knw>UInt64</knw>[] args)
+{
+    :
+}
+
+<kwd>private static byte</kwd>[] Hoge((<knw>UInt64</knw> val, <kwd>byte</kwd> len)[] args)
+{
+    :
+}
+</div>
+
+上記コード例のように <b>typeof</b> を用いることで、実引数の型(Type 型オブジェクト)を取得することができる。<br>
+ここで typeof(T) は定数式ではないため、switch - case 節で用いることはできない(回避手段あり？)<br>
+また、オブジェクトの型情報は <b>GetType()</b> メソッドで取得することができる。<br>
+(GetType() メソッドは Object から派生するすべての型で用いることができる。数値型では使用できない？要調査)<br>
+
+<div class="code">
+:
+<kwd>var</kwd> foo = args[0];
+:
+<cmt>// (実際の型が不明な) foo オブジェクトの型を取得</cmt>
+foo.GetType();
+:
+</div>
+
 <h2>汎用クラス (Generic Class)</h2>
 特定の型に依存しない汎用的な論理を含んだクラスを定義することができる。これを <b>汎用クラス</b> と呼ぶ。<br>
 汎用クラスのインスタンスを生成する際に操作対象の型を指定する必要がある。汎用クラスのメンバ関数は自動的に汎用関数となる。<br>
@@ -85,7 +154,7 @@ C#で定義した汎用関数はC++(CLI)でも用いることができる。但�
 <kwd>public</kwd>:
     <cmt>// メンバ関数宣言 (この時点では template キーワードは不要)</cmt>
     List_t(Data_t d);                                              <cmt>//&lt; コンストラクタ(ここでは宣言のみ)</cmt>
-    <kwd>void</kwd>     add(List_t* node) { node-&gt;next = this; next = <ltr>0</ltr>; }    <cmt>//&lt; 自身の前に要素を挿入</cmt>
+    <kwd>void</kwd>     add(List_t* node) { node-&gt;next = <kwd>this</kwd>; next = <ltr>0</ltr>; }    <cmt>//&lt; 自身の前に要素を挿入</cmt>
     List_t*  getnext()         { <kwd>return</kwd> next; }                    <cmt>//&lt; 次の要素へのポインタを取得</cmt>
     Data_t   getdata()         { <kwd>return</kwd> data; }                    <cmt>//&lt; 値を取得</cmt>
 }
@@ -111,4 +180,6 @@ C++の<b>STL(標準テンプレートライブラリ)</b>はその名の通り�
 
 </body>
 </html>
+
+
 
