@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>関連 :</h5>
+<a href="TIPS/C Sharp/コレクション.html">[C#]コレクション</a>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+※この記事は書きかけです<br><br>
+
+<h2>C#における配列の取り扱い</h2>
+C / C++と同様に、C#でも配列(固定長配列)を使用することができる。<br>
+ここで、C / C++では宣言時にサイズを固定する必要があるが、C#ではサイズ不定のまま宣言し、初期化時に固定する手法を用いることができる。<br>
+注意が必要な点として、C / C++では配列は値型の集合であるのに対し、<br>
+C#ではオブジェクト型として取り扱われるため、配列をメソッドの引数とした場合は「参照渡し」となる。
+
+<h3>C / C++</h3>
+<div class="code">
+<cmt>// 配列を宣言・初期化 ⇒ サイズ固定、既定値で初期化</cmt>
+<kwd>int</kwd> arr1[10];
+
+<cmt>// 配列を宣言・初期化 ⇒ サイズ固定、初期値を指定</cmt>
+<kwd>int</kwd> arr2[10] = {1, 1, 2, 3, 5, 8, 13, 21, 34, 55};
+
+<cmt>// 配列を宣言・初期化 ⇒ サイズは初期化子の数で決まる</cmt>
+<kwd>int</kwd> arr3[  ] = {1, 1, 2, 3, 5, 8, 13, 21, 34, 55};
+</div>
+
+<h3>C#</h3>
+
+<div class="code">
+<cmt>// 配列を宣言 ⇒ サイズなし</cmt>
+<cmt>// 宣言のみで実体なし</cmt>
+<kwd>int</kwd>[] arr1;
+
+<cmt>// 実体を生成 ⇒ 既定値で初期化</cmt>
+arr1 = <kwd>new int</kwd>[10];
+
+<cmt>// 宣言と初期化を同時に行う ⇒ 既定値で初期化</cmt>
+<kwd>int</kwd>[] arr2 = <kwd>new int</kwd>[10];
+
+<cmt>// 配列を生成 ⇒ サイズは初期化子(コンストラクタ引数)の数で決まる</cmt>
+<kwd>int</kwd>[] arr3 = <kwd>new int</kwd>[] {1, 1, 2, 3, 5, 8, 13, 21, 34, 55};
+</div>
+
+<h2>多次元配列</h2>
+T[][] はC / C++においては「配列の配列」で、かつ「多次元配列」を意味する。<br>
+C#では多次元配列に異なる表記を用い、「配列の配列」と区別する。
+
+<h3>C / C++</h3>
+各次元に"[]"を充て、次元を増やす場合は"[]"を追加する。
+<div class="code">
+<cmt>// 4 x 3 (4 行 3 列)の配列</cmt>
+<kwd>int</kwd> arr1[4][3] = {
+    {  1,  2,  3 },
+    {  4,  5,  6 },
+    {  7,  8,  9 },
+    { 10, 11, 12 },
+};
+
+<cmt>// 要素へのアクセス</cmt>
+<kwd>int</kwd> val = arr1[3][2];       <cmt>//< == 12</cmt>
+</div>
+
+<h3>C#</h3>
+各次元は "," で区切り、次元を増やす場合は "," を追加する。
+<div class="code">
+<cmt>// 4 x 3 (4 行 3 列)の配列</cmt>
+<kwd>int</kwd>[,] arr1 = <kwd>new int</kwd>[,] {
+    {  1,  2,  3 },
+    {  4,  5,  6 },
+    {  7,  8,  9 },
+    { 10, 11, 12 },
+};
+
+<cmt>// 要素へのアクセス</cmt>
+<kwd>int</kwd> val = arr1[3, 2];       <cmt>//< == 12</cmt>
+</div>
+
+<h2>ヘルパメソッド</h2>
+C#における配列は IEnumerable&lt;T&gt;インタフェースを実装しているため、自身のメソッドを呼び出すことで配列に対する操作を行うことができる。<br>
+また、System.Array クラスには配列を操作するための静的メソッドが実装されている。<br>
+以下、その一部を紹介する。尚、これらは配列に限らず、IEnumerable&lt;T&gt;を実装する他のコレクションでも使用可能である。
+
+<ul>
+    <li>        Take() : 部分配列の抽出。配列の一部を別の配列とする。</li>
+    <li>        Concat() : 配列同士の結合。複数の配列を結合し、ひとつの配列とする。    </li>
+</ul>
+
+<h3>コード例</h3>
+<div class="code">
+<kwd>int</kwd>[] arr1 = <kwd>new int</kwd>[] { 1, 2, 3, 4, };
+<kwd>int</kwd>[] arr2 = <kwd>new int</kwd>[] { 5, 6, 7, };
+
+<cmt>// arr1 の末尾に arr2 を結合</cmt>
+<kwd>int</kwd>[] arr3 = arr1.Concat(arr2).ToArray();       <cmt>//< arr3 == { 1, 2, 3, 4, 5, 6, 7, }</cmt>
+
+<cmt>// arr3 の先頭から 5 要素を抽出</cmt>
+<kwd>int</kwd>[] arr4 = arr3.Take(5).ToArray();            <cmt>//< arr4 == { 1, 2, 3, 4, 5, }</cmt>
+
+<cmt>// arr3[3] から arr3[6] までを抽出</cmt>
+Range range = <kwd>new</kwd> Range(3, 6);
+<kwd>int</kwd>[] arr5 = arr3.Take(range).ToArray();        <cmt>//< arr5 == { 4, 5, 6, 7, }</cmt>
+</div>
+
+上記コードにおいて、Concat() や Take() の戻り値は IEnumerable&lt;T&gt; である(配列ではない)点に注意。<br>
+配列に戻す場合は ToArray() が必要となる。
+
+</body>
+</html>
+
+
