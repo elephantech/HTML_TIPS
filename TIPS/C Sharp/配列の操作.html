@@ -42,8 +42,6 @@ body
 
 <!-- 本文ここから -->
 
-※この記事は書きかけです<br><br>
-
 <h2>C#における配列の取り扱い</h2>
 C / C++と同様に、C#でも配列(固定長配列)を使用することができる。<br>
 ここで、C / C++では宣言時にサイズを固定する必要があるが、C#ではサイズ不定のまま宣言し、初期化時に固定する手法を用いることができる。<br>
@@ -135,7 +133,7 @@ C#における配列は IEnumerable&lt;T&gt;インタフェースを実装して
 <kwd>int</kwd>[] arr4 = arr3.Take(5).ToArray();            <cmt>//< arr4 == { 1, 2, 3, 4, 5, }</cmt>
 
 <cmt>// arr3[3] から arr3[6] までを抽出</cmt>
-Range range = <kwd>new</kwd> Range(3, 6);
+<knw>Range</knw> range = <kwd>new</kwd> <knw>Range</knw>(3, 6);
 <kwd>int</kwd>[] arr5 = arr3.Take(range).ToArray();        <cmt>//< arr5 == { 4, 5, 6, 7, }</cmt>
 </div>
 
@@ -144,5 +142,3 @@ Range range = <kwd>new</kwd> Range(3, 6);
 
 </body>
 </html>
-
-

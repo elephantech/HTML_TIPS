@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://qiita.com/tera1707/items/73cda312b7cd9c4df40d">【WPF】RelativeSource(バインディング)の使い方メモ - Qiita</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>RelativeSource とは</h2>
+データバインディングのバインド先(Source)を相対的(Relative)に指定するための設定。<br>
+あるコントロールが別(または自分自身)のコントロール参照する際に、コントロール名(絶対値)ではなく相対値を用いることができる。
+
+<h2>具体例</h2>
+<h3>先祖のプロパティを参照 : FindAncestor</h3>
+(XAML)<br>
+<img src="_Img/MSVS_DotNet_CSharp/WPF_RelativeSource/01.png"><br>
+ここでは、Border の Width (幅)プロパティを、親要素 Canvas の ActualWidth (現在幅)に揃えようとしている。<br>
+RelativeSource を FindAncestor (先祖を探す)、対象となる先祖の型 (AncestorType) を Canvas としているため、<br>
+先祖を辿り、最初に見つかった Canvas がバインド先となる。また、AncestorLevel で、「何番目に見つかった先祖か」を指定することもできる。<br>
+自身を基準とした相対的な指定であり、バインド先のコントロール名に依存しない。<br>
+(バインド先となる Canvas に名前を設定する必要が無く、また名前が変わった場合も影響を受けない。)
+
+<h3>自身のプロパティを参照 : Self</h3>
+(XAML)<br>
+<img src="_Img/MSVS_DotNet_CSharp/WPF_RelativeSource/02.png"><br>
+ここでは、Border の Height (高さ)プロパティを、自身の ActualWidth (現在幅)に揃えることで、コントロールを正方形にしようとしている。
+
+</body>
+</html>

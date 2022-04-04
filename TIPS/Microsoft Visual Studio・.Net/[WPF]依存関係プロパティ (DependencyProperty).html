@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.dependencyproperty?view=windowsdesktop-6.0">DependencyProperty クラス (System.Windows) | Microsoft Docs</a><br>
+<a href="https://ikorin2.hatenablog.jp/entry/2018/11/09/075145">DependencyPropertyとBindingについて - ネコのために鐘は鳴る</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>依存関係プロパティとは</h2>
+データバインディングのターゲットとなることができるプロパティのこと。WPFにおけるデータバインディングの根幹を成す概念である。<br>
+
+<h3>前提</h3>
+WPFにおけるデータバインディング (Binding) には、Source (参照元)と Target (反映先)があり、<br>
+Source に設定できるのは(通常の)プロパティ、Target に設定できるのは依存関係プロパティに限定される。<br>
+即ち、データバインディングは依存関係プロパティ (Target) をプロパティ (Source) に同期させる処置と言える。<br>
+<img src="_Img/MSVS_DotNet_CSharp/WPF_DependencyProp/01.png"><br>
+
+<h2>依存関係プロパティの定義</h2>
+<img src="_Img/MSVS_DotNet_CSharp/WPF_DependencyProp/02.png"><br>
+上記コード例における MyNameProperty が依存関係プロパティで、通常 <b>DependencyProperty.Register()</b> メソッドを用いて登録を行う。<br>
+ここで、第1引数( DependencyProperty.Name の値となる)が "MyName" となっているが、これは上段にあるプロパティ MyName とは直接の関係は無く、<br>
+XAMLから当該プロパティを参照する際のエイリアス(別名)として機能する。<br>
+<br>
+依存関係プロパティは実際の型(上記例では string )と異なる型で宣言されることから、参照・更新には <b>GetValue()</b> 、<b>SetValue()</b>を用いる必要がある。<br>
+このままでは不便なので、上段にあるようにラッパープロパティ( MyName )を定義することで通常のプロパティと同様に用いることができる。<br>
+参照名およびラッパープロパティを "○○" 、依存関係プロパティを "○○Property" と命名することが推奨されており、<br>
+Visual Studio上で <b>propdp</b> とタイプすることで、コード例のような雛型を呼び出すことができる。<br>
+
+<h2>コントロールとの関係</h2>
+依存関係プロパティが属するクラスは DependencyObject を継承している必要があるが、<br>
+WPFにおけるコントロールはいずれも DependencyObject を継承しており、そのまま依存関係プロパティを用いることができる。<br>
+また、コントロールのプロパティは依存関係プロパティとして定義されているため、そのままデータバインディングのターゲットとすることができる。
+
+</body>
+</html>
