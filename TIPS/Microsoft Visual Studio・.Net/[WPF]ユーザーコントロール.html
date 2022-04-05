@@ -34,12 +34,11 @@ body
 <h5>出典 :</h5>
 <a href="https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.controls.usercontrol?view=netframework-4.8">UserControl クラス (System.Windows.Controls) | Microsoft Docs</a><br>
 <a href="https://docs.microsoft.com/ja-jp/dotnet/desktop/wpf/controls/control-authoring-overview?view=netframeworkdesktop-4.8">コントロールの作成の概要 - WPF .NET Framework | Microsoft Docs</a><br>
-<a href="https://docs.microsoft.com/ja-jp/dotnet/desktop/wpf/controls/creating-a-control-that-has-a-customizable-appearance?view=netframeworkdesktop-4.8">外観をカスタマイズできるコントロールの作成 - WPF .NET Framework | Microsoft Docs</a><br>
-<a href="https://threeshark3.com/usercontrol-to-customcontrol/">【WPF】ユーザーコントロールをカスタムコントロールに変える手順 | さんさめのC＃ブログ</a><br>
 
 <h5>関連 :</h5>
 <a href="TIPS/Microsoft Visual Studio・.Net/[WPF]RelativeSource.html">[WPF]RelativeSource</a><br>
 <a href="TIPS/Microsoft Visual Studio・.Net/[WPF]依存関係プロパティ (DependencyProperty).html">[WPF]依存関係プロパティ (DependencyProperty)</a><br>
+<a href="TIPS/Microsoft Visual Studio・.Net/[WPF]カスタムコントロール.html">[WPF]カスタムコントロール</a><br>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -55,13 +54,17 @@ body
 <h3>概要</h3>
 既存のコントロールをカスタマイズしたものや、複数のコントロールを組み合わせたものをひとつのコントロールとして使いまわしたい場合に、<br>
 それらを「ユーザーコントロール」として定義することで、再利用可能なコントロールとなる。<br>
-後述の「カスタムコントロール」とは異なる。
+尚、「<a href="TIPS/Microsoft Visual Studio・.Net/[WPF]カスタムコントロール.html">カスタムコントロール</a>」とは異なる。
+
+<h3>特徴</h3>
+ユーザーコントロールは、既存のコントロールを簡便に組み合わせるのに適している。<br>
+反面、外観の複雑なカスタマイズは不可能であるため、カスタマイズを目的とする場合はカスタムコントロールを使用することとなる。
 
 <h3>作成手順・実装例</h3>
 ここでは、2つの Label コントロールを持つユーザーコントロール MachineErrIndicator を作成している。<br>
 Label の Content プロパティを MachineErrIndicator.SigNum 、MachineErrIndicator.SigName にバインディングすることで、<br>
 MachineErrIndicator のメンバとしてのアクセスを可能としている。<br>
-XAMLの既述(データバインディング)に関しては、
+XAMLの記述(データバインディング)に関しては、
 <a href="TIPS/Microsoft Visual Studio・.Net/[WPF]RelativeSource.html">[WPF]RelativeSource</a>を参照。
 <ol>
     <li>準備
@@ -89,6 +92,10 @@ XAMLの既述(データバインディング)に関しては、
     </li>
     <li>コードビハインドの実装 (MachineErrIndicator.xaml.cs)<br>
         <img src="_Img/MSVS_DotNet_CSharp/WPF_UserControl/03.png">
+    </li>
+    <li>
+        参照側XAMLの実装<br>
+        <img src="_Img/MSVS_DotNet_CSharp/WPF_UserControl/04.png">
     </li>
 </ol>
 

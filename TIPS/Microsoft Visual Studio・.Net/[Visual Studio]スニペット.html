@@ -76,6 +76,71 @@ Visual Studioには予め多数のスニペットが登録されている。
     <li>スニペットが展開される。<br><img src="_Img/MSVS_DotNet_CSharp/VS_Snippets/10.png"></li>
 </ol>
 
+<h2>C#で使用できるスニペットの例</h2>
+<table>
+    <tr class="row1">
+        <td class="col1">スニペット</td>
+        <td>概要</td>
+        <td>展開される内容</td>
+    </tr>
+    <tr>
+        <td class="col1">prop</td>
+        <td>単純なプロパティ<br>(自動プロパティ)</td>
+        <td class="code"><kwd>public int</kwd> MyProperty { <kwd>get</kwd>; <kwd>set</kwd>; }</td>
+    </tr>
+    <tr>
+        <td class="col1">propa</td>
+        <td>依存関係プロパティ<br>(RegisterAttached())</td>
+        <td class="code"><kwd>public static int</kwd> GetMyProperty(<knw>DependencyObject</knw> obj)
+{
+    <kwd>return</kwd> (<kwd>int</kwd>)obj.GetValue(MyPropertyProperty);
+}
+
+<kwd>public static void</kwd> SetMyProperty(<knw>DependencyObject</knw> obj, <kwd>int value</kwd>)
+{
+    obj.SetValue(MyPropertyProperty, <kwd>value</kwd>);
+}
+
+<cmt>// (略)</cmt>
+<kwd>public static readonly</kwd> <knw>DependencyProperty</knw> MyPropertyProperty =
+<knw>DependencyProperty</knw>.RegisterAttached("MyProperty", <kwd>typeof</kwd>(<kwd>int</kwd>), <kwd>typeof</kwd>(ownerclass), <kwd>new</kwd> <knw>PropertyMetadata</knw>(0));</td>
+    </tr>
+    <tr>
+        <td class="col1">propdp</td>
+        <td>依存関係プロパティ<br>(Register())</td>
+        <td class="code"><kwd>public int</kwd> MyProperty
+{
+    <kwd>get</kwd> { <kwd>return</kwd> (<kwd>int</kwd>)GetValue(MyPropertyProperty); }
+    <kwd>set</kwd> { SetValue(MyPropertyProperty, <kwd>value</kwd>); }
+}
+
+<cmt>// (略)</cmt>
+<kwd>public static readonly</kwd> <knw>DependencyProperty</knw> MyPropertyProperty =
+<knw>DependencyProperty</knw>.Register("MyProperty", <kwd>typeof</kwd>(<kwd>int</kwd>), <kwd>typeof</kwd>(ownerclass), <kwd>new</kwd> <knw>PropertyMetadata</knw>(0));</td>
+   </tr>
+    <tr>
+        <td class="col1">propfull</td>
+        <td>完全なプロパティ<br>
+        (フィールドとgetter、setterの組)</td>
+        <td class="code"><kwd>private int</kwd> myVar;
+
+<kwd>public int</kwd> MyProperty
+{
+    <kwd>get</kwd> { <kwd>return</kwd> myVar; }
+    <kwd>set</kwd> { myVar = <kwd>value</kwd>; }
+}</td>
+    </tr>
+    <tr>
+        <td class="col1">propg</td>
+        <td>自動プロパティ<br>(アクセスレベル分離)</td>
+        <td class="code"><kwd>public int</kwd> MyProperty { <kwd>get</kwd>; <kwd>private set</kwd>; }</td>
+    </tr>
+</table>
+
 
 </body>
 </html>
+
+
+
+
