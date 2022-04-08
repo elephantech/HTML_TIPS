@@ -45,8 +45,8 @@ body
 
 <!-- 本文ここから -->
 
-<h2>Panelコントロール</h2>
-WPFにてレイアウトを行う際に、コントロールを配置するための右地となるコントロール。<br>
+<h2>DockPanel / StackPanel コントロール</h2>
+WPFにてレイアウトを行う際に、コントロール(子要素)を配置するための下地となるコントロール。<br>
 それぞれに特徴があり、子要素の配置のさせ方が異なる。<br>
 
 <h3>DockPanel</h3>
@@ -68,11 +68,12 @@ Panelの上下左右端への配置を簡単に行える。配置の優先度は
 </li><li>(5)は(1)～(4)を配置した余白が充てられる。(プロパティ LastChildFill == true の場合。既定値 true のため明示的な指定は不要。)
 </li>
 </ul>
+
 <h3>StackPanel</h3>
 子要素を縦一列、または横一列に並べる際に用いる。DockPanel に比べリソースの消費が少ない。<br>
 並べる方向はプロパティ Orientation で指定する。
 
-<h4>実装例 : 縦並び (Orientation == "Vertical")</h4>
+<h4>実装例 : 縦並び</h4>
 <h5>XAML</h5>
 <img src="_Img/MSVS_DotNet_CSharp/WPF_Panels/03.png">
 
@@ -91,7 +92,7 @@ Panelの上下左右端への配置を簡単に行える。配置の優先度は
         
 </ul>
 
-<h4>実装例 : 横並び (Orientation == "Horizontal")</h4>
+<h4>実装例 : 横並び</h4>
 <h5>XAML</h5>
 <img src="_Img/MSVS_DotNet_CSharp/WPF_Panels/05.png">
 
