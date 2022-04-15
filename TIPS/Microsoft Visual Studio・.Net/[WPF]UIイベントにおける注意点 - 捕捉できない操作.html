@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>関連 :</h5>
+<a href="TIPS/Microsoft Visual Studio・.Net/[WPF]ルーティングイベント.html">[WPF]ルーティングイベント</a><br>
+<a href="TIPS/Microsoft Visual Studio・.Net/[.NET]キーイベント.html">[.NET]キーイベント</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>WPFにおけるユーザ操作の受付</h2>
+WPFアプリケーションにおいてマウスやキーボードなどの操作を捕捉しようとしても、対象となるコントロール( = イベントセンダ)や押下したキーによっては<br>
+本来発生するはずのイベント( MouseDown 、KeyDown など)が発生しない。<br>
+その場合は、対となる Preview イベントを捕捉することで代用が可能である。<br>
+
+<h2>Preview イベントとは</h2>
+ユーザ操作によって発生するイベントのうち、本イベントに先だって発生するもの。<br>
+例えばマウスボタンを押下した場合、本イベントの MouseDown イベントの前に PreviewMouseDown イベントが発生する。<br>
+これらは<a href="TIPS/Microsoft Visual Studio・.Net/[WPF]ルーティングイベント.html">ルーティングイベント</a>として連携されており、Preview イベントにてイベント引数を「処理済み」<br>
+( EventArgs.Handled = true )<br>
+とすることで、後続の本イベントの発生を抑制することができる。
+
+<h2>Preview イベントの例</h2>
+Preview イベントの一部を下表に記す。
+<table>
+    <tr class="row1">
+        <td class="col1">ユーザ操作</td>
+        <td>Preview イベント</td>
+        <td>対となる本イベント</td>
+    </tr>
+    <tr>
+        <td class="col1">キー押下</td>
+        <td>PreviewKeyDown</td>
+        <td>KeyDown</td>
+    </tr>
+    <tr>
+        <td class="col1">キー戻り</td>
+        <td>PreviewKeyUp</td>
+        <td>KeyUp</td>
+    </tr>
+    <tr>
+        <td class="col1">キーボードフォーカス取得</td>
+        <td>PreviewGotKeyboardFocus</td>
+        <td>GotKeyboardFocus</td>
+    </tr>
+    <tr>
+        <td class="col1">キーボードフォーカス喪失</td>
+        <td>PreviewLostKeyboardFocus</td>
+        <td>LostKeyboardFocus</td>
+    </tr>
+    <tr>
+        <td class="col1">マウスダブルクリック</td>
+        <td>PreviewMouseDoubleClick</td>
+        <td>MouseDoubleClick</td>
+    </tr>
+    <tr>
+        <td class="col1">マウスボタン押下</td>
+        <td>PreviewMouseDown</td>
+        <td>MouseDown</td>
+    </tr>
+    <tr>
+        <td class="col1">マウスボタン戻り</td>
+        <td>PreviewMouseUp</td>
+        <td>MouseUp</td>
+    </tr>
+    <tr>
+        <td class="col1">マウス左ボタン押下</td>
+        <td>PreviewMouseLeftButtonDown</td>
+        <td>MouseLeftButtonDown</td>
+    </tr>
+    <tr>
+        <td class="col1">マウス左ボタン戻り</td>
+        <td>PreviewMouseLeftButtonUp</td>
+        <td>MouseLeftButtonUp</td>
+    </tr>
+    <tr>
+        <td class="col1">マウス右ボタン押下</td>
+        <td>PreviewMouseRightButtonDown</td>
+        <td>MouseRightButtonDown</td>
+    </tr>
+    <tr>
+        <td class="col1">マウス右ボタン戻り</td>
+        <td>PreviewMouseRightButtonUp</td>
+        <td>MouseRightButtonUp</td>
+    </tr>
+    <tr>
+        <td class="col1">マウスホイール操作</td>
+        <td>PreviewMouseWheel</td>
+        <td>MouseWheel</td>
+    </tr>
+    <tr>
+        <td class="col1">マウス移動</td>
+        <td>PreviewMouseMove</td>
+        <td>MouseMove</td>
+    </tr>
+    <tr>
+        <td class="col1">文字入力</td>
+        <td>PreviewTextInput</td>
+        <td>TextInput</td>
+    </tr>
+</table>
+
+</body>
+</html>

@@ -33,8 +33,11 @@ body
 <!-- 出典・関連ページ -->
 <h5>出典 :</h5>
 <a href="https://dobon.net/vb/dotnet/control/btndetectarraykey.html">コントロールで矢印、Tab、Enter、Escキーが押されたことを知る - .NET Tips (VB.NET,C#...) | dobon.net</a><br>
+<a href="http://cyberboy6.blog.fc2.com/blog-entry-364.html">[WPF] KeyDownイベントとPreviewKeyDownイベントの違い - ブログ「サイバー少年」</a>
 
 <h5>関連 :</h5>
+<a href="TIPS/Microsoft Visual Studio・.NET/[WPF]ルーティングイベント.html">[WPF]ルーティングイベント</a><br>
+<a href="TIPS/Microsoft Visual Studio・.NET/[WPF]UIイベントにおける注意点 - 捕捉できない操作.html">[WPF]UIイベントにおける注意点 - 捕捉できない操作</a>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -51,14 +54,14 @@ body
 
 <h2>PreviewKeyDown の使い方</h2>
 PreviewKeyDown イベントは KeyDown イベントの前に発生し、KeyDown で捕捉できないキーも捕捉できる。<br>
-また、PreviewKeyDown ハンドラ中で、プロパティ PreviewKeyDownEventArgs.IsInputKey を true にすることで<br>
+また、WinFormの場合、PreviewKeyDown ハンドラ中でプロパティ PreviewKeyDownEventArgs.IsInputKey を true にすることで<br>
 (本来発生しない) KeyDown 、KeyUp イベントが発生するようになる。<br>
-但しこの場合、そのキー本来の機能(矢印、Tabであればフォーカスの移動)は失われる。
+但しこの場合、そのキー本来の機能(矢印、Tabであればフォーカスの移動)は失われる。<br>
 
 <h3>コード例(C# / WinForm)</h3>
 <div class="code">
 <cmt>// PreviewKeyDown イベントハンドラ</cmt>
-<kwd>private void</kwd> Button1_PreviewKeyDown(<kwd>object</kwd> sender, PreviewKeyDownEventArgs e)
+<kwd>private void</kwd> Button1_PreviewKeyDown(<kwd>object</kwd> sender, <knw>PreviewKeyDownEventArgs</knw> e)
 {
     <kwd>switch</kwd> (e.KeyCode)
     {
@@ -75,6 +78,31 @@ PreviewKeyDown イベントは KeyDown イベントの前に発生し、KeyDown 
             <cmt>// IsInputKey = true により、KeyDown 、KeyUp が発生するようになる</cmt>
             <cmt>// (フォーカスは移動しない)</cmt>
             e.IsInputKey = <kwd>true</kwd>;
+            <kwd>break</kwd>;
+    }
+}
+</div>
+
+<h3>コード例(C# / WPF)</h3>
+<div class="code">
+<cmt>// PreviewKeyDown イベントハンドラ</cmt>
+<kwd>private void</kwd> Button1_PreviewKeyDown(<kwd>object</kwd> sender, <knw>KeyEventArgs</knw> e)
+{
+    <kwd>switch</kwd> (e.Key)
+    {
+        <cmt>// 矢印キー</cmt>
+        <kwd>case</kwd> Key.Up:
+        <kwd>case</kwd> Key.Left:
+        <kwd>case</kwd> Key.Right:
+        <kwd>case</kwd> Key.Down:
+            <knw>Console</knw>.WriteLine("矢印キーが押されました。");
+            <kwd>break</kwd>;
+
+        <cmt>// Tabキー</cmt>
+        <kwd>case</kwd> Key.Tab:
+            <cmt>// イベントを処理済み(Handled)とする</cmt>
+            <cmt>// ⇒ 下流のイベントは発生しなくなる</cmt>
+            e.Handled = <kwd>true</kwd>;
             <kwd>break</kwd>;
     }
 }

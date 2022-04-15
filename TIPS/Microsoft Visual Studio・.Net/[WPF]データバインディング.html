@@ -39,7 +39,9 @@ body
 <a href="https://ikorin2.hatenablog.jp/entry/2018/11/09/075145">DependencyPropertyとBindingについて - ネコのために鐘は鳴る</a><br>
 <a href="https://qiita.com/shunta01/items/ed46b904071841957f8a">MVCとMVVMの違いを理解する - Qiita</a><br>
 <a href="https://docs.microsoft.com/ja-jp/dotnet/desktop/winforms/how-to-implement-the-inotifypropertychanged-interface?view=netframeworkdesktop-4.8&redirectedfrom=MSDN">方法: INotifyPropertyChanged インターフェイスを実装する - Windows Forms .NET Framework | Microsoft Docs</a><br>
-<a href="https://qiita.com/ledsun/items/6f4ef754e5ae2507e531">INotifyPropertyChanged実装のありえない面倒くささと、ReactivePropertyの信じられない素晴らしさ - Qiita</a>
+<a href="https://qiita.com/ledsun/items/6f4ef754e5ae2507e531">INotifyPropertyChanged実装のありえない面倒くささと、ReactivePropertyの信じられない素晴らしさ - Qiita</a><br>
+<a href="https://qiita.com/okazuki/items/7572f46848d0e93516b1">MVVM をリアクティブプログラミングで快適に ReactiveProperty オーバービュー 2020 年版 前編 - Qiita</a><br>
+<a href="https://github.com/runceel/reactiveproperty">runceel/ReactiveProperty: GitHub</a>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -128,7 +130,8 @@ Visual Studio上で <b>propdp</b> とタイプすることで、コード例の�
 
 <h2>データバインディングの実装例</h2>
 バインディングソースに <b>Reactive.Bindings.ReactiveProperty</b> を使用する。これにより、ターゲットへの反映に必要な記述を大幅に削減できる。<br>
-詳細は<a href="https://qiita.com/ledsun/items/6f4ef754e5ae2507e531">出典元</a>を参照。<br>
+詳細は<a href="https://qiita.com/ledsun/items/6f4ef754e5ae2507e531">ここ</a>、および<a href="https://qiita.com/okazuki/items/7572f46848d0e93516b1">ここ</a>を参照。<br>
+ReactiveProperty 、および ReactiveProperty.WPF はNuGetから入手できる。<br>
 <br>
 <b>ViewModelの定義 : SampleViewModel.cs</b>
 <div class="code">
@@ -189,7 +192,6 @@ DataContext に指定されたオブジェクトは元の型名を意識する�
 SampleViewModel の定義において Count を ReactiveProperty としているのは、バインドソースである Count の変更をバインドターゲット( = TextBlock.Text )に波及させるためである。<br>
 但し上記の例ではソースの変更をターゲットに波及させるのみ(単方向)であり、ターゲットを変更した場合ソースには波及しない。<br>
 ターゲットの変更をソースに波及させるには、ソースとなるプロパティ( Count )にsetterを定義するとともに、Binding の Mode を TwoWay とする必要がある。<br>
-(既定値は Mode = OneWay 。)<br>
 
 </body>
 </html>
