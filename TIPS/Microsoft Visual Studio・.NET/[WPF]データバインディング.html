@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://atmarkit.itmedia.co.jp/ait/articles/1010/08/news123.html">第5回　WPFの「データ・バインディング」を理解する：連載：WPF入門（1/3 ページ） - ＠IT</a><br>
+<a href="https://marikooota.hatenablog.com/entry/2017/05/30/002059">データ・バインディングを理解する - marikoootaの日記</a><br>
+<a href="https://threeshark3.com/wpf-binding-datacontext/">【WPF】Binding入門1。DataContextの伝搬 | さんさめのC＃ブログ</a><br>
+<a href="https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.dependencyproperty?view=windowsdesktop-6.0">DependencyProperty クラス (System.Windows) | Microsoft Docs</a><br>
+<a href="https://ikorin2.hatenablog.jp/entry/2018/11/09/075145">DependencyPropertyとBindingについて - ネコのために鐘は鳴る</a><br>
+<a href="https://qiita.com/shunta01/items/ed46b904071841957f8a">MVCとMVVMの違いを理解する - Qiita</a><br>
+<a href="https://docs.microsoft.com/ja-jp/dotnet/desktop/winforms/how-to-implement-the-inotifypropertychanged-interface?view=netframeworkdesktop-4.8&redirectedfrom=MSDN">方法: INotifyPropertyChanged インターフェイスを実装する - Windows Forms .NET Framework | Microsoft Docs</a><br>
+<a href="https://qiita.com/ledsun/items/6f4ef754e5ae2507e531">INotifyPropertyChanged実装のありえない面倒くささと、ReactivePropertyの信じられない素晴らしさ - Qiita</a><br>
+<a href="https://qiita.com/okazuki/items/7572f46848d0e93516b1">MVVM をリアクティブプログラミングで快適に ReactiveProperty オーバービュー 2020 年版 前編 - Qiita</a><br>
+<a href="https://github.com/runceel/reactiveproperty">runceel/ReactiveProperty: GitHub</a>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>WPFにおけるデータバインディング(Data Binding)とは</h2>
+データの提供元(データソース)とUI要素を結びつけること。<br>
+一度バインディングを構成しておくと、データソースの値が変化した場合もUIの表示を自動的に更新したり、<br>
+逆にUIからデータソースの値を更新できるようになる。
+
+<h2>前提1 : MVVM (Model - View - ViewModel) パターン</h2>
+WPFで採用されているデザインパターンで、UIとデータ処理(ビジネスロジック)との役割分担を規定したもの。<br>
+類似のパターンに、WEBアプリケーションなどで広範に採用される MVC (Model - View - Controller) が存在する。<br>
+(MVCとの比較は出典元を参照。)<br>
+<br>
+データバインディングはMVVMパターンにおいて View と ViewModel (または Model )を同期させるための手段である。
+
+<h3>Model</h3>
+管理するデータの内訳とデータの処理方法を規定したもの。<br>
+Model の在り方は通常、UIには依存しない。<br>
+
+<h3>View</h3>
+アプリケーションの外見(UI)を司るもの。
+
+<h3>ViewModel</h3>
+Model に加え、View とのデータ授受も規定したもの。
+
+<h3>構成例</h3>
+<img src="_Img/MSVS_DotNet_CSharp/WPF_DependencyProp/03.png"><br>
+画面 (Window) として HogeWindow と FugaWindow を有するアプリケーションを考える。<br>
+それぞれの Window の View はXAMLと、コードビハインド(XAML.CS)で規定される。<br>
+データソース( ViewModel または Model )は、両 Window で固有とすることも、共有することも可能である。
+
+<h2>前提2 : 依存関係プロパティ</h2>
+データバインディングのターゲットにできるプロパティのこと。<br>
+データバインディング (Binding) には、Source (参照元)と Target (反映先)があり、<br>
+Source に設定できるのは(通常の)プロパティ、Target に設定できるのは依存関係プロパティに限定される。<br>
+即ち、データバインディングは依存関係プロパティ (Target) をプロパティ (Source) に同期させる処置と言える。<br>
+<img src="_Img/MSVS_DotNet_CSharp/WPF_DependencyProp/01.png"><br>
+
+<h3>実装例</h3>
+<img src="_Img/MSVS_DotNet_CSharp/WPF_DependencyProp/02.png"><br>
+上記コード例における MyNameProperty が依存関係プロパティで、通常 <b>DependencyProperty.Register()</b> メソッドを用いて登録を行う。<br>
+ここで、第1引数( DependencyProperty.Name の値となる)が "MyName" となっているが、これは上段にあるプロパティ MyName とは直接の関係は無く、<br>
+XAMLから当該プロパティを参照する際のエイリアス(別名)として機能する。<br>
+<br>
+依存関係プロパティは実際の型(上記例では string )と異なる型で宣言されることから、参照・更新には <b>GetValue()</b> 、<b>SetValue()</b>を用いる必要がある。<br>
+このままでは不便なので、上段にあるようにラッパープロパティ( MyName )を定義することで通常のプロパティと同様に用いることができる。<br>
+参照名およびラッパープロパティを "○○" 、依存関係プロパティを "○○Property" と命名することが推奨されており、<br>
+Visual Studio上で <b>propdp</b> とタイプすることで、コード例のような雛型を呼び出すことができる。<br>
+
+<h3>補足</h3>
+コントロールの既存プロパティは依存関係プロパティとして実装されているため、そのままデータバインディングのターゲットとすることができる。<br>
+また、依存関係プロパティが属するクラスは <b>DependencyObject</b> を継承している必要があるが、<br>
+コントロールはいずれも DependencyObject を継承しており、特別な手続を行うことなく依存関係プロパティを用いることができる。<br>
+
+<h2>前提3 : DataContext</h2>
+データバインディングのソース(参照元)を表す、コントロールのプロパティ。<b>ソースを DataContext とするのがバインディングの原則である</b>。<br>
+ひとつの ViewModel に対して DataContext をひとつ割り当て、View とのバインディングのソースとするのが一般的な用途である。
+
+<h3>DataContext の包含継承</h3>
+<div class="code">
+<cmt>&lt;!-- 始祖 : Window --&gt;</cmt>
+&lt;Window&gt;
+
+    <cmt>&lt;!-- Window の子 : StackPanel --&gt;</cmt>
+    &lt;StackPanel&gt;
+
+        <cmt>&lt;!-- StackPanel の子 --&gt;</cmt>
+        &lt;Label/&gt;
+        &lt;TextBox/&gt;
+        :
+
+    &lt;/StackPanel&gt;
+    :
+
+&lt;/Window&gt;
+</div>
+<b>DataContext は親要素から子孫に引き継がれる</b>。<br>
+上記の構造を持つ Window にて DataContext を指定すると、子要素である StackPanel の DataContext も同じものを参照する。<br>
+さらに子要素の Label 、TextBox も同様で、始祖である Window に DataContext を指定するだけで Window 上の全コントロールが同じデータソースを参照できる。
+
+<h2>データバインディングの実装例</h2>
+バインディングソースに <b>Reactive.Bindings.ReactiveProperty</b> を使用する。これにより、ターゲットへの反映に必要な記述を大幅に削減できる。<br>
+詳細は<a href="https://qiita.com/ledsun/items/6f4ef754e5ae2507e531">ここ</a>、および<a href="https://qiita.com/okazuki/items/7572f46848d0e93516b1">ここ</a>を参照。<br>
+ReactiveProperty 、および ReactiveProperty.WPF はNuGetから入手できる。<br>
+<br>
+<b>ViewModelの定義 : SampleViewModel.cs</b>
+<div class="code">
+<kwd>using</kwd> Reactive.Bindings;
+
+<kwd>public class</kwd> SampleViewModel
+{
+    <cmt>// バインディングソース <b>Count</b> を ReactiveProperty として宣言</cmt>
+    <kwd>public</kwd> <knw>ReactiveProperty</knw>&lt;<kwd>int</kwd>&gt; <b class="red">Count</b>
+    { <kwd>get</kwd>; }
+    = <kwd>new</kwd> <knw>ReactiveProperty</knw>&lt;<kwd>int</kwd>&gt;();
+}
+</div>
+
+<b>Viewの定義 : MainWindow.xaml</b>
+<div class="code">
+&lt;StackPanel&gt;
+    <cmt>&lt;!-- TextBlock の Text を DataContext の <b class="red">Count</b> にバインド --&gt;</cmt>
+    &lt;TextBlock Text="{Binding <b class="red">Path=Count.Value</b>}"/&gt;
+    &lt;Button Click="CountUp_Click" Content="Count Up!"/&gt;
+&lt;/StackPanel&gt;
+</div>
+
+<b>ViewとViewModelの接続 : MainWindow.xaml.cs (コードビハインド)</b>
+<div class="code">
+<kwd>public partial class</kwd> MainWindow : <knw>Window</knw>
+{
+    <cmt>// データソース(ViewModel)の実体</cmt>
+    <kwd>private</kwd> SampleViewModel viewmodel;
+
+    <cmt>// コンストラクタ</cmt>
+    <kwd>public</kwd> MainWindow()
+    {
+        InitializeComponent();
+
+        <cmt>// DataContext (データソース)の指定</cmt>
+        viewmodel = <kwd>new</kwd> SampleViewModel()
+        {
+            <b class="red">Count</b> = 0
+        };
+        <kwd>this</kwd>.DataContext = viewmodel;
+    }
+    
+    <cmt>// ボタン「Count Up!」クリック時の処理</cmt>
+    <kwd>private void</kwd> CountUp_Click(<kwd>object</kwd> sender, <knw>RoutedEventArgs</knw> e)
+    {
+        viewmodel.<b class="red">Count</b>++;
+    }
+}
+</div>
+
+<h3>解説</h3>
+Button を押すごとに TextBlock に表示される数値(初期値 0 )がインクリメントされる Window の例。<br>
+コードビハインドで SampleViewModel 型のオブジェクトを DataContext に指定している。<br>
+DataContext に指定されたオブジェクトは元の型名を意識する必要が無く、XAMLで "<b class="red">Path = Count.Value</b>" とするだけで、プロパティ Count にアクセスできる。<br>
+("<b class="red">.Value</b>" が必要なのは、Count が ReactiveProperty であることによる。)<br>
+<br>
+SampleViewModel の定義において Count を ReactiveProperty としているのは、バインドソースである Count の変更をバインドターゲット( = TextBlock.Text )に波及させるためである。<br>
+但し上記の例ではソースの変更をターゲットに波及させるのみ(単方向)であり、ターゲットを変更した場合ソースには波及しない。<br>
+ターゲットの変更をソースに波及させるには、ソースとなるプロパティ( Count )にsetterを定義するとともに、Binding の Mode を TwoWay とする必要がある。<br>
+
+</body>
+</html>

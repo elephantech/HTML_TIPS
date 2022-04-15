@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+<h2>コントロールボックスの有効・無効</h2>
+フォームプロパティから「×」(閉じる)ボタン、最大化ボタン、最小化ボタンの有効・無効を切り替える。
+<table>
+	<tr class="row1">
+		<td width="135">ControlBox<br>全体</td>
+		<td width="135">MaximizeBox<br>最大化ボタン</td>
+		<td width="135">MinimizeBox<br>最小化ボタン</td>
+		<td>表示</td>
+		<td>解説</td>
+	</tr>
+	<tr>
+		<td class="bg_lg center">True</td>
+		<td class="bg_lg center">True</td>
+		<td class="bg_lg center">True</td>
+		<td><img src="_Img/MSVS_DotNet_CSharp/Form_Appearance/01.png"> </td>
+		<td>デフォルト</td>
+	</tr>
+	<tr>
+		<td class="bg_lr center">False</td>
+		<td class="bg_lh center">-</td>
+		<td class="bg_lh center">-</td>
+		<td><img src="_Img/MSVS_DotNet_CSharp/Form_Appearance/02.png"> </td>
+		<td>すべてのボタンが<b>非表示</b>となる<br>MaximizeBox 、MinimizeBox の値は参照されない</td>
+	</tr>
+	<tr>
+		<td class="bg_lg center">True</td>
+		<td class="bg_lr center">False</td>
+		<td class="bg_lg center">True</td>
+		<td><img src="_Img/MSVS_DotNet_CSharp/Form_Appearance/03.png"> </td>
+		<td>最大化ボタンが<b>無効</b>となる(非表示ではない)</td>
+	</tr>
+	<tr>
+		<td class="bg_lg center">True</td>
+		<td class="bg_lg center">True</td>
+		<td class="bg_lr center">False</td>
+		<td><img src="_Img/MSVS_DotNet_CSharp/Form_Appearance/04.png"> </td>
+		<td>最小化ボタンが<b>無効</b>となる(非表示ではない)</td>
+	</tr>
+	<tr>
+		<td class="bg_lg center">True</td>
+		<td class="bg_lr center">False</td>
+		<td class="bg_lr center">False</td>
+		<td><img src="_Img/MSVS_DotNet_CSharp/Form_Appearance/05.png"> </td>
+		<td>最大化・最小化ボタンが<b>非表示</b>となる</td>
+	</tr>
+</table>
+
+<h3>「×」(閉じる)ボタンのみを無効化する</h3>
+プログラム上から、「×」(閉じる)ボタンのみを無効化することが可能。以下、C#におけるコード例。
+
+<p class="code">
+<cmt>// ［閉じる］ボタンを無効化するための値</cmt>
+<kwd>const uint</kwd> SC_CLOSE = 0x0000F060;
+<kwd>const uint</kwd> MF_BYCOMMAND = 0x00000000;
+
+<kwd>IntPtr hWnd</kwd> = Process.GetCurrentProcess().MainWindowHandle;
+
+<kwd>if</kwd> (hWnd != IntPtr.Zero)
+{
+    <cmt>// ［閉じる］ボタンの無効化</cmt>
+    <kwd>IntPtr</kwd> hMenu = GetSystemMenu(hWnd, 0);
+    RemoveMenu(hMenu, SC_CLOSE, MF_BYCOMMAND);
+}
+</p>
+
+<h2>アイコンの表示・非表示</h2>
+フォームプロパティの <b>ShowIcon</b> の値で切り替える。<br>
+<img src="_Img/MSVS_DotNet_CSharp/Form_Appearance/06.png" class="middle"> ⇔ <img src="_Img/MSVS_DotNet_CSharp/Form_Appearance/07.png" class="middle">
+
+</body>
+</html>
+

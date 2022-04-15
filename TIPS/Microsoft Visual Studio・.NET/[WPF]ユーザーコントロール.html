@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.controls.usercontrol?view=netframework-4.8">UserControl クラス (System.Windows.Controls) | Microsoft Docs</a><br>
+<a href="https://docs.microsoft.com/ja-jp/dotnet/desktop/wpf/controls/control-authoring-overview?view=netframeworkdesktop-4.8">コントロールの作成の概要 - WPF .NET Framework | Microsoft Docs</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/Microsoft Visual Studio・.Net/[WPF]RelativeSource.html">[WPF]RelativeSource</a><br>
+<a href="TIPS/Microsoft Visual Studio・.Net/[WPF]依存関係プロパティ (DependencyProperty).html">[WPF]依存関係プロパティ (DependencyProperty)</a><br>
+<a href="TIPS/Microsoft Visual Studio・.Net/[WPF]カスタムコントロール.html">[WPF]カスタムコントロール</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>ユーザーコントロール</h2>
+<h3>概要</h3>
+既存のコントロールをカスタマイズしたものや、複数のコントロールを組み合わせたものをひとつのコントロールとして使いまわしたい場合に、<br>
+それらを「ユーザーコントロール」として定義することで、再利用可能なコントロールとなる。<br>
+尚、「<a href="TIPS/Microsoft Visual Studio・.Net/[WPF]カスタムコントロール.html">カスタムコントロール</a>」とは異なる。
+
+<h3>特徴</h3>
+ユーザーコントロールは、既存のコントロールを簡便に組み合わせるのに適している。<br>
+反面、外観の複雑なカスタマイズは不可能であるため、カスタマイズを目的とする場合はカスタムコントロールを使用することとなる。
+
+<h3>作成手順・実装例</h3>
+ここでは、2つの Label コントロールを持つユーザーコントロール MachineErrIndicator を作成している。<br>
+Label の Content プロパティを MachineErrIndicator.SigNum 、MachineErrIndicator.SigName にバインディングすることで、<br>
+MachineErrIndicator のメンバとしてのアクセスを可能としている。<br>
+XAMLの記述(データバインディング)に関しては、
+<a href="TIPS/Microsoft Visual Studio・.Net/[WPF]RelativeSource.html">[WPF]RelativeSource</a>を参照。
+<ol>
+    <li>準備
+        <ol>
+            <li>
+                Visual Studioメニュー「プロジェクト」>「新しい項目の追加」を選択する。
+            </li>
+            <li>
+                「Visual C# アイテム」>「WPF」>「<b>ユーザー コントロール (WPF)</b>」を選択し、任意のコントロール名を割り当てる。
+            </li>
+        </ol>
+    </li>
+    <li>XAMLの実装 (MachineErrIndicator.xaml)
+        <ol>
+            <li>
+                デザイン<br>
+                <img src="_Img/MSVS_DotNet_CSharp/WPF_UserControl/01.png">
+            </li>
+            <li>
+                XAML<br>
+                ここで、"Path=" と "Mode=FindAncestor" は省略可能。<br>
+                <img src="_Img/MSVS_DotNet_CSharp/WPF_UserControl/02.png">
+
+            </li>
+        </ol>
+    </li>
+    <li>コードビハインドの実装 (MachineErrIndicator.xaml.cs)<br>
+        プロパティを実装する際は、スニペット propdp を用いると便利である。<br>
+        <img src="_Img/MSVS_DotNet_CSharp/WPF_UserControl/03.png"><br>
+    </li>
+    <li>
+        参照側XAMLの実装<br>
+        <img src="_Img/MSVS_DotNet_CSharp/WPF_UserControl/04.png">
+    </li>
+</ol>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>フォームアプリケーションにおけるイベントセンダ</h2>
+イベントを発行するコントロールを指す。<br>
+例えば、ボタンがクリックされた場合はクリックされたボタンが、<br>
+チェックボックスのチェック状態が変更された場合は当該チェックボックスがイベントセンダとなる。
+
+<h2>イベントセンダの情報を取得</h2>
+<h3>C# (.Net)</h3>
+イベントハンドラの<b>第1引数(sender)</b>として渡される。<br>
+sender は object 型にラップされているため、<b>メンバにアクセスするには実際の型にキャストする必要がある</b>。
+<p class="code">
+<cmt>// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -
+// (イベントハンドラ)
+// ラジオボタンチェック状態変更時の処理
+// ⇒ イベントセンダはラジオボタン
+// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -
+//                                               ↓ イベントセンダ</cmt>
+<kwd>private void</kwd> radioButton_CheckedChanged(<kwd>object</kwd> <b>sender</b>, EventArgs e)
+{
+	<cmt>// センダがチェックされた場合に限り
+	// Hoge() をコール</cmt>
+	<kwd>if</kwd> ( ((RadioButton)<b>sender</b>).Checked )	<cmt>//< ((RadioButton)sender) で sender を実際の型に変換</cmt>
+	{
+		Hoge();
+	}
+}
+</p>
+
+<h2>何ができるのか</h2>
+イベントセンダの情報を取得することで発行元を特定できるため、<br>
+<b>複数のコントロールでイベントハンドラメソッドを共用することができる</b>。<br>
+⇒ 共通のロジックをDRY化できる。<br>
+<p class="code">
+<cmt>// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -
+// (イベントハンドラ)
+// テキストボックス テキスト変更時の処理
+// ⇒ イベントセンダはテキストボックス
+// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
+<kwd>private void</kwd> textBox_TextChanged(<kwd>object</kwd> <b>sender</b>, EventArgs e)
+{
+	<cmt>// 複数のテキストボックスでこのメソッドを共用していても、
+	// sender を参照することで発行元を特定できる</cmt>
+	<kwd>if</kwd> ( ((TextBox)<b>sender</b>).Text == "Hoge" )
+	{
+		Hoge();
+	}
+}
+</p>
+また、前節の例にあるように、RadioButton.CheckChanged は<br>
+直接操作されたラジオボタンは勿論、同一グループにある他のラジオボタンもイベントを発行する。<br>
+ラジオボタンのチェック状態に応じて処理を行うことで、処理の重複を避けることができる。<br>
+<img src="_Img/MSVS_DotNet_CSharp/Event_Sender/01.png"><br>
+
+</body>
+</html>
+
