@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://dobon.net/vb/dotnet/form/okcancelbutton.html">フォームにOKボタン、キャンセルボタンを付ける - .NET Tips (VB.NET,C#...)</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>アプリケーションからフォームを開く</h2>
+<b>Form.Show()</b> または <b>Form.ShowDialog()</b> でフォームを開くことができる。<br>
+その際、いずれを用いるかでタスクの挙動が異なる。
+<table>
+    <tr class="row1">
+        <td class="col1">開く際のメソッド</td>
+        <td colspan="2">フォームの形態</td>
+
+    </tr>
+    <tr>
+        <td class="col1">Form.Show()</td>
+        <td class="center"><b>モードレス(非同期)</b></td>
+        <td>別タスクとして開くため、元アプリケーションの処理が継続される</td>
+    </tr>
+    <tr>
+        <td class="col1">Form.ShowDialog()</td>
+        <td class="center"><b>モーダル(同期)</b></td>
+        <td>フォームを閉じるまでの間、元アプリケーションの処理が中断される</td>
+    </tr>
+</table>
+
+<h3>サンプルコード : モードレス</h3>
+元アプリケーションと開かれたフォームの両タスクは並行する。<br>
+即ち、Form.Show() をコールした直後、後続行がすぐに実行される。<br>
+<p class="code">
+    <cmt>// フォームインスタンス生成</cmt>
+    Form_Sub form_Sub = <kwd>new</kwd> Form_Sub();
+
+    <cmt>// form_Sub をモードレスダイアログとして開く</cmt>
+    form_Sub.<b>Show</b>();
+
+    <cmt>// form_Sub を開いた直後に、後続行が実行される</cmt>
+    <cmt>// (form_Sub を閉じたかは問われない)</cmt>
+    Hoge();
+
+    Fuga();
+
+    :
+</p>
+
+<h3>サンプルコード : モーダル</h3>
+フォームは元アプリケーションのタスク内で実行される。<br>
+即ち、Form.ShowDialog() をコール後、フォームを閉じるまで後続行は実行されない。<br>
+( Form.ShowDialog() はフォームを閉じるまで完了しない。)
+<p class="code">
+    <cmt>// フォームインスタンス生成</cmt>
+    Form_Sub form_Sub = <kwd>new</kwd> Form_Sub();
+
+    <cmt>// form_Sub をモーダルダイアログとして開く</cmt>
+    form_Sub.<b>ShowDialog</b>();
+
+    <cmt>// form_Sub を閉じるまで後続行は実行されない</cmt>
+    Hoge();
+
+    Fuga();
+
+    :
+</p>
+
+<h2>フォームの処理結果(DialogResult)</h2>
+フォームの処理結果を <b>DialogResult</b> プロパティ( DialogResult 型)から参照することができる。
+
+<h3>DialogResult の確定</h3>
+<p class="code">
+<kwd>public partial class</kwd> Form_Sub : Form
+{    <cmt>
+    // - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -
+    // コンストラクタ
+    // - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
+    <kwd>public</kwd> Form_Sub()
+    {
+        InitializeComponent();
+    }
+
+    <cmt>// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -
+    // ボタン「はい」クリック時の処理
+    // - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
+    <kwd>private void</kwd> button_Yes_Click(object sender, EventArgs e)
+    {
+        <cmt>// プロパティ DialogResult を更新 ⇒ フォームが閉じる</cmt>
+        <b>DialogResult</b> = <b>DialogResult.Yes</b>;
+    }
+
+    <cmt>// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -
+    // ボタン「いいえ」クリック時の処理
+    // - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
+    <kwd>private void</kwd> button_No_Click(object sender, EventArgs e)
+    {
+        <cmt>// プロパティ DialogResult を更新 ⇒ フォームが閉じる</cmt>
+        <b>DialogResult</b> = <b>DialogResult.No</b>;
+    }
+}
+</p>
+DialogResult プロパティの初期値は DialogResult.None 。<br>
+フォームがモーダルの場合、<b>DialogResult プロパティの値を更新すると自動的にフォームが閉じられる</b>ため、<br>
+Close() を明示的にコールする必要は無い。<br>
+
+<h3>DialogResult を元アプリケーションから参照</h3>
+<p class="code">
+    <cmt>// フォームインスタンス生成</cmt>
+    Form_Sub form_Sub = <kwd>new</kwd> Form_Sub();
+
+    <cmt>// form_Sub をモーダルダイアログとして開く</cmt>
+    form_Sub.<b>ShowDialog</b>();
+
+    <cmt>// form_Sub の実行結果(DialogResult)を参照</cmt>
+    <kwd>if</kwd> (form_Sub.<b>DialogResult</b> == <b>DialogResult.No</b>)
+    {
+        <kwd>return</kwd>;
+    }
+
+    :
+</p>
+
+フォームインスタンスを再利用しないのであれば、以下のように簡略化可能。<br>
+( <b>ShowDialog() は DialogResult プロパティを戻り値として返す</b>。)
+<p class="code">
+    <cmt>// Form_Sub を開いて実行結果(DialogResult)を取得</cmt>
+    <kwd>if</kwd> (<kwd>new</kwd> Form_Sub().<b>ShowDialog</b>() == <b>DialogResult.No</b>)
+    {
+        <kwd>return</kwd>;
+    }
+
+    :
+</p>
+フォームの実行結果を参照する場合、<b>フォームをモーダルで開く( ShowDialog() )のが通例</b>。<br>
+上記のコードでは Form_Sub を閉じるまで後続の処理( if 文以降)が行われないため、単純な処理で DialogResult を確定させてから判定することができる。<br>
+<br>
+この ShowDialog() を Show() に置き換えた場合、フォームはモードレスで開かれるため、<br>
+if 文では DialogResult の初期値( DialogResult.None )を参考することになり意味を成さない。<br>
+モードレスダイアログの DialogResult を参照するには、元アプリからのポーリングや、<br>
+フォームからイベントを発行する(フォームが閉じられたことを通知する)などの機構を用意する必要があるが、ここでは詳細は割愛する。<br>
+(余談ながら、Show() の戻り値は void 型である。)
+
+<h2>DialogResult 型の取りうる値(一例)</h2>
+<table>
+<tr><td>DialogResult.None</td><td>結果が設定されていない状態(デフォルト)</td></tr>
+<tr><td>DialogResult.Cancel</td><td>主に「キャンセル」ボタン押下時</td></tr>
+<tr><td>DialogResult.OK</td><td>主に「OK」ボタン押下時</td></tr>
+<tr><td>DialogResult.Yes</td><td>主に「はい」ボタン押下時</td></tr>
+<tr><td>DialogResult.No</td><td>主に「いいえ」ボタン押下時</td></tr>
+</table>
+
+</body>
+</html>
+

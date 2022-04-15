@@ -135,12 +135,57 @@ Fuga();           <cmt>//< 引数なしの Fuga() はコンパイル時に Fuga(
 (constの代替として)static readonly修飾を用いることで、定数値をstatic化できる。<br>
 constとは異なりバージョニング問題が発生しないため、static readonlyの使用が推奨されている。
 
-<h3>使い分けるポイント</h3>
+<h3>まとめ・使い分けるポイント</h3>
 <ul>
     <li>const : 将来にわたって値が変更されることが無く、かつ対象がprivate、または処理速度の低下が許容されない場合</li>
     <li>static readonly : 将来にわたって値が変更される可能性がある場合</li>
     <li>readonly : (インスタンスを跨いで)定数である必要が無い場合</li>
 </ul>
+
+<table>
+    <tr class="row1">
+        <td class="col1"></td>
+        <td>const</td>
+        <td>readonly</td>
+        <td>static readonly</td>
+    </tr>
+    <tr>
+        <td class="col1">値の確定時期</td>
+        <td class="center">コンパイル時</td>
+        <td class="center">実行時</td>
+        <td class="center">実行時</td>
+    </tr>
+    <tr>
+        <td class="col1">帰属先</td>
+        <td class="center">クラス (static)</td>
+        <td class="center">インスタンス</td>
+        <td class="center">クラス (static)</td>
+    </tr>
+    <tr>
+        <td class="col1">適用可能な型</td>
+        <td class="center">数値型、文字列 (string)</td>
+        <td class="center">制約なし</td>
+        <td class="center">制約なし</td>
+    </tr>
+    <tr>
+        <td class="col1">コンストラクタでの初期化</td>
+        <td class="center">不可</td>
+        <td class="center">可</td>
+        <td class="center">可</td>
+    </tr>
+    <tr>
+        <td class="col1">デフォルト引数、case 句への適用</td>
+        <td class="center">可</td>
+        <td class="center">不可</td>
+        <td class="center">不可</td>
+    </tr>
+    <tr>
+        <td class="col1">バージョニング問題</td>
+        <td class="center">発生する</td>
+        <td class="center">発生しない</td>
+        <td class="center">発生しない</td>
+    </tr>
+</table>
 
 </body>
 </html>

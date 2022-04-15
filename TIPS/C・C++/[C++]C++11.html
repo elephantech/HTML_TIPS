@@ -45,6 +45,7 @@ body
 <a href="TIPS/C%E3%83%BBC++/[C++]%E5%9E%8B%E6%8E%A8%E8%AB%96.html">[C++]型推論</a><br>
 <a href="TIPS/ソフトウェア開発一般/%E7%84%A1%E5%90%8D%E9%96%A2%E6%95%B0%E3%81%A8%E3%83%A9%E3%83%A0%E3%83%80%E5%BC%8F.html">無名関数とラムダ式</a><br>
 <a href="TIPS/C%E3%83%BBC++/[C++]%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%83%9D%E3%82%A4%E3%83%B3%E3%82%BF.html">[C++]スマートポインタ</a><br>
+<a href="TIPS/C・C++/[C++]委譲コンストラクタと継承コンストラクタ.html">[C++]委譲コンストラクタと継承コンストラクタ</a><br>
 <a href="TIPS/C・C++/[C++]typedefとusing.html">[C++]typedefとusing</a><br>
 
 <!-- 目次 -->
@@ -90,7 +91,7 @@ foo(NULL); <cmt>//< ポインタ型のつもりでNULLを与えているが…</
 <kwd>void</kwd> foo(<kwd>char</kwd>*);
 <kwd>void</kwd> foo(<kwd>int</kwd>);
 :
-foo(nullptr); <cmt>//< nullptr はポインタ型と解釈されるため、foo(char*) が呼ばれる</cmt>
+foo(<kwd>nullptr</kwd>); <cmt>//< <kwd>nullptr</kwd> はポインタ型と解釈されるため、foo(char*) が呼ばれる</cmt>
 </p>
 
 <!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
@@ -110,13 +111,13 @@ C++11ではキーワード<b>constexpr</b> が導入され、関数やオブジ�
 即ち、<b>下記の get5() は定数式と解釈される</b>。
 <p class="code">
 <cmt>// C++11以降 (有効なコード)</cmt>
-<kwd>constexpr</kwd> <kwd>int</kwd> get5() { <kwd>return</kwd> <ltr>5</ltr>; }    <cmt>//&lt; constexpr 修飾により get5() は定数式となる</cmt>
+<kwd>constexpr int</kwd> get5() { <kwd>return</kwd> <ltr>5</ltr>; }    <cmt>//&lt; <kwd>constexpr</kwd> 修飾により get5() は定数式となる</cmt>
 <kwd>int</kwd> arr_values[get5() + <ltr>5</ltr>];           <cmt>//&lt; 要素数10の配列を作る ⇒ []内が定数式のため有効</cmt>
 </p>
 また、定数を定数式として定義することも可能である。(const の代替)<br>
 <p class="code">
-<kwd>constexpr</kwd> <kwd>double</kwd> forceOfGravity = <ltr>9</ltr>.<ltr>8</ltr>;
-<kwd>constexpr</kwd> <kwd>double</kwd> moonGravity = forceOfGravity / <ltr>6</ltr>;
+<kwd>constexpr double</kwd> forceOfGravity = <ltr>9</ltr>.<ltr>8</ltr>;
+<kwd>constexpr double</kwd> moonGravity = forceOfGravity / <ltr>6</ltr>;
 </p>
 
 <!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
@@ -138,14 +139,14 @@ C++11では初期化子リストがテンプレート <b>std::initializer_list</
 <kwd>class</kwd> CSequenceClass
 {
 <kwd>public</kwd>:
-  CSequenceClass(std::initializer_list&lt;<kwd>int</kwd>&gt; list);
+  CSequenceClass(<kwd>std</kwd>::initializer_list&lt;<kwd>int</kwd>&gt; list);
 };
 
 <cmt>// 初期化子リストを用いた CSequenceClass 型変数の初期化</cmt>
 CSequenceClass someVar = { <ltr>1</ltr>, <ltr>4</ltr>, <ltr>5</ltr>, <ltr>6</ltr> };
 
 <cmt>// ↑は↓と等価である</cmt>
-std::initializer_list&lt;<kwd>int</kwd>&gt; i_er = { <ltr>1</ltr>, <ltr>4</ltr>, <ltr>5</ltr>, <ltr>6</ltr> };
+<kwd>std</kwd>::initializer_list&lt;<kwd>int</kwd>&gt; i_er = { <ltr>1</ltr>, <ltr>4</ltr>, <ltr>5</ltr>, <ltr>6</ltr> };
 CSequenceClass someVar(i_er);
 </p>
 
@@ -195,15 +196,15 @@ C++11ではコンストラクタが他の同等なコンストラクタを呼び
 <kwd>class</kwd> C_BaseClass 
 {
 <kwd>public</kwd>:
-    C_BaseClass (<kwd>int</kwd> value);
-    C_BaseClass (<kwd>float</kwd> value);
+    C_BaseClass (<kwd>int value</kwd>);
+    C_BaseClass (<kwd>float value</kwd>);
 };
 
 <cmt>// 派生クラス</cmt>
 <kwd>class</kwd> C_DerivedClass : <kwd>public</kwd> C_BaseClass 
 {
 <kwd>public</kwd>:
-    using C_BaseClass::C_BaseClass;    <cmt>//&lt; 基底クラスのコンストラクタを使用する</cmt>
+    <kwd>using</kwd> C_BaseClass::C_BaseClass;    <cmt>//&lt; 基底クラスのコンストラクタを使用する</cmt>
 };
 </p>
 更に、メンバの初期化に以下の構文が使用できる。コンストラクタで初期化内容を上書きすることもできる。<br>
@@ -213,7 +214,7 @@ C++11ではコンストラクタが他の同等なコンストラクタを呼び
   <kwd>int</kwd> iValue = <ltr>5</ltr>;    <cmt>//&lt; クラス定義中でメンバ iValue を初期化</cmt>
 <kwd>public</kwd>:
     C_SomeClass () {}
-    <kwd>explicit</kwd> C_SomeClass (<kwd>int</kwd> iNewValue) : iValue(iNewValue) {}  <cmt>//&lt; int 型引数付きで呼ばれた場合、引数で iValue を初期化</cmt>
+    <kwd>explicit</kwd> C_SomeClass (<kwd>int</kwd> iNewValue) : iValue(iNewValue) {}  <cmt>//&lt; <kwd>int</kwd> 型引数付きで呼ばれた場合、引数で iValue を初期化</cmt>
 };
 </p>
 
@@ -248,7 +249,7 @@ St_BasicStruct 型の var1 と、St_AltStruct 型の var2 を、同様の記法(
 <p class="code">
 <kwd>struct</kwd> St_IdString
 {
-    std::<kwd>string</kwd> name;
+    <kwd>std</kwd>::<kwd>string</kwd> name;
     <kwd>int</kwd> identifier;
 };
 
@@ -268,7 +269,7 @@ C++03までの列挙型 (enum) は型安全ではなく、型の異なる列挙�
 C++11では型安全な(クラス化された)列挙体が導入された。<br>
 <p class="code">
 <cmt>// 列挙型の定義 (enum class は enum struct に代替可能)</cmt>
-<kwd>enum</kwd> <kwd>class</kwd> E_Enumeration
+<kwd>enum class</kwd> E_Enumeration
 {
     VAL1,        <cmt>//&lt; == 0</cmt>
     VAL2,
@@ -289,16 +290,16 @@ C++03では、基底クラスの仮想関数をオーバーライドする際に
 <kwd>class</kwd> C_Base
 {
 <kwd>public</kwd>:
-    <kwd>virtual</kwd> <kwd>void</kwd> some_func(<kwd>float</kwd>);
-    <kwd>virtual</kwd> <kwd>bool</kwd> on_error();
+    <kwd>virtual void</kwd> some_func(<kwd>float</kwd>);
+    <kwd>virtual bool</kwd> on_error();
 };
 
 <cmt>// 派生クラス</cmt>
 <kwd>class</kwd> C_Derived : C_Base
 {
-    <kwd>virtual</kwd> <kwd>void</kwd> some_func(<kwd>int</kwd>);    <cmt>//&lt; 基底クラスの some_func(float) をオーバーライドするつもりが、</cmt>
+    <kwd>virtual void</kwd> some_func(<kwd>int</kwd>);    <cmt>//&lt; 基底クラスの some_func(float) をオーバーライドするつもりが、</cmt>
                                     <cmt>//&lt; 引数の型が異なっている</cmt>
-    <kwd>virtual</kwd> <kwd>bool</kwd> on_eror();         <cmt>//&lt; 基底クラスの on_error() をオーバーライドするつもりが、</cmt>
+    <kwd>virtual bool</kwd> on_eror();         <cmt>//&lt; 基底クラスの on_error() をオーバーライドするつもりが、</cmt>
                                     <cmt>//&lt; 関数名(シグネチャ)を誤っている</cmt>
 };
 </p>
@@ -310,15 +311,15 @@ C++11では <b>override</b> キーワードを導入することで、解決が�
 <kwd>class</kwd> C_Base
 {
 <kwd>public</kwd>:
-    <kwd>virtual</kwd> <kwd>void</kwd> some_func(<kwd>float</kwd>);
-    <kwd>virtual</kwd> <kwd>bool</kwd> on_error();
+    <kwd>virtual void</kwd> some_func(<kwd>float</kwd>);
+    <kwd>virtual bool</kwd> on_error();
 };
 
 <cmt>// 派生クラス</cmt>
 <kwd>class</kwd> C_Derived : C_Base
 {
-    <kwd>virtual</kwd> <kwd>void</kwd> some_func(<kwd>int</kwd>) <kwd>override</kwd>;    <cmt>//&lt; 不正 : 引数の型が異なっている</cmt>
-    <kwd>virtual</kwd> <kwd>bool</kwd> on_eror() <kwd>override</kwd>;         <cmt>//&lt; 不正 : 関数名(シグネチャ)を誤っている</cmt>
+    <kwd>virtual void</kwd> some_func(<kwd>int</kwd>) <kwd>override</kwd>;    <cmt>//&lt; 不正 : 引数の型が異なっている</cmt>
+    <kwd>virtual bool</kwd> on_eror() <kwd>override</kwd>;         <cmt>//&lt; 不正 : 関数名(シグネチャ)を誤っている</cmt>
 };
 </p>
 <b>override</b> 修飾された仮想関数が、基底クラスのオーバーライド先と一致しない場合にコンパイルエラーとなる。<br>
@@ -338,8 +339,8 @@ C++11では <b>final</b> キーワードが追加された。クラスに適用�
 <kwd>class</kwd> C_Base <kwd>final</kwd>
 {
 <kwd>public</kwd>:
-    <kwd>virtual</kwd> <kwd>void</kwd> some_func(<kwd>float</kwd>);
-    <kwd>virtual</kwd> <kwd>int</kwd> f();
+    <kwd>virtual void</kwd> some_func(<kwd>float</kwd>);
+    <kwd>virtual int</kwd> f();
 };
 
 <cmt>// 派生クラス</cmt>
@@ -359,7 +360,7 @@ C++11では <b>final</b> キーワードが追加された。クラスに適用�
 <kwd>class</kwd> C_Base
 {
 <kwd>public</kwd>:
-    <kwd>virtual</kwd> <kwd>void</kwd> some_func(<kwd>float</kwd>) <kwd>final</kwd>;    <cmt>//&lt; final : some_func(float) はオーバーライド不可となる</cmt>
+    <kwd>virtual void</kwd> some_func(<kwd>float</kwd>) <kwd>final</kwd>;    <cmt>//&lt; <kwd>final</kwd> : some_func(<kwd>float</kwd>) はオーバーライド不可となる</cmt>
 };
 
 <cmt>// 派生クラス</cmt>
@@ -368,6 +369,18 @@ C++11では <b>final</b> キーワードが追加された。クラスに適用�
     <kwd>void</kwd> some_func(<kwd>float</kwd>);    <cmt>//&lt; 不正 : final 修飾された関数をオーバーライドしようとしている</cmt>
 };
 </p>
+
+<!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
+
+<h2>委譲コンストラクタ</h2>
+コンストラクタから、自身の他のコンストラクタを呼ぶことができる。<br>
+詳細は<a href="TIPS/C・C++/[C++]委譲コンストラクタと継承コンストラクタ.html#委譲コンストラクタ">ここ</a>を参照。
+
+<!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
+
+<h2>継承コンストラクタ</h2>
+基底クラスで定義したコンストラクタを、派生クラスでそのまま使用できる。<br>
+詳細は<a href="TIPS/C・C++/[C++]委譲コンストラクタと継承コンストラクタ.html#継承コンストラクタ">ここ</a>を参照。
 
 <!-- ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～ -->
 
@@ -393,4 +406,6 @@ C++03で利用できた auto_ptr&lt;T&gt; に加え、unique_ptr&lt;T&gt; / shar
 
 </body>
 </html>
+
+
 

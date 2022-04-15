@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.window.windowstyle?view=windowsdesktop-6.0">Window.WindowStyle プロパティ (System.Windows) | Microsoft Docs</a><br>
+<a href="https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.window.resizemode?view=windowsdesktop-6.0">Window.ResizeMode プロパティ (System.Windows) | Microsoft Docs</a><br>
+<a href="https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.window.windowstate?view=windowsdesktop-6.0">Window.WindowState プロパティ (System.Windows) | Microsoft Docs</a><br>
+<a href="https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.window.sizetocontent?view=windowsdesktop-6.0">Window.SizeToContent プロパティ (System.Windows) | Microsoft Docs</a><br>
+<a href="https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.window.windowstartuplocation?view=windowsdesktop-6.0">Window.WindowStartupLocation プロパティ (System.Windows) | Microsoft Docs</a>
+
+<h5>関連 :</h5>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>ウィンドウの表示に関するプロパティ</h2>
+WPFにおける、ウィンドウ表示に関連するプロパティを以下に記す。WinFormとは一部プロパティ名が異なる。
+
+<h2>WindowStyle : ウィンドウの境界線</h2>
+WindowStyle プロパティはウィンドウの境界線(枠)を規定する。<br>
+型は WindowStyle 列挙型、既定値は SingleBorderWindow 。<br>
+<img src="_Img/MSVS_DotNet_CSharp/WPF_Window_Appearance/01.png"><br>
+
+<ul>
+    <li><b>None</b> : 枠なし。ウィンドウを最大化した場合はコンテンツのみが全画面に表示される。</li>
+    <li><b>SingleBorderWindow</b> : 既定値。標準の枠。</li>
+    <li><b>ThreeDBorderWindow</b> : 3Dの枠。</li>
+    <li><b>ToolWindow</b> : 最大化、最小化ボタンを表示しない。</li>
+</ul>
+
+
+<h2>ResizeMode : ウィンドウのリサイズ可否</h2>
+ResizeMode プロパティはウィンドウのリサイズの可否を規定する。<br>
+型は ResizeMode 列挙型、既定値は CanResize 。<br>
+
+<table>
+    <tr class="row1">
+        <td class="col1">設定値</td>
+        <td>概略</td>
+        <td>リサイズ</td>
+        <td>最小化ボタン</td>
+        <td>最大化ボタン</td>
+    </tr>
+    <tr>
+        <td class="col1">NoResize</td>
+        <td>リサイズ不可。最大化、最小化ボタンが表示されない。</td>
+        <td>不可</td>
+        <td>非表示</td>
+        <td>非表示</td>
+    </tr>
+    <tr>
+        <td class="col1">CanMinimize</td>
+        <td>最小化のみ可能。最大化ボタンは表示されるが無効。</td>
+        <td>不可</td>
+        <td>有効</td>
+        <td>無効</td>
+    </tr>
+    <tr>
+        <td class="col1">CanResize</td>
+        <td>既定値。リサイズ、最小化、最大化が可能。</td>
+        <td>可</td>
+        <td>有効</td>
+        <td>有効</td>
+    </tr>
+    <tr>
+        <td class="col1">CanResizeWithGrip</td>
+        <td>CanResize の機能に加え、リサイズ可能であることを示すグリップが右下隅に表示される。</td>
+        <td>可</td>
+        <td>有効</td>
+        <td>有効</td>
+    </tr>
+</table>
+
+<h2>WindowState : ウィンドウの表示状態</h2>
+ウィンドウが元のサイズにあるか、最大化、または最小化されているかを示す。<br>
+型は WindowState 列挙型、既定値は Normal 。<br>
+
+<ul>
+    <li><b>Normal</b> : 既定値。ウィンドウを元のサイズに戻す。</li>
+    <li><b>Minimized</b> : ウィンドウを最小化する。</li>
+    <li><b>Maximized</b> : ウィンドウを最大化する。</li>
+</ul>
+
+<h3>元のサイズの保持と復元</h3>
+最大化、最小化を行う直前の元のサイズは RestoreBounds プロパティに格納され、復元時にその値を使用する。
+
+<h3>表示状態変更時のイベント</h3>
+WindowState の値が変化した場合、 StateChanged イベントが発生する。
+
+<h2>SizeToContent : ウィンドウサイズをコンテンツに合わせて調整するか</h2>
+ウィンドウのサイズ(幅・高さ)をコンテンツに合わせて自動的に調整するかを示す。<br>
+型は SizeToContent 列挙型、既定値は Manual 。<br>
+
+<table>
+    <tr class="row1">
+        <td class="col1">設定値</td>
+        <td>概略</td>
+        <td>幅 (Width)</td>
+        <td>高さ (Height)</td>
+    </tr>
+    <tr>
+        <td class="col1">Normal</td>
+        <td>既定値。サイズが自動調整されない。</td>
+        <td>有効</td>
+        <td>有効</td>
+    </tr>
+    <tr>
+        <td class="col1">Width</td>
+        <td>幅のみ自動調整される。Width の設定は無視される。</td>
+        <td>無効</td>
+        <td>有効</td>
+    </tr>
+    <tr>
+        <td class="col1">Height</td>
+        <td>高さのみ自動調整される。Height の設定は無視される。</td>
+        <td>有効</td>
+        <td>無効</td>
+    </tr>
+    <tr>
+        <td class="col1">WidthAndHeight</td>
+        <td>幅と高さの両方が自動調整される。Width 、Height の設定が無視される。</td>
+        <td>無効</td>
+        <td>無効</td>
+    </tr>
+</table>
+
+<h2>WindowStartupLocation</h2>
+ウィンドウの初期表示位置を示す。型は WindowStartupLocation 列挙型、既定値は Manual 。<br>
+
+<ul>
+    <li><b>Manual</b> : 既定値。Left および Top で指定された位置を左上隅として表示する。</li>
+    <li><b>CenterScreen</b> : その時点でマウスカーソルが含まれる画面の中央に表示する。</li>
+    <li><b>CenterOwner</b> : 所有者ウィンドウ (Owner) の中央に表示する。</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<h5>出典 :</h5>
+<a href="https://www.paveway.info/entry/2019/05/30/csharp_constructor">C#でコンストラクタからコンストラクタを呼び出す。 - プログラムを書こう！</a>
+
+<h5>関連 :</h5>
+<a href="TIPS/C・C++/[C++]委譲コンストラクタと継承コンストラクタ.html">[C++]委譲コンストラクタと継承コンストラクタ</a><br>
+<a href="TIPS/C・C++/[C++]親クラスの関数をコール.html">[C++]親クラスの関数をコール</a><br>
+<a href="TIPS/C・C++/[C++]コンストラクタ初期化子(初期化リスト).html">[C++]コンストラクタ初期化子(初期化リスト)</a><br>
+<a href="TIPS/C・C++/[C++]継承 (Inheritance).html">[C++]継承 (Inheritance)</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>コンストラクタからコンストラクタを呼ぶ</h2>
+自身のクラスのコンストラクタから、(オーバーロードされた)別のコンストラクタを呼ぶ場合、<br>
+または、基底(親)クラスのコンストラクタを<b>明示的に</b>呼ぶ(特定のコンストラクタを指定する)場合は以下のように記述する。
+
+<div class="code">
+<cmt>// Hoge クラス</cmt>
+<kwd>class</kwd> Hoge : Fuga
+{
+    <cmt>// 引数なしコンストラクタ</cmt>
+    <cmt>// ⇒ 引数ありのコンストラクタを呼び出す</cmt>
+    <kwd>public</kwd> Hoge() : <kwd>this</kwd>("", 0)                 <cmt>//< <kwd>this</kwd> に続けて、括弧内に引数を列挙する</cmt>
+    {
+        :
+    }
+
+    <cmt>// 引数ありコンストラクタ</cmt>
+    <cmt>// ⇒ 基底クラスのコンストラクタを呼び出す</cmt>
+    <kwd>public</kwd> Hoge(<kwd>string</kwd> s, <kwd>int</kwd> i) : base(s, i)   <cmt>//< base に続けて、括弧内に引数を列挙する</cmt>
+    {
+        :
+    }
+}
+</div>
+    
+<h3>注意が必要な点</h3>
+派生クラスのインスタンスを生成する際は、基底クラスのコンストラクタが自動的に呼び出されるが、<br>
+ここで呼ばれる基底クラスのコンストラクタは<b>デフォルトコンストラクタ(引数なしのコンストラクタ)に限定される</b>。<br>
+このため、基底クラスの引数ありコンストラクタを実行したい場合は、上記例のようにコンストラクタを明示的に指定する必要がある。<br>
+これは C++ と同様。
+
+</body>
+</html>
+
+
+
+

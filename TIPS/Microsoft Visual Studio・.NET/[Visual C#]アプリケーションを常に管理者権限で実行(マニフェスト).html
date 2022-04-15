@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出展 :</h5>
+<a href="https://www.ipenteccomdocumentcsharp-run-as-administrator-using-manifest-TIPS/">アプリケーション実行時に常にAdministratorとして実行する | iPentec</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>作成したアプリケーションを常に管理者権限で実行させる手順</h2>
+マニフェストを作成することで、アプリケーションが管理者権限を要求するようにできる。<br>
+ただし、この操作でマニフェストを「管理者権限を要求する」とした場合、<br>
+<b>デバッグ時はVisual Studioを管理者権限で起動する必要がある</b>。
+
+<h3>マニフェストの作成</h3>
+(プロジェクト内にマニフェストファイル(app.manifest)が存在しない場合)<br>
+プロジェクトを右クリックし、「追加」「新しい項目」「アプリケーション マニフェスト ファイル(Windowsのみ)」を選択し、「追加」をクリック。<br>
+<img src="_Img/MSVS_DotNet_CSharp/TaskScheduler_with_CSharp/cs_task_scheduler_03.png"><br>
+
+<h3>マニフェストの編集</h3>
+trustInfo > security > requestedExecutionLevel の値を下図のように書き換える。<br>
+<img src="_Img/MSVS_DotNet_CSharp/TaskScheduler_with_CSharp/cs_task_scheduler_01.png"><br>
+
+</body>
+</html>

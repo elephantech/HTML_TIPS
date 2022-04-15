@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://cpprefjp.github.io/lang/cpp11/delegating_constructors.html">委譲コンストラクタ - cpprefjp C++日本語リファレンス</a><br>
+<a href="https://cpprefjp.github.io/lang/cpp11/inheriting_constructors.html">継承コンストラクタ - cpprefjp C++日本語リファレンス</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C・C++/[C++]C++11.html">[C++]C++11</a><br>
+<a href="TIPS/C・C++/[C++]親クラスの関数をコール.html">[C++]親クラスの関数をコール</a><br>
+<a href="TIPS/C・C++/[C++]コンストラクタ初期化子(初期化リスト).html">[C++]コンストラクタ初期化子(初期化リスト)</a><br>
+<a href="TIPS/C・C++/[C++]継承 (Inheritance).html">[C++]継承 (Inheritance)</a><br>
+<a href="TIPS/C Sharp/コンストラクタからコンストラクタを呼ぶ.html">[C#]コンストラクタからコンストラクタを呼ぶ</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+</table>
+
+<h2>委譲コンストラクタ</h2>
+コンストラクタから、同じクラスの他のコンストラクタに処理を委譲する機能のこと。<br>
+コンストラクタから自身の他のコンストラクタを呼ぶことで、共通の初期化処理を一元化することができる。<br>
+C++11で追加された。
+
+<div class="code">
+<cmt>// param 構造体定義</cmt>
+<kwd>struct</kwd> Param
+{
+    <kwd>int</kwd>         id;
+    <kwd>std</kwd>::<kwd>string</kwd> name;
+}
+
+<cmt>// Hoge クラス定義</cmt>
+<kwd>class</kwd> Hoge
+{
+<kwd>private</kwd>:
+    <kwd>int</kwd>         m_Id;
+    <kwd>std</kwd>::<kwd>string</kwd> m_Name;
+
+<kwd>public</kwd>:
+    <cmt>// コンストラクタ#1</cmt>
+    X(<kwd>int</kwd> i, <kwd>const std</kwd>::<kwd>string</kwd> s)
+        : m_Id(i), m_Name(s)
+    {
+        :
+    }
+
+    <cmt>// コンストラクタ#2</cmt>
+    X(<kwd>const</kwd> Param& param)
+        : X(param.id, param.name)       <cmt>//< コンストラクタ#1に処理を委譲</cmt>
+    {
+        :
+    }
+}
+</div>
+
+<h3>基底クラスのコンストラクタを明示的に呼び出す</h3>
+委譲コンストラクタの機能を用いることで、基底クラスのコンストラクタを明示的に指定することができる。<br>
+指定を行わなかった場合は、基底クラスのデフォルトコンストラクタ(引数なし)が呼ばれる。
+
+<div class="code">
+<cmt>// 基底クラス定義</cmt>
+<kwd>class</kwd> Base
+{
+<kwd>public</kwd>:
+    <cmt>// デフォルトコンストラクタ</cmt>
+    Base()
+    {
+        :
+    }
+
+    <cmt>// コンストラクタ</cmt>
+    Base(<kwd>int</kwd> i, <kwd>const std</kwd>::<kwd>string</kwd> s)
+    {
+        :
+    }
+}
+
+<cmt>// 派生クラス定義</cmt>
+<kwd>class</kwd> Derived : <kwd>public</kwd> Base
+{
+<kwd>public</kwd>:
+    <cmt>// コンストラクタ</cmt>
+    Derived(<kwd>int</kwd> i, <kwd>const std</kwd>::<kwd>string</kwd> s)
+        : Base(i, s)                        <cmt>//< 基底クラスのコンストラクタを明示的に指定</cmt>
+    {
+        :
+    }
+}
+</div>
+
+上記の例では、基底クラスの引数ありコンストラクタを呼ぶために、明示的な指定を行っている。<br>
+但し、このように派生クラスから基底クラスに引数をそのまま渡す場合は、後述する継承コンストラクタを用いるほうが簡便である。
+
+<h2>継承コンストラクタ</h2>
+基底クラスで定義したコンストラクタ(群)を、派生クラスでそのまま使用できるようにするための糖衣構文。C++11で導入された。<br>
+多くの場合、派生クラスは基底クラスと共通のコンストラクタを有するため、<br>
+継承コンストラクタの導入前は、派生クラスのコンストラクタに渡された引数を基底クラスに転送する必要があった。<br>
+継承コンストラクタを用いることで、この作業が不要となる。
+
+<div class="code">
+    <cmt>// 基底クラス#1定義</cmt>
+    <kwd>class</kwd> Base1
+    {
+    <kwd>public</kwd>:
+        Base1()
+        {
+            :
+        }
+    
+        Base1(<kwd>int</kwd> i)
+        {
+            :
+        }
+    }
+    
+    <cmt>// 基底クラス#2定義</cmt>
+    <kwd>class</kwd> Base2
+    {
+    <kwd>public</kwd>:
+        Base2()
+        {
+            :
+        }
+    
+        Base2(<kwd>const std</kwd>::<kwd>string</kwd> s)
+        {
+            :
+        }
+    }
+    
+    <cmt>// 派生クラス定義</cmt>
+    <kwd>class</kwd> Derived : <kwd>public</kwd> Base1, Base2
+    {
+    <kwd>public</kwd>:
+        <cmt>// Base1 、Base2 のコンストラクタすべてを継承することを宣言</cmt>
+        <cmt>// ⇒ Derived() 、Derived(int) 、Derived(const std::string) が暗黙的に宣言される</cmt>
+        <kwd>using</kwd> Base1::Base1;
+        <kwd>using</kwd> Base2::Base2;
+    }
+</div>
+    
+上記の例では、派生クラス Derived は using により、基底クラス Base1 、Base2 のコンストラクタを継承している。<br>
+Derived(int) や Derived(const std::string) はそのまま Base1(int) 、Base2(const std::string) を呼び出すため、<br>
+あらためて派生クラスのコンストラクタを定義する必要が無い。<br>
+
+<h3>一部を明示的に宣言</h3>
+継承コンストラクタを用いた場合でも、特定のコンストラクタのみを再定義することが可能である。<br>
+派生クラスで追加の処理を行う場合や、基底クラスの異なるコンストラクタを呼び出す場合に用いる。
+
+<div class="code">
+<cmt>// 派生クラス定義</cmt>
+<kwd>class</kwd> Derived : <kwd>public</kwd> Base1, Base2
+{
+<kwd>public</kwd>:
+    <kwd>using</kwd> Base1::Base1;
+    <kwd>using</kwd> Base2::Base2;
+
+    <cmt>// Base2::Base2(const std::string s) のみを明示的に宣言</cmt>
+    Derived(<kwd>const std</kwd>::<kwd>string</kwd> s)
+        : Base2::Base2(s)
+    {
+        :
+    }
+}
+</div>
+
+</body>
+</html>
+
+

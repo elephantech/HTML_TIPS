@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<hr>
+
+<!-- 本文ここから -->
+
+
+複数のプロジェクトで、共通のソースファイルを用いる際の手順。<br>
+(一方を変更すると、他方にも反映される。同一ソリューションに属している必要は無い。)<br>
+<img src="_Img/MSVS_DotNet_CSharp/VS_Source_Share/VisualStudio_Source_Share_01.png">
+
+<ol>
+<li>
+既存の項目を追加する先のプロジェクトを選択して右クリック、「追加」>「既存の項目」を選択する。<br>
+<img src="_Img/MSVS_DotNet_CSharp/VS_Source_Share/VisualStudio_Source_Share_02.png">
+</li>
+
+<li>
+追加するファイルを選択し、<b>「追加」</b>&gt;<b>「リンクとして追加」</b>を選択する。<br>
+(単に「追加」するとファイルのコピーが追加される。)<br>
+<img src="_Img/MSVS_DotNet_CSharp/VS_Source_Share/VisualStudio_Source_Share_03.png">
+</li>
+</ol>
+
+
+</body>
+</html>
