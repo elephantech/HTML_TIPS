@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<h5>関連 :</h5>
+<a href="TIPS/Microsoft Visual Studio・.NET/[WinForm]UI(コントロール)とデリゲート.html">[WinForm]UI(コントロール)とデリゲート</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>ウィンドウの開閉に関する制約</h2>
+WPFでは、<b>自身のウィンドウを閉じる、または新しいウィンドウを開く操作はUIスレッドから行う必要がある</b>。<br>
+UIスレッドには、各ウィンドウに関連付けられたイベントハンドラが該当する。<br>
+即ち原則として、上記の操作はイベントハンドラ(と同一のスレッド)からでなければ実行することができない。<br>
+<img src="_Img/MSVS_DotNet_CSharp/UI_delegate/UiControl_and_Delegate_01.png" alt="画像"><br>
+
+<h2>別スレッドからのウィンドウ開閉</h2>
+別スレッドからウィンドウの開閉を行う場合、UIスレッドに操作を委譲<b>( Application.Current.Dispatcher.Invoke() )</b>する必要がある。<br>
+<br>
+ウィンドウ HogeWindow.cs
+<div class="code">
+<cmt>// ContentRendered イベントハンドラ</cmt>
+<kwd>private void</kwd> Window_ContentRendered(<kwd>object</kwd> sender, <knw>EventArgs</knw> e)
+{
+    <cmt>// 別スレッドにて処理を実行</cmt>
+    <knw>Task</knw> t = <knw>Task</knw>.Run( () => InitializeSystem() );
+}
+
+<cmt>// UIスレッド外で行われる処理</cmt>
+<kwd>private void</kwd> InitializeSystem()
+{
+    <kwd>try</kwd>
+    {
+        <cmt>// MainWindow を開く</cmt>
+        <cmt>// ⇒ UIスレッドに委譲</cmt>
+        <knw>Application</knw>.Current.Dispatcher.Invoke( () => ( <kwd>new</kwd> MainWindow() ).Show() );
+    }
+    <cmt>// 例外発生時</cmt>
+    <kwd>catch</kwd> ( <knw>Exception</knw> ex )
+    {
+        :
+    }
+    <kwd>finally</kwd>
+    {
+        <cmt>// 自身のウィンドウを閉じる</cmt>
+        <cmt>// ⇒ UIスレッドに委譲</cmt>
+        <knw>Application</knw>.Current.Dispatcher.Invoke( () => Close() );
+    }
+}
+</div>
+
+</body>
+</html>
+
+

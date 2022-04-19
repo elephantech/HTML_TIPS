@@ -168,5 +168,62 @@ WindowState の値が変化した場合、 StateChanged イベントが発生す
     <li><b>CenterOwner</b> : 所有者ウィンドウ (Owner) の中央に表示する。</li>
 </ul>
 
+<h2>タイトルバーを残したまま閉じるボタンを非表示にする</h2>
+WindowStyle プロパティで最大化、最小化ボタンを非表示にすることはできるが、閉じるボタンのみはプロパティの設定では非表示にできない。<br>
+コードビハインドを以下のように記述することで実現できる。#region ～ #endregion が該当箇所。<br>
+System.Runtime.InteropServices および System.Windows.Interop の参照を行うため、using で指定している。<br>
+<br>
+<b>MainWindow.xaml.cs (コードビハインド)</b>
+<div class="code">
+<kwd>using</kwd> <knw>System</knw>;
+<kwd>using</kwd> <knw>System</knw>.<knw>Windows</knw>;
+<kwd>using</kwd> <knw>System</knw>.Runtime.InteropServices;       <cmt>//< 参照設定</cmt>
+<kwd>using</kwd> <knw>System</knw>.<knw>Windows</knw>.Interop;               <cmt>//< 参照設定</cmt>
+
+<kwd>namespace</kwd> WindowMenuButtonHidden
+{
+    <kwd>public partial class</kwd> MainWindow : <knw>Window</knw>
+    {
+        <kwd>#region</kwd> "最大化・最小化・閉じるボタンの非表示設定"
+
+        [DllImport("user32.dll")]
+        <kwd>private static extern int</kwd> GetWindowLong(<knw>IntPtr</knw> hWnd, <kwd>int</kwd> nIndex);
+
+        [DllImport("user32.dll")]
+        <kwd>private static extern int</kwd> SetWindowLong(<knw>IntPtr</knw> hWnd, <kwd>int</kwd> nIndex, <kwd>int</kwd> dwNewLong);
+
+        <kwd>const int</kwd> GWL_STYLE = -16;
+        <kwd>const int</kwd> WS_SYSMENU = 0x80000;
+
+        <kwd>protected override void</kwd> OnSourceInitialized(<knw>EventArgs</knw> e)
+        {
+            <kwd>base</kwd>.OnSourceInitialized(e);
+            <knw>IntPtr</knw> handle = <kwd>new</kwd> WindowInteropHelper(<kwd>this</kwd>).Handle;
+            <kwd>int</kwd> style = GetWindowLong(handle, GWL_STYLE);
+            style = style & (~WS_SYSMENU);
+            SetWindowLong(handle, GWL_STYLE, style);
+        }
+
+        <kwd>#endregion</kwd>
+
+        <kwd>public</kwd> MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        :
+    }
+}    
+</div>
+
+
 </body>
 </html>
+
+
+
+
+
+
+
+

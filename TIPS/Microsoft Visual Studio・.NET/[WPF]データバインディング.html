@@ -108,21 +108,21 @@ Visual Studio上で <b>propdp</b> とタイプすることで、コード例の�
 
 <h3>DataContext の包含継承</h3>
 <div class="code">
-<cmt>&lt;!-- 始祖 : Window --&gt;</cmt>
-&lt;Window&gt;
+&lt;!-- 始祖 : <knw>Window</knw> --&gt;
+&lt;<knw>Window</knw>&gt;
 
-    <cmt>&lt;!-- Window の子 : StackPanel --&gt;</cmt>
+    &lt;!-- <knw>Window</knw> の子 : StackPanel --&gt;
     &lt;StackPanel&gt;
 
-        <cmt>&lt;!-- StackPanel の子 --&gt;</cmt>
+        &lt;!-- StackPanel の子 --&gt;
         &lt;Label/&gt;
-        &lt;TextBox/&gt;
+        &lt;<knw>TextBox</knw>/&gt;
         :
 
     &lt;/StackPanel&gt;
     :
 
-&lt;/Window&gt;
+&lt;/<knw>Window</knw>&gt;
 </div>
 <b>DataContext は親要素から子孫に引き継がれる</b>。<br>
 上記の構造を持つ Window にて DataContext を指定すると、子要素である StackPanel の DataContext も同じものを参照する。<br>
@@ -149,9 +149,9 @@ ReactiveProperty 、および ReactiveProperty.WPF はNuGetから入手できる
 <b>Viewの定義 : MainWindow.xaml</b>
 <div class="code">
 &lt;StackPanel&gt;
-    <cmt>&lt;!-- TextBlock の Text を DataContext の <b class="red">Count</b> にバインド --&gt;</cmt>
-    &lt;TextBlock Text="{Binding <b class="red">Path=Count.Value</b>}"/&gt;
-    &lt;Button Click="CountUp_Click" Content="Count Up!"/&gt;
+    &lt;!-- TextBlock の <knw>Text</knw> を DataContext の <b class="red">Count</b> にバインド --&gt;
+    &lt;TextBlock <knw>Text</knw>="{Binding <b class="red">Path=Count.Value</b>}"/&gt;
+    &lt;<knw>Button</knw> Click="CountUp_Click" Content="Count Up!"/&gt;
 &lt;/StackPanel&gt;
 </div>
 
@@ -170,7 +170,7 @@ ReactiveProperty 、および ReactiveProperty.WPF はNuGetから入手できる
         <cmt>// DataContext (データソース)の指定</cmt>
         viewmodel = <kwd>new</kwd> SampleViewModel()
         {
-            <b class="red">Count</b> = 0
+            <b class="red">Count.Value</b> = 0
         };
         <kwd>this</kwd>.DataContext = viewmodel;
     }
@@ -178,7 +178,7 @@ ReactiveProperty 、および ReactiveProperty.WPF はNuGetから入手できる
     <cmt>// ボタン「Count Up!」クリック時の処理</cmt>
     <kwd>private void</kwd> CountUp_Click(<kwd>object</kwd> sender, <knw>RoutedEventArgs</knw> e)
     {
-        viewmodel.<b class="red">Count</b>++;
+        viewmodel.<b class="red">Count.Value</b>++;
     }
 }
 </div>
@@ -195,3 +195,5 @@ SampleViewModel の定義において Count を ReactiveProperty としている
 
 </body>
 </html>
+
+

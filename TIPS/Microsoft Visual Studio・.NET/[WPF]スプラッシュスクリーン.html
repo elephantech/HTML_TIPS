@@ -33,6 +33,7 @@ body
 <!-- 出典・関連ページ -->
 <h5>出典 :</h5>
 <a href="https://docs.microsoft.com/ja-jp/dotnet/desktop/wpf/app-development/how-to-add-a-splash-screen-to-a-wpf-application?view=netframeworkdesktop-4.8">スプラッシュ スクリーンを追加する方法 - WPF .NET Framework | Microsoft Docs</a><br>
+<a href="https://qiita.com/tricogimmick/items/79e85baa1e99eec840d8">WPF Windowが最初に表示されたときに処理を行いたい - Qiita</a>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -47,7 +48,7 @@ body
 ロゴやバージョン情報を表示し、初期処理の完了とともに、自動的に消える。<br>
 ここでは、WPFにおけるスプラッシュスクリーンの実装方法を解説する。
 
-<h2>手順 (画像のみを表示)</h2>
+<h2>画像のみを表示する際の手順</h2>
 <OL>
     <LI>
         「ソリューション エクスプローラー」から、プロジェクトにスプラッシュに用いる画像ファイルを追加する。<br>
@@ -64,5 +65,44 @@ body
     </li>
 </OL>
 
+<h2>ウィンドウを表示する際の手順</h2>
+スプラッシュとして SplashWindow を表示後、MainWindow を表示する場合を考える。
+<ol>
+    <li>
+        ウィンドウ SplashWindow を作成する。
+    </li>
+    <li>
+        1. で作成した SplashWindow をスタートアップウィンドウに指定する。<br>
+        「ソリューション エクスプローラー」から App.xaml を開き、<br>
+        「StartupUri」に SplashWindow の(相対)パスを指定する。<br>
+        <img src="_Img/MSVS_DotNet_CSharp/WPF_Splash/03.png"><br>
+        <img src="_Img/MSVS_DotNet_CSharp/WPF_Splash/04.png"><br>
+    </li>
+    <li>
+        SplashWindow の <b>ContentRendered</b> イベントハンドラで必要な処理を実行後、MainWindow を開く。
+        <div class="code">
+<cmt>// スプラッシュ表示中にバックグラウンドで実行したい処理...</cmt>
+:
+
+<cmt>// MainWindow を(モードレスで)開き、自身を閉じる</cmt>
+( <kwd>new</kwd> MainWindow() ).Show();
+Close();
+        </div>
+    </li>
+</ol>
+
+<h3>注意が必要な点</h3>
+上記の手順 3. において ContentRendered (WinFormの Shown に相当)を使用しているのは、SplashWindow が<b>表示されたことを確認した上で</b>処理を行うため。<br>
+Window 表示時のイベント発生順序は
+<ol>
+    <li>Activated</li>
+    <li>Loaded</li>
+    <li>(コンテンツ描画完了)</li>
+    <li>ContentRendered</li>
+</ol>
+となっており、Activated や Loaded で処理を行おうとすると、期待通りの動作とならない。<br>
+
 </body>
 </html>
+
+
