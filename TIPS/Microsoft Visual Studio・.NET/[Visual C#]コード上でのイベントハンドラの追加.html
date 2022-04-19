@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+<h2>イベントハンドラをコード上で追加する</h2>
+ウィンドウやフォームなどのコントロールへのイベントハンドラの追加は、デザイナによる方法と、コード上から行う方法のいずれでも可能である。<br>
+(WinFormの場合は、デザイナ上で追加した場合もコードに自動的に反映されるため、結局はコードで追加することになる。)<br>
+ハンドラにはラムダ式を用いることができるため、ハンドラ用のメソッドを定義するよりも記述を簡略化できる。
+
+<h3>手順</h3>
+追加先のイベントに += でメソッド(またはラムダ式)を追加する。<br>
+ここで、ひとつのイベントに対して複数のハンドラを追加することができ、イベントの発生時には追加された(旧い)順に実行される。<br>
+<img src="_Img/MSVS_DotNet_CSharp/VS_Add_Handler/01.png"><br>
+
+</body>
+</html>
