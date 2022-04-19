@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="file:///G:/共有ドライブ/098-all-employees/tips/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://araramistudio.jimdo.com/2018/04/06/c-%E3%81%AEwpf%E3%81%A7main%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E7%B7%A8%E9%9B%86%E3%81%99%E3%82%8B/">C#のWPFでMainメソッドを編集する - Ararami Studio</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>WPFのエントリポイント (C#)</h2>
+C#のアプリケーションは <b>Main()</b> メソッドから開始されるが、これはWPFも例外ではない。<br>
+(すべて小文字の main() ではない点に注意)<br>
+但しWPFの場合はWinFormと異なり、Main() メソッドを含むソースファイルが(通常は)プロジェクトに追加されなくなっている。<br>
+デフォルトの設定下では Main() メソッドはソースファイル <b>App.g.cs</b> に記述され、これはビルド時に自動生成される。<br>
+<br>
+<b>App.g.cs</b> (コメントのみ改変)
+<div class="code">
+(略)
+
+<kwd>namespace</kwd> Console_ELP03 {
+    
+    <cmt>/// アプリケーション</cmt>
+    <kwd>public partial class</kwd> App : <knw>System</knw>.<knw>Windows</knw>.<knw>Application</knw> {
+        
+        <cmt>/// InitializeComponent</cmt>
+        [<knw>System</knw>.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [<knw>System</knw>.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "6.0.1.0")]
+        <kwd>public void</kwd> InitializeComponent() {
+            
+            #line 5 "..\..\..\App.xaml"
+            <kwd>this</kwd>.StartupUri = <kwd>new</kwd> <knw>System</knw>.Uri("MainWindow.xaml", <knw>System</knw>.UriKind.Relative);       <cmt>//< 最初に開かれるウィンドウ</cmt>
+            
+            #line <kwd>default</kwd>
+            #line hidden
+        }
+        
+        <cmt>/// Application Entry Point.</cmt>
+        <cmt>/// アプリケーションのエントリポイント( Main() )</cmt>
+        [<knw>System</knw>.STAThreadAttribute()]
+        [<knw>System</knw>.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [<knw>System</knw>.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "6.0.1.0")]
+        <kwd>public static void</kwd> Main() {
+            Console_ELP03.App app = <kwd>new</kwd> Console_ELP03.App();
+            app.InitializeComponent();
+            app.Run();
+        }
+    }
+}    
+</div>
+Main() メソッドではアプリケーションの生成と起動、スタートアップウィンドウの設定を行っている。<br>
+通常の用途では、アプリケーション全体の初期化はスタートアップウィンドウ(この場合では MainWindow )のコンストラクタに、<br>
+終了処理は同じくスタートアップウィンドウのデストラクタに記述すればよい。<br>
+尚、スプラッシュスクリーンを設定している場合は、スタートアップウィンドウが開く(コンストラクタが呼ばれる)前に表示される。
+
+<h2>Main() メソッドを編集する</h2>
+スタートアップウィンドウが開く前に処理を行いたい場合は、App.g.cs を自動生成しないよう設定し、Main() メソッドを独自に定義する。<br>
+詳細は<a href="https://araramistudio.jimdo.com/2018/04/06/c-%E3%81%AEwpf%E3%81%A7main%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E7%B7%A8%E9%9B%86%E3%81%99%E3%82%8B/">出典元</a>を参照。
+
+</body>
+</html>
+
+
