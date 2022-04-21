@@ -47,7 +47,7 @@ body
 
 <h2>DockPanel / StackPanel コントロール</h2>
 WPFにてレイアウトを行う際に、コントロール(子要素)を配置するための下地となるコントロール。<br>
-それぞれに特徴があり、子要素の配置のさせ方が異なる。<br>
+それぞれ子要素の配置のさせ方が異なる。<br>
 
 <h3>DockPanel</h3>
 Panelの上下左右端への配置を簡単に行える。配置の優先度は記述順となる。
@@ -63,22 +63,25 @@ Panelの上下左右端への配置を簡単に行える。配置の優先度は
 <ul><li>(1)は上端(Top)にドッキングされる。
 </li><li>(2)も同様に上端にドッキング指定されているが、先に記述された(1)が優先されるため、(1)の直下に配置される。
 </li><li>(3)は下端にドッキングされる。
-</li><li>ここで、(1)～(3)は幅 (Width) が指定されていないため、親要素である DockPanel の幅がそのまま適用される。
-</li><li>(4)は左端にドッキングされるが、パネルの上下端は先述の(1)～(3)が優先される。幅を確保するため最小幅 (MinWidth) を指定している。
-</li><li>(5)は(1)～(4)を配置した余白が充てられる。(プロパティ LastChildFill == true の場合。既定値 true のため明示的な指定は不要。)
+</li><li>ここで、(1)～(3)は幅 (Width) が指定されていないため、親要素である DockPanel の幅がそのまま適用される。<br>
+( HorizontalAlignment == "Stretch" )
+</li><li>(4)は左端にドッキングされるが、パネルの上下端は先述の(1)～(3)が優先される。幅を確保するため最小幅 (MinWidth) を指定している。<br>
+高さは空いた領域をいっぱいに使用する。( VerticalAlignment == "Stretch" )
+</li><li>(5)は(1)～(4)を配置した余白が充てられる。
+<br>(プロパティ LastChildFill == "True" の場合。既定値 True のため明示的な指定は不要。)
 </li>
 </ul>
 
 <h4>LastChildFill プロパティ</h4>
 DockPanel 上で最後に配置した子要素に残りの全余白を充てる設定。<br>
 上述の例のように、大きさの決まった要素を予め配置しておき、最後に配置した要素は余白に準じた大きさとする場合に便利だが、<br>
-true の場合大きさ(Width 、Height)が上書きされるため、大きさを固定したい場合は LastChildFill = false とする。
+大きさ(Width 、Height)が無効化されるため、大きさを指定したい場合は LastChildFill = "False" とする。
 
 <h3>StackPanel</h3>
 子要素を縦一列、または横一列に並べる際に用いる。DockPanel に比べリソースの消費が少ない。<br>
 並べる方向はプロパティ Orientation で指定する。
 
-<h4>実装例 : 縦並び</h4>
+<h4>実装例 : 縦並び (Orientation = "Vertical")</h4>
 <h5>XAML</h5>
 <img src="_Img/MSVS_DotNet_CSharp/WPF_Panels/03.png">
 
@@ -87,7 +90,7 @@ true の場合大きさ(Width 、Height)が上書きされるため、大きさ�
 
 <h5>解説</h5>
 <ul>
-    <li>StackPanel の Orientation の既定値は "Vertical" のため、明示的に指定を行わなければ子要素は縦並びとなる。
+    <li>Orientation の既定値は "Vertical" のため、明示的に指定を行わなければ子要素は縦並びとなる。
     
     </li><li>(1)は上端に配置される。HorizontalAlignment の既定値は "Stretch" で、親要素の幅がそのまま適用される。
     </li><li>(2)は(1)の下に配置される。HorizontalAlignment == "Left" のため左詰めとなる。
@@ -97,7 +100,7 @@ true の場合大きさ(Width 、Height)が上書きされるため、大きさ�
         
 </ul>
 
-<h4>実装例 : 横並び</h4>
+<h4>実装例 : 横並び (Orientation = "Horizontal")</h4>
 <h5>XAML</h5>
 <img src="_Img/MSVS_DotNet_CSharp/WPF_Panels/05.png">
 
