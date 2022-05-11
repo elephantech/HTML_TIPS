@@ -36,7 +36,7 @@ body
 
 <h5>関連 :</h5>
 <a href="TIPS/C%20Sharp/マーシャリング.html">マーシャリング</a><br>
-<a href="TIPS/Microsoft%20Visual%20Studio・.Net/[Visual%20C++]基本的なDLLの作成手順.html">[Visual C++]基本的なDLLの作成手順</a><br>
+<a href="TIPS/Microsoft%20Visual%20Studio・.Net/[Visual%20C%2B%2B]基本的なDLLの作成手順.html">[Visual C++]基本的なDLLの作成手順</a><br>
 <a href="TIPS/C%20Sharp/DLLの呼び出し.html">DLLの呼び出し</a><br>
 
 <!-- 目次 -->
@@ -52,7 +52,7 @@ body
 C/C++で作成したDLLをC#でインポートし、関数をコールするための手順(ここではVisual Studio 2013を用いる)を記す。<br>
 <h2>1. ライブラリ(C++)側の操作</h2>
 ライブラリを作成する。<br>
-<a href="TIPS/Microsoft%20Visual%20Studio・.Net/[Visual%20C++]基本的なDLLの作成手順.html">[Visual C++]基本的なDLLの作成手順</a>を参照。<br>
+<a href="TIPS/Microsoft%20Visual%20Studio・.Net/[Visual%20C%2B%2B]基本的なDLLの作成手順.html">[Visual C++]基本的なDLLの作成手順</a>を参照。<br>
 <h2>2. アプリケーション(C#)側の操作</h2>
 ライブラリ関数を呼び出す処理を実装し、ビルドを行う。<br>
 Program.cs<br>
@@ -75,14 +75,18 @@ Program.cs<br>
     }
 }
 </p>
+
 <h2>注意が必要な点</h2>
 <h3>データ型の差異を吸収(マーシャリング)</h3>
 C++とC#では型に互換性が無く、データをそのままの形式で渡すことができない場合が存在する。<br>
 (例 : C++の string とC#の string は互換性が無い)<br>
 このため、データの授受に当たっては、互換性のある形式に変換する必要がある。<br>
 詳細は<a href="TIPS/C%20Sharp/マーシャリング.html">マーシャリング</a>を参照。<br>
+
 <h3>ビルド環境の考慮</h3>
-64bitでビルドしたアプリケーションは、64bitのDLLしかインポートできず、プロジェクトの設定を揃える必要がある。(32bitも同様？)<br>
+64bitでビルドしたアプリケーションは64bitのDLLしかインポートできないため、プロジェクトの設定を揃える必要がある。(32bitも同様？)
+
 </body>
 </html>
+
 

@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function ()
   
   // デコードしきれない特殊文字を変換
   title = title.replaceAll('%23', '#');		//< #
+  title = title.replaceAll('%2B', '+');		//< +
 
   // ドキュメントタイトル設定
   document.title = title;

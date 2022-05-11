@@ -36,8 +36,8 @@ body
 <a href="https://atmarkit.itmedia.co.jp/ait/articles/1606/15/news028.html">構文：クラス名を書かずに静的メソッドを呼び出すには？［C# 6.0］：.NET TIPS - ＠IT</a><br>
 
 <h5>関連 :</h5>
-<a href="TIPS/C・C++/[C++]typedefとusing.html">[C++]typedefとusing</a><br>
-<a href="TIPS/C・C++/[C++]RAIIと地蔵インスタンス.html">[C++]RAIIと地蔵インスタンス</a><br>
+<a href="TIPS/C・C%2B%2B/[C%2B%2B]typedefとusing.html">[C++]typedefとusing</a><br>
+<a href="TIPS/C・C%2B%2B/[C%2B%2B]RAIIと地蔵インスタンス.html">[C++]RAIIと地蔵インスタンス</a><br>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -50,7 +50,7 @@ body
 <h2>C#における using の類型</h2>
 <h3>using ディレクティブ</h3>
 異なる名前空間に定義されているクラスを使用する際、ファイルの冒頭に using ディレクティブを記述することで、<br>
-ファイル中で当該名前空間の記述を省略できる。<a href="TIPS/C・C++/[C++]typedefとusing.html">C++と同様</a>。
+ファイル中で当該名前空間の記述を省略できる。<a href="TIPS/C・C%2B%2B/[C%2B%2B]typedefとusing.html">C++と同様</a>。
 <p class="code">
 <cmt>// using ディレクティブ</cmt>
 <kwd>using</kwd> <knw>System</knw>.Collections.Generic;
@@ -72,7 +72,7 @@ body
 </p>
 
 <h3>using エイリアスディレクティブ</h3>
-型に別名を付与することができる。<a href="TIPS/C・C++/[C++]typedefとusing.html">C++と同様</a>。
+型に別名を付与することができる。<a href="TIPS/C・C%2B%2B/[C%2B%2B]typedefとusing.html">C++と同様</a>。
 <p class="code">
 <cmt>// using エイリアスディレクティブ</cmt>
 <kwd>using</kwd> Ints = <knw>System</knw>.Collections.Generic.<knw>List</knw>&lt;<kwd>int</kwd>&gt;;
@@ -139,7 +139,7 @@ using static ディレクティブを用いることで省略可能となる。
 明示的に使用権の破棄を行わないと使用権を握ったままとなり、他からのアクセスができないなどの不都合が生じる。<br>
 しかし、using ステートメントを用いると、<b>using 節を抜ける際に自動的にリソースの破棄( Dispose() )が行われる</b>。<br>
 <b>使用できるのは IDisposable インタフェースを実装するクラスに限定される</b>。<br>
-C++における<a href="TIPS/C・C++/[C++]RAIIと地蔵インスタンス.html">RAII</a>と同様、例外発生時にも有効で、例外安全なコードとなる。
+C++における<a href="TIPS/C・C%2B%2B/[C%2B%2B]RAIIと地蔵インスタンス.html">RAII</a>と同様、例外発生時にも有効で、例外安全なコードとなる。
 
 <p class="code">
 <kwd>namespace</kwd> Test
@@ -180,5 +180,7 @@ C#8.0からは変数宣言時に using をつけることでさらに簡略化�
 
 </body>
 </html>
+
+
 
 
