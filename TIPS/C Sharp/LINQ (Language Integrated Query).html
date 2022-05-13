@@ -122,10 +122,10 @@ LINQが提供する Where() などのメソッドを「クエリ演算子」と�
 
 <h2>実用例 : 「グループボックス内のチェックされたラジオボタンを取得する」</h2>
 <img src="_Img/MSVS_DotNet_CSharp/Dotnet_linq/linq_01.png" alt="画像"><br>
+上記例において、groupBox1.Controls は「groupBox1 に含まれるすべてのコントロール」、<br>
+OfType&lt;RadioButton&gt;() メソッドにより、「RadioButton」に該当するもののみを抽出している。<br>
+ここまでの groupBox1.Controls.OfType&lt;RadioButton&gt;() がLINQの対象シーケンス(集合 : グループボックス内のラジオボタン)となる。<br>
+緑線がLINQの提供する Single() メソッドで、ラムダ式を満たす唯一のオブジェクトを結果として返す。<br>
 
 </body>
 </html>
-
-
-
-

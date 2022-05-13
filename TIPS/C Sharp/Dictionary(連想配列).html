@@ -38,6 +38,7 @@ C# の Dictionary&lt;TKey, TValue&gt; の使い方 - PG日誌</a><br>
 <h5>関連 :</h5>
 <a href="TIPS/C%20Sharp/コレクション.html">コレクション</a><br>
 <a href="TIPS/C・C%2B%2B/[C%2B%2B／STL／コンテナ]マップ(連想配列).html">[C++／STL／コンテナ]マップ(連想配列)</a><br>
+<a href="TIPS/C Sharp/LINQ (Language Integrated Query).html">LINQ (Language Integrated Query)</a><br>
 <a href="TIPS/ソフトウェア開発一般/無名関数とラムダ式.html">無名関数とラムダ式</a><br>
 
 <!-- 目次 -->
@@ -88,8 +89,9 @@ List&lt;<kwd>string</kwd>&gt; list_values = <kwd>new</kwd> List&lt;<kwd>string</
 </p>
     
 <h2>Dictionaryの逆引き (値からキーを得る)</h2>
-<b>System.Linq</b> に依存。First() 関数とラムダ式を用いて以下のように書ける。<br>
-(ラムダ式については<a href="TIPS/ソフトウェア開発一般/無名関数とラムダ式.html">無名関数とラムダ式</a>を参照)<br>
+LINQの機能を用いる(System.Linq に依存)。First() 関数とラムダ式を用いて以下のように書ける。<br>
+(<a href="TIPS/C Sharp/LINQ (Language Integrated Query).html">LINQ</a>、
+<a href="TIPS/ソフトウェア開発一般/無名関数とラムダ式.html">ラムダ式</a>の詳細はそれぞれのリンク先を参照)<br>
 注) 値が重複している場合は、最初に見つかった要素のキーが返る。<br>
 <p class="code">
 <cmt>// Dictionary を初期化</cmt>

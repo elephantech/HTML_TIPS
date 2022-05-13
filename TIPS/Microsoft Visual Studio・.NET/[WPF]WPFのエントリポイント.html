@@ -54,7 +54,7 @@ C#のアプリケーションは <b>Main()</b> メソッドから開始される
 <kwd>namespace</kwd> Console_ELP03 {
     
     <cmt>/// アプリケーション</cmt>
-    <kwd>public partial class</kwd> App : <knw>System</knw>.<knw>Windows</knw>.<knw>Application</knw> {
+    <kwd>public</kwd> partial <kwd>class</kwd> App : <knw>System</knw>.<knw>Windows</knw>.<knw>Application</knw> {
         
         <cmt>/// InitializeComponent</cmt>
         [<knw>System</knw>.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -81,23 +81,59 @@ C#のアプリケーションは <b>Main()</b> メソッドから開始される
     }
 }    
 </div>
-Main() メソッドではアプリケーションの生成と起動、スタートアップウィンドウの設定を行っている。<br>
-通常の用途では、アプリケーション全体の初期化はスタートアップウィンドウ(この場合では MainWindow )のコンストラクタに、<br>
-終了処理は同じくスタートアップウィンドウのデストラクタに記述すればよい。<br>
-尚、スプラッシュスクリーンを設定している場合は、スタートアップウィンドウが開く(コンストラクタが呼ばれる)前に表示される。
+ここで、Main() メソッドはアプリケーションの生成と起動を行っている。<br>
+また、その中で呼ばれる InitializeComponent() はスタートアップウィンドウの設定を行っている。<br>
+(このスタートアップウィンドウは App.xaml で StartUpUri として指定されたもの。)<br>
 
 <h2>Main() メソッドを編集する</h2>
-スタートアップウィンドウが開く前に処理を行いたい場合は、App.g.cs を自動生成しないよう設定し、Main() メソッドを独自に定義する。<br>
-詳細は<a href="https://araramistudio.jimdo.com/2018/04/06/c-%E3%81%AEwpf%E3%81%A7main%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E7%B7%A8%E9%9B%86%E3%81%99%E3%82%8B/">出典元</a>を参照。
+通常の用途では、アプリケーション全体の初期化はスタートアップウィンドウのコンストラクタに記述すればよいが、<br>
+スタートアップウィンドウが開く前に処理を行いたい場合は、Main() メソッドを独自に定義する。<br>
+<ol>
+    <li>
+        「ソリューション エクスプローラー」上で <b>App.xaml</b> を選択、右クリックし「プロパティ」を開く。<br>
+        <img src="_Img/MSVS_DotNet_CSharp/WPF_EntryPoint/01.png">
+    </li>
+    <li>
+        「ビルドアクション」を「<b>ApplicationDefinition(アプリケーション定義)</b>」から「<b>Page(ページ)</b>」に変更し、<br>
+        Main() メソッドが自動生成されなくする。<br>
+        <img src="_Img/MSVS_DotNet_CSharp/WPF_EntryPoint/02.png"><br>
+    </li>
+    <li>
+        <b>App.xaml.cs</b>を開き、Main() メソッドを追加する。
+        <div class="code">
+<kwd>public</kwd> partial <kwd>class</kwd> App : <knw>Application</knw>
+{
+    [<knw>STAThread</knw>]
+    <kwd>public static void</kwd> Main()
+    {
+        App app = <kwd>new</kwd> App();
+        app.InitializeComponent();
+        app.Run();
+
+        <cmt>// この時点でアプリケーション起動完了</cmt>
+        <cmt>// 以下、任意の処理を実装</cmt>
+    }
+}            
+</div>
+        ここで、属性として [STAThread] が指定されているが、これはCOMオブジェクトの取り扱いを定めるもので、<br>
+        WPFでは上記 STAThread を用いることが標準となっている。記述を省略することはできないので注意。
+    </li>
+</ol>
+
+<h2>スタートアップウィンドウとの関係</h2>
+<b>App.xaml</b><br>
+<img src="_Img/MSVS_DotNet_CSharp/WPF_EntryPoint/03.png"><br>
+先述のとおり、App.xaml で StartupUri に指定されたウィンドウ(ここでは MainWindow.xaml )がスタートアップウィンドウとなる。<br>
+アプリケーション起動時の処理順序は、
+<ol>
+    <li>Main() メソッド</li>
+    <li>(設定されている場合)スプラッシュスクリーン</li>
+    <li>スタートアップウィンドウ</li>
+</ol>
+となる。
 
 </body>
 </html>
-
-
-
-
-
-
 
 
 
