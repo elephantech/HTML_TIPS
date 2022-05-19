@@ -48,7 +48,7 @@ body
 <cmt>//                          paramsキーワード</cmt>
 <cmt>//                          │       可変長部を配列とする</cmt>
 <cmt>//                          ↓       ↓</cmt>
-<kwd>public static</kwd> <knw>UInt32</knw> Hoge(<kwd>params byte</kwd>[] bytes)
+<kwd>public static</kwd> UInt32 Hoge(params <kwd>byte</kwd>[] bytes)
 {
     <cmt>// 以後、bytes には配列としてアクセスする</cmt>
 }
@@ -58,25 +58,23 @@ body
 
 <h3>配列を引数として渡すことが可能</h3>
 可変長引数は配列として取り扱われるため、事前に作成した配列を入力することもできる。<br>
-即ち、以下のコード例における Hoge() の呼び出しはいずれも有効。
+即ち、以下のコード例における Hoge() の呼び出しはいずれも有効、かつ等価である。
 
 <div class="code">
 <cmt>// 可変長引数 bytes をとるメソッド</cmt>
-<kwd>public static</kwd> <knw>UInt32</knw> Hoge(<kwd>params byte</kwd>[] bytes)
+<kwd>public static</kwd> UInt32 Hoge(params <kwd>byte</kwd>[] bytes)
 {
 
 }
 
 :
 
-<kwd>byte</kwd> a = 0x11, b = 0x22, c = 0x33, d = 0x44;
-
 <cmt>// 通常の呼び出し(引数を個別に指定する)</cmt>
-<knw>UInt32</knw> retA = Hoge(a, b, c, d);
+UInt32 retA = Hoge(<ltr>0x11</ltr>, <ltr>0x22</ltr>, <ltr>0x33</ltr>, <ltr>0x44</ltr>);
 
 <cmt>// 事前に配列を作成して渡す</cmt>
-<kwd>byte</kwd>[] bytes = <kwd>new byte</kwd>{a, b, c, d};
-<knw>UInt32</knw> retB = Hoge(bytes);
+<kwd>byte</kwd>[] bytes = <kwd>new byte</kwd>[]{<ltr>0x11</ltr>, <ltr>0x22</ltr>, <ltr>0x33</ltr>, <ltr>0x44</ltr>};
+UInt32 retB = Hoge(bytes);
 </div>
 
 <h3>引数なしでの呼び出しが可能</h3>
@@ -84,13 +82,13 @@ body
 
 <div class="code">
 <cmt>// 可変長引数 bytes をとるメソッド</cmt>
-<kwd>public static</kwd> <knw>UInt32</knw> Hoge(<kwd>params byte</kwd>[] bytes)
+<kwd>public static</kwd> UInt32 Hoge(params <kwd>byte</kwd>[] bytes)
 {
 
 }
 
 <cmt>// 引数なしでの呼び出し</cmt>
-<knw>UInt32</knw> retA = Hoge();
+UInt32 retA = Hoge();
 </div>
 
 このとき、空配列の作られ方は.NETのバージョンによって異なり、
@@ -104,6 +102,10 @@ Array.Empty() ではプログラム中で最初に作成されたインスタン
 
 </body>
 </html>
+
+
+
+
 
 
 

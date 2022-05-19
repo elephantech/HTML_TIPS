@@ -58,9 +58,9 @@ HttpClient hc = <kwd>new</kwd> HttpClient();
 <kwd>private async void</kwd> button_Click(<kwd>object</kwd> sender, RoutedEventArgs e)
 {
     <cmt>// ダウンロード開始と同時にUIスレッドに処理を戻す</cmt>
-    <kwd>string</kwd> html = <kwd>await</kwd> hc.GetStringAsync(<ltr>"http://www.example.jp/"</ltr>);
+    <kwd>string</kwd> html = <kwd>await</kwd> hc.GetStringAsync(<ltr>"http:<cmt>//www.example.jp/"</ltr>);</cmt>
 
-    <cmt>// この行以降は GetStringAsync() の完了を待って実行される</cmt>
+    <cmt>// この行以降は GetStringAsync() の完了後に実行される</cmt>
     MessageBox.Show(<ltr>"HTMLの取得が完了しました"</ltr>);
     textBox.<knw>Text</knw> = html;
 }
@@ -82,6 +82,7 @@ UIから直接実行されるイベントハンドラは例外的に async void 
     text += <ltr>"計算開始"</ltr> + <knw>Environment</knw>.NewLine;
 
     <cmt>// 重い処理を別タスクで実行開始(Task.Run())</cmt>
+    <cmt>// await 修飾されているため、次行以降は別タスクの完了後に実行される</cmt>
     <kwd>double</kwd> result = <kwd>await</kwd> <knw>Task</knw>.Run(() =>  HeavyWork(<ltr>2000000000</ltr>));
 
     text += result.ToString() + <knw>Environment</knw>.NewLine;
@@ -95,7 +96,7 @@ HttpClient hc = <kwd>new</kwd> HttpClient();
 {
     <cmt>// ダウンロード開始</cmt>
     <cmt>// ダウンロードタスクを Task オブジェクトに格納</cmt>
-    <knw>Task</knw>&lt;<kwd>string</kwd>&gt; gethtmltask = hc.GetStringAsync(<ltr>"http://www.example.jp/kussoosoi.php"</ltr>);
+    <knw>Task</knw>&lt;<kwd>string</kwd>&gt; gethtmltask = hc.GetStringAsync(<ltr>"http:<cmt>//www.example.jp/kussoosoi.php"</ltr>);</cmt>
 
     <cmt>// この行は非同期タスクの終了を待たずに実行される</cmt>
     MessageBox.Show(<ltr>"HTMLを取得しています"</ltr>);
@@ -111,8 +112,8 @@ HttpClient hc = <kwd>new</kwd> HttpClient();
 <div class="code">
 HttpClient hc = <kwd>new</kwd> HttpClient();
 
-<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t1 = hc.GetStringAsync(<ltr>"https://www.microsoft.com/"</ltr>);
-<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t2 = hc.GetStringAsync(<ltr>"https://www.bing.com/"</ltr>);
+<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t1 = hc.GetStringAsync(<ltr>"https:<cmt>//www.microsoft.com/"</ltr>);</cmt>
+<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t2 = hc.GetStringAsync(<ltr>"https:<cmt>//www.bing.com/"</ltr>);</cmt>
 
 <cmt>// t1 が終わるまでスレッドをブロックする</cmt>
 t1.Wait();
@@ -139,15 +140,16 @@ t1.Wait();
 <cmt>// false : いずれかが終了しないまま50ms経過</cmt>
 <kwd>bool</kwd> allTasksCompleted = <knw>Task</knw>.WaitAll(<kwd>new</kwd>[] { t1, t2 }, <ltr>50</ltr>);
 </div>
-<b>await と異なり、呼び元に処理を戻さない</b>。UIスレッドから実行すると、待ちが終わるまで操作が受け付けられなくなるため注意が必要。<br>
+<b>await と異なり、呼び元に処理を戻さない</b>(タスクの終了を待ち続ける)。<br>
+UIスレッドから実行すると、待ちが終わるまで操作が受け付けられなくなるため注意が必要。<br>
 
 <h3>WhenAll() / WhenAny()</h3>
 複数のタスクを await する際に用いる。
 <div class="code">
 HttpClient hc = <kwd>new</kwd> HttpClient();
 
-<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t1 = hc.GetStringAsync(<ltr>"https://www.microsoft.com/"</ltr>);
-<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t2 = hc.GetStringAsync(<ltr>"https://www.bing.com/"</ltr>);
+<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t1 = hc.GetStringAsync(<ltr>"https:<cmt>//www.microsoft.com/"</ltr>);</cmt>
+<knw>Task</knw>&lt;<kwd>string</kwd>&gt; t2 = hc.GetStringAsync(<ltr>"https:<cmt>//www.bing.com/"</ltr>);</cmt>
 
 <cmt>// スレッドをブロックせずにすべてのタスクの終了を待機</cmt>
 <kwd>string</kwd>[] htmls = <kwd>await</kwd> <knw>Task</knw>.WhenAll(t1, t2);
@@ -162,7 +164,7 @@ HttpClient hc = <kwd>new</kwd> HttpClient();
 タスクが終了しているかを確認する際に用いる。
 <div class="code">
 HttpClient hc = <kwd>new</kwd> HttpClient();
-<knw>Task</knw>&lt;<kwd>string</kwd>&gt; task = hc.GetStringAsync(<ltr>"https://www.microsoft.com/"</ltr>);
+<knw>Task</knw>&lt;<kwd>string</kwd>&gt; task = hc.GetStringAsync(<ltr>"https:<cmt>//www.microsoft.com/"</ltr>);</cmt>
 
 <cmt>// タスクが完了していなければメッセージ表示</cmt>
 <kwd>if</kwd> (!task.IsCompleted)
@@ -185,6 +187,10 @@ IsCompleted プロパティは終了要因によらず、タスクが終了し�
 
 </body>
 </html>
+
+
+
+
 
 
 

@@ -45,7 +45,7 @@ body
 <h2>WPFのエントリポイント (C#)</h2>
 C#のアプリケーションは <b>Main()</b> メソッドから開始されるが、WPFも例外ではない。<br>
 (すべて小文字の main() ではない点に注意)<br>
-但しWPFの場合はWinFormと異なり、Main() メソッドを含むソースファイル(<b>App.g.cs</b>)が(通常は)自動生成され、プロジェクトに追加されない。<br>
+但しWPFの場合はWinFormと異なり、Main() メソッドを含むソースファイル(<b>App.g.cs</b>)が自動生成され、プロジェクトに追加されない。<br>
 <br>
 <b>App.g.cs</b> (コメントのみ改変)
 <div class="code">
@@ -108,10 +108,11 @@ C#のアプリケーションは <b>Main()</b> メソッドから開始される
     {
         App app = <kwd>new</kwd> App();
         app.InitializeComponent();
+
+        <cmt>// スプラッシュスクリーン、スタートアップウィンドウ表示</cmt>
         app.Run();
 
-        <cmt>// この時点でアプリケーション起動完了</cmt>
-        <cmt>// 以下、任意の処理を実装</cmt>
+        <cmt>// app.Run() より後は、スタートアップウィンドウを閉じた後に実行される</cmt>
     }
 }            
 </div>
@@ -119,18 +120,6 @@ C#のアプリケーションは <b>Main()</b> メソッドから開始される
         WPFでは上記 STAThread を用いることが標準となっている。記述を省略することはできないので注意。
     </li>
 </ol>
-
-<h2>スタートアップウィンドウとの関係</h2>
-<b>App.xaml</b><br>
-<img src="_Img/MSVS_DotNet_CSharp/WPF_EntryPoint/03.png"><br>
-先述のとおり、App.xaml で StartupUri に指定されたウィンドウ(ここでは MainWindow.xaml )がスタートアップウィンドウとなる。<br>
-アプリケーション起動時の処理順序は、
-<ol>
-    <li>Main() メソッド</li>
-    <li>(設定されている場合)スプラッシュスクリーン</li>
-    <li>スタートアップウィンドウ</li>
-</ol>
-となる。
 
 </body>
 </html>
