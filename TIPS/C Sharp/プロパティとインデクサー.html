@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="https://elephantech-html-tips-etc.on.drv.tw/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://ufcpp.net/study/csharp/oo_property.html">プロパティ - C# によるプログラミング入門 | ++C++; // 未確認飛行 C</a><br>
+<a href="https://atmarkit.itmedia.co.jp/fdotnet/csharp_abc/csharp_abc_012/csharp_abc01.html">連載：C#入門　第12回 インデクサとプロパティ（1/4） - ＠IT</a><br>
+<a href="https://ufcpp.net/study/csharp/oo_indexer.html">インデクサー - C# によるプログラミング入門 | ++C++; // 未確認飛行 C</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS\C Sharp\コレクション.html">コレクション</a><br>
+<a href="TIPS\C Sharp\ラムダ式による省略記法.html">ラムダ式による省略記法</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>プロパティ(property)とは</h2>
+クラス外部から見るとフィールド(メンバ変数)のように振舞い、クラス内部から見るとメソッドのように振舞うもの。<br>
+オブジェクト指向言語においては、フィールドに対する外部からの不用意なアクセスと、それによる改変を防ぐためにフィールドの実体を隠蔽し、<br>
+参照や更新の際には公開メソッドを用いることを強制(カプセル化)することが推奨されているが、<br>
+C++やJavaではメンバ変数と参照(get)・更新(set)メソッド(アクセサ)を体系的に管理することができなかった。<br>
+C#ではプロパティが導入され、クラス外にはフィールドに直接アクセスするような簡便なインタフェースを提供できるとともに、<br>
+メンバとアクセサを包括的に管理できるようになっている。
+
+<h3>プロパティがサポートされない言語(C++)の例</h3>
+<p class="code">
+<kwd>class</kwd> C_TestClass
+{
+<kwd>private</kwd>:
+    <kwd>int</kwd> hp;                             <cmt>//< メンバ変数 hp</cmt>
+
+<kwd>public</kwd>:
+    <kwd>int</kwd>  getHp()      { <kwd>return</kwd> hp; }    <cmt>//< 変数 hp の get アクセサ(getter)</cmt>
+    <kwd>void</kwd> setHp(<kwd>int</kwd> x) { hp = x; }       <cmt>//< 変数 hp の set アクセサ(setter)</cmt>
+}
+</p>
+メンバ変数 hp を取得・更新する場合は getHp() 、setHp() を関数として呼ぶ必要がある。
+
+<h3>C#でプロパティを用いた場合の例</h3>
+<p class="code">
+<kwd>class</kwd> C_TestClass
+{
+    <kwd>private int</kwd> hp;                     <cmt>//< フィールド hp</cmt>
+
+    <cmt>// hp にアクセスするためのプロパティ</cmt>
+    <kwd>public int</kwd> Hp
+    {
+        <kwd>get</kwd> { <kwd>return</kwd> hp; }              <cmt>//< getter</cmt>
+        <kwd>set</kwd> { hp = value; }             <cmt>//< setter ( value には代入される値が格納される)</cmt>
+    }
+}
+</p>
+プロパティ Hp は公開フィールドのようにアクセスすることができる。<br>
+プロパティに対する代入が行われた( setter が呼ばれた)場合、右辺値は value に格納される。<br>
+get / set いずれかのみの定義も可能(読み取り / 更新専用プロパティ)。<br>
+ここで、読み取り専用に設定した場合は readonly と等価であり、コンストラクタ以外で値を書き換えることは不可能となる。
+
+<h2>自動プロパティ</h2>
+C# 3.0からは、プロパティの get / set の記述を省略できるようになった。<br>
+<p class="code">
+<kwd>class</kwd> C_TestClass
+{
+    <cmt>// 自動プロパティ Hp</cmt>
+    <kwd>public int</kwd> Hp { <kwd>get</kwd>; <kwd>set</kwd>; }
+}
+</p>
+前節の例と意味的には等価である。ここでも同様に、get / set いずれかのみの定義も可能。<br>
+
+<h2>プロパティの get / set それぞれに異なるアクセス制限を設定</h2>
+C# 2.0以降、get と set で異なるアクセスレベルを設定できるようになった。<br>
+注意が必要な点として、<b>プロパティ全体に設定されたアクセスレベルよりも、アクセサ個別のアクセスレベルのほうが厳しくないとエラーとなる</b>。<br>
+(「アクセサのレベル」を「プロパティのレベル」よりも緩めることはできない。)
+
+<p class="code">
+<cmt>// プロパティ Sample01 のアクセスレベル : public</cmt>
+<cmt>// setter のアクセスレベル : private</cmt>
+<kwd>public string</kwd> Sample01 { <kwd>get</kwd>; <b><kwd>private</kwd></b> <kwd>set</kwd>; }
+
+<cmt>// プロパティ Sample02 のアクセスレベル : private</cmt>
+<cmt>// getter のアクセスレベル : protected</cmt>
+<cmt>// ⇒ レベルを緩めようとしているためエラー</cmt>
+<kwd>private string</kwd> Sample02 { <b><kwd>protected</kwd></b> <kwd>get</kwd>; <kwd>set</kwd>; }
+</p>
+
+<h2>インデクサー(indexer)</h2>
+インデクサーはプロパティの一種で、添字(インデクス)によるアクセスを提供する仕組みである。<br>
+即ちインデクサーを用いることで、当該オブジェクトに対する配列と同様のアクセスが可能となる。<br>
+これはC++における、添字演算子のオーバーライドと同等の機能である。<br>
+とりわけユーザ定義クラスがコレクションをメンバとして含む場合に、コレクションの要素を抽出、または更新する際に用いることが主用途であるが、<br>
+添字演算子のオーバーライドと同様定義に制限は無く、異なる処理を実装することも可能である。(これはプロパティも同様。)
+
+<h3>インデクサーの実装</h3>
+
+<div class="code">
+<cmt>// 添字の上下限を指定できる配列を有するクラス</cmt>
+<kwd>class</kwd> BoundArray
+{
+    <kwd>int</kwd>[] array;    <cmt>//< 配列の本体</cmt>
+    <kwd>int</kwd> lower;      <cmt>//< 配列添字の下限</cmt>
+
+    <cmt>// コンストラクタ</cmt>
+    <kwd>public</kwd> BoundArray(<kwd>int</kwd> lower, <kwd>int</kwd> upper)
+    {
+        <kwd>this</kwd>.lower = lower;
+        array = <kwd>new int</kwd>[upper - lower + 1];
+    }
+
+    <cmt>// インデクサー</cmt>
+    <kwd>public int this</kwd>[<kwd>int</kwd> i]
+    {
+        <kwd>get</kwd> { <kwd>return this</kwd>.array[i - lower]; }       <cmt>//< getter</cmt>
+        <kwd>set</kwd> { <kwd>this</kwd>.array[i - lower] = value; }      <cmt>//< setter</cmt>
+    }
+}
+
+<cmt>// プログラム本体</cmt>
+<kwd>class</kwd> Program
+{
+    <kwd>static void</kwd> Main()
+    {
+        <cmt>// BoundArray のインスタンス生成</cmt>
+        BoundArray a = <kwd>new</kwd> BoundArray(1, 9);
+
+        <kwd>for</kwd> (<kwd>int</kwd> i = 1; i <= 9; ++i)
+        {
+            <cmt>// インデクサーにアクセス (set)</cmt>
+            a[i] = i;
+        }
+
+        <kwd>for</kwd> (<kwd>int</kwd> i = 1; i <= 9; ++i)
+        {
+            <cmt>// インデクサーにアクセス (get)</cmt>
+            <knw>Console</knw>.WriteLine($"a[{i}] = {a[i]}");
+        }
+    }
+}
+</div>
+
+インデクサーは上記のように <b>this[添字]</b> の形式で定義し、アクセスする際はオブジェクトに添字を付与する。<br>
+インデクサーはプロパティと同様、実態はメソッドであるため、添字変数のチェックを実装することで安全配列を実現することも可能である。<br>
+<br>
+インデクサーに複数の添字を用いて多次元のコレクションを扱うこともできる。
+
+<div class="code">
+<cmt>// 多次元配列を有するクラス</cmt>
+<kwd>class</kwd> Matrix
+{
+    <cmt>// 配列の本体</cmt>
+    <kwd>int</kwd>[][] array;
+
+    <cmt>// コンストラクタ</cmt>
+    <kwd>public</kwd> Matrix(<kwd>int</kwd> rows, <kwd>int</kwd> cols)
+    {
+        <kwd>this</kwd>.array = <kwd>new int</kwd>[rows][];
+        <kwd>for</kwd> (<kwd>int</kwd> i = 0; i &lt; rows; ++i)
+        {
+            <kwd>this</kwd>.array[i] = <kwd>new int</kwd>[cols];
+        }
+    }
+
+    <cmt>// インデクサー</cmt>
+    <kwd>public int this</kwd>[<kwd>int</kwd> i, <kwd>int</kwd> j]
+    {
+        <kwd>get</kwd> { <kwd>return this</kwd>.array[i][j]; }
+        <kwd>set</kwd> { <kwd>this</kwd>.array[i][j] = value; }
+    }
+}    
+</div>
+
+また、インデクサーの添字引数は数値である必要は無く、<b>任意の型を「キー値」として設定できる</b>。<br>
+これは Dictionary 等の連想配列をメンバとして保有する場合や、連想配列を自作する際に有用である。
+
+</body>
+</html>

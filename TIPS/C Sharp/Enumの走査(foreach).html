@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="https://elephantech-html-tips-etc.on.drv.tw/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://www.sejuku.net/blog/50504">【C#入門】enumの値と名前をforeachで列挙する(GetValues/GetNames) | 侍エンジニアブログ</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>列挙型に対するforeach</h2>
+列挙型の全要素に対する繰り返し処理を行う際は、Enum のヘルパである GetValues() および GetNames() を用いて値のみ、ラベルのみの集合を抽出するとよい。<br>
+
+<h3>GetValues() : 値の抽出</h3>
+
+コード :
+<div class="code">
+<kwd>using</kwd> <knw>System</knw>;
+
+<kwd>namespace</kwd> Sample
+{
+    <cmt>// 列挙型の定義</cmt>
+    <kwd>enum</kwd> E_Name
+    {
+        Himurock = 0,
+        Kikkawa = 1,
+        Hotei = 2,
+    }
+    
+    <cmt>// サンプルクラス</cmt>
+    <kwd>class</kwd> Sample
+    {
+        <kwd>static void</kwd> Main()
+        {
+            <cmt>// 列挙型 E_Name に対する foreach</cmt>
+            <cmt>// Enum.GetValues() で値の集合を抽出する</cmt>
+            <kwd>foreach</kwd> (E_Name val <kwd>in</kwd> Enum.GetValues(<kwd>typeof</kwd>(E_Name)))
+            {
+                <cmt>// Enum.GetName() で値から名前を得る</cmt>
+                <kwd>string</kwd> name = Enum.GetName(<kwd>typeof</kwd>(E_Name), val);
+    
+                <knw>Console</knw>.WriteLine($"{name} : {(<kwd>int</kwd>)val}");
+            }
+        }
+    }
+}
+</div>
+
+実行結果 :
+<div class="code">
+Himurock : 0
+Kikkawa : 1
+Hotei : 2
+</div>
+
+<h3>GetNames() : ラベルの抽出</h3>
+
+コード :
+<div class="code">
+<kwd>using</kwd> <knw>System</knw>;
+
+<kwd>namespace</kwd> Sample
+{
+    <cmt>// 列挙型の定義</cmt>
+    <kwd>enum</kwd> E_Name
+    {
+        Himurock = 0,
+        Kikkawa = 1,
+        Hotei = 2,
+    }
+    
+    <cmt>// サンプルクラス</cmt>
+    <kwd>class</kwd> Sample
+    {
+        <kwd>static void</kwd> Main()
+        {
+            <cmt>// 列挙型 E_Name に対する foreach</cmt>
+            <cmt>// Enum.GetNames() でラベルの集合を抽出する</cmt>
+            <kwd>foreach</kwd> (<kwd>string</kwd> name <kwd>in</kwd> Enum.GetNames(<kwd>typeof</kwd>(E_Name)))
+            {
+                <knw>Console</knw>.WriteLine(name);
+            }
+        }
+    }
+}
+</div>
+
+実行結果 :
+<div class="code">
+Himurock
+Kikkawa
+Hotei
+</div>
+
+Enum.GetNames() の戻り値は string[] であることに注意。
+
+</body>
+</html>
