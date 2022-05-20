@@ -44,6 +44,7 @@ body
 
 <h2>列挙型に対するforeach</h2>
 列挙型の全要素に対する繰り返し処理を行う際は、Enum のヘルパである GetValues() および GetNames() を用いて値のみ、ラベルのみの集合を抽出するとよい。<br>
+その際、引数には列挙型の型情報( typeof(...) )を与える。
 
 <h3>GetValues() : 値の抽出</h3>
 
@@ -87,6 +88,9 @@ Kikkawa : 1
 Hotei : 2
 </div>
 
+Enum.GetValues() および Enum.GetName() の引数に typeof(E_Name) を指定している点に注意。<br>
+これは後述の Enum.GetNames() も同様である。
+
 <h3>GetNames() : ラベルの抽出</h3>
 
 コード :
@@ -126,7 +130,7 @@ Kikkawa
 Hotei
 </div>
 
-Enum.GetNames() の戻り値は string[] であることに注意。
+Enum.GetNames() の戻り値は string[] 。
 
 </body>
 </html>
