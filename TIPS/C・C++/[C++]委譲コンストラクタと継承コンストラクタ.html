@@ -104,7 +104,7 @@ C++11で追加された。
         :
     }
 
-    <cmt>// コンストラクタ</cmt>
+    <cmt>// コンストラクタ(引数あり)</cmt>
     Base(<kwd>int</kwd> i, <kwd>const std</kwd>::<kwd>string</kwd> s)
     {
         :
@@ -117,7 +117,7 @@ C++11で追加された。
 <kwd>public</kwd>:
     <cmt>// コンストラクタ</cmt>
     Derived(<kwd>int</kwd> i, <kwd>const std</kwd>::<kwd>string</kwd> s)
-        : Base(i, s)                        <cmt>//< 基底クラスのコンストラクタを明示的に指定</cmt>
+        : Base(i, s)                        <cmt>//< 基底クラスのコンストラクタ(引数あり)を明示的に指定</cmt>
     {
         :
     }
@@ -170,6 +170,8 @@ C++11で追加された。
     <kwd>public</kwd>:
         <cmt>// Base1 、Base2 のコンストラクタすべてを継承することを宣言</cmt>
         <cmt>// ⇒ Derived() 、Derived(int) 、Derived(const std::string) が暗黙的に宣言される</cmt>
+        <cmt>//    (Derived(int) は Base1(int) 、
+        //     Derived(const std::string) は Base2(const std::string) を呼び出す)</cmt>
         <kwd>using</kwd> Base1::Base1;
         <kwd>using</kwd> Base2::Base2;
     }
@@ -191,10 +193,11 @@ Derived(int) や Derived(const std::string) はそのまま Base1(int) 、Base2(
     <kwd>using</kwd> Base1::Base1;
     <kwd>using</kwd> Base2::Base2;
 
-    <cmt>// Base2::Base2(const std::string s) のみを明示的に宣言</cmt>
+    <cmt>// Derived::Derived(const std::string s) のみを明示的に宣言</cmt>
     Derived(<kwd>const std</kwd>::<kwd>string</kwd> s)
         : Base2::Base2(s)
     {
+        <cmt>// (派生クラス固有の処理)</cmt>
         :
     }
 }

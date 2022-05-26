@@ -36,6 +36,7 @@ body
 
 <h5>関連 :</h5>
 <a href="TIPS/Microsoft Visual Studio・.Net/[WPF]データバインディング.html">[WPF]データバインディング</a><br>
+<a href="TIPS/Microsoft Visual Studio・.Net/[WPF]依存関係プロパティ.html">[WPF]依存関係プロパティ</a><br>
 <a href="TIPS/Microsoft Visual Studio・.Net/[WPF]ユーザーコントロール.html">[WPF]ユーザーコントロール</a><br>
 
 <!-- 目次 -->
@@ -48,12 +49,12 @@ body
 
 <h2>RelativeSource とは</h2>
 データバインディングのバインド先(Source)を相対的(Relative)に指定するための設定。<br>
-あるコントロールが別(または自分自身)のコントロール参照する際に、コントロール名(絶対値)ではなく相対値を用いることができる。
+コントロールを参照する際に、コントロール名(絶対値)ではなく相対値を用いることができる。
 
 <h2>RelativeSource の指定(XAML)</h2>
 <img src="_Img/MSVS_DotNet_CSharp/WPF_RelativeSource/03.png"><br>
 依存関係プロパティ DependencyProp の値を、参照したオブジェクトのプロパティに同期させる場合を考える。<br>
-(依存関係プロパティに関しては<a href="TIPS/Microsoft Visual Studio・.Net/[WPF]依存関係プロパティ (DependencyProperty).html">ここ</a>を参照。)<br>
+(依存関係プロパティに関しては<a href="TIPS/Microsoft Visual Studio・.Net/[WPF]依存関係プロパティ.html">ここ</a>を参照。)<br>
 対象のオブジェクトを RelativeSource で指定し、プロパティを Path で指定した Binding を構成することで<br>
 DependencyProp が指定したプロパティに連動して変化するようになる。<br>
 参照する要素は Mode で指定する。このとき、"Mode=" の記述は省略可能。類例は次節を参照。<br>
@@ -93,7 +94,7 @@ RelativeSource={RelativeSource <b class="red">                  </b> AncestorTyp
     :
 &lt;/GroupBox&gt;
 
-<cmt>&lt;!-- Button の Width は直前の要素 (GroupBox) の ActualWidth に同期する --&gt;</cmt>
+<cmt>&lt;!-- Button の Width は直前の要素 (PreviousData == GroupBox) の ActualWidth に同期する --&gt;</cmt>
 &lt;Button Content="Sample" 
         Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource <b class="red">Mode=PreviousData</b>}}"/&gt;
 </div>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="https://elephantech-html-tips-etc.on.drv.tw/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://dobon.net/vb/dotnet/vb2cs/event.html">C#のイベント機能 - .NET Tips (VB.NET,C#...)</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/C Sharp/デリゲート.html">[C#]デリゲート</a><br>
+<a href="TIPS/C Sharp/シグナル処理.html">[C#]シグナル処理</a><br>
+<a href="TIPS\ソフトウェア開発一般/イベント駆動型プログラミング.html">イベント駆動型プログラミング</a>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>C#のイベント機能</h2>
+モジュール間、またはタスク間の通信にイベントを用いることができる。<br>
+
+<h2>例1 : データを返さないイベント</h2>
+
+<h5>SleepClass.cs</h5>
+<div class="code">
+<kwd>using</kwd> <knw>System</knw>;
+
+<cmt>// 実験用クラス</cmt>
+<kwd>public class</kwd> SleepClass
+{
+    <cmt>// イベントデリゲート Time の宣言</cmt>
+    <cmt>// (delegate ではなく event を用いる点に注意)</cmt>
+    <kwd>public</kwd> event EventHandler Time;
+
+    <cmt>// 実験用メインルーチン</cmt>
+    <kwd>public void</kwd> Start()
+    {
+        <knw>System</knw>.Threading.Thread.Sleep(5000);
+        <kwd>if</kwd> (Time != <kwd>null</kwd>)
+        {
+            <cmt>// Time イベントの発生</cmt>
+            <cmt>// イベントセンダは自身、イベント変数は空(Empty)</cmt>
+            Time(<kwd>this</kwd>, <knw>EventArgs</knw>.Empty);
+        }
+    }
+}
+</div>
+
+<h5>HogeWindow.cs</h5>
+<div class="code">
+<kwd>using</kwd> <knw>System</knw>;
+
+<cmt>// button1 押下時の処理</cmt>
+<kwd>private void</kwd> button1_Click(<kwd>object</kwd> sender, <knw>EventArgs</knw> e)
+{
+    SleepClass clsSleep = <kwd>new</kwd> SleepClass();
+
+    <cmt>// Time イベント発生時のハンドラとして</cmt>
+    <cmt>// Callback() を登録</cmt>
+    clsSleep.Time += <kwd>new</kwd> EventHandler(<kwd>this</kwd>.Callback);
+
+    <cmt>// 実験用メインルーチン開始</cmt>
+    clsSleep.Start();
+}
+
+<cmt>// イベントハンドラとして登録するコールバック</cmt>
+<kwd>private void</kwd> Callback(<kwd>object</kwd> sender, <knw>EventArgs</knw> e)
+{
+    <cmt>// イベントが発生したとき</cmt>
+    MessageBox.Show("OK!");
+}
+</div>
+
+<h3>何が起きるか</h3>
+<ol>
+    <li>ユーザが HogeWindow の button1 を押下する</li>
+    <li>(HogeWindow) button1_Click() が実行され、SleepClass.Time イベントのハンドラとして Callback() が登録される</li>
+    <li>(SleepClass) Start() が実行される</li>
+    <li>Start() 内で Time イベントが発行される</li>
+    <li>イベントハンドラとして登録された Callback() が実行される</li>
+    <li>結果として、メッセージボックスが表示される</li>
+</ol>
+
+<h2>例2 : データを返すイベント</h2>
+イベントレシーバにデータを返す場合を考える(例1の改良)。
+
+<h5>SleepClass.cs</h5>
+<div class="code">
+<kwd>using</kwd> <knw>System</knw>;
+
+<cmt>// Time イベントで返されるデータ</cmt>
+<cmt>// System.EventArgs を継承</cmt>
+<kwd>public class</kwd> TimeEventArgs : <knw>EventArgs</knw>
+{
+    <kwd>public string</kwd> Message;
+}
+
+<cmt>// 実験用クラス</cmt>
+<kwd>public class</kwd> SleepClass
+{
+    <cmt>// イベントデリゲート Time の宣言</cmt>
+    <cmt>// (delegate ではなく event を用いる点に注意)</cmt>
+    <kwd>public</kwd> event EventHandler Time;
+
+    <cmt>// 実験用メインルーチン</cmt>
+    <kwd>public void</kwd> Start()
+    {
+        <knw>System</knw>.Threading.Thread.Sleep(5000);
+        <kwd>if</kwd> (Time != <kwd>null</kwd>)
+        {
+            <cmt>// Time イベントの発生</cmt>
+            <cmt>// イベントセンダは自身、イベント変数を設定</cmt>
+            TimeEventArgs e = <kwd>new</kwd> TimeEventArgs();
+            e.Message = "終わったよ。";
+            Time(<kwd>this</kwd>, e);
+        }
+    }
+}
+</div>
+
+<h5>HogeWindow.cs</h5>
+<div class="code">
+<kwd>using</kwd> <knw>System</knw>;
+
+<cmt>// button1 押下時の処理</cmt>
+<kwd>private void</kwd> button1_Click(<kwd>object</kwd> sender, <knw>EventArgs</knw> e)
+{
+    SleepClass clsSleep = <kwd>new</kwd> SleepClass();
+
+    <cmt>// Time イベント発生時のハンドラとして</cmt>
+    <cmt>// Callback() を登録</cmt>
+    clsSleep.Time += <kwd>new</kwd> EventHandler(<kwd>this</kwd>.Callback);
+
+    <cmt>// 実験用メインルーチン開始</cmt>
+    clsSleep.Start();
+}
+
+<cmt>// イベントハンドラとして登録するコールバック</cmt>
+<kwd>private void</kwd> Callback(<kwd>object</kwd> sender, <knw>EventArgs</knw> e)
+{
+    <cmt>// イベントが発生したとき</cmt>
+    MessageBox.Show(e.Message);
+}
+</div>
+
+例1との違いは、イベント変数として用いる TimeEventArgs クラスを追加したことと、<br>
+TimeEventArgs 型のオブジェクトを用いて、イベントセンダからイベントレシーバへデータを渡していることである。<br>
+
+<h2>あとがき</h2>
+イベントを用いることで、関連するモジュール同士の関係を疎結合に保つことができ、コードの見通しが良くなる。<br>
+特にUIとミドルとの連携時にもミドルに対してUIのハンドラを渡す必要が無く、レイヤの境界が曖昧とならない。<br>
+また、ひとつのイベントに対してイベントハンドラ(コールバック)は複数登録することができ、発生時には登録された順に実行される。<br>
+(加算代入演算子を用いるのも「追加登録」を行うため。)<br>
+
+</body>
+</html>
+
+
+
+
