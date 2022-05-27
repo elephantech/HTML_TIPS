@@ -79,8 +79,12 @@ Dictionary &lt;<kwd>int</kwd>, <kwd>string</kwd>&gt; dic = <kwd>new</kwd> Dictio
 };
 
 <cmt>// キーのみ、値のみを抽出</cmt>
-<kwd>var</kwd> keys   = dic.Keys;
-<kwd>var</kwd> values = dic.Values;
+<kwd>var</kwd> keys   = dic.Keys;       <cmt>//< 戻り値は KeyCollection 型</cmt>
+<kwd>var</kwd> values = dic.Values;     <cmt>//< 戻り値は ValueCollection 型</cmt>
+
+<cmt>// 配列化( ToArray() )可能</cmt>
+<kwd>int</kwd>[]    array_keys   = keys.ToArray();
+<kwd>string</kwd>[] array_values = values.ToArray();
 
 <cmt>// List 化可能</cmt>
 <cmt>// コンストラクタに KeyCollection / ValueCollection を渡す</cmt>

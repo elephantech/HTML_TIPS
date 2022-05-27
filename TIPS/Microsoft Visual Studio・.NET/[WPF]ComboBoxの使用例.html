@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="https://elephantech-html-tips-etc.on.drv.tw/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>Dictionaryをソースとしたドロップダウンリスト</h2>
+ドロップダウンリストで選択された項目をキーとして、Dictionary を検索する場合の実装例。
+
+<h5>XAML : HogeWindow.xaml</h5>
+<div class="xaml">
+&lt;Window&gt;
+
+    (略)
+
+    <cmt>&lt;!-- ComboBox の ItemsSource を HogeItems に --&gt;</cmt>
+    <cmt>&lt;!-- SelectedItem を HogeItem にバインド --&gt;</cmt>
+    &lt;ComboBox ItemsSource="{Binding Path=HogeItems,
+                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
+              SelectedItem="{Binding Path=HogeItem,
+                                     RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
+              IsDropDownOpen="True"
+              Width="180"
+              HorizontalAlignment="Left"
+              Margin="6"/&gt;
+    
+    (略)
+
+&lt;/Window&gt;
+</div>
+
+<h5>コードビハインド : HogeWindow.xaml.cs</h5>
+
+<div class="code">
+<cmt>/// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
+<cmt>/// private 定数</cmt>
+<cmt>/// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
+
+<cmt>// Combobox の項目 対 紐づける値</cmt>
+<kwd>private static readonly</kwd> <knw>Dictionary</knw>&lt;<kwd>string</kwd>, <kwd>int</kwd>&gt; C_Dic_Hoge =
+    <kwd>new</kwd> <knw>Dictionary</knw>&lt;<kwd>string</kwd>, <kwd>int</kwd>&gt;
+    {
+        { "コンボボックス項目#1", 1 },
+        { "コンボボックス項目#2", 2 },
+        :
+    };
+
+<cmt>/// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
+<cmt>/// public プロパティ</cmt>
+<cmt>/// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
+
+<cmt>// Combobox のソース</cmt>
+<kwd>public string</kwd>[] HogeItems { <kwd>get</kwd>; <kwd>set</kwd>; }
+
+<cmt>// Combobox で選択された項目</cmt>
+<kwd>public string</kwd> HogeItem { <kwd>get</kwd>; <kwd>set</kwd>; }
+
+<cmt>/// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
+<cmt>/// コンストラクタ</cmt>
+<cmt>/// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
+<kwd>public</kwd> HogeWindow
+{
+    <cmt>// Combobox ソース初期化</cmt>
+    HogeItems = C_Dic_Hoge.Keys.ToArray();
+}
+
+<cmt>/// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
+<cmt>/// イベントハンドラ</cmt>
+<cmt>/// - = - = - = - = - = - = - = - = - = - = - = - = - = - = - = -</cmt>
+<kwd>private void</kwd> SomeEventHandler( <kwd>object</kwd> sender, RoutedEventArgs e )
+{
+    <cmt>// Combobox で選択された項目から対応する値( t )を取得</cmt>
+    <cmt>// (失敗時は抜ける)</cmt>
+    <kwd>if</kwd>( !C_Dic_Hoge.TryGetValue( HogeItem, <kwd>out var</kwd> t ) )
+    {
+        Util.MessageBoxFunc.ShowErrorMsgBox( "デバイス不正" );
+        <kwd>return</kwd>;
+    }
+    
+    <cmt>// t に応じた処理</cmt>
+    DoSomething(t);
+}
+</div>
+
+<h3>要点</h3>
+<ul>
+    <li>Dictionary のキーは string 、値は任意の型(デリゲートも可)</li>
+    <li>ComboBox.ItemsSource (項目一覧 : string[]) に Dictionary のキー一覧をバインドする</li>
+    <li>ComboBox.SelectedItem (選択された項目 : string) をキーとして Dictionary を検索する</li>
+    <li>検索で得られた値を用いて処理を行う</li>
+</ul>
+
+</body>
+</html>
+
+

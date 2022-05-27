@@ -37,7 +37,8 @@ body
 <h5>関連 :</h5>
 <a href="TIPS/C Sharp/デリゲート.html">[C#]デリゲート</a><br>
 <a href="TIPS/C Sharp/シグナル処理.html">[C#]シグナル処理</a><br>
-<a href="TIPS\ソフトウェア開発一般/イベント駆動型プログラミング.html">イベント駆動型プログラミング</a>
+<a href="TIPS/ソフトウェア開発一般/[並列処理]タスク(スレッド)間通信.html">[並列処理]タスク(スレッド)間通信</a><br>
+<a href="TIPS/ソフトウェア開発一般/イベント駆動型プログラミング.html">イベント駆動型プログラミング</a><br>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -56,12 +57,11 @@ body
 <div class="code">
 <kwd>using</kwd> <knw>System</knw>;
 
-<cmt>// 実験用クラス</cmt>
+<cmt>// 実験用クラス ⇒ イベントセンダ</cmt>
 <kwd>public class</kwd> SleepClass
 {
     <cmt>// イベントデリゲート Time の宣言</cmt>
-    <cmt>// (delegate ではなく event を用いる点に注意)</cmt>
-    <kwd>public</kwd> event EventHandler Time;
+    <kwd>public event</kwd> <knw>EventHandler</knw> Time;
 
     <cmt>// 実験用メインルーチン</cmt>
     <kwd>public void</kwd> Start()
@@ -81,6 +81,8 @@ body
 <div class="code">
 <kwd>using</kwd> <knw>System</knw>;
 
+<cmt>// ウィンドウ ⇒ イベントレシーバ</cmt>
+
 <cmt>// button1 押下時の処理</cmt>
 <kwd>private void</kwd> button1_Click(<kwd>object</kwd> sender, <knw>EventArgs</knw> e)
 {
@@ -88,7 +90,7 @@ body
 
     <cmt>// Time イベント発生時のハンドラとして</cmt>
     <cmt>// Callback() を登録</cmt>
-    clsSleep.Time += <kwd>new</kwd> EventHandler(<kwd>this</kwd>.Callback);
+    clsSleep.Time += <kwd>new</kwd> <knw>EventHandler</knw>(<kwd>this</kwd>.Callback);
 
     <cmt>// 実験用メインルーチン開始</cmt>
     clsSleep.Start();
@@ -112,26 +114,29 @@ body
     <li>結果として、メッセージボックスが表示される</li>
 </ol>
 
-<h2>例2 : データを返すイベント</h2>
-イベントレシーバにデータを返す場合を考える(例1の改良)。
+<h2>例2 : データを渡すイベント</h2>
+イベントレシーバにデータを渡す場合を考える(例1の改良)。
 
 <h5>SleepClass.cs</h5>
 <div class="code">
 <kwd>using</kwd> <knw>System</knw>;
-
-<cmt>// Time イベントで返されるデータ</cmt>
+<b>
+<cmt>// Time イベントで渡されるデータ</cmt>
 <cmt>// System.EventArgs を継承</cmt>
 <kwd>public class</kwd> TimeEventArgs : <knw>EventArgs</knw>
 {
     <kwd>public string</kwd> Message;
 }
-
-<cmt>// 実験用クラス</cmt>
+</b>
+<cmt>// 実験用クラス ⇒ イベントセンダ</cmt>
 <kwd>public class</kwd> SleepClass
-{
+{<b>
+    <cmt>// デリゲート TimeEventHandler の宣言</cmt>
+    <cmt>// TimeEventArgs 型を引数として受け取る</cmt>
+    <kwd>public delegate void</kwd> TimeEventHandler(<kwd>object</kwd> sender, TimeEventArgs e);
+</b>
     <cmt>// イベントデリゲート Time の宣言</cmt>
-    <cmt>// (delegate ではなく event を用いる点に注意)</cmt>
-    <kwd>public</kwd> event EventHandler Time;
+    <kwd>public event</kwd> <b>TimeEventHandler</b> Time;
 
     <cmt>// 実験用メインルーチン</cmt>
     <kwd>public void</kwd> Start()
@@ -141,9 +146,9 @@ body
         {
             <cmt>// Time イベントの発生</cmt>
             <cmt>// イベントセンダは自身、イベント変数を設定</cmt>
-            TimeEventArgs e = <kwd>new</kwd> TimeEventArgs();
+<b>            TimeEventArgs e = <kwd>new</kwd> TimeEventArgs();
             e.Message = "終わったよ。";
-            Time(<kwd>this</kwd>, e);
+            Time(<kwd>this</kwd>, e);</b>
         }
     }
 }
@@ -153,6 +158,8 @@ body
 <div class="code">
 <kwd>using</kwd> <knw>System</knw>;
 
+<cmt>// ウィンドウ ⇒ イベントレシーバ</cmt>
+
 <cmt>// button1 押下時の処理</cmt>
 <kwd>private void</kwd> button1_Click(<kwd>object</kwd> sender, <knw>EventArgs</knw> e)
 {
@@ -160,22 +167,28 @@ body
 
     <cmt>// Time イベント発生時のハンドラとして</cmt>
     <cmt>// Callback() を登録</cmt>
-    clsSleep.Time += <kwd>new</kwd> EventHandler(<kwd>this</kwd>.Callback);
+    clsSleep.Time += <kwd>new</kwd> <b>TimeEventHandler</b>(<kwd>this</kwd>.Callback);
 
     <cmt>// 実験用メインルーチン開始</cmt>
     clsSleep.Start();
 }
 
 <cmt>// イベントハンドラとして登録するコールバック</cmt>
-<kwd>private void</kwd> Callback(<kwd>object</kwd> sender, <knw>EventArgs</knw> e)
+<kwd>private void</kwd> Callback(<kwd>object</kwd> sender, <b>TimeEventArgs</b> e)
 {
     <cmt>// イベントが発生したとき</cmt>
-    MessageBox.Show(e.Message);
+    <cmt>// イベント引数の内容を表示する</cmt>
+    MessageBox.Show(<b>e.Message</b>);
 }
 </div>
 
-例1との違いは、イベント変数として用いる TimeEventArgs クラスを追加したことと、<br>
-TimeEventArgs 型のオブジェクトを用いて、イベントセンダからイベントレシーバへデータを渡していることである。<br>
+例1との違いは<b>太字</b>で示した、
+<ul>
+    <li>イベント引数 TimeEventArgs 型の追加</li>
+    <li>TimeEventArgs を受け取るデリゲート TimeEventHandler の追加</li>
+    <li>イベント発生時に TimeEventArgs オブジェクトを渡している</li>
+</ul>
+点である。
 
 <h2>あとがき</h2>
 イベントを用いることで、関連するモジュール同士の関係を疎結合に保つことができ、コードの見通しが良くなる。<br>

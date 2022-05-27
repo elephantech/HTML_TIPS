@@ -2,8 +2,9 @@
 
 /* ---------------------------------- */
 /* コード (<### class="code">         */
+/* XAML   (<### class="xaml">         */
 /* ---------------------------------- */
-.code {
+.code, .xaml {
   white-space:          pre;
   font-family:          monospace;
   line-height:          1.2;
@@ -11,13 +12,13 @@
   margin:               6px 10em 6px 0;
 }
 
-span.code, div.code, p.code {
+span.code, div.code, p.code, div.xaml, p.xaml {
   border-style:         solid;
   border-width:         1px;
   border-color:         #996666;
 }
 
-div.code, p.code {
+div.code, p.code, div.xaml, p.xaml {
   padding:              0 1em 1.3em 1em;
 }
 
@@ -37,7 +38,7 @@ span.code {
 }
 
 /* コメント (<comment>、<cmt>) */
-.code comment, .code cmt {
+.code comment, .code cmt, .xaml comment, .xaml cmt {
   color:                #009000;
 }
 
