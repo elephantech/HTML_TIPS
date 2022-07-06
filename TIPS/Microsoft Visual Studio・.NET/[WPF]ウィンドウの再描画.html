@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="https://elephantech-html-tips-etc.on.drv.tw/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://gist.github.com/pinzolo/2814091">WPF再描画のためのDoEventsメソッド - GitHub</a><br>
+<a href="https://www.ipentec.com/document/csharp-wpf-implement-application-doevents">コントロールを明示的に更新する - WPFアプリケーションでのApplication.DoEvents の実装 : WPF | iPentec</a><br>
+<a href="https://dobon.net/vb/dotnet/control/refreshupdateinvalidate.html">Refresh、Update、Invalidateメソッドの違い - .NET Tips (VB.NET,C#...) : dobon.net</a>
+
+<h5>関連 :</h5>
+<a href="TIPS/Microsoft Visual Studio・.NET/[WPF]UIスレッド外からのUIの操作.html">[WPF]UIスレッド外からのUIの操作</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>WPFアプリケーションにおけるウィンドウの再描画</h2>
+WinFormでは、Refresh() メソッドをコールすることでコントロールを再描画することができたが、WPFでは同様のメソッドは標準実装されていない。<br>
+ウィンドウを再描画するには以下のような処理を実装する必要がある。
+
+<div class="code">
+using System.Windows.Threading;
+
+public class HogeWindow
+{
+    :
+
+    /// &lt;summary&gt;
+    /// 現在メッセージ待ち行列の中にある全てのUIメッセージを処理します。
+    /// &lt;/summary&gt;
+    private void DoEvents()
+    {
+        DispatcherFrame frame = new DispatcherFrame();
+        var callback = new DispatcherOperationCallback(obj =&gt;
+        {
+            ((DispatcherFrame)obj).Continue = false;
+            return null;
+        });
+        Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, callback, frame);
+        Dispatcher.PushFrame(frame);
+    }
+
+    :
+
+}
+</div>
+
+ウィンドウを更新する場合は、上記の DoEvents() メソッドをコールし、キューイングされたUIメッセージを処理するとよい。
+
+</body>
+</html>

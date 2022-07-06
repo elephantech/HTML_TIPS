@@ -55,7 +55,6 @@ body
                                     RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
               SelectedItem="{Binding Path=HogeItem,
                                      RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
-              IsDropDownOpen="True"
               Width="180"
               HorizontalAlignment="Left"
               Margin="6"/&gt;
@@ -64,6 +63,8 @@ body
 
 &lt;/Window&gt;
 </div>
+IsEditable プロパティを True に設定しない場合、入力不可のドロップダウンリストとして機能する。
+
 
 <h5>コードビハインド : HogeWindow.xaml.cs</h5>
 

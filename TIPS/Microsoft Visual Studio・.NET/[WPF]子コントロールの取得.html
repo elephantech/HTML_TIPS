@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="https://elephantech-html-tips-etc.on.drv.tw/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.logicaltreehelper.getchildren?redirectedfrom=MSDN&view=windowsdesktop-6.0%23System_Windows_LogicalTreeHelper_GetChildren_System_Windows_DependencyObject_">LogicalTreeHelper.GetChildren メソッド (System.Windows) | Microsoft Docs</a><br>
+<a href="https://qiita.com/tricogimmick/items/4347214669a99cd2c775">WPF Windowに配置されたコントロールを列挙する - Qiita</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+<h2>子コントロールの一覧を取得する</h2>
+<b>System.Windows.LogicalTreeHelper.GetChildren()</b> メソッドにより、引数に指定されたコントロールの直接の子要素を取得することができる。<br>
+再帰的に呼び出すことで、含まれる子孫要素を全て取得することができる。
+
+<h3>コード例</h3>
+<div class="code">
+<kwd>using</kwd> <knw>System</knw>.<knw>Windows</knw>;
+
+<cmt>// 異常一覧ウィンドウ</cmt>
+<kwd>public partial class</kwd> NotifyWindow : Window
+{
+    :
+
+    <cmt>// ボタン「○○」押下時の処理 (イベントハンドラ)</cmt>
+    <kwd>private void</kwd> ClearNotifies( <kwd>object</kwd> sender, RoutedEventArgs e )
+    {
+        <cmt>// 表示を再帰的に更新</cmt>
+        Refresh( <kwd>this</kwd> );
+    }
+
+    :
+
+    <cmt>// 表示を再帰的に更新</cmt>
+    <kwd>private void</kwd> Refresh( DependencyObject obj )
+    {
+        <cmt>// obj が NotifyItem_Alert の場合</cmt>
+        <kwd>if</kwd>( obj <kwd>is</kwd> NotifyItem_Alert )
+        {
+            <cmt>// 表示を更新して抜ける</cmt>
+            ( (NotifyItem_Alert)obj ).Update();
+            <kwd>return</kwd>;
+        }
+        <cmt>// obj が NotifyItem_Warning の場合</cmt>
+        <kwd>else if</kwd>( obj <kwd>is</kwd> NotifyItem_Warning )
+        {
+            <cmt>// 表示を更新して抜ける</cmt>
+            ( (NotifyItem_Warning)obj ).Update();
+            <kwd>return</kwd>;
+        }
+
+        <cmt>// 子要素をスキャン</cmt>
+        <cmt>// System.Windows.LogicalTreeHelper.GetChildren()</cmt>
+        <kwd>foreach</kwd>( <kwd>var</kwd> child <kwd>in</kwd> LogicalTreeHelper.GetChildren(obj))
+        {
+            <cmt>// 子要素が DependencyObject の場合、再帰的に子孫を辿る</cmt>
+            <kwd>if</kwd>( child <kwd>is</kwd> DependencyObject )
+            {
+                Refresh( (DependencyObject)child );
+            }
+        }
+    }
+}
+</div>
+
+コントロールは全て DependencyObject を継承しているため、System.Windows.LogicalTreeHelper.GetChildren() の引数に指定することができる。<br>
+GetChildren() の戻り値はインタフェース IEnumerable であり、foreach で走査が可能である。
+</body>
+</html>
+
+
+
+

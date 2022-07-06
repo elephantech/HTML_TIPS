@@ -34,6 +34,8 @@ body
 
 <h5>関連 :</h5>
 <a href="TIPS/Microsoft Visual Studio・.NET/[WinForm]UI(コントロール)とデリゲート.html">[WinForm]UI(コントロール)とデリゲート</a><br>
+<a href="TIPS/Microsoft Visual Studio・.NET/[WPF]ウィンドウの再描画.html">[WPF]ウィンドウの再描画</a><br>
+<a href="TIPS/C Sharp/イベント処理.html">[C#]イベント処理</a>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -43,25 +45,60 @@ body
 
 <!-- 本文ここから -->
 
-<h2>ウィンドウの開閉に関する制約</h2>
-WPFでは、<b>自身のウィンドウを閉じる、または新しいウィンドウを開く操作はUIスレッドから行う必要がある</b>。<br>
+<h2>コントロールの操作に関する制約</h2>
+WPFでは、WinFormと同様に<b>コントロールに対する操作はUIスレッドから行う必要がある</b>。<br>
 UIスレッドには、各ウィンドウに関連付けられたイベントハンドラが該当する。<br>
-即ち原則として、上記の操作はイベントハンドラ(と同一のスレッド)からでなければ実行することができない。<br>
-(WinFormにおける、コントロール操作に関する制約と同様)<br>
+即ち原則として、コントロールの操作はイベントハンドラ(と同一のスレッド)からでなければ実行することができない。<br>
 <img src="_Img/MSVS_DotNet_CSharp/UI_delegate/UiControl_and_Delegate_01.png" alt="画像"><br>
+別スレッド(ワーカースレッド)からコントロールの操作を行う場合、UIスレッドに処理を委譲する必要がある。<br>
+尚、WinFormと異なり、InvokeRequired プロパティは存在しない。
 
-<h2>別スレッドからのウィンドウ開閉</h2>
-別スレッドからウィンドウの開閉を行う場合、UIスレッドに操作を委譲<b>( Application.Current.Dispatcher.Invoke() )</b>する必要がある。<br>
-<br>
-(ウィンドウ HogeWindow.cs)
+<h2>処理の委譲先</h2>
+<ul>
+    <li>操作対象が自身のWindow : <b>Window.Dispatcher</b></li>
+    <li>操作対象が自身ではない(自身に対しても使用可) : <b>Application.Current.Dispatcher</b></li>
+</ul>
+
+<h2>ワーカースレッドからのコントロール操作</h2>
+
+<h5>(ウィンドウ : HogeWindow.cs)</h5>
 <div class="code">
 <kwd>class</kwd> HogeWindow : <knw>Window</knw>
 {
     <cmt>// ContentRendered イベントハンドラ</cmt>
     <kwd>private void</kwd> Window_ContentRendered(<kwd>object</kwd> sender, <knw>EventArgs</knw> e)
     {
-        <cmt>// 別スレッドにて処理を実行</cmt>
-        <knw>Task</knw> t = <knw>Task</knw>.Run( () => InitializeSystem() );
+        <cmt>// 別スレッド(ワーカースレッド)にて処理を実行</cmt>
+        <knw>Task</knw> t = <knw>Task</knw>.Run( () => DoSomething() );
+    }
+    
+    <cmt>// UIスレッド外で行われる処理</cmt>
+    <kwd>private void</kwd> DoSomething()
+    {
+        <cmt>// ラベルの表記を更新</cmt>
+        UpdateLabel("テスト");
+    }
+
+    <cmt>// ラベルの表記を更新</cmt>
+    <cmt>// (UIスレッド外で行われる処理)</cmt>
+    <kwd>private void</kwd> UpdateLabel(string msg)
+    {
+        <b>Dispatcher.Invoke</b>( () => SomeLabel.Content = msg );
+    }
+}
+</div>
+
+<h2>ワーカースレッドからのウィンドウ開閉</h2>
+
+<h5>(ウィンドウ : HogeWindow.cs)</h5>
+<div class="code">
+<kwd>class</kwd> HogeWindow : <knw>Window</knw>
+{
+    <cmt>// ContentRendered イベントハンドラ</cmt>
+    <kwd>private void</kwd> Window_ContentRendered(<kwd>object</kwd> sender, <knw>EventArgs</knw> e)
+    {
+        <cmt>// 別スレッド(ワーカースレッド)にて処理を実行</cmt>
+        <knw>Task</knw> t = <knw>Task</knw>.Run( () => DoSomething() );
     }
     
     <cmt>// UIスレッド外で行われる処理</cmt>
@@ -69,7 +106,7 @@ UIスレッドには、各ウィンドウに関連付けられたイベントハ
     {
         <kwd>try</kwd>
         {
-            <cmt>// MainWindow を開く</cmt>
+            <cmt>// 別の Window を開く</cmt>
             <cmt>// ⇒ UIスレッドに委譲</cmt>
             <b><knw>Application</knw>.Current.Dispatcher.Invoke</b>( () => ( <kwd>new</kwd> MainWindow() ).Show() );
         }
@@ -88,11 +125,8 @@ UIスレッドには、各ウィンドウに関連付けられたイベントハ
 }
 </div>
 
+<h2>Invoke() に関する制約</h2>
+Invoke() に渡すことのできるデリゲートは Action 型(戻り値の無いメソッド)に限定される。
+
 </body>
 </html>
-
-
-
-
-
-

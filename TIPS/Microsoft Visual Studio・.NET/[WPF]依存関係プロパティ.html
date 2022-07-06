@@ -37,6 +37,7 @@ body
 
 <h5>関連 :</h5>
 <a href="TIPS\Microsoft Visual Studio・.NET\[WPF]データバインディング.html">[WPF]データバインディング</a><br>
+<a href="TIPS\Microsoft Visual Studio・.NET\[WPF]ユーザーコントロール.html">[WPF]ユーザーコントロール</a><br>
 
 <!-- 目次 -->
 <h5>目次 :</h5>
@@ -47,23 +48,30 @@ body
 <!-- 本文ここから -->
 
 <h2>依存関係プロパティとは</h2>
-データバインディングのターゲットにできるプロパティのこと。<br>
+データバインディングのターゲットに指定できるプロパティのこと。<br>
 コントロールの既存プロパティはすべて依存関係プロパティとして実装されているため、そのままデータバインディングのターゲットとすることができる。<br>
 
-<h3>依存関係プロパティの実装例</h3>
-依存関係プロパティを追加する際の例を示す。<br>
-<img src="_Img/MSVS_DotNet_CSharp/WPF_DependencyProp/03.png"><br>
-上記コード例における MyNameProperty が依存関係プロパティで、通常 <b>DependencyProperty.Register()</b> メソッドを用いて登録を行う。<br>
-ここで、第1引数( DependencyProperty.Name の値となる)が "MyName" となっているが、これは上段にあるプロパティ MyName とは直接の関係は無く、<br>
-XAMLから当該プロパティを参照する際のエイリアス(別名)として機能する。<br>
+<h3>原則</h3>
+<img src="_Img/MSVS_DotNet_CSharp/WPF_DependencyProp/03.png" alt=""><br>
+
+依存関係プロパティは通常 <b>DependencyProperty.Register()</b> メソッドを用いて登録を行う。<br>
+上記コードにおける MyNameProperty が依存関係プロパティである。ここで、第1引数( DependencyProperty.Name の値となる)が "MyName" となっているが、<br>
+これはXAMLから当該プロパティを参照する際のエイリアス(別名)として機能する。<br>
 <br>
 依存関係プロパティは実際の型(上記例では string )と異なる型で宣言されることから、参照・更新には <b>GetValue()</b> 、<b>SetValue()</b>を用いる必要がある。<br>
-このままでは不便なので、上段にあるようにラッパープロパティ( MyName )を定義することで通常のプロパティと同様に用いることができる。<br>
-参照名およびラッパープロパティを "○○" 、依存関係プロパティを "○○Property" と命名することが推奨されている。<br>
+ただこれでは不便なので、上段にあるようにラッパープロパティ( MyName )を定義し、通常のプロパティとしても用いることを可能としている。<br>
+ここで、参照名およびラッパープロパティを "○○" 、依存関係プロパティを "○○Property" と命名することが推奨されている。<br>
 Visual Studioでは <b>propdp</b> スニペットを用いることで、雛型を呼び出すことができる。<br>
 <br>
 また、コントロールは暗黙的に DependencyObject を継承しているため、依存関係プロパティを追加する場合に、<br>
 明示的に DependencyObject を継承する必要はない。
+
+<h2>実装例</h2>
+<img src="_Img/MSVS_DotNet_CSharp/WPF_DependencyProp/04.png" alt=""><br>
+ユーザーコントロール NumericUpDown をウィンドウ CommTestWindow から参照する場合を考える。<br>
+ウィンドウ(XAML)からはコントロールのプロパティ MinValue 、MaxValue を参照しているように見えるがこれは別名で、<br>
+実際の参照先は依存関係プロパティ MinValueProperty 、MaxValueProperty である。<br>
+このように参照側から値を設定、またはソースを指定してバインディングを行う場合は、被参照側に依存関係プロパティを定義する必要がある。
 
 </body>
 </html>

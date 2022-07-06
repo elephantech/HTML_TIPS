@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="https://elephantech-html-tips-etc.on.drv.tw/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.controls.grid?view=windowsdesktop-6.0">Grid クラス (System.Windows.Controls) | Microsoft Docs</a><br>
+<a href="https://anderson02.com/cs/wpf/wpf-3/">C#WPFの道#3！Gridの使い方をわかりやすく解説！｜ピーコックアンダーソン</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/Microsoft Visual Studio・.NET/[WPF]DockPanelとStackPanel.html">[WPF]DockPanelとStackPanel</a>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+
+<h2>Gridコントロール</h2>
+行と列で構成されるグリッド領域を規定する。コントロール配置の下地となる。<br>
+DataGrid とは異なる。
+
+<h2>具体例</h2>
+下図のような3行3列の配置を考える。<br>
+<img src="_Img/MSVS_DotNet_CSharp/WPF_Panels/07.png" alt="配置例"><br>
+
+<h3>XAML</h3>
+<div class="xaml">
+&lt;Window&gt;
+
+    :
+
+    <cmt>&lt;!-- Grid 領域 --&gt;</cmt>
+    &lt;Grid&gt;
+        <cmt>&lt;!-- 行の定義 --&gt;</cmt>
+        &lt;Grid.RowDefinitions&gt;
+            &lt;RowDefinition Height="Auto"/&gt;
+            &lt;RowDefinition Height="Auto"/&gt;
+            &lt;RowDefinition Height="Auto"/&gt;
+        &lt;/Grid.RowDefinitions&gt;
+
+        <cmt>&lt;!-- 列の定義 --&gt;</cmt>
+        &lt;Grid.ColumnDefinitions&gt;
+            &lt;ColumnDefinition Width="Auto"/&gt;
+            &lt;ColumnDefinition Width="Auto"/&gt;
+            &lt;ColumnDefinition Width="Auto"/&gt;
+        &lt;/Grid.ColumnDefinitions&gt;
+
+        <cmt>&lt;!-- コントロールの配置 --&gt;</cmt>
+        <cmt>&lt;!-- ① : Label --&gt;</cmt>
+        &lt;Label Grid.Column="0"
+               Grid.Row="0"
+               Grid.ColumnSpan="2"/&gt;
+
+        <cmt>&lt;!-- ② : Image --&gt;</cmt>
+        &lt;Image Grid.Column="0"
+               Grid.Row="1"
+               Grid.RowSpan="2"/&gt;
+
+        <cmt>&lt;!-- ③ : Image --&gt;</cmt>
+        &lt;Image Grid.Column="1"
+               Grid.Row="1"
+               Grid.RowSpan="2"/&gt;
+
+        <cmt>&lt;!-- ④ : Canvas --&gt;</cmt>
+        &lt;Canvas Grid.Column="2"
+                Grid.Row="0"
+                Grid.RowSpan="2"/&gt;
+
+        <cmt>&lt;!-- ⑤ : Button --&gt;</cmt>
+        &lt;Button Grid.Column="2"
+                Grid.Row="2"/&gt;
+    &lt;/Grid&gt;
+
+    :
+
+&lt;/Window&gt;
+</div>
+
+<h3>解説</h3>
+<ul>
+    <li>Grid の使用に当たっては、Grid.RowDefinitions 、Grid.ColumnDefinitions で行と列を規定する。<br>
+    Height (行の高さ)、Width (列の幅)は以下の値が設定可能である。
+    <ul>
+        <li>"Auto" : 格納するコントロールによって自動的に決定する。</li>
+        <li>"*" : 割り当て可能な範囲を均等に分割する。"n*" とすると、n 倍量を割り当てる( n は 1 以上の自然数)。</li>
+        <li>"(数値)" : 高さ・幅をpixel単位で直接指定する。</li>
+    </ul>
+    </li>
+    <li>① : Label は左上端を Column 0 、Row 0 に配置する。2列を割り当てるため ColumnSpan="2" とする。</li>
+    <li>② : Image は左上端を Column 0 、Row 1 に配置する。2行を割り当てるため RowSpan="2" とする。</li>
+    <li>③ : Image は左上端を Column 1 、Row 1 に配置する。2行を割り当てるため RowSpan="2" とする。</li>
+    <li>④ : Canvas は左上端を Column 2 、Row 0 に配置する。2行を割り当てるため RowSpan="2" とする。</li>
+    <li>⑤ : Button は Column 2 、Row 2 に配置する。</li>
+
+</ul>
+
+</body>
+</html>

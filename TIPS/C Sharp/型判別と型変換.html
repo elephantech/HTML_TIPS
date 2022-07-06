@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="https://elephantech-html-tips-etc.on.drv.tw/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://docs.microsoft.com/ja-jp/dotnet/csharp/language-reference/operators/is">is 演算子 - C# リファレンス | Microsoft Docs</a><br>
+<a href="https://docs.microsoft.com/ja-jp/dotnet/csharp/language-reference/operators/type-testing-and-cast">型のテスト演算子とキャスト式 - C# リファレンス | Microsoft Docs</a><br>
+<a href="https://araramistudio.jimdo.com/2018/09/21/c-%E3%81%A7%E5%9E%8B%E3%82%92%E5%88%A4%E5%88%A5%E3%81%99%E3%82%8Btypeof%E3%81%A8is%E6%BC%94%E7%AE%97%E5%AD%90/">C#で型を判別するtypeofとis演算子 - Ararami Studio</a><br>
+<a href="https://araramistudio.jimdo.com/2018/09/13/c-%E3%81%A7%E3%82%AD%E3%83%A3%E3%82%B9%E3%83%88%E3%81%A8as%E6%BC%94%E7%AE%97%E5%AD%90%E3%82%92%E4%BD%BF%E3%81%84%E3%81%93%E3%81%AA%E3%81%99/">C#でキャストとas演算子を使いこなす - Ararami Studio</a>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+<h2>式の型判別</h2>
+<h3>typeof 演算子による型取得</h3>
+typeof 演算子を用いることで、型から System.Type インスタンスを得ることができる。<br>
+これにより、型の比較・判別を行うことができる。<br>
+またオブジェクト(クラス)型インスタンスは GetType() メソッドにより、自身の型に対応する Type インスタンスを取得できる。
+<div class="code">
+<kwd>class</kwd> Base {}
+<kwd>class</kwd> Level1 : Base{}
+<kwd>class</kwd> Level2 : Level1{}
+<kwd>class</kwd> Level3 : Level2{}
+    
+<kwd>class</kwd> Test
+{
+    <kwd>static void</kwd> Main()
+    {
+        Base obj = <kwd>new</kwd> Level2();
+    
+        <kwd>bool</kwd> isBase   = obj.GetType() == <kwd>typeof</kwd>(Base);       <cmt>//< false</cmt>
+        <kwd>bool</kwd> isLevel1 = obj.GetType() == <kwd>typeof</kwd>(Level1);     <cmt>//< false</cmt>
+        <kwd>bool</kwd> isLevel2 = obj.GetType() == <kwd>typeof</kwd>(Level2);     <cmt>//< true</cmt>
+        <kwd>bool</kwd> isLevel3 = obj.GetType() == <kwd>typeof</kwd>(Level3);     <cmt>//< false</cmt>
+    }
+}
+</div>
+typeof 演算子と == による比較は、型が厳格に一致する場合のみ真となる。<br>
+typeof(T) (Tは任意の型)は定数式ではないため、switch - case 節で用いることはできない。
+
+<h3>is 演算子による型判別</h3>
+<div class="code">
+<kwd>class</kwd> Base {}
+<kwd>class</kwd> Level1 : Base{}
+<kwd>class</kwd> Level2 : Level1{}
+<kwd>class</kwd> Level3 : Level2{}
+    
+<kwd>class</kwd> Test
+{
+    <kwd>static void</kwd> Main()
+    {
+        Base obj = <kwd>new</kwd> Level2();
+    
+        <kwd>bool</kwd> isBase   = (obj <kwd>is</kwd> Base);       <cmt>//< true ← typeof と異なる</cmt>
+        <kwd>bool</kwd> isLevel1 = (obj <kwd>is</kwd> Level1);     <cmt>//< true ← typeof と異なる</cmt>
+        <kwd>bool</kwd> isLevel2 = (obj <kwd>is</kwd> Level2);     <cmt>//< true</cmt>
+        <kwd>bool</kwd> isLevel3 = (obj <kwd>is</kwd> Level3);     <cmt>//< false</cmt>
+    }
+}
+</div>
+is 演算子を用いた場合、自身が宣言型だけでなく基底クラスも該当すると判断される。<br>
+typeof 演算子が型をオペランドとするのに対し、is 演算子の左辺はインスタンスであることに注意。<br>
+尚、is 演算子はC#7.0以降で使用可能である。
+
+<h2>式の型変換</h2>
+型変換を行う際は、C/C++と同様のキャストと、as 演算子を用いることができるが、両者の振舞は微妙に異なる。<br>
+
+<h3>アップキャスト</h3>
+派生クラスから基底クラスへの型変換を指す。C#に限らず、基底クラスは派生クラスをラップ可能であるため、明示的なキャストを行う必要はない。
+<div class="code">
+<kwd>class</kwd> Base {}
+<kwd>class</kwd> Derived : Base {}
+    
+<kwd>class</kwd> Test
+{
+    <kwd>static void</kwd> Main()
+    {
+        Base    a = <kwd>null</kwd>;
+        Derived b = <kwd>new</kwd> Derived();
+    
+        a = b;      <cmt>//< アップキャスト</cmt>
+    }
+}
+</div>
+
+<h3>ダウンキャスト</h3>
+基底クラスから派生クラスへの型変換を指す。<br>
+派生クラスのインスタンスをアップキャストした場合のみダウンキャストが可能である。<br>
+意図されたキャストであることを明示する必要がある。
+<div class="code">
+<kwd>class</kwd> Base {}
+<kwd>class</kwd> Derived1 : Base {}
+<kwd>class</kwd> Derived2 : Base {}
+    
+<kwd>class</kwd> Test
+{
+    <kwd>static void</kwd> Main()
+    {
+        Base     a = <kwd>new</kwd> Derived1();     <cmt>//< アップキャスト</cmt>
+            
+        Derived1 b = (Derived1)a;        <cmt>//< ダウンキャスト成功</cmt>
+        Derived2 c = (Derived2)a;        <cmt>//< ダウンキャスト失敗 ⇒ 例外</cmt>
+    }
+}
+</div>
+上記の例では a は Derived1 型のオブジェクトであるが、基底クラスの Base 型にアップキャストされている。<br>
+ダウンキャストにより Derived1 型に戻すことは可能であるが、素性の異なる Derived2 型への変換は不可能である。
+
+<div class="code">
+<kwd>class</kwd> Base {}
+<kwd>class</kwd> Derived1 : Base {}
+<kwd>class</kwd> Derived3 : Derived1 {}
+    
+<kwd>class</kwd> Test
+{
+    <kwd>static void</kwd> Main()
+    {
+        Base     a = <kwd>new</kwd> Derived3();     <cmt>//< アップキャスト</cmt>
+            
+        Derived3 b = (Derived3)a;        <cmt>//< ダウンキャスト成功</cmt>
+        Derived1 c = (Derived1)a;        <cmt>//< ダウンキャスト成功</cmt>
+    }
+}
+</div>
+上記の例では a は元々 Derived3 型のオブジェクトであるため、Derived3 型に戻すことも、1代前の基底クラス Derived1 型に変換することも可能である。
+
+<h3>as 演算子による型変換</h3>
+as 演算子はキャストと同様、右辺に指定された型への変換を試みるが、変換失敗時は例外を投げるのではなく、式の評価値が null となる点が異なる。<br>
+同じ型への変換を行う場合、キャストよりも as 演算子を用いたほうが高速となる。
+<div class="code">
+<kwd>class</kwd> Base {}
+<kwd>class</kwd> Derived1 : Base {}
+<kwd>class</kwd> Derived2 : Base {}
+    
+<kwd>class</kwd> Test
+{
+    <kwd>static void</kwd> Main()
+    {
+        Base     a = <kwd>new</kwd> Derived1();     <cmt>//< アップキャスト</cmt>
+            
+        Derived1 b = a <kwd>as</kwd> Derived1;        <cmt>//< ダウンキャスト成功</cmt>
+        Derived2 c = a <kwd>as</kwd> Derived2;        <cmt>//< ダウンキャスト失敗 ⇒ c は null となる</cmt>
+
+        <kwd>if</kwd> (c == <kwd>null</kwd>)
+        {
+            :
+        }
+    }
+}
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+

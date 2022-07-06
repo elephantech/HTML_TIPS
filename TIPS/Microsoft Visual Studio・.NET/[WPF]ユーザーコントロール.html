@@ -36,6 +36,7 @@ body
 <a href="https://docs.microsoft.com/ja-jp/dotnet/desktop/wpf/controls/control-authoring-overview?view=netframeworkdesktop-4.8">コントロールの作成の概要 - WPF .NET Framework | Microsoft Docs</a><br>
 
 <h5>関連 :</h5>
+<a href="TIPS/Microsoft Visual Studio・.Net/[WPF]データバインディング.html">[WPF]データバインディング</a><br>
 <a href="TIPS/Microsoft Visual Studio・.Net/[WPF]RelativeSource.html">[WPF]RelativeSource</a><br>
 <a href="TIPS/Microsoft Visual Studio・.Net/[WPF]依存関係プロパティ (DependencyProperty).html">[WPF]依存関係プロパティ (DependencyProperty)</a><br>
 <a href="TIPS/Microsoft Visual Studio・.Net/[WPF]カスタムコントロール.html">[WPF]カスタムコントロール</a><br>
@@ -48,22 +49,15 @@ body
 
 <!-- 本文ここから -->
 
-<h2>ユーザーコントロール</h2>
-<h3>概要</h3>
-既存のコントロールをカスタマイズしたものや、複数のコントロールを組み合わせたものをひとつのコントロールとして使いまわしたい場合に、<br>
+<h2>ユーザーコントロールの概要</h2>
+複数のコントロールを組み合わせたものをひとつのコントロールとして使いまわしたい場合、<br>
 それらを「ユーザーコントロール」として定義することで、再利用可能なコントロールとなる。<br>
-尚、「<a href="TIPS/Microsoft Visual Studio・.Net/[WPF]カスタムコントロール.html">カスタムコントロール</a>」とは異なる。
-
-<h3>特徴</h3>
-ユーザーコントロールは、既存のコントロールを簡便に組み合わせるのに適している。<br>
-反面、外観の複雑なカスタマイズは不可能であるため、カスタマイズを目的とする場合はカスタムコントロールを使用することとなる。
+尚、「<a href="TIPS/Microsoft Visual Studio・.Net/[WPF]カスタムコントロール.html">カスタムコントロール</a>」とは異なる。<br>
+外観の複雑なカスタマイズは不可能であるため、カスタマイズを目的とする場合はカスタムコントロールを使用することとなる。
 
 <h3>作成手順・実装例</h3>
-ここでは、2つの Label コントロールを持つユーザーコントロール MachineErrIndicator を作成している。<br>
-Label の Content プロパティを MachineErrIndicator.SigNum 、MachineErrIndicator.SigName にバインディングすることで、<br>
-MachineErrIndicator のメンバとしてのアクセスを可能としている。<br>
-XAMLの記述(データバインディング)に関しては、
-<a href="TIPS/Microsoft Visual Studio・.Net/[WPF]RelativeSource.html">[WPF]RelativeSource</a>を参照。
+ここでは、2つの Label コントロールを持つユーザーコントロール MachineErrIndicator を作成する。<br>
+
 <ol>
     <li>準備
         <ol>
@@ -71,7 +65,8 @@ XAMLの記述(データバインディング)に関しては、
                 Visual Studioメニュー「プロジェクト」>「新しい項目の追加」を選択する。
             </li>
             <li>
-                「Visual C# アイテム」>「WPF」>「<b>ユーザー コントロール (WPF)</b>」を選択し、任意のコントロール名を割り当てる。
+                「Visual C# アイテム」>「WPF」>「<b>ユーザー コントロール (WPF)</b>」を選択し、任意のコントロール名を割り当てる。<br>
+                ここでは <b>"MachineErrIndicator"</b> とする。
             </li>
         </ol>
     </li>
@@ -83,23 +78,48 @@ XAMLの記述(データバインディング)に関しては、
             </li>
             <li>
                 XAML<br>
-                ここで、"Path=" と "Mode=FindAncestor" は省略可能。<br>
                 <img src="_Img/MSVS_DotNet_CSharp/WPF_UserControl/02.png">
 
             </li>
         </ol>
     </li>
     <li>コードビハインドの実装 (MachineErrIndicator.xaml.cs)<br>
-        プロパティを実装する際は、スニペット propdp を用いると便利である。<br>
+        プロパティの実装に関しては、<a href="TIPS/Microsoft Visual Studio・.Net/[WPF]依存関係プロパティ (DependencyProperty).html">依存関係プロパティ</a>を参照。<br>
         <img src="_Img/MSVS_DotNet_CSharp/WPF_UserControl/03.png"><br>
     </li>
     <li>
-        参照側XAMLの実装<br>
+        参照側XAMLの実装 (StatusWindow.xaml)<br>
         <img src="_Img/MSVS_DotNet_CSharp/WPF_UserControl/04.png">
     </li>
 </ol>
 
+<h4>何が起こっているか</h4>
+<ul>
+    <li>
+        手順 2.2. では、ユーザーコントロール MachineErrIndicator のプロパティ SigNum 、SigName と、Label の依存関係プロパティ Content とでデータバインドを形成している。<br>
+        これにより、Label に表示される文言を MachineErrIndicator のプロパティとして操作できるようになる。
+    </li>
+    <li>
+        手順 3. では、ユーザーコントロール MachineErrIndicator のプロパティ SigNum 、SigName をそれぞれ依存関係プロパティに関連付けている。<br>
+        これにより、MachineErrIndicator を参照するコントロールから、これらのプロパティをターゲットとしたデータバインディングが可能となる。
+    </li>
+    <li>
+        手順 4. では、ユーザーコントロール MachineErrIndicator の<b>依存関係プロパティ</b> SigNum (SigNumProperty)、SigName (SigNameProperty) に値を設定している。<br>
+        設定値は SigNum 、SigName に反映されるとともに、データバインドを介して Label の文言に反映される。
+    </li>
+</ul>
+
+<h2>ユーザーコントロールの階層化</h2>
+ユーザーコントロールには別のユーザーコントロールを含めることも可能である。<br>
+最も外側のユーザーコントロールを操作して最も内側のコントロールを変化させたい場合は、<br>
+下図のようにデータバインドを各段階で用いる。<br>
+
+<img src="_Img/MSVS_DotNet_CSharp/WPF_UserControl/05.png"><br>
+
+上図では依存関係プロパティ MogoProperty を操作することで、ラッパープロパティ Mogo を介して<br>
+すぐ内側のユーザーコントロール上の FugaProperty に伝播する。<br>
+同様に FugaProperty の変化は Fuga を介して HogeProperty に伝播し、結果として表示に反映される。<br>
+(プロパティ Mogo を操作した場合も同様。)
+
 </body>
 </html>
-
-
