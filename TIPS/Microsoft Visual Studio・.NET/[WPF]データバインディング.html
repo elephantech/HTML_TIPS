@@ -27,8 +27,12 @@ head
 body
 --------------------------------------- -->
 <body>
+
 <!-- ページタイトル(ページ内表示) -->
 <span id="title"></span>
+
+<!-- リンク(ホームに戻る) -->
+<a href="index.html">ホームに戻る</a><br>
 
 <!-- 出典・関連ページ -->
 <h5>出典 :</h5>
@@ -116,22 +120,24 @@ Model に加え、View とのデータ授受も規定したもの。
 
 <h2>前提4 : ソースの変更通知(NotifyPropertyChanged)とReactiveProperty</h2>
 ソースとターゲットを関連付けるだけではソースの変更はターゲットに反映されず、通常は INotifyPropertyChanged インタフェースを実装し、<br>
-ソースの変更をターゲットに通知する仕組みを用意する必要がある(出典元参照)。<br>
-この実装は煩雑なため、代わりに <b>Reactive.Bindings.ReactiveProperty</b> を使用することで、ターゲットへの反映に必要な記述を大幅に削減できる。<br>
+ソースの変更をターゲットに通知する仕組みを用意する必要がある(出典元参照)が、この実装は煩雑である。<br>
+代わりに <b>Reactive.Bindings.ReactiveProperty</b> や <b>Reactive.Bindings.ReactivePropertySlim</b> を使用することで、ターゲットへの反映に必要な記述を大幅に削減できる。<br>
 詳細は<a href="https://qiita.com/ledsun/items/6f4ef754e5ae2507e531">ここ</a>、および<a href="https://qiita.com/okazuki/items/7572f46848d0e93516b1">ここ</a>を参照。<br>
-ReactiveProperty 、および ReactiveProperty.WPF はNuGetから入手可能。<br>
+パッケージ ReactiveProperty 、および ReactiveProperty.WPF はNuGetから入手可能。<br>
+<br>
+ReactivePropertySlim は ReactiveProperty と機能は同等であるが、より軽量で高速であるため、パッケージ ReactiveProperty v4.1.0 以降であればこちらを用いるのがよい。
 
-<h2>データバインディングの実装例 (ReactiveProperty 使用)</h2>
+<h2>データバインディングの実装例 (ReactivePropertySlim 使用)</h2>
 <b>ViewModelの定義 : SampleViewModel.cs</b>
 <div class="code">
-<kwd>using</kwd> Reactive.Bindings;         <cmt>// ReactiveProperty を使用するための参照</cmt>
+<kwd>using</kwd> Reactive.Bindings;         <cmt>// ReactivePropertySlim を使用するための参照</cmt>
 
 <kwd>public class</kwd> SampleViewModel
 {
-    <cmt>// バインディングソース <b>Count</b> を ReactiveProperty として宣言</cmt>
-    <kwd>public</kwd> <knw>ReactiveProperty</knw>&lt;<kwd>int</kwd>&gt; <b class="red">Count</b>
+    <cmt>// バインディングソース <b>Count</b> を ReactivePropertySlim として宣言</cmt>
+    <kwd>public</kwd> <knw>ReactivePropertySlim</knw>&lt;<kwd>int</kwd>&gt; <b class="red">Count</b>
     { <kwd>get</kwd>; }
-    = <kwd>new</kwd> <knw>ReactiveProperty</knw>&lt;<kwd>int</kwd>&gt;();
+    = <kwd>new</kwd> <knw>ReactivePropertySlim</knw>&lt;<kwd>int</kwd>&gt;();
 }
 </div>
 
@@ -177,9 +183,9 @@ ReactiveProperty 、および ReactiveProperty.WPF はNuGetから入手可能。
 上記は Button を押すごとに TextBlock に表示される数値(初期値 0 )がインクリメントされる Window の例である。<br>
 コードビハインドで SampleViewModel 型のオブジェクトを DataContext に指定している。<br>
 DataContext に指定されたオブジェクトは元の型名を意識する必要が無く、XAMLで "<b class="red">Path = Count.Value</b>" とするだけで、プロパティ Count にアクセスできる。<br>
-("<b class="red">.Value</b>" が必要なのは、Count が ReactiveProperty であることによる。)<br>
+("<b class="red">.Value</b>" が必要なのは、Count が ReactivePropertySlim であることによる。)<br>
 <br>
-SampleViewModel の定義において Count を ReactiveProperty としているのは、バインドソースである Count の変更をバインドターゲット( = TextBlock.Text )に波及させるためである。<br>
+SampleViewModel の定義において Count を ReactivePropertySlim としているのは、バインドソースである Count の変更をバインドターゲット( = TextBlock.Text )に波及させるためである。<br>
 但し上記の例ではソースの変更をターゲットに波及させるのみ(単方向)であり、ターゲットを変更した場合ソースには波及しない。<br>
 ターゲットの変更をソースに波及させるには、ソースとなるプロパティ( Count )にsetterを定義するとともに、Binding の Mode を TwoWay とする必要がある。<br>
 

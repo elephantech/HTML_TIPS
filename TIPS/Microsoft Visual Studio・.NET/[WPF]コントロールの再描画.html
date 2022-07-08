@@ -27,8 +27,12 @@ head
 body
 --------------------------------------- -->
 <body>
+
 <!-- ページタイトル(ページ内表示) -->
 <span id="title"></span>
+
+<!-- リンク(ホームに戻る) -->
+<a href="index.html">ホームに戻る</a><br>
 
 <!-- 出典・関連ページ -->
 <h5>出典 :</h5>
@@ -47,27 +51,29 @@ body
 
 <!-- 本文ここから -->
 
-<h2>WPFアプリケーションにおけるウィンドウの再描画</h2>
+※ この記事は書きかけです。内容は正確ではありません。
+
+<h2>WPFアプリケーションにおけるコントロールの再描画</h2>
 WinFormでは、Refresh() メソッドをコールすることでコントロールを再描画することができたが、WPFでは同様のメソッドは標準実装されていない。<br>
-ウィンドウを再描画するには以下のような処理を実装する必要がある。
+コントロールを再描画するには以下のような処理を実装する必要がある。
 
 <div class="code">
-using System.Windows.Threading;
+<kwd>using</kwd> <knw>System</knw>.<knw>Windows</knw>.Threading;
 
-public class HogeWindow
+<kwd>public class</kwd> HogeWindow
 {
     :
 
-    /// &lt;summary&gt;
-    /// 現在メッセージ待ち行列の中にある全てのUIメッセージを処理します。
-    /// &lt;/summary&gt;
-    private void DoEvents()
+    <cmt>/// &lt;summary&gt;</cmt>
+    <cmt>/// 現在メッセージ待ち行列の中にある全てのUIメッセージを処理します。</cmt>
+    <cmt>/// &lt;/summary&gt;</cmt>
+    <kwd>private void</kwd> DoEvents()
     {
-        DispatcherFrame frame = new DispatcherFrame();
-        var callback = new DispatcherOperationCallback(obj =&gt;
+        DispatcherFrame frame = <kwd>new</kwd> DispatcherFrame();
+        <kwd>var</kwd> callback = <kwd>new</kwd> DispatcherOperationCallback(obj =&gt;
         {
-            ((DispatcherFrame)obj).Continue = false;
-            return null;
+            ((DispatcherFrame)obj).Continue = <kwd>false</kwd>;
+            <kwd>return null</kwd>;
         });
         Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, callback, frame);
         Dispatcher.PushFrame(frame);
