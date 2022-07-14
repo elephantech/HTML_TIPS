@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<!-- --------------------------------------
+head
+--------------------------------------- -->
+<head>
+<meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+
+<!-- 基準URI -->
+<base href="https://elephantech-html-tips-etc.on.drv.tw/HTML_TIPS/">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" href="_Assets/CSS/Sytle001.css" type="text/css">
+
+<!-- スクリプト -->
+<!-- タイトル表示 -->
+<script src="_Assets/MakeTitle.js" type="text/javascript"></script>
+<!-- 目次表示 -->
+<script src="_Assets/MakeToc_L.js" type="text/javascript"></script>
+
+
+
+</head>
+
+<!-- --------------------------------------
+body
+--------------------------------------- -->
+<body>
+
+<!-- ページタイトル(ページ内表示) -->
+<span id="title"></span>
+
+<!-- リンク(ホームに戻る) -->
+<a href="index.html">ホームに戻る</a><br>
+
+<!-- 出典・関連ページ -->
+<h5>出典 :</h5>
+<a href="https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.threading.dispatchertimer?view=windowsdesktop-6.0">DispatcherTimer クラス (System.Windows.Threading) | Microsoft Docs</a><br>
+<a href="https://qiita.com/tat_tt/items/39dccd71c524e42d27b1">WPFアプリにおいてタイマ処理でUIを更新できない場合の対処法 - Qiita</a><br>
+
+<h5>関連 :</h5>
+<a href="TIPS/Microsoft Visual Studio・.NET/[WPF]UIスレッド外からのUIの操作.html">[WPF]UIスレッド外からのUIの操作</a><br>
+
+<!-- 目次 -->
+<h5>目次 :</h5>
+<div id="toc"></div>
+
+<hr>
+
+<!-- 本文ここから -->
+<h2>System.Windows.Threading.DispatcherTimer</h2>
+Dispathcer キューに統合されたタイマ。<br>
+System.Timers.Timer とは異なり、タイマハンドラがUIスレッドで実行されるため、タイマイベントでUIを更新することが可能である。<br>
+
+<div class="code">
+
+<kwd>using</kwd> <knw>System</knw>.<knw>Windows</knw>.Threading;
+
+<kwd>class</kwd> Hoge
+{
+    <kwd>public</kwd> Initialize()
+    {
+        <cmt>//  DispatcherTimer の設定</cmt>
+        dispatcherTimer = <kwd>new</kwd> <knw>System</knw>.<knw>Windows</knw>.Threading.DispatcherTimer();   <cmt>//< タイマ生成</cmt>
+        dispatcherTimer.Tick += <kwd>new</kwd> <knw>EventHandler</knw>(dispatcherTimer_Tick);     <cmt>//< タイマハンドラの設定</cmt>
+        dispatcherTimer.Interval = <kwd>new</kwd> <knw>TimeSpan</knw>(0,0,1);                     <cmt>//< タイマ周期の設定</cmt>
+
+        <cmt>// タイマ始動</cmt>
+        dispatcherTimer.Start();
+    }
+
+    <cmt>// タイマ満了時の処理(タイマハンドラ)</cmt>
+    <kwd>private void</kwd> dispatcherTimer_Tick(<kwd>object</kwd> sender, <knw>EventArgs</knw> e)
+    {
+        <cmt>// (ここでUIを更新可能)</cmt>
+    }
+}
+</div>
+
+</body>
+</html>
+
+
+
+
